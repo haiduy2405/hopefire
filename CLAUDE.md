@@ -32,7 +32,7 @@ Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.j
 Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding on US-customer revenue); VN tax-exempt under the yearly revenue threshold but must keep records/declare; Decree 147/2024 avoided by offline play + VN region lock; **disclose AI-generated content on Steam**; Steam build must disable the online update check.
 
 ## Status & next steps
-Current: **v0.6.0**. Next (docs/ROADMAP.md "Đường tới tiền"):
-1. v0.7: art wave 2 (bosses, loot orbs, crate, card frames, relic icons replacing emoji) + Steam capsule/key art (Duy has ChatGPT Plus for image generation; disclose AI).
+Current: **v0.7.0** (art wave 2 done). Next (docs/ROADMAP.md "Đường tới tiền"):
+1. Steam capsule/key art — Duy generates with ChatGPT using docs/STORE_ART.md (disclose AI).
 2. Store screenshots + 30–60 s trailer (Duy edits video), Steamworks signup ($100), **Coming Soon page ASAP** for wishlists.
 3. Desktop packaging (Electron/Tauri), Steam achievements, demo (sites 1–2) for Next Fest, launch with 10–20% discount.

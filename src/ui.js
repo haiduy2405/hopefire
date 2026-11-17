@@ -2,9 +2,9 @@
 // ===== UI =====
 function renderChips(){
   if(!R)return;let h='';
-  for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}"><span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span><span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
+  for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}">${ico('c_'+x.t.c+'_'+x.t.ty,1,0,`<span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>`)}<span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
   for(let i=R.mods.length;i<R.slots;i++)h+=`<span class="chip" style="opacity:.3">—</span>`;
-  for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip" title="${rl.n}: ${rl.d}">${rl.g}</span>`}
+  for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip" title="${rl.n}: ${rl.d}">${ico('rl_'+rl.id,1,0,rl.g)}</span>`}
   for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}" style="color:${TYPES[k].c};border-color:${TYPES[k].c}" title="2: +25% dmg · 4: ${TYPES[k].b4}">${k[0]}<span class="cn">${k.slice(1)}</span> ${n}/${n>=2?4:2}${n>=4?' ✓':''}</span>`}
   $('row1').innerHTML=h;
 }
@@ -49,8 +49,8 @@ function openPack(){
   for(let tries=0;curCards.length<n&&tries<60;tries++){const c=roll();if(seen.has(key(c)))continue;seen.add(key(c));curCards.push(c)}
   if(!meta.tut.mod)curCards.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
   if(!meta.tut.mod)curCards[1].r=Math.max(1,curCards[1].r);
-  show(`<div class="panel center"><h2>SALVAGE CRATE</h2><div class="crate" id="crateEl"><div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div></div><div style="color:#7f8899;font-size:12px">tap to open</div></div>`);
-  let opened=false;const go=()=>{if(opened)return;opened=true;revealCards(c)};
+  show(`<div class="panel center"><h2>SALVAGE CRATE</h2><div class="crate" id="crateEl">${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div><div style="color:#7f8899;font-size:12px">tap to open</div></div>`);
+  let opened=false;const go=()=>{if(opened)return;opened=true;const el=$('crateEl');if(el&&SPR.data&&SPR.data.sprites.crate){el.innerHTML=ico('crate',4,1);el.classList.add('open');setTimeout(()=>revealCards(c),220)}else revealCards(c)};
   $('crateEl').onclick=go;setTimeout(go,750);
 }
 function revealCards(c){
@@ -64,9 +64,9 @@ function revealCards(c){
     else if(R.mods.length>=R.slots){const w=R.mods.reduce((a,b)=>power(b)<power(a)?b:a);tag=`<span class="tg" style="background:#ff5a5a">Replaces ${w.t.n}</span>`}
     else tag=`<span class="tg" style="background:#7dffb0">New module</span>`;
     const col=TYPES[cd.t.ty].c;
-    h+=`<div class="card r${cd.r}" style="border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
+    h+=`<div class="card r${cd.r}" style="--rc:${RAR[cd.r].c};border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
       <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n}</div>
-      <div class="gl" style="background:${col}22;color:${col}">${cd.t.g}</div>
+      <div class="gl" style="background:${col}22;color:${col}">${ico('c_'+cd.t.c+'_'+cd.t.ty,3,0,cd.t.g)}</div>
       <div class="nm">${cd.t.n}</div><div class="ds" style="color:${col}">${cd.t.ty} · ${TYPE_MOD[cd.t.ty].d}</div><div class="ds">${cd.t.d}</div>
       <div class="ds">DPS ~${fmt(cd.t.dmg*cd.t.rate*TYPE_MOD[cd.t.ty].dmg*TYPE_MOD[cd.t.ty].rate*RAR[cd.r].m*tierM(R.ch)*(1+0.15*lv('dmg')))}</div>${tag}</div>`;
   });

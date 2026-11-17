@@ -18,13 +18,13 @@ function rollRelic(taken){const pool=RELICS.filter(x=>!R.relics.includes(x.id)&&
 function addRelic(cd){
   const rl=cd.rl;if(R.relics.includes(rl.id))return;R.relics.push(rl.id);
   if(rl.id==='battery'){R.maxHope*=1.3;R.hope*=1.3}
-  R.banner={s:rl.g+' '+rl.n.toUpperCase(),t:1.4};sfx('rare');renderChips();
+  R.banner={s:'RELIC: '+rl.n.toUpperCase(),t:1.4};sfx('rare');renderChips();
   if(R.relics.length>=3)ach('relic3');
 }
 function relicCardHTML(cd,i){
-  return `<div class="card r3 relcard" style="border-color:#ffd24a;animation-delay:${i*0.12}s" data-i="${i}">
+  return `<div class="card r3 relcard" style="--rc:#ffd24a;border-color:#ffd24a;animation-delay:${i*0.12}s" data-i="${i}">
     <div class="rn" style="color:#ffd24a">RELIC</div>
-    <div class="gl" style="background:#ffd24a1c;border-radius:50%">${cd.rl.g}</div>
+    <div class="gl" style="background:#ffd24a1c;border-radius:50%">${ico('rl_'+cd.rl.id,3,0,cd.rl.g)}</div>
     <div class="nm">${cd.rl.n}</div><div class="ds">${cd.rl.d}</div><div class="ds">Lasts this run</div>
     <span class="tg" style="background:#ffd24a">Relic ${R.relics.length+1}/${maxRelics()}</span></div>`;
 }

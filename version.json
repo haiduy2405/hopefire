@@ -1,11 +1,10 @@
 {
-  "version": "0.6.0",
+  "version": "0.7.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Every module type now plays differently: Thermal hits hard, Cryo fires fast & chills, Arc chains, Nano heals Hope",
-    "☠ Nightmare mode for every cleared site — tougher creatures, ×2.5 Xeno-cores",
-    "Advanced Repairs: 11 new upgrades incl. Critical Strikes, Second Wind, Field Kit and the endless Overclock",
-    "6 new achievements"
+    "New pixel art: all 5 bosses, salvage crate, loot (scrap, cores, energy cells)",
+    "Pixel icons for every module, spell and relic (no more emoji)",
+    "New card frames by rarity"
   ]
 }

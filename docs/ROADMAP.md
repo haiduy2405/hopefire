@@ -10,7 +10,8 @@
 - v0.6.0 — Cá tính module theo phái, Nightmare 5 bãi, 11 nâng cấp tầng 2 (Overclock ∞), thời lượng ~3,5 giờ+.
 
 ## 🚀 Đường tới tiền (ưu tiên cao nhất)
-- [ ] v0.7: art đợt 2 (boss, loot, thùng, icon relic) + capsule/key art (GPT image, có khai báo AI)
+- [x] v0.7: art đợt 2 (boss, loot, thùng, icon relic/spell/module, khung thẻ) — prompt capsule ở docs/STORE_ART.md
+- [ ] Capsule/key art: Duy tạo bằng ChatGPT theo docs/STORE_ART.md (khai báo AI)
 - [ ] Ảnh chụp store (≥5) + trailer 30–60s (Duy dựng)
 - [ ] Đăng ký Steamworks ($100), tax interview W-8BEN, ngân hàng nhận USD
 - [ ] Trang Coming Soon công khai CÀNG SỚM CÀNG TỐT → gom wishlist

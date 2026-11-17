@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.7.0 — 2026-11-18
+- Art wave 2: 5 boss sprites (4-frame + hit flash; Devourer spines, Brood sacs, Crusher plates, Warlord crown, Origin veins), pixel salvage crate (closed/open), loot sprites (scrap, core, cell)
+- 33 pixel icons replace emoji: 8 relics, 5 spells, 16 module class×type icons (cards, chips, spell bar)
+- Card frames: rarity tint, inner frame, rarity gem; relic banner no longer relies on emoji
+- docs/STORE_ART.md: Steam capsule sizes + ChatGPT image prompts
+
 ## v0.6.0 — 2026-11-18
 - **Module identity per type**: Thermal (+30% dmg, slower), Cryo (+25% fire rate, 12% chill), Arc (every hit arcs for 35%), Nano (hits restore Hope)
 - **☠ Nightmare** for every cleared site: per-site creature multipliers, ×2.5 Xeno-cores, better crate luck

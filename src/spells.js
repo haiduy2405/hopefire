@@ -44,7 +44,7 @@ function renderSpellBar(){
   const bar=$('spellBar');if(!R||!R.spells.length){bar.innerHTML='';bar.style.display='none';return}
   bar.style.display='flex';
   bar.innerHTML=R.spells.map((s,i)=>`<button class="spell" data-i="${i}" style="border-color:${RAR[s.r].c};color:${s.d.c}" title="${s.d.n}: ${s.d.d}">
-    <span class="sg">${s.d.g}</span><span class="sl">${'QWE'[i]} · Lv${s.lv}</span><span class="cdov"></span></button>`).join('');
+    <span class="sg">${ico('sp_'+s.d.id,2,0,s.d.g)}</span><span class="sl">${'QWE'[i]} · Lv${s.lv}</span><span class="cdov"></span></button>`).join('');
   if(lv('auto'))bar.innerHTML+=`<button class="autoBtn ${meta.autoCast?'on':''}" id="autoBtn">AUTO<br>${meta.autoCast?'ON':'OFF'}</button>`;
   bar.querySelectorAll('.spell').forEach(b=>b.onclick=()=>castSpell(+b.dataset.i));
   const ab=$('autoBtn');if(ab)ab.onclick=()=>{meta.autoCast=!meta.autoCast;save();sfx('click');renderSpellBar()};
@@ -58,8 +58,8 @@ function spellCardHTML(cd,i){
   let tag;if(ex)tag=`<span class="tg" style="background:#ffd24a">Level up → Lv${ex.lv+1}</span>`;
   else if(R.spells.length>=MAX_SPELLS){const w=R.spells.reduce((a,b)=>spellPow(b)<spellPow(a)?b:a);tag=`<span class="tg" style="background:#ff5a5a">Replaces ${w.d.n}</span>`}
   else tag=`<span class="tg" style="background:#c79bff">New spell</span>`;
-  return `<div class="card r${cd.r} spellcard" style="border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
+  return `<div class="card r${cd.r} spellcard" style="--rc:${RAR[cd.r].c};border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
     <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n} · SPELL</div>
-    <div class="gl" style="background:${cd.sp.c}22;color:${cd.sp.c};border-radius:50%">${cd.sp.g}</div>
+    <div class="gl" style="background:${cd.sp.c}22;color:${cd.sp.c};border-radius:50%">${ico('sp_'+cd.sp.id,3,0,cd.sp.g)}</div>
     <div class="nm">${cd.sp.n}</div><div class="ds">${cd.sp.d}</div><div class="ds">Cooldown ${cd.sp.cd}s</div>${tag}</div>`;
 }

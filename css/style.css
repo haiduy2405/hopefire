@@ -115,3 +115,13 @@ body.inmenu #hud,body.inmenu #bottom{visibility:hidden}
 @media (max-width:600px){.chip .cn,.syn .cn{display:none}.chip{padding:2px 5px}#pauseBtn{width:40px}#muteBtn{display:none}}
 .nightOpt{color:#c79bff}
 .up.adv{border-color:#4a3a6a}.up.locked{opacity:.45}
+
+/* v0.7 pixel icons + card frames */
+.ico{display:inline-block;image-rendering:pixelated;background-repeat:no-repeat;vertical-align:middle;flex:none}
+.card{position:relative;--rc:#9aa4b2;background:linear-gradient(180deg,color-mix(in srgb,var(--rc) 16%,#141925) 0,#141925 45%)}
+.card::before{content:'';position:absolute;inset:4px;border:1px solid color-mix(in srgb,var(--rc) 35%,transparent);border-radius:3px;pointer-events:none}
+.card::after{content:'';position:absolute;left:50%;top:-6px;width:10px;height:10px;margin-left:-5px;background:var(--rc);transform:rotate(45deg);border:2px solid #0b0e14}
+.crate .ico{display:block;margin:0 auto}
+.crate.open{animation:none;filter:drop-shadow(0 0 18px #fff2b0)}
+.spell .sg .ico{display:block}
+.crate:has(.ico){width:auto;height:auto}

@@ -267,6 +267,138 @@ def debris(i):
     else: S.rect(1, 2, 18, 5, hx('#4a5162')); S.line([(4, 2), (4, 5)], hx('#22262f')); S.line([(12, 2), (12, 5)], hx('#22262f'))
     return S.finish(), {'ax': w // 2, 'ay': h - 1}
 
+
+# ---------------------------------------------------------------- bosses (face right, feet at bottom), body ~ r=36
+BOSS_PAL = [('#4a2446', '#1e0c1c'), ('#2e5038', '#122216'), ('#5a4628', '#241a0e'), ('#2c2c4c', '#121222'), ('#5a1424', '#240810')]
+def boss(bk, f):
+    w, h = 116, 86; S = Spr(w, h); body, dark = hx(BOSS_PAL[bk - 1][0]), hx(BOSS_PAL[bk - 1][1])
+    mid = mix(body, (0, 0, 0, 255), 0.3); cx = 56; base = h - 1; bob = [0, 1, 2, 1][f]
+    for i in range(8):                                                            # tentacle legs
+        a = -math.pi + i * math.pi / 7; sw = math.sin(f * math.pi / 2 + i * 1.3) * 4
+        S.line([(cx + math.cos(a) * 22, base - 24 + bob), (cx + math.cos(a) * 42, base - 12 + sw),
+                (cx + math.cos(a) * 54, min(base, base - 2 + sw * 0.4))], dark if i % 2 else mid, 5)
+    S.ell(cx, base - 34 + bob, 41, 31, dark)
+    S.ell(cx - 1, base - 36 + bob, 37, 27, body)
+    S.ell(cx - 12, base - 26 + bob, 18, 10, mid)                                  # belly shadow
+    mo = 3 + [0, 2, 4, 2][f]; mw = 20 if bk == 1 else 15                          # maw + teeth
+    S.ell(cx + 16, base - 22 + bob, mw, mo, hx('#120610'))
+    for i in range(6 if bk == 1 else 5):
+        tx = cx + 16 - mw + 5 + i * (2 * mw - 8) / (5 if bk == 1 else 4)
+        S.rect(tx, base - 22 - mo + bob, tx + 1, base - 22 - mo + 3 + bob, hx('#e8dcc0'))
+        S.rect(tx + 2, base - 22 + mo - 3 + bob, tx + 3, base - 22 + mo + bob, hx('#e8dcc0'))
+    for x in range(cx - 8, cx + 40):
+        for y in range(base - 32 + bob, base - 12 + bob): S.keep.add((x, y))
+    if bk == 1:                                                                   # back spines
+        for i in range(5):
+            sx = cx - 26 + i * 9; S.poly([(sx - 3, base - 58 + bob + abs(i - 2) * 3), (sx + 1, base - 72 + abs(i - 2) * 4 + bob), (sx + 4, base - 57 + bob + abs(i - 2) * 3)], dark)
+    if bk == 2:                                                                   # glowing egg sacs
+        for (ex, ey, er) in ((-24, -58, 6), (-9, -63, 7), (-32, -44, 5), (5, -60, 5), (-18, -48, 4)):
+            rr = er + (1 if (f + ex) % 2 else 0)
+            S.ell(cx + ex, base + ey + bob, rr + 1, rr, dark); S.ell(cx + ex, base + ey + bob, rr, rr - 1, hx('#7dffb0'))
+            S.px(cx + ex - 1, base + ey - 2 + bob, hx('#e8fff0'))
+            for x in range(cx + ex - rr, cx + ex + rr + 1):
+                for y in range(base + ey - rr + bob, base + ey + rr + bob): S.keep.add((x, y))
+    if bk == 3:                                                                   # armour plates
+        for i in range(5):
+            px_ = cx - 30 + i * 13; py_ = base - 60 + abs(i - 2) * 4 + bob
+            S.poly([(px_ - 6, py_ + 5), (px_ - 4, py_ - 4), (px_ + 6, py_ - 6), (px_ + 7, py_ + 4)], hx('#5d5f68'))
+            S.line([(px_ - 3, py_ - 2), (px_ + 5, py_ - 4)], hx('#8a8d98'))
+    if bk == 4:                                                                   # crown of spikes
+        for i in range(6):
+            sx = cx - 18 + i * 8; hh = 16 + (i % 2) * 7
+            S.poly([(sx - 3, base - 60 + bob), (sx, base - 60 - hh + bob), (sx + 3, base - 60 + bob)], hx('#c79bff'))
+            for y in range(base - 60 - hh + bob, base - 59 + bob): S.keep.add((sx, y))
+    if bk == 5:                                                                   # glowing veins
+        for pts in (((-30, -40), (-18, -50), (-6, -46), (6, -58)), ((-34, -28), (-22, -34), (-12, -28)), ((10, -42), (22, -50), (30, -44))):
+            S.line([(cx + x, base + y + bob) for x, y in pts], hx('#ff3048'), 1)
+            for x, y in pts: S.keep.add((cx + x, base + y + bob))
+    eyes = [(cx + 4, base - 50 + bob, 3.6), (cx + 13, base - 54 + bob, 4.3), (cx + 22, base - 50 + bob, 3.6), (cx + 9, base - 43 + bob, 2.9), (cx + 18, base - 42 + bob, 2.9)]
+    if bk == 5: eyes += [(cx - 11, base - 49 + bob, 3.2), (cx - 20, base - 43 + bob, 2.9), (cx + 27, base - 41 + bob, 2.9), (cx - 4, base - 56 + bob, 3.6)]
+    for x, y, sz in eyes: S.ell(x, y, 1.6, 1.2, hx('#08040a'))
+    return S.finish(), eyes_out(eyes, w, h)
+
+# ---------------------------------------------------------------- UI icons 16x16 (relics, spells, module classes), loot orbs, crate
+CLEAR = (0, 0, 0, 0)
+def icon(kind, col=None):
+    S = Spr(16, 16); c = hx(col) if col else None; grey, steel, dk = hx('#9aa4b2'), hx('#5e687b'), hx('#2a303c')
+    if kind == 'lens':
+        S.line([(9, 9), (14, 14)], hx('#8a6a3a'), 3); S.ell(6, 6, 5, 5, hx('#c9d2de')); S.ell(6, 6, 3, 3, hx('#5cd0ff')); S.px(5, 4, hx('#e8fbff'))
+    elif kind == 'battery':
+        S.rect(6, 1, 9, 2, grey); S.rect(3, 3, 12, 14, dk); S.rect(5, 8, 10, 12, hx('#7dffb0')); S.rect(5, 5, 10, 6, hx('#3e8a5c'))
+    elif kind == 'echo':
+        S.line([(7, 14), (7, 8)], grey, 2); S.rect(4, 13, 10, 14, steel)
+        S.ell(6, 5, 6, 5, grey); S.ell(8, 3, 5, 4, CLEAR); S.line([(3, 7), (10, 1)], steel, 1); S.ell(10, 1.5, 1.2, 1.2, hx('#5cd0ff'))
+        S.px(13, 4, hx('#5cd0ff')); S.px(14, 6, hx('#5cd0ff')); S.px(12, 2, hx('#5cd0ff'))
+    elif kind == 'glass':
+        pts = [(8 + math.cos(i * math.pi / 5) * (7 if i % 2 else 3.2), 8 + math.sin(i * math.pi / 5) * (7 if i % 2 else 3.2)) for i in range(10)]
+        S.poly(pts, hx('#ff5a3d')); S.ell(8, 8, 2.2, 2.2, hx('#ffe14d'))
+    elif kind == 'dampener':
+        S.rect(4, 2, 11, 13, dk)
+        for y in range(3, 13, 2): S.line([(3, y), (12, y)], hx('#c79bff'))
+        S.rect(6, 0, 9, 1, grey); S.rect(6, 14, 9, 15, grey)
+    elif kind == 'magnet':
+        S.ell(8, 8, 6.5, 6.5, hx('#ff4d5e')); S.ell(8, 8, 2.5, 2.5, CLEAR); S.rect(5.5, 0, 10.5, 8, CLEAR)
+        S.rect(2, 1, 4, 8, hx('#ff4d5e')); S.rect(12, 1, 14, 8, hx('#ff4d5e')); S.rect(2, 1, 4, 3, grey); S.rect(12, 1, 14, 3, grey)
+    elif kind == 'trigger':
+        S.ell(8, 8, 6.5, 6.5, hx('#ff4d5e')); S.ell(8, 8, 4.5, 4.5, CLEAR)
+        S.line([(8, 0), (8, 5)], hx('#ff4d5e'), 2); S.line([(8, 11), (8, 15)], hx('#ff4d5e'), 2)
+        S.line([(0, 8), (5, 8)], hx('#ff4d5e'), 2); S.line([(11, 8), (15, 8)], hx('#ff4d5e'), 2); S.rect(7, 7, 8, 8, hx('#ffe14d'))
+    elif kind == 'thorns':
+        S.poly([(2, 2), (13, 2), (13, 8), (8, 14), (2, 8)], steel); S.poly([(9, 3), (5, 9), (8, 9), (6, 13), (11, 7), (8, 7)], hx('#ffe14d'))
+    elif kind == 'flare':
+        for i in range(8):
+            a = i * math.pi / 4; S.line([(8 + math.cos(a) * 4, 8 + math.sin(a) * 4), (8 + math.cos(a) * 7, 8 + math.sin(a) * 7)], hx('#ffb03a'), 2)
+        S.ell(8, 8, 4, 4, hx('#ffd24a'))
+    elif kind == 'nova':
+        for i in range(3):
+            a = i * math.pi / 3 + math.pi / 2; S.line([(8 - math.cos(a) * 7, 8 - math.sin(a) * 7), (8 + math.cos(a) * 7, 8 + math.sin(a) * 7)], hx('#5cd0ff'), 2)
+        S.ell(8, 8, 2, 2, hx('#e8fbff'))
+    elif kind == 'over':
+        S.poly([(10, 0), (3, 9), (7, 9), (5, 15), (13, 6), (9, 6)], hx('#ffe14d'))
+    elif kind == 'cell':
+        S.rect(1, 1, 14, 14, hx('#1e4a32')); S.rect(6, 3, 9, 12, hx('#7dffb0')); S.rect(3, 6, 12, 9, hx('#7dffb0'))
+    elif kind == 'pulse':
+        S.ell(8, 8, 7, 7, hx('#c79bff')); S.ell(8, 8, 5, 5, CLEAR); S.ell(8, 8, 3, 3, hx('#c79bff')); S.ell(8, 8, 1, 1, CLEAR)
+    elif kind == 'lance':
+        S.rect(3, 11, 12, 14, dk); S.poly([(8, 1), (12, 7), (8, 12), (4, 7)], c); S.px(8, 4, hx('#ffffff'))
+    elif kind == 'rail':
+        S.rect(2, 11, 9, 14, dk); S.line([(3, 11), (13, 1)], grey, 2); S.line([(6, 12), (15, 3)], steel, 2); S.line([(5, 9), (12, 3)], c, 1)
+    elif kind == 'mortar':
+        S.rect(2, 10, 13, 14, dk); S.poly([(4, 10), (6, 3), (11, 3), (12, 10)], steel); S.ell(8.5, 3, 2.5, 1.5, c)
+    elif kind == 'drone':
+        S.line([(1, 5), (14, 5)], grey, 1); S.poly([(8, 3), (13, 8), (8, 13), (3, 8)], steel); S.rect(7, 7, 9, 9, c)
+    for x in range(16):
+        for y in range(16):
+            p = S.im.getpixel((x, y))
+            if p[3] and (p[0] + p[1] + p[2]) > 400: S.keep.add((x, y))
+    return S.finish(), {}
+
+def orb(kind):
+    if kind == 'scrap':
+        S = Spr(8, 8); S.ell(3.5, 3.5, 3, 3, hx('#ffd24a')); S.rect(3, 3, 4, 4, hx('#7a5a10'))
+        for x, y in ((3, 0), (0, 3), (7, 3), (3, 7)): S.px(x, y, hx('#ffd24a'), False)
+    elif kind == 'core':
+        S = Spr(7, 10); S.poly([(3, 0), (6, 4), (3, 9), (0, 4)], hx('#c79bff')); S.px(2, 3, hx('#f0e2ff'))
+    else:
+        S = Spr(8, 10); S.rect(3, 0, 4, 1, hx('#9aa4b2')); S.rect(1, 2, 6, 9, hx('#7dffb0')); S.rect(2, 4, 5, 5, hx('#1e4a32'))
+    return S.finish(), {'ax': S.w // 2, 'ay': S.h // 2}
+
+def crate(f):
+    w, h = 42, 34; S = Spr(w, h); lidc, body = hx('#5b6475'), hx('#3d4453')
+    S.rect(1, 10, 40, 32, body)
+    for x in range(1, 41, 8): S.rect(x, 10, x + 3, 32, hx('#353b49'))
+    for x in range(1, 41, 4): S.poly([(x, 19), (x + 2, 19), (x + 4, 23), (x + 2, 23)], hx('#ffb03a'))
+    S.rect(1, 18, 40, 18, hx('#111111')); S.rect(1, 24, 40, 24, hx('#111111'))
+    if f == 0:
+        S.rect(0, 5, 41, 11, lidc); S.rect(18, 1, 23, 5, hx('#7dffb0'))
+        for x in range(18, 24):
+            for y in range(1, 6): S.keep.add((x, y))
+    else:
+        S.poly([(0, 6), (36, 0), (38, 4), (2, 11)], lidc); S.rect(4, 11, 37, 13, hx('#fff2b0'))
+        for x in range(4, 38):
+            for y in range(11, 14): S.keep.add((x, y))
+    return S.finish(), {}
+
 # ---------------------------------------------------------------- atlas packing
 def build():
     sprites = {}  # name -> list of (Image, meta)
@@ -283,9 +415,20 @@ def build():
     for i in range(3):
         im, meta = rock(i); sprites['rock_%d' % i] = [(im, meta)]
         im, meta = debris(i); sprites['debris_%d' % i] = [(im, meta)]
+    for bk in range(1, 6):
+        sprites['boss_%d' % bk] = [(im, {'eyes': e}) for im, e in (boss(bk, f) for f in range(4))]
+    for k in ('lens', 'battery', 'echo', 'glass', 'dampener', 'magnet', 'trigger', 'thorns'):
+        sprites['rl_' + k] = [icon(k)]
+    for k in ('flare', 'nova', 'over', 'cell', 'pulse'):
+        sprites['sp_' + k] = [icon(k)]
+    for cl in ('lance', 'rail', 'mortar', 'drone'):
+        for ty in TYPE_COL: sprites['c_%s_%s' % (cl, ty)] = [icon(cl, TYPE_COL[ty])]
+    for k in ('scrap', 'core', 'cell'):
+        sprites['orb_' + k] = [orb(k)]
+    sprites['crate'] = [crate(0), crate(1)]
     # flash twins for creatures
     flash = {}
-    for name in ('crawler', 'skitter', 'brute', 'spitter', 'bloater', 'wisp', 'phantom', 'splitter'):
+    for name in ('crawler', 'skitter', 'brute', 'spitter', 'bloater', 'wisp', 'phantom', 'splitter') + tuple('boss_%d' % b for b in range(1, 6)):
         fr = []
         for im, meta in sprites[name]:
             f = im.copy(); px = f.load()
@@ -296,13 +439,13 @@ def build():
         flash[name + '_flash'] = fr
     sprites.update(flash)
     # shelf packing
-    W = 512; x = y = 1; rowh = 0; placed = {}
+    W = 1024; x = y = 1; rowh = 0; placed = {}
     items = sorted(((n, i, im, meta) for n, fr in sprites.items() for i, (im, meta) in enumerate(fr)), key=lambda t: -t[2].height)
     for n, i, im, meta in items:
         if x + im.width + 1 > W: x = 1; y += rowh + 1; rowh = 0
         placed.setdefault(n, {})[i] = (x, y, im, meta); x += im.width + 1; rowh = max(rowh, im.height)
     H = y + rowh + 1
-    atlas = Image.new('RGBA', (W, H)); out = {'version': 1, 'image': 'sprites.png', 'sprites': {}}
+    atlas = Image.new('RGBA', (W, H)); out = {'version': 1, 'image': 'sprites.png', 'W': W, 'H': H, 'sprites': {}}
     for n, fr in placed.items():
         frames = []
         for i in sorted(fr):

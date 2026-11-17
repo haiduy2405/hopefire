@@ -19,6 +19,11 @@ function drawSpr(c,name,fi,x,y,flip){
   else c.drawImage(SPR.img,f.x,f.y,f.w,f.h,dx-Math.round(ax*M),dy-Math.round(ay*M),f.w*M,f.h*M);
   c.restore();return M/m.a; // world units per art pixel actually used
 }
+// HTML icon from the atlas (cards, chips, spell bar). Falls back to `fb` (emoji/glyph) when missing.
+function ico(name,s,fi,fb){
+  const D=SPR.data;if(!D||!D.sprites[name])return fb||'';const fr=D.sprites[name],f=fr[(fi|0)%fr.length];
+  return `<span class="ico" style="width:${f.w*s}px;height:${f.h*s}px;background-image:url(assets/${D.image}?v=${window.HF_VERSION||''});background-position:-${f.x*s}px -${f.y*s}px;background-size:${D.W*s}px ${D.H*s}px"></span>`;
+}
 // pre-scaled ground tile pattern (integer scale)
 function tilePattern(c,name,M){
   const f=SPR.data.sprites[name][0],t=document.createElement('canvas');t.width=f.w*M;t.height=f.h*M;
