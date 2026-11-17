@@ -12,7 +12,12 @@ function drawSpr(c,name,fi,x,y,flip){
   const ax=f.ax!==undefined?f.ax:f.w/2,ay=f.ay!==undefined?f.ay:f.h-1;
   c.save();c.imageSmoothingEnabled=false;
   if(Math.abs(m.b)>1e-3||Math.abs(m.c)>1e-3){ // rotated context (cutscenes): draw in local units
-    c.translate(x,y);if(flip)c.scale(-1,1);c.drawImage(SPR.img,f.x,f.y,f.w,f.h,-ax*ART_PX,-ay*ART_PX,f.w*ART_PX,f.h*ART_PX);c.restore();return 1}
+    const u=f.px||ART_PX;c.translate(x,y);if(flip)c.scale(-1,1);c.drawImage(SPR.img,f.x,f.y,f.w,f.h,-ax*u,-ay*u,f.w*u,f.h*u);c.restore();return u}
+  if(f.px){ // hi-res (AI) sprite: exact world size, smooth scaling
+    const sc=m.a*f.px,dx=m.a*x+m.e,dy=m.d*y+m.f;c.setTransform(1,0,0,1,0,0);c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
+    if(flip){c.translate(dx,dy);c.scale(-1,1);c.drawImage(SPR.img,f.x,f.y,f.w,f.h,-ax*sc,-ay*sc,f.w*sc,f.h*sc)}
+    else c.drawImage(SPR.img,f.x,f.y,f.w,f.h,dx-ax*sc,dy-ay*sc,f.w*sc,f.h*sc);
+    c.restore();return f.px}
   const M=Math.max(1,Math.round(m.a*ART_PX)),dx=Math.round(m.a*x+m.e),dy=Math.round(m.d*y+m.f);
   c.setTransform(1,0,0,1,0,0);
   if(flip){c.translate(dx,dy);c.scale(-1,1);c.drawImage(SPR.img,f.x,f.y,f.w,f.h,-Math.round(ax*M),-Math.round(ay*M),f.w*M,f.h*M)}

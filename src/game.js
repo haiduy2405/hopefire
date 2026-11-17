@@ -61,7 +61,7 @@ function dmgTxt(e,d,c){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o
 function hit(e,d,ty,primary){
   if(e.dead)return;if(e.armor!==undefined)d*=e.armor;if(e.k==='boss')d*=1+0.25*lv('bounty');
   let crit=false;if(primary&&ty&&lv('crit')&&Math.random()<0.05*lv('crit')){d*=2.5;crit=true}
-  e.hp-=d;e.hit=0.08;sfx('hit');dmgTxt(e,d,crit?'#fff27a':e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
+  e.hp-=d;e.hit=0.08;sfx('hit');if(R.pt.length<420){const sc=ty?TYPES[ty].c:'#ffe9b0',yy=e.y*K-e.r*0.6-(e.fly?22:0);for(let i=0;i<(crit?6:2);i++)R.pt.push({x:e.x+rnd(-e.r*.4,e.r*.4),y:yy,vx:rnd(-90,90),vy:rnd(-110,-10),t:rnd(.12,.25),c:sc,s:crit?3:2,g:200,add:1})}if(crit){R.hs=Math.max(R.hs||0,0.035);addTxt(e.x,e.y*K-e.r*2.6,'CRIT','#fff27a',10)}dmgTxt(e,d,crit?'#fff27a':e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
   if(primary&&ty){ // type passives (modules & drones only)
     if(ty==='Cryo'){if(Math.random()<0.12)e.slow=Math.max(e.slow,1.2)}
     else if(ty==='Nano')R.hope=Math.min(R.maxHope,R.hope+R.maxHope*0.0006);
@@ -94,6 +94,11 @@ function kill(e){
   const n=e.k==='boss'?50:9;
   for(let i=0;i<n;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.5-(e.fly?22:0),vx:rnd(-110,110),vy:rnd(-140,40),t:rnd(0.3,0.8),c:i%3?e.c:'#9cff5a',s:rnd(2,5),g:260});
   R.fx.push({type:'ring',x:e.x,y:e.y*K,r0:4,r1:e.r*2.2,t:0.25,T:0.25,c:'#9cff5a'});
+  const dec=R.dec||(R.dec=[]);if(dec.length>140)dec.shift();dec.push({x:e.x+rnd(-3,3),y:e.y,r:e.r*rnd(1.0,1.5)*(e.k==='boss'?1.6:1),a:rnd(0,3),c:e.c,t:12,n:3+(Math.random()*3|0)});
+  if(e.spr){const cp=R.corpses||(R.corpses=[]);cp.push({k:e.k==='boss'?'boss_'+(e.bk||1):e.k,fi:Math.floor(e.ph*1.4)%4,x:e.x,y:e.y,z:e.fly?22:0,face:e.face,t:e.k==='boss'?1.2:0.45,T:e.k==='boss'?1.2:0.45})}
+  if(e.k==='boss'){R.hs=0.16;R.slow=1.4;for(let i=0;i<7;i++)R.fx.push({type:'ring',x:e.x+rnd(-40,40),y:e.y*K+rnd(-30,10),r0:6,r1:rnd(40,90),t:0.3+i*0.12,T:0.3+i*0.12,c:i%2?'#ffb03a':'#ff5a3d'});
+    for(let i=0;i<80;i++)R.pt.push({x:e.x+rnd(-30,30),y:e.y*K-30+rnd(-20,20),vx:rnd(-260,260),vy:rnd(-320,40),t:rnd(.5,1.4),c:i%2?'#ffb03a':'#ffe14d',s:rnd(2,5),g:240,add:1})}
+  else if(R.pt.length<420)for(let i=0;i<5;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.6-(e.fly?22:0),vx:rnd(-70,70),vy:rnd(-120,-30),t:rnd(.2,.4),c:'#ffffff',s:2,g:200,add:1});
   if(e.k==='bloater')blast(e.x,e.y,80,e.mhp*0.6,'#d9c24a',e);
   if(e.k==='splitter')for(let i=0;i<2;i++){const m=spawn('skitter','rush');m.x=e.x+rnd(-14,14);m.y=e.y+rnd(-14,14);m.hp=m.mhp=e.mhp*0.25;m.alertT=0.15}
   if(e.k==='boss')bossDown(e);
@@ -144,6 +149,9 @@ function bossTick(e,dt,d){
 }
 function update(dt){
   R.t+=dt;R.waveT+=dt;meta.stats.time+=dt;const rr=ringR();
+  if(R.dec)for(const d of R.dec)d.t-=dt;if(R.dec&&R.dec.length&&R.dec[0].t<=0)R.dec=R.dec.filter(d=>d.t>0);
+  if(R.corpses){for(const c of R.corpses)c.t-=dt;R.corpses=R.corpses.filter(c=>c.t>0)}
+  R.emb=(R.emb||0)-dt;if(R.emb<=0){R.emb=0.07;R.pt.push({x:-42+rnd(-3,3),y:-4+rnd(-3,3),vx:rnd(-10,10),vy:rnd(-45,-20),t:rnd(.6,1.3),c:Math.random()<.5?'#ff8a30':'#ffd24a',s:rnd(1,2.5),g:-15,add:1})}
   if((R.endless||R.wave<BOSS_WAVE)&&R.waveT>=WAVE_LEN){R.wave++;R.waveT=0;
     R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};
     if(R.endless){if(R.wave>(meta.bestEndless||0))meta.bestEndless=R.wave;if(R.wave>=20)ach('end20');if(R.wave>=40)ach('end40')}}
@@ -253,7 +261,7 @@ function update(dt){
   if(!meta.tut.done1&&R.t<55)R.hope=Math.max(R.hope,R.maxHope*0.2); // first run can't be lost while learning
   R.minHopeP=Math.min(R.minHopeP,R.hope/R.maxHope);
   // smoke from engine
-  R.smokeT-=dt;if(R.smokeT<=0){R.smokeT=0.09;R.pt.push({x:-52+rnd(-3,3),y:-14,vx:rnd(-8,8),vy:rnd(-40,-25),t:rnd(1.2,2),c:'#555b66',s:rnd(4,7),g:-5,smoke:1})}
+  R.smokeT-=dt;if(R.smokeT<=0){R.smokeT=0.09;R.pt.push({x:-30+rnd(-4,4),y:-22,vx:rnd(-8,8),vy:rnd(-40,-25),t:rnd(1.2,2),c:'#4a4f5a',s:rnd(5,9),g:-5,smoke:1})}
   // fx decay
   for(const f of R.fx)f.t-=dt;
   for(const p of R.pt){p.t-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=(p.g||0)*dt;if(!p.smoke){p.vx*=0.95}else p.s+=dt*5}

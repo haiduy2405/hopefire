@@ -438,6 +438,18 @@ def build():
             fr.append((f, {}))
         flash[name + '_flash'] = fr
     sprites.update(flash)
+    # AI-made sprites (tools/sprites/import_ai.py) override procedural ones of the same name
+    aid = os.path.join(ROOT, 'assets', 'ai')
+    if os.path.isdir(aid):
+        for fn in sorted(os.listdir(aid)):
+            if not fn.endswith('.json'): continue
+            name = fn[:-5]; m = json.load(open(os.path.join(aid, fn))); frs = []; fl = []
+            for i in range(m['frames']):
+                im = Image.open(os.path.join(aid, '%s_%d.png' % (name, i))).convert('RGBA')
+                frs.append((im, {'eyes': m.get('eyes', []), 'px': m['px']}))
+                f = im.copy(); f.putalpha(im.split()[3]); wh = Image.new('RGBA', im.size, (255, 255, 255, 255)); wh.putalpha(im.split()[3]); fl.append((wh, {'px': m['px']}))
+            sprites[name] = frs; sprites[name + '_flash'] = fl
+            print('  ai sprite:', name, len(frs), 'frames')
     # shelf packing
     W = 1024; x = y = 1; rowh = 0; placed = {}
     items = sorted(((n, i, im, meta) for n, fr in sprites.items() for i, (im, meta) in enumerate(fr)), key=lambda t: -t[2].height)
