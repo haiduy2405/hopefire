@@ -125,3 +125,6 @@ body.inmenu #hud,body.inmenu #bottom{visibility:hidden}
 .crate.open{animation:none;filter:drop-shadow(0 0 18px #fff2b0)}
 .spell .sg .ico{display:block}
 .crate:has(.ico){width:auto;height:auto}
+
+/* UI scale for big screens (set by resize(): --uz) */
+#hud,#bottom,#modal,#tip,#toasts,#upd,#updBtn,#skipCut{zoom:var(--uz,1)}

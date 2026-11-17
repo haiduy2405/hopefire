@@ -3,12 +3,13 @@
 const cv=$('c'),ctx=cv.getContext('2d');
 const dk=document.createElement('canvas'),dctx=dk.getContext('2d');
 const gc=document.createElement('canvas'),gctx=gc.getContext('2d');
-let W,H,DPR,S,OX,OY,groundFor=-1,plants=[];
+let UZ=1,W,H,DPR,S,OX,OY,groundFor=-1,plants=[];
 function resize(){
   DPR=Math.min(2,window.devicePixelRatio||1);W=innerWidth;H=innerHeight;
   for(const c of [cv,dk,gc]){c.width=W*DPR;c.height=H*DPR}
   cv.style.width=W+'px';cv.style.height=H+'px';
-  const top=54,bot=118;S=Math.min(W/560,(H-top-bot)/(K*620));OX=W/2;OY=top+(H-top-bot)/2+12;groundFor=-1;
+  UZ=Math.max(1,Math.min(1.8,Math.min(W/1280,H/760)));document.documentElement.style.setProperty('--uz',UZ);
+  const top=54*UZ,bot=118*UZ;S=Math.min(W/560,(H-top-bot)/(K*620));OX=W/2;OY=top+(H-top-bot)/2+12;groundFor=-1;
 }
 addEventListener('resize',resize);resize();
 function buildGround(ch){
@@ -82,7 +83,7 @@ function render(dt){
   ctx.setTransform(DPR*S,0,0,DPR*S,DPR*(OX+sx),DPR*(OY+sy));
   // additive glow pass
   ctx.globalCompositeOperation='lighter';
-  for(const p of plants){const a=0.35+0.25*Math.sin(T*1.5+p.ph);ctx.globalAlpha=a*0.35;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y-9,p.s*3,0,7);ctx.fill();ctx.globalAlpha=a;ctx.fillRect(p.x-p.s/2,p.y-9-p.s/2,p.s,p.s)}
+  for(const p of plants){const a=0.35+0.25*Math.sin(T*1.5+p.ph);ctx.globalAlpha=a*0.16;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y-9,p.s*2,0,7);ctx.fill();ctx.globalAlpha=a*0.9;ctx.fillRect(p.x-p.s*0.4,p.y-9-p.s*0.4,p.s*0.8,p.s*0.8);ctx.globalAlpha=a*0.5;ctx.fillRect(p.x-0.5,p.y-9,1,9)}
   ctx.globalAlpha=1;
   // warm light pool around the ship (matches key art)
   {ctx.save();ctx.scale(1,K);const fl=1+0.03*Math.sin(T*7)+0.02*Math.sin(T*13.3),g=ctx.createRadialGradient(0,0,8,0,0,rr*1.05*fl);g.addColorStop(0,'rgba(255,150,70,0.30)');g.addColorStop(0.45,'rgba(255,110,40,0.13)');g.addColorStop(1,'rgba(255,80,20,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,rr*1.05*fl,0,7);ctx.fill();ctx.restore()}
