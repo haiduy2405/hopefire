@@ -23,7 +23,7 @@ function addSpell(cd){
 }
 function castSpell(i){
   const s=R&&R.spells[i];if(!s||s.cd>0||R.paused||R.over||R.tipPause)return;
-  audioInit();s.cd=spellCd(s);const p=spellPow(s),rr=ringR();
+  audioInit();s.cd=spellCd(s);meta.stats.spells++;const p=spellPow(s),rr=ringR();
   switch(s.d.id){
     case 'flare':{const dmg=40*p*tierM(R.ch)*(1+0.15*lv('dmg'));
       for(const e of R.en)if(!e.dead&&Math.hypot(e.x,e.y)<rr)hit(e,dmg,'Thermal',false);
@@ -45,7 +45,9 @@ function renderSpellBar(){
   bar.style.display='flex';
   bar.innerHTML=R.spells.map((s,i)=>`<button class="spell" data-i="${i}" style="border-color:${RAR[s.r].c};color:${s.d.c}" title="${s.d.n}: ${s.d.d}">
     <span class="sg">${s.d.g}</span><span class="sl">${'QWE'[i]} · Lv${s.lv}</span><span class="cdov"></span></button>`).join('');
+  if(lv('auto'))bar.innerHTML+=`<button class="autoBtn ${meta.autoCast?'on':''}" id="autoBtn">AUTO<br>${meta.autoCast?'ON':'OFF'}</button>`;
   bar.querySelectorAll('.spell').forEach(b=>b.onclick=()=>castSpell(+b.dataset.i));
+  const ab=$('autoBtn');if(ab)ab.onclick=()=>{meta.autoCast=!meta.autoCast;save();sfx('click');renderSpellBar()};
 }
 function spellHud(){
   if(!R)return;const bs=$('spellBar').querySelectorAll('.spell');

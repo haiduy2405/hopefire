@@ -89,3 +89,22 @@ h2{font-size:18px;margin:10px 0 8px;letter-spacing:2px;color:#cfd4de}
 .updn{text-align:left;font-size:13px;line-height:1.7;margin:6px auto 14px;max-width:360px;color:#cfd4de;padding-left:18px}
 .updw{font-size:12px;color:#ffb03a;margin-bottom:14px}
 #updBtn{position:fixed;top:62px;right:12px;z-index:8;padding:7px 12px;border-radius:16px;background:#7dffb0;color:#111;font-size:12px;border:2px solid #000;animation:pbtn .7s infinite alternate}
+#toasts{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;gap:6px;pointer-events:none;width:min(440px,92vw)}
+.toast{background:#0f131bf5;border:2px solid #ffd24a;padding:8px 12px;font-size:12px;box-shadow:0 6px 20px #000;animation:tin .3s;transition:opacity .5s,transform .5s}
+.toast.out{opacity:0;transform:translateY(-10px)}
+@keyframes tin{from{opacity:0;transform:translateY(-12px)}}
+.menuRow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.menuRow button{padding:8px 12px;background:#232a39;color:#cfd4de;border-bottom:3px solid #11151d;border-radius:3px;font-size:12px}
+.endlessBtn{display:block;width:100%;margin:4px 0 8px;padding:10px;background:linear-gradient(90deg,#3a0f1a,#22223a);color:#ffb03a;border:2px solid #ffb03a;border-radius:4px;font-size:14px;letter-spacing:2px}
+.endlessBtn small{color:#9aa3b3;letter-spacing:0;margin-left:8px}
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin:10px 0 16px}
+.ach{background:#161b26;border:2px solid #262d3d;padding:8px;font-size:11px;display:flex;flex-direction:column;gap:3px;opacity:.5}
+.ach.got{opacity:1;border-color:#ffd24a}.ach b{font-size:12px;color:#fff}
+table.stats{width:100%;border-collapse:collapse;margin:10px 0 18px;font-size:13px}
+table.stats td{padding:7px 4px;border-bottom:1px solid #222836}table.stats td:last-child{text-align:right;color:#ffb03a;font-weight:bold}
+.sets{display:flex;flex-direction:column;gap:14px;margin:14px 0 20px;font-size:14px}
+.sets label{display:flex;align-items:center;gap:10px}.sets input[type=range]{flex:1}
+.sets select{background:#232a39;color:#fff;border:1px solid #3a4152;padding:4px;font-family:inherit}
+.relchip{border-color:#ffd24a;font-size:13px;padding:1px 6px}
+.autoBtn{width:52px;height:52px;border-radius:50%;background:#232a39;color:#7f8899;font-size:9px;border:2px solid #3a4152;align-self:center}
+.autoBtn.on{background:#7dffb0;color:#111;border-color:#2f9a5b}

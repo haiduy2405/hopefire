@@ -5,7 +5,7 @@
 An incremental tower-defense game about a crashed spaceship on a hostile alien planet.
 Open salvage crates, build module synergies, and keep your **HOPE** burning.
 
-**Status:** prototype v0.3.1 — web build (vanilla JS, no dependencies, no build step).
+**Status:** v0.4.0 — đủ nội dung chơi từ đầu tới cuối (5 bãi + màn kết + Endless) — web build (vanilla JS, no dependencies, no build step).
 
 ## Chạy game
 
@@ -37,7 +37,9 @@ src/audio.js      âm thanh tổng hợp bằng WebAudio (không dùng file)
 src/render.js     canvas, ánh sáng/bóng tối, vẽ tàu/module/quái/hiệu ứng
 src/game.js       logic 1 lượt chơi: spawn, AI quái, bắn, Hope, boss
 src/spells.js     thẻ phép (Solar Flare, Cryo Nova, Overcharge, Emergency Cell, Shock Pulse)
-src/cutscene.js   cutscene mở đầu dựng trong engine
+src/relics.js     relic bị động (tối đa 3/lượt)
+src/progress.js   thành tựu, thống kê, settings, tự dùng phép
+src/cutscene.js   cutscene mở đầu + màn kết, dựng trong engine
 src/update.js     kiểm tra bản mới (version.json) + bảng cập nhật
 src/ui.js         menu, mở thùng, chọn thẻ, hướng dẫn, kết thúc lượt
 src/main.js       vòng lặp game

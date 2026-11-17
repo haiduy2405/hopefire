@@ -25,6 +25,12 @@ Tên game: **HOPE** (tên con tàu, cũng là hi vọng) + **FIRE** (tia nhiệt
 | Độ hiếm | Common / Rare / Epic / Legendary (×1 / ×1.8 / ×3.2 / ×6) |
 | Nâng cấp | 10 nhánh sửa tàu (dmg, Hope, pháo, scrap, tốc bắn, may mắn, giảm hao Hope, giảm giá, thêm slot…) |
 | Chapter | 5 bãi: Crash Site → Research Wreck → Mining Hulk → War Graveyard → The Origin |
+| Quái | Crawler, Skitter, Brute + Spitter (bắn axit, Ch2), Bloater (nổ, Ch3), Wisp (bay, Ch3), Phantom (tàng hình, Ch4), Splitter (tách đôi, Ch5) |
+| Boss | Devourer · Brood Mother (đẻ quái) · Crusher (giáp, chỉ yếu khi choáng sau cú húc) · Phantom Warlord (dịch chuyển + hộ vệ) · The Origin (3 pha) |
+| Drone | Lớp module thứ 4: bay khắp vòng tròn săn quái nguy hiểm nhất |
+| Relic | 8 vật phẩm bị động, tối đa 3/lượt, chỉ xuất hiện khi đã có 2 module |
+| Thành tựu | 19 cái, mỗi cái +50 Xeno-core |
+| Sau phá đảo | Màn kết (cất cánh + twist) → mở Endless Wastes (boss mỗi 10 Threat) |
 
 ## Khác biệt so với Booster Pack Heroes (sửa đúng điểm bị chê)
 - Chọn 1/3 thẻ thay vì random hoàn toàn → lựa chọn có ý nghĩa.

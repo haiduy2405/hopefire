@@ -1,8 +1,9 @@
 "use strict";
 // ===== SAVE =====
 const SAVE_KEY='hopefire_v1';
-const defMeta=()=>({mastery:0,up:{},chapter:1,best:{},runs:0,sel:1,tut:{},muted:false});
-function load(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY));if(s)return Object.assign(defMeta(),s)}catch(e){}return defMeta()}
+const defMeta=()=>({mastery:0,up:{},chapter:1,best:{},runs:0,sel:1,tut:{},muted:false,
+  stats:{kills:0,crates:0,spells:0,bosses:0,legend:0,time:0},ach:{},set:{vol:55,shake:1,nums:1,spd:1},story:0,bestEndless:0,autoCast:true});
+function load(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY));if(s){const d=defMeta(),m=Object.assign(d,s);m.stats=Object.assign(defMeta().stats,s.stats||{});m.set=Object.assign(defMeta().set,s.set||{});return m}}catch(e){}return defMeta()}
 function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(meta))}catch(e){}}
 let meta=load();
 const lv=k=>meta.up[k]||0;

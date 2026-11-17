@@ -36,3 +36,27 @@ const UPG=[
   {k:'disc',n:'Crate Discount',d:l=>`-${6*l}% crate price`,base:40,g:1.7,max:5},
   {k:'slots',n:'Module Slots',d:l=>`${4+l} slots`,base:60,g:2.3,max:4}
 ];
+// ===== v0.4 CONTENT =====
+CLS.drone={g:'✈',dmg:6,rate:2.2,range:0,d:'Drone: hunts anywhere in the ring'};
+[['Ember Drone','Thermal'],['Frost Drone','Cryo'],['Spark Drone','Arc'],['Nano Drone','Nano']]
+  .forEach(([n,ty])=>MODS.push(Object.assign({id:MODS.length,n,ty,c:'drone'},CLS.drone)));
+Object.assign(EK,{
+  spitter:{hp:30,spd:40,dmg:5,r:10,g:2,core:2,cell:.08,c:'#3f5a3a'},   // keeps distance, spits acid
+  bloater:{hp:60,spd:30,dmg:16,r:14,g:2,core:2,cell:.15,c:'#6a5a2a'},  // explodes on the hull; shoot it to blast its friends
+  wisp:{hp:16,spd:72,dmg:4,r:7,g:1,core:1,cell:.03,c:'#4a4a7a'},       // flies & weaves; mortars deal half damage
+  phantom:{hp:45,spd:58,dmg:8,r:11,g:2,core:2,cell:.08,c:'#2c2c40'},   // cloaked until it gets close
+  splitter:{hp:70,spd:36,dmg:7,r:13,g:2,core:2,cell:.1,c:'#5a2a4a'}    // splits into 2 skitters
+});
+const BOSSES=[
+  {n:'THE DEVOURER',c:'#341a30',hp:1,spd:1,d:'It swallowed the navigation core.'},
+  {n:'BROOD MOTHER',c:'#24402f',hp:1.1,spd:0.9,d:'Births crawlers as it approaches.'},
+  {n:'THE CRUSHER',c:'#4a3a24',hp:1.05,spd:1,d:'Armored. Only vulnerable after a charge.'},
+  {n:'PHANTOM WARLORD',c:'#22223a',hp:1,spd:1.2,d:'Blinks through the dark with its guard.'},
+  {n:'THE ORIGIN',c:'#3a0f1a',hp:1.3,spd:0.8,d:'The source of it all. It feeds on your light.'}
+];
+// [kind, weight, minThreat, minSite]
+const SPAWN_TABLE=[['crawler',50,1,1],['skitter',25,3,1],['brute',10,5,1],['spitter',14,2,2],['bloater',10,2,3],['wisp',16,4,3],['phantom',12,2,4],['splitter',12,2,5]];
+// per-site difficulty (creature HP and damage multipliers), tuned by simulation
+const CH_HP=[1,3.7,10,34,50],CH_DMG=[1,1.6,2.5,3.6,4.4];
+const SIG=[null,'crawler','spitter','bloater','phantom','splitter']; // signature creature per site
+UPG.push({k:'auto',n:'Spell Autocast',d:l=>l?'Spells cast themselves':'Spells cast themselves',base:150,g:1,max:1});

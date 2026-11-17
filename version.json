@@ -1,9 +1,12 @@
 {
-  "version": "0.3.1",
+  "version": "0.4.0",
   "date": "2026-11-17",
   "minVersion": "0.0.0",
   "notes": [
-    "In-game update check: new versions are announced as soon as they are deployed",
-    "Version number shown in the menu and HUD"
+    "5 new creatures: Spitter, Bloater, Wisp, Phantom, Splitter",
+    "Every site now has its own boss with unique mechanics",
+    "Drone modules, relics, achievements, stats, settings",
+    "Spell Autocast upgrade, ending sequence and Endless mode",
+    "Rebalanced all 5 sites"
   ]
 }

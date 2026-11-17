@@ -4,7 +4,7 @@ let AC=null,master=null,noiseBuf=null;const lastS={};
 function audioInit(){
   if(AC)return;
   try{
-    AC=new(window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=meta.muted?0:0.55;master.connect(AC.destination);
+    AC=new(window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=meta.muted?0:meta.set.vol/100;master.connect(AC.destination);
     noiseBuf=AC.createBuffer(1,AC.sampleRate,AC.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
     // ambient drone
     const g=AC.createGain();g.gain.value=0.035;g.connect(master);

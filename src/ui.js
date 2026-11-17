@@ -4,6 +4,7 @@ function renderChips(){
   if(!R)return;let h='';
   for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}"><span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>${x.t.n.split(' ')[0]}${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
   for(let i=R.mods.length;i<R.slots;i++)h+=`<span class="chip" style="opacity:.3">—</span>`;
+  for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip" title="${rl.n}: ${rl.d}">${rl.g}</span>`}
   for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}" style="color:${TYPES[k].c};border-color:${TYPES[k].c}" title="2: +25% dmg · 4: ${TYPES[k].b4}">${k} ${n}/${n>=2?4:2}${n>=4?' ✓':''}</span>`}
   $('row1').innerHTML=h;
 }
@@ -11,7 +12,7 @@ let hudT=0;
 function hud(dt){
   hudT-=dt;if(hudT>0||!R)return;hudT=0.08;
   const p=Math.max(0,R.hope)/R.maxHope;$('hopebar').style.width=(100*p)+'%';$('hopebar').className=p<0.25?'low':'';$('hopetxt').textContent='HOPE '+Math.ceil(p*100)+'%';
-  $('scrapT').textContent='⚙ '+fmt(R.gold);$('coreT').textContent='✦ '+fmt(R.cores);$('threatT').textContent=R.wave>=BOSS_WAVE?'THREAT MAX':'THREAT '+R.wave;$('siteT').textContent=SITES[R.ch-1];
+  $('scrapT').textContent='⚙ '+fmt(R.gold);$('coreT').textContent='✦ '+fmt(R.cores);$('threatT').textContent=!R.endless&&R.wave>=BOSS_WAVE?'THREAT MAX':'THREAT '+R.wave;$('siteT').textContent=R.endless?'∞ Endless':SITES[R.ch-1];
   spellHud();
   const c=packCost();$('packBtn').textContent='OPEN CRATE  ⚙'+fmt(c);$('packBtn').disabled=R.gold<c||R.paused||R.over||R.tipPause||R.updPause;
 }
@@ -38,18 +39,23 @@ let curCards=null;
 function openPack(){
   if(!R||R.over||R.paused||R.tipPause)return;const c=packCost();if(R.gold<c)return;
   audioInit();R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();sfx('crate');
-  curCards=[0,1,2].map(()=>meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()});
-  if(!meta.tut.mod)curCards.forEach(c=>{if(c.sp){c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
+  meta.stats.crates++;const n=hasRel('echo')?4:3,taken=[];
+  curCards=Array.from({length:n},()=>{
+    const armed=R.mods.length>=2;
+    if(armed&&meta.tut.mod&&canRollRelic()&&Math.random()<RELIC_CHANCE){const rl=rollRelic(taken);if(rl){taken.push(rl.id);return{rl,r:3}}}
+    return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()}});
+  if(!meta.tut.mod)curCards.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
   if(!meta.tut.mod)curCards[1].r=Math.max(1,curCards[1].r);
   show(`<div class="panel center"><h2>SALVAGE CRATE</h2><div class="crate" id="crateEl"><div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div></div><div style="color:#7f8899;font-size:12px">tap to open</div></div>`);
   let opened=false;const go=()=>{if(opened)return;opened=true;revealCards(c)};
   $('crateEl').onclick=go;setTimeout(go,750);
 }
 function revealCards(c){
-  const best=Math.max(...curCards.map(x=>x.r));if(best===3){flash(0.8);sfx('legend')}else if(best>=1)sfx('rare');
-  let h='<div class="panel center"><h2>CHOOSE ONE MODULE</h2><div class="cards">';
+  const best=Math.max(...curCards.filter(x=>!x.rl).map(x=>x.r),0);if(best===3){flash(0.8);sfx('legend');meta.stats.legend++}else if(curCards.some(x=>x.rl))sfx('legend');else if(best>=1)sfx('rare');
+  let h='<div class="panel center"><h2>CHOOSE ONE</h2><div class="cards">';
   curCards.forEach((cd,i)=>{
     if(cd.sp){h+=spellCardHTML(cd,i);return}
+    if(cd.rl){h+=relicCardHTML(cd,i);return}
     const ex=R.mods.find(x=>x.t.id===cd.t.id);let tag;
     if(ex)tag=`<span class="tg" style="background:#ffd24a">★ Upgrade to ★${ex.s+1}</span>`;
     else if(R.mods.length>=R.slots){const w=R.mods.reduce((a,b)=>power(b)<power(a)?b:a);tag=`<span class="tg" style="background:#ff5a5a">Replaces ${w.t.n}</span>`}
@@ -69,6 +75,7 @@ function revealCards(c){
 function pick(i){
   if(!curCards)return;const cd=curCards[i];sfx('up');
   if(cd.sp){addSpell(cd);closePack();return}
+  if(cd.rl){addRelic(cd);closePack();return}
   const ex=R.mods.find(x=>x.t.id===cd.t.id);
   const mk=()=>({t:cd.t,r:cd.r,s:1,tier:R.ch,cd:0.3,fl:0,x:0,y:0});
   let target;
@@ -86,15 +93,17 @@ function endRun(won){
   if(R.over)return;R.over=true;R.won=won;hideTip();
   if(won)for(const o of R.orbs){if(o.type==='scrap')R.gold+=o.v;else if(o.type==='core')R.cores+=o.v}
   sfx(won?'win':'lose');
-  let m=Math.floor(R.cores+(R.wave-1)*10*Math.pow(1.6,R.ch-1));let unlocked=false;
-  if(won){m+=80*R.ch;if(meta.chapter===R.ch&&R.ch<MAXCH){meta.chapter++;meta.sel=meta.chapter;unlocked=true}}
-  meta.mastery+=m;meta.runs++;meta.tut.done1=1;meta.best[R.ch]=Math.max(meta.best[R.ch]||0,won?BOSS_WAVE+1:R.wave);save();
+  let m=Math.floor(R.cores+(R.wave-1)*10*Math.pow(1.6,R.ch-1));let unlocked=false,ending=false;
+  if(won){m+=80*R.ch;if(meta.chapter===R.ch&&R.ch<MAXCH){meta.chapter++;meta.sel=meta.chapter;unlocked=true}
+    if(R.ch===MAXCH&&!meta.story){meta.story=1;ending=true}}
+  if(R.endless)m+=R.bossKills*200;
+  meta.mastery+=m;meta.runs++;meta.tut.done1=1;if(!R.endless)meta.best[R.ch]=Math.max(meta.best[R.ch]||0,won?BOSS_WAVE+1:R.wave);save();achScan();
   const r=R;
-  setTimeout(()=>{show(`<div class="panel center"><div class="logo" style="font-size:34px;${won?'':'filter:grayscale(.6) drop-shadow(0 0 10px #f004)'}">${won?'PART RECOVERED':'HOPE FADES…'}</div>
-    <div class="endstats">${SITES[r.ch-1]} · Threat <b>${r.wave}</b> · ${Math.floor(r.t)}s<br>Kills <b>${r.kills}</b> · Crates <b>${r.packs}</b><br>
+  setTimeout(()=>{show(`<div class="panel center"><div class="logo" style="font-size:34px;${won?'':'filter:grayscale(.6) drop-shadow(0 0 10px #f004)'}">${won?(ending?'THE LAST PART':'PART RECOVERED'):'HOPE FADES…'}</div>
+    <div class="endstats">${r.endless?'∞ Endless':SITES[r.ch-1]} · Threat <b>${r.wave}</b>${r.endless?` · Best <b>${meta.bestEndless}</b>`:''} · ${Math.floor(r.t)}s<br>Kills <b>${r.kills}</b> · Crates <b>${r.packs}</b><br>
     <span class="mast">+${fmt(m)} ✦ Xeno-cores</span>${unlocked?`<br><b style="color:#ffb03a">The ship can hop to a new site: ${SITES[meta.chapter-1]}!</b>`:''}
     ${won?'':'<br><span style="color:#7f8899;font-size:12px">…but the cores you gathered can repair the ship.</span>'}</div>
-    <button class="big" id="toMenu">REPAIR SHIP ▸</button></div>`);$('toMenu').onclick=()=>{sfx('click');menu()}},1100);
+    <button class="big" id="toMenu">${ending?'🚀 LIFTOFF ▸':'REPAIR SHIP ▸'}</button></div>`);$('toMenu').onclick=()=>{sfx('click');if(ending)startEnding();else menu()}},1100);
 }
 function menu(){
   R=null;hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
@@ -105,24 +114,26 @@ function menu(){
   if(meta.runs>0){
     h+=`<h2>CRASH SITES</h2><div class="chs">`;
     for(let i=1;i<=MAXCH;i++)h+=`<button data-ch="${i}" class="${meta.sel===i?'sel':''}" ${i>meta.chapter?'disabled':''}>${i}. ${i>meta.chapter?'🔒 ???':SITES[i-1]}${meta.best[i]>BOSS_WAVE?' ✓':''}</button>`;
-    h+=`</div><h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
+    h+=`</div>${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
     for(const u of UPG){const l=lv(u.k),mx=l>=u.max,c=upCost(u);
       h+=`<div class="up ${firstRepair&&u===cheapest?'hl':''}"><b>${u.n}</b><span class="lv">Lv ${l}/${u.max}</span><span>${u.d(l)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`}
     h+=`</div>`;
   }else h+=`<p style="color:#9aa3b3;font-size:13px;line-height:1.7;margin:14px 0 20px">Your ship has crashed on an unknown planet.<br>Something is moving in the dark.</p>`;
-  h+=`<div class="center"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button>${meta.tut.intro?'<button class="small" id="introBtn">replay intro</button>':''}${meta.runs?'<button class="small" id="resetBtn">reset save</button>':''}</div></div>`;
+  h+=`<div class="center"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button></div><div class="menuRow">${meta.runs?`<button id="achBtn">🏆 ${ACH.filter(a=>meta.ach[a.id]).length}/${ACH.length}</button><button id="statBtn">📊 Stats</button>`:''}<button id="setBtn">⚙ Settings</button>${meta.tut.intro?'<button id="introBtn">🎬 Intro</button>':''}${meta.story?'<button id="endBtn">🚀 Ending</button>':''}</div></div>`;
   show(h);
   modal.querySelectorAll('.chs button').forEach(b=>b.onclick=()=>{sfx('click');meta.sel=+b.dataset.ch;save();menu()});
   modal.querySelectorAll('.up button').forEach(b=>b.onclick=()=>{audioInit();const u=UPG.find(x=>x.k===b.dataset.k),c=upCost(u);if(meta.mastery>=c&&lv(u.k)<u.max){meta.mastery-=c;meta.up[u.k]=lv(u.k)+1;save();sfx('up');menu()}});
   $('startBtn').onclick=()=>{audioInit();sfx('click');hide();if(!meta.tut.intro)startCutscene('run');else newRun(Math.min(meta.sel,meta.chapter))};
   const ib=$('introBtn');if(ib)ib.onclick=()=>startCutscene('menu');
-  const rb=$('resetBtn');if(rb)rb.onclick=()=>{if(rb.dataset.c){meta=defMeta();save();menu()}else{rb.dataset.c=1;rb.textContent='click again to confirm'}};
+  const bind=(id,f)=>{const b=$(id);if(b)b.onclick=()=>{audioInit();sfx('click');f()}};
+  bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('endBtn',()=>startEnding('menu'));
+  bind('endlessBtn',()=>{hide();newRun(MAXCH,true)});
 }
 $('packBtn').onclick=openPack;
 $('skipCut').onclick=endCutscene;
 $('spdBtn').onclick=()=>{sfx('click');speed=speed===1?2:speed===2?3:1;$('spdBtn').textContent=speed+'x'};
 $('reactBtn').onclick=()=>{if(!R||R.over)return;sfx('click');R.react=(R.react+1)%3;refreshReactBtn();R.banner={s:'REACTOR: '+REACT[R.react].n,t:1.2};R.ringPulse=0.6};
-$('muteBtn').onclick=()=>{meta.muted=!meta.muted;save();audioInit();if(master)master.gain.value=meta.muted?0:0.55;$('muteBtn').textContent=meta.muted?'🔇':'🔊'};
+$('muteBtn').onclick=()=>{meta.muted=!meta.muted;save();audioInit();applyVolume();$('muteBtn').textContent=meta.muted?'🔇':'🔊'};
 $('muteBtn').textContent=meta.muted?'🔇':'🔊';
 $('quitBtn').onclick=()=>{const b=$('quitBtn');if(!R||R.over||R.paused)return;if(b.dataset.c){delete b.dataset.c;b.textContent='✕';endRun(false)}else{b.dataset.c=1;b.textContent='?';setTimeout(()=>{delete b.dataset.c;b.textContent='✕'},1500)}};
 addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else openPack()}else if(curCards&&/^Digit[123]$/.test(e.code)&&modal.querySelector('.card'))pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});

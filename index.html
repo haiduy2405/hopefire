@@ -9,7 +9,7 @@
 <script>
 // ===== VERSION =====
 // Bump this together with version.json on every release (tools/bump.ps1 does both).
-window.HF_VERSION='0.3.1';
+window.HF_VERSION='0.4.0';
 document.title='HOPEFIRE v'+window.HF_VERSION;
 // Every asset URL carries ?v=<version>, so a new version never loads stale cached files.
 document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION+'">');
@@ -41,9 +41,10 @@ document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION
 <div id="upd" class="hidden"></div>
 <button id="updBtn" class="hidden"></button>
 <div id="flash"></div>
+<div id="toasts"></div>
 <button id="skipCut">SKIP ▸▸</button>
 <script>
-['data','core','audio','render','game','spells','cutscene','update','ui','main'].forEach(function(n){
+['data','core','audio','render','game','spells','relics','progress','cutscene','update','ui','main'].forEach(function(n){
   document.write('<script src="src/'+n+'.js?v='+window.HF_VERSION+'"><\/script>');
 });
 </script>
