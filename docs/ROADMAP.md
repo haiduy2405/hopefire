@@ -7,6 +7,16 @@
 - v0.3.1 — Kiểm tra bản mới trong game, bảng cập nhật, hiển thị version.
 - v0.4.0 — 5 quái mới, 5 boss riêng, Drone, relic, thành tựu, thống kê, settings, autocast, màn kết, Endless, cân bằng lại.
 - v0.5.0 — Pipeline pixel-art + art đợt 1 (tàu, 8 quái, module, drone, nền), Pause, gộp số sát thương, Warp start, sửa 5 bug.
+- v0.6.0 — Cá tính module theo phái, Nightmare 5 bãi, 11 nâng cấp tầng 2 (Overclock ∞), thời lượng ~3,5 giờ+.
+
+## 🚀 Đường tới tiền (ưu tiên cao nhất)
+- [ ] v0.7: art đợt 2 (boss, loot, thùng, icon relic) + capsule/key art (GPT image, có khai báo AI)
+- [ ] Ảnh chụp store (≥5) + trailer 30–60s (Duy dựng)
+- [ ] Đăng ký Steamworks ($100), tax interview W-8BEN, ngân hàng nhận USD
+- [ ] Trang Coming Soon công khai CÀNG SỚM CÀNG TỐT → gom wishlist
+- [ ] Bản Steam: đóng gói desktop, tắt kiểm tra cập nhật qua mạng, Steam achievements
+- [ ] Demo miễn phí (bãi 1–2) → Steam Next Fest
+- [ ] Phát hành $4.99, giảm giá ra mắt 10–20%, khóa vùng VN
 
 ## 🔜 Gameplay (ưu tiên trước — "hay, mượt, cuốn")
 - [x] Mỗi chapter có quái/cơ chế riêng (quái nổ, quái bay, quái tàng hình…)

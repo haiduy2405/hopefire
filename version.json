@@ -1,12 +1,11 @@
 {
-  "version": "0.5.0",
+  "version": "0.6.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "New pixel-art: ship, all 8 creatures, modules, drones, ground for 5 sites",
-    "Pause (Esc / P / II button), auto-pause when you switch tabs",
-    "Damage numbers merge per target — readable in big fights",
-    "Warp start: begin a cleared site at Threat 5",
-    "Fixes: duplicate cards in a crate, lost cores when updating mid-run, HUD behind menu, speed reset"
+    "Every module type now plays differently: Thermal hits hard, Cryo fires fast & chills, Arc chains, Nano heals Hope",
+    "☠ Nightmare mode for every cleared site — tougher creatures, ×2.5 Xeno-cores",
+    "Advanced Repairs: 11 new upgrades incl. Critical Strikes, Second Wind, Field Kit and the endless Overclock",
+    "6 new achievements"
   ]
 }

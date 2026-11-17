@@ -12,7 +12,7 @@ let hudT=0;
 function hud(dt){
   hudT-=dt;if(hudT>0||!R)return;hudT=0.08;
   const p=Math.max(0,R.hope)/R.maxHope;$('hopebar').style.width=(100*p)+'%';$('hopebar').className=p<0.25?'low':'';$('hopetxt').textContent='HOPE '+Math.ceil(p*100)+'%';
-  $('scrapT').textContent='⚙ '+fmt(R.gold);$('coreT').textContent='✦ '+fmt(R.cores);$('threatT').textContent=!R.endless&&R.wave>=BOSS_WAVE?'THREAT MAX':'THREAT '+R.wave;$('siteT').textContent=R.endless?'∞ Endless':SITES[R.ch-1];
+  $('scrapT').textContent='⚙ '+fmt(R.gold);$('coreT').textContent='✦ '+fmt(R.cores);$('threatT').textContent=!R.endless&&R.wave>=BOSS_WAVE?'THREAT MAX':'THREAT '+R.wave;$('siteT').textContent=R.endless?'∞ Endless':(R.night?'☠ ':'')+SITES[R.ch-1];
   spellHud();
   const c=packCost();$('packBtn').textContent='OPEN CRATE  ⚙'+fmt(c);$('packBtn').disabled=R.gold<c||R.paused||R.over||R.tipPause||R.updPause;
 }
@@ -39,7 +39,7 @@ let curCards=null;
 function openPack(){
   if(!R||R.over||R.paused||R.tipPause)return;const c=packCost();if(R.gold<c)return;
   audioInit();R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();sfx('crate');
-  meta.stats.crates++;const n=hasRel('echo')?4:3,taken=[];
+  meta.stats.crates++;const n=(hasRel('echo')?4:3)+lv('crate5'),taken=[];
   const roll=()=>{
     const armed=R.mods.length>=2;
     if(armed&&meta.tut.mod&&canRollRelic()&&Math.random()<RELIC_CHANCE){const rl=rollRelic(taken);if(rl){taken.push(rl.id);return{rl,r:3}}}
@@ -67,8 +67,8 @@ function revealCards(c){
     h+=`<div class="card r${cd.r}" style="border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
       <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n}</div>
       <div class="gl" style="background:${col}22;color:${col}">${cd.t.g}</div>
-      <div class="nm">${cd.t.n}</div><div class="ds" style="color:${col}">${cd.t.ty}</div><div class="ds">${cd.t.d}</div>
-      <div class="ds">DPS ~${fmt(cd.t.dmg*cd.t.rate*RAR[cd.r].m*tierM(R.ch)*(1+0.15*lv('dmg')))}</div>${tag}</div>`;
+      <div class="nm">${cd.t.n}</div><div class="ds" style="color:${col}">${cd.t.ty} · ${TYPE_MOD[cd.t.ty].d}</div><div class="ds">${cd.t.d}</div>
+      <div class="ds">DPS ~${fmt(cd.t.dmg*cd.t.rate*TYPE_MOD[cd.t.ty].dmg*TYPE_MOD[cd.t.ty].rate*RAR[cd.r].m*tierM(R.ch)*(1+0.15*lv('dmg')))}</div>${tag}</div>`;
   });
   h+=`</div><button class="small" id="skipBtn" style="font-size:13px;color:#8a92a2">Scrap it (+40% refund)</button></div>`;
   show(h);
@@ -96,15 +96,16 @@ function endRun(won){
   if(R.over)return;R.over=true;R.won=won;hideTip();
   if(won)for(const o of R.orbs){if(o.type==='scrap')R.gold+=o.v;else if(o.type==='core')R.cores+=o.v}
   sfx(won?'win':'lose');
-  let m=Math.floor(R.cores+(R.wave-1)*10*Math.pow(1.6,R.ch-1));let unlocked=false,ending=false;
+  let m=Math.floor(R.cores+(R.wave-1)*10*Math.pow(1.6,R.ch-1));let unlocked=false,ending=false,nightUnlock='';
   if(won){m+=80*R.ch;if(meta.chapter===R.ch&&R.ch<MAXCH){meta.chapter++;meta.sel=meta.chapter;unlocked=true}
-    if(R.ch===MAXCH&&!meta.story){meta.story=1;ending=true}}
+    if(R.ch===MAXCH&&!meta.story){meta.story=1;ending=true}
+    if(R.night&&!meta.night[R.ch]){meta.night[R.ch]=1;ach('n'+R.ch);nightUnlock=UPG2.filter(u=>u.req==='n'+R.ch).map(u=>u.n).join(' + ')}}
   if(R.endless)m+=R.bossKills*200;
   meta.mastery+=m;meta.runs++;meta.tut.done1=1;if(!R.endless)meta.best[R.ch]=Math.max(meta.best[R.ch]||0,won?BOSS_WAVE+1:R.wave);save();achScan();
   const r=R;
   setTimeout(()=>{show(`<div class="panel center"><div class="logo" style="font-size:34px;${won?'':'filter:grayscale(.6) drop-shadow(0 0 10px #f004)'}">${won?(ending?'THE LAST PART':'PART RECOVERED'):'HOPE FADES…'}</div>
-    <div class="endstats">${r.endless?'∞ Endless':SITES[r.ch-1]} · Threat <b>${r.wave}</b>${r.endless?` · Best <b>${meta.bestEndless}</b>`:''} · ${Math.floor(r.t)}s<br>Kills <b>${r.kills}</b> · Crates <b>${r.packs}</b><br>
-    <span class="mast">+${fmt(m)} ✦ Xeno-cores</span>${unlocked?`<br><b style="color:#ffb03a">The ship can hop to a new site: ${SITES[meta.chapter-1]}!</b>`:''}
+    <div class="endstats">${r.endless?'∞ Endless':(r.night?'☠ ':'')+SITES[r.ch-1]} · Threat <b>${r.wave}</b>${r.endless?` · Best <b>${meta.bestEndless}</b>`:''} · ${Math.floor(r.t)}s<br>Kills <b>${r.kills}</b> · Crates <b>${r.packs}</b><br>
+    <span class="mast">+${fmt(m)} ✦ Xeno-cores</span>${unlocked?`<br><b style="color:#ffb03a">The ship can hop to a new site: ${SITES[meta.chapter-1]}!</b>`:''}${nightUnlock?`<br><b style="color:#c79bff">☠ Nightmare cleared! Unlocked: ${nightUnlock}</b>`:''}
     ${won?'':'<br><span style="color:#7f8899;font-size:12px">…but the cores you gathered can repair the ship.</span>'}</div>
     <button class="big" id="toMenu">${ending?'🚀 LIFTOFF ▸':'REPAIR SHIP ▸'}</button></div>`);$('toMenu').onclick=()=>{sfx('click');if(ending)startEnding();else menu()}},1100);
 }
@@ -116,17 +117,23 @@ function menu(){
   <div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div>`;
   if(meta.runs>0){
     h+=`<h2>CRASH SITES</h2><div class="chs">`;
-    for(let i=1;i<=MAXCH;i++)h+=`<button data-ch="${i}" class="${meta.sel===i?'sel':''}" ${i>meta.chapter?'disabled':''}>${i}. ${i>meta.chapter?'🔒 ???':SITES[i-1]}${meta.best[i]>BOSS_WAVE?' ✓':''}</button>`;
-    h+=`</div>${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE} (site already cleared)</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
+    for(let i=1;i<=MAXCH;i++)h+=`<button data-ch="${i}" class="${meta.sel===i?'sel':''}" ${i>meta.chapter?'disabled':''}>${i}. ${i>meta.chapter?'🔒 ???':SITES[i-1]}${meta.best[i]>BOSS_WAVE?' ✓':''}${meta.night[i]?' ☠':''}</button>`;
+    h+=`</div>${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE}</label><label class="warp nightOpt"><input type="checkbox" id="nightChk" ${meta.nightSel?'checked':''}> ☠ Nightmare — creatures ×${NM.hp[meta.sel-1]} HP, Xeno-cores ×${NM.core}${meta.night[meta.sel]?' (cleared)':''}</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
     for(const u of UPG){const l=lv(u.k),mx=l>=u.max,c=upCost(u);
-      h+=`<div class="up ${firstRepair&&u===cheapest?'hl':''}"><b>${u.n}</b><span class="lv">Lv ${l}/${u.max}</span><span>${u.d(l)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`}
+      h+=`<div class="up ${firstRepair&&u===cheapest?'hl':''}"><b>${u.n}</b><span class="lv">Lv ${l}/${u.max}</span><span>${l?u.d(l):'Next: '+u.d(1)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`}
     h+=`</div>`;
+    if(meta.story){h+=`<h2>ADVANCED REPAIRS</h2><div class="ups">`;
+      for(const u of UPG2){const l=lv(u.k),mx=l>=u.max,c=upCost(u),ok=reqMet(u.req);
+        h+=ok?`<div class="up adv"><b>${u.n}</b><span class="lv">Lv ${l}${u.max<999?'/'+u.max:''}</span><span>${l?u.d(l):'Next: '+u.d(1)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`
+          :`<div class="up locked"><b>🔒 ${u.n}</b><span class="lv">${REQ_TXT[u.req]}</span><span>${u.d(1)}</span></div>`}
+      h+=`</div>`}
   }else h+=`<p style="color:#9aa3b3;font-size:13px;line-height:1.7;margin:14px 0 20px">Your ship has crashed on an unknown planet.<br>Something is moving in the dark.</p>`;
   h+=`<div class="center"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button></div><div class="menuRow">${meta.runs?`<button id="achBtn">🏆 ${ACH.filter(a=>meta.ach[a.id]).length}/${ACH.length}</button><button id="statBtn">📊 Stats</button>`:''}<button id="setBtn">⚙ Settings</button>${meta.tut.intro?'<button id="introBtn">🎬 Intro</button>':''}${meta.story?'<button id="endBtn">🚀 Ending</button>':''}</div></div>`;
   show(h);
   modal.querySelectorAll('.chs button').forEach(b=>b.onclick=()=>{sfx('click');meta.sel=+b.dataset.ch;save();menu()});
-  modal.querySelectorAll('.up button').forEach(b=>b.onclick=()=>{audioInit();const u=UPG.find(x=>x.k===b.dataset.k),c=upCost(u);if(meta.mastery>=c&&lv(u.k)<u.max){meta.mastery-=c;meta.up[u.k]=lv(u.k)+1;save();sfx('up');menu()}});
-  $('startBtn').onclick=()=>{audioInit();sfx('click');hide();if(!meta.tut.intro)startCutscene('run');else{const c=Math.min(meta.sel,meta.chapter);newRun(c,false,meta.warp&&meta.best[c]>BOSS_WAVE)}};
+  modal.querySelectorAll('.up button').forEach(b=>b.onclick=()=>{audioInit();const u=UPG.concat(UPG2).find(x=>x.k===b.dataset.k),c=upCost(u);if(meta.mastery>=c&&lv(u.k)<u.max){meta.mastery-=c;meta.up[u.k]=lv(u.k)+1;save();sfx('up');menu()}});
+  $('startBtn').onclick=()=>{audioInit();sfx('click');hide();if(!meta.tut.intro)startCutscene('run');else{const c=Math.min(meta.sel,meta.chapter),ok=meta.best[c]>BOSS_WAVE;newRun(c,false,meta.warp&&ok,meta.nightSel&&ok)}};
+  const nb=$('nightChk');if(nb)nb.onchange=e=>{meta.nightSel=e.target.checked;save()};
   const wb=$('warpChk');if(wb)wb.onchange=e=>{meta.warp=e.target.checked;save()};
   const ib=$('introBtn');if(ib)ib.onclick=()=>startCutscene('menu');
   const bind=(id,f)=>{const b=$(id);if(b)b.onclick=()=>{audioInit();sfx('click');f()}};

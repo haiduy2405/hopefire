@@ -2,15 +2,18 @@
 // ===== RUN =====
 let R=null,speed=1;
 const hasRel=id=>!!(R&&R.relics&&R.relics.includes(id));
+const tm=h=>TYPE_MOD[h.t.ty];
 const ringR=()=>BASE_RING*REACT[R.react].ring*(hasRel('dampener')?0.85:1);
-function newRun(ch,endless,warp){
+function newRun(ch,endless,warp,night){
   document.body.classList.remove('inmenu');
   const maxHope=100*(1+0.25*lv('hp'));
-  R={ch,endless:!!endless,t:0,wave:1,waveT:0,spawnT:1,hope:maxHope,maxHope,gold:15+8*lv('start'),cores:0,packs:0,mods:[],en:[],pr:[],fx:[],pt:[],txt:[],orbs:[],
+  R={ch,endless:!!endless,night:!!night&&!endless,revived:false,t:0,wave:1,waveT:0,spawnT:1,hope:maxHope,maxHope,gold:15+8*lv('start'),cores:0,packs:0,mods:[],en:[],pr:[],fx:[],pt:[],txt:[],orbs:[],
     kills:0,boltCd:0.6,bossSpawned:false,boss:null,lastBossWave:0,bossKills:0,over:false,won:false,shake:0,slots:4+lv('slots'),paused:false,tipPause:false,syn:{},
     banner:{s:endless?'ENDLESS WASTES':SITES[ch-1],sub:endless?'How long can hope last?':'Site '+ch,t:2.6},react:1,spells:[],relics:[],overT:0,ringPulse:0,
     shipAim:-Math.PI/2,shipFl:0,smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
   if(warp&&!endless){R.wave=WARP_WAVE;R.gold+=Math.floor(40*Math.pow(2.2,ch-1));R.banner={s:'WARP → THREAT '+WARP_WAVE,sub:SITES[ch-1],t:2.2}}
+  if(R.night)R.banner={s:'☠ NIGHTMARE · '+SITES[ch-1],sub:'Creatures ×'+NM.hp[ch-1]+' HP · Xeno-cores ×'+NM.core,t:2.8};
+  for(let i=0;i<lv('kit');i++)R.mods.push({t:MODS[Math.random()*MODS.length|0],r:0,s:1,tier:ch,cd:0.5,fl:0,x:0,y:0});
   const sig=SIG[ch]||'crawler';
   for(let i=0;i<16;i++)spawn(ch>1&&i%5===0&&sig!=='bloater'?sig:(Math.random()<.2?'skitter':'crawler'),'ambient');
   $('spdBtn').textContent=speed+'x';
@@ -25,21 +28,21 @@ const SITE_TIPS={2:'New creature: <b>Spitters</b> keep their distance and spit a
   5:'<b>Splitters</b> burst into skitters when killed. Something ancient waits here…'};
 const tierM=t=>Math.pow(1.8,t-1);
 const power=h=>h.t.dmg*h.t.rate*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier);
-function modDmg(h){return h.t.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*(1+0.15*lv('dmg'))*(R.syn[h.t.ty]>=2?1.25:1)*REACT[R.react].dmg*(hasRel('glass')?1.5:1)}
+function modDmg(h){return h.t.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*(1+0.15*lv('dmg'))*(R.syn[h.t.ty]>=2?1.25:1)*REACT[R.react].dmg*(hasRel('glass')?1.5:1)*tm(h).dmg*(1+0.04*lv('oc'))}
 function packCost(){return Math.max(1,Math.floor(10*Math.pow(2.2,R.ch-1)*Math.pow(1.32,R.packs)*(1-0.06*lv('disc'))))}
 function layoutMods(){
   const n=R.slots;R.syn={};
   R.mods.forEach((h,i)=>{const a=-Math.PI/2+Math.PI/n+i*2*Math.PI/n;h.x=Math.cos(a)*82;h.y=Math.sin(a)*82;R.syn[h.t.ty]=(R.syn[h.t.ty]||0)+1});
   if(Object.values(R.syn).some(v=>v>=4))ach('syn4');if(R.mods.length>=8)ach('arsenal');
 }
-function rollR(){const L=1+0.12*lv('luck')+0.25*(R.ch-1);const w=[70,22*L,7*L,1.2*L];let x=Math.random()*w.reduce((a,b)=>a+b);for(let i=0;i<4;i++){if((x-=w[i])<0)return i}return 0}
+function rollR(){const L=1+0.12*lv('luck')+0.25*(R.ch-1)+(R.night?NM.luck:0);const w=[70,22*L,7*L,1.2*L];let x=Math.random()*w.reduce((a,b)=>a+b);for(let i=0;i<4;i++){if((x-=w[i])<0)return i}return 0}
 function pickKind(){let tot=0;const L=[];for(const [k,w,mw,mc] of SPAWN_TABLE)if(R.wave>=mw&&R.ch>=mc){L.push([k,w]);tot+=w}let x=Math.random()*tot;for(const [k,w] of L){if((x-=w)<0)return k}return 'crawler'}
 function spawn(kind,state,bk){
   const k=EK[kind],a=Math.random()*Math.PI*2,rr=ringR(),B=bk?BOSSES[bk-1]:null;
   const d=state==='ambient'?rnd(rr*1.75,rr*2.7):state==='rush'?rr*1.4:rr+rnd(45,150);
-  const hm=CH_HP[R.ch-1]*Math.pow(1.2,R.wave-1)*(B?B.hp:1);
+  const hm=CH_HP[R.ch-1]*Math.pow(1.2,R.wave-1)*(B?B.hp*(R.night?NM.bossHp:1):1)*(R.night?NM.hp[R.ch-1]:1);
   const e={k:kind,bk:bk||0,x:Math.cos(a)*d,y:Math.sin(a)*d,hp:k.hp*hm,mhp:k.hp*hm,spd:k.spd*rnd(0.9,1.1)*(B?B.spd:1),
-    dmg:k.dmg*CH_DMG[R.ch-1]*Math.pow(1.1,Math.min(R.wave,30)-1),r:k.r,g:k.g*Math.pow(2.2,R.ch-1)*Math.pow(1.1,R.wave-1),c:B?B.c:k.c,
+    dmg:k.dmg*CH_DMG[R.ch-1]*(R.night?NM.dmg[R.ch-1]:1)*Math.pow(1.1,Math.min(R.wave,30)-1),r:k.r,g:k.g*Math.pow(2.2,R.ch-1)*Math.pow(1.1,R.wave-1),c:B?B.c:k.c,
     state:state||'wander',hd:a+Math.PI+rnd(-1,1),wt:rnd(0.5,2),alertT:0,face:1,ph:Math.random()*6,
     atk:0,slow:0,frz:0,burn:0,bd:0,dead:false,hit:0,ai:rnd(0,1),fly:kind==='wisp',cloak:kind==='phantom'};
   if(state==='ambient')e.hd=a+Math.PI/2*(Math.random()<.5?1:-1);
@@ -56,8 +59,15 @@ function addTxt(x,y,v,c,s){if(typeof v!=='string'&&!meta.set.nums)return;if(R.tx
 function dmgTxt(e,d,c){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o.age<0.35);if(t){t.n+=d;t.v=fmt(t.n);t.t=0.75;t.c=c;t.s=Math.min(16,11+Math.log10(1+t.n/(e.mhp||1)*10)*3);return}
   if(R.txt.length<45)R.txt.push({e,n:d,age:0,x:e.x+rnd(-6,6),y:e.y*K-e.r*1.6-(e.fly?22:0),v:fmt(d),c,t:0.75,s:11})}
 function hit(e,d,ty,primary){
-  if(e.dead)return;if(e.armor!==undefined)d*=e.armor;
-  e.hp-=d;e.hit=0.08;sfx('hit');dmgTxt(e,d,e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
+  if(e.dead)return;if(e.armor!==undefined)d*=e.armor;if(e.k==='boss')d*=1+0.25*lv('bounty');
+  let crit=false;if(primary&&ty&&lv('crit')&&Math.random()<0.05*lv('crit')){d*=2.5;crit=true}
+  e.hp-=d;e.hit=0.08;sfx('hit');dmgTxt(e,d,crit?'#fff27a':e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
+  if(primary&&ty){ // type passives (modules & drones only)
+    if(ty==='Cryo'){if(Math.random()<0.12)e.slow=Math.max(e.slow,1.2)}
+    else if(ty==='Nano')R.hope=Math.min(R.maxHope,R.hope+R.maxHope*0.0006);
+    else if(ty==='Arc'){let o=null,bd=110*110;for(const x of R.en){if(x.dead||x===e)continue;const dd=(x.x-e.x)**2+(x.y-e.y)**2;if(dd<bd){bd=dd;o=x}}
+      if(o){R.fx.push({type:'zap',x:e.x,y:e.y*K-e.r*.6,x2:o.x,y2:o.y*K-o.r*.6,t:0.12,T:0.12,c:TYPES.Arc.c});hit(o,d*0.35,ty,false)}}
+  }
   if(e.state!=='rush')alertE(e);
   if(ty&&primary&&R.syn[ty]>=4){
     if(ty==='Thermal'){e.burn=3;e.bd=Math.max(e.bd,d*0.4)}
@@ -77,9 +87,10 @@ function blast(x,y,r,dmg,col,src){
 }
 function kill(e){
   if(e.dead)return;e.dead=true;R.kills++;meta.stats.kills++;sfx('kill');const k=EK[e.k],L=REACT[R.react].loot;
-  drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1));
-  drop('core',e.x,e.y,k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1));
-  if(Math.random()<k.cell){drop('cell',e.x,e.y,R.maxHope*(e.k==='boss'?0.5:0.06));if(!meta.tut.cell)setTimeout(()=>tip('cell','Green <b>energy cells</b> restore HOPE. Kill brutes for a better chance.',false,6),400)}
+  const nS=R.night?NM.scrap:1,nC=R.night?NM.core:1,cx=1+0.2*lv('cellx');
+  drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS);
+  drop('core',e.x,e.y,k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1)*(1+0.1*lv('core2'))*nC);
+  if(Math.random()<k.cell*cx){drop('cell',e.x,e.y,R.maxHope*(e.k==='boss'?0.5:0.06)*cx);if(!meta.tut.cell)setTimeout(()=>tip('cell','Green <b>energy cells</b> restore HOPE. Kill brutes for a better chance.',false,6),400)}
   const n=e.k==='boss'?50:9;
   for(let i=0;i<n;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.5-(e.fly?22:0),vx:rnd(-110,110),vy:rnd(-140,40),t:rnd(0.3,0.8),c:i%3?e.c:'#9cff5a',s:rnd(2,5),g:260});
   R.fx.push({type:'ring',x:e.x,y:e.y*K,r0:4,r1:e.r*2.2,t:0.25,T:0.25,c:'#9cff5a'});
@@ -181,8 +192,8 @@ function update(dt){
     h.cd=(h.cd||0)-dt*as;h.fl=Math.max(0,(h.fl||0)-dt);
     if(h.t.c==='drone'){droneTick(h,dt,rr);continue}
     if(h.cd>0)continue;
-    const tg=threatTarget(h.x,h.y,h.t.range);if(!tg){h.cd=0.1;continue}
-    h.cd=1/h.t.rate;h.fl=0.12;const dmg=modDmg(h),col=TYPES[h.t.ty].c,tz=tg.fly?22:0;
+    const tg=threatTarget(h.x,h.y,h.t.range*(1+0.06*lv('range')));if(!tg){h.cd=0.1;continue}
+    h.cd=1/(h.t.rate*tm(h).rate);h.fl=0.12;const dmg=modDmg(h),col=TYPES[h.t.ty].c,tz=tg.fly?22:0;
     h.aim=Math.atan2(tg.y*K-tg.r*.6-tz-(h.y*K-16),tg.x-h.x);
     const mx=h.x+Math.cos(h.aim)*13,my=h.y*K-16+Math.sin(h.aim)*13;
     if(h.t.c==='lance'){
@@ -252,7 +263,10 @@ function update(dt){
   if(R.banner)R.banner.t-=dt;R.ringPulse=Math.max(0,R.ringPulse-dt*1.5);
   spellTick(dt);autoCastTick(dt);tutorialTick();
   R.achT-=dt;if(R.achT<=0){R.achT=1;achScan()}
-  if(R.hope<=0&&!R.over){R.hope=0;R.shake=16;endRun(false)}
+  if(R.hope<=0&&!R.over){
+    if(lv('second')&&!R.revived){R.revived=true;R.hope=R.maxHope*0.3;flash(0.6);sfx('cell');R.banner={s:'SECOND WIND',t:1.6};
+      for(const e of R.en){const d=Math.hypot(e.x,e.y)||1;if(d<160){e.x+=e.x/d*120;e.y+=e.y/d*120;if(e.state==='rush')e.alertT=1}}}
+    else{R.hope=0;R.shake=16;endRun(false)}}
 }
 // drones leave their dock, hunt the most dangerous creature in the ring, and return when idle
 function droneTick(h,dt,rr){
@@ -262,7 +276,7 @@ function droneTick(h,dt,rr){
   const dx=gx-h.dx,dy=gy-h.dy,d=Math.hypot(dx,dy);if(d>2){const sp=Math.min(d,280*dt);h.dx+=dx/d*sp;h.dy+=dy/d*sp}
   if(h.cd>0||!tg)return;
   if(Math.hypot(tg.x-h.dx,tg.y-h.dy)>95){h.cd=0.05;return}
-  h.cd=1/h.t.rate;h.fl=0.1;const col=TYPES[h.t.ty].c;
+  h.cd=1/(h.t.rate*tm(h).rate);h.fl=0.1;const col=TYPES[h.t.ty].c;
   R.fx.push({type:'beam',x:h.dx,y:h.dy*K-30,x2:tg.x,y2:tg.y*K-tg.r*.6-(tg.fly?22:0),t:0.1,T:0.1,c:col,w:2.5});sfx('shot');
   hit(tg,modDmg(h),h.t.ty,true);
 }

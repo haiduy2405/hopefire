@@ -12,7 +12,8 @@ const RELICS=[
   {id:'thorns',n:'Static Hull',g:'⚡',d:'Creatures that strike the ship get shocked'}
 ];
 const MAX_RELICS=3,RELIC_CHANCE=0.07;
-function canRollRelic(){return R.relics.length<MAX_RELICS&&RELICS.some(x=>!R.relics.includes(x.id))}
+const maxRelics=()=>MAX_RELICS+lv('relic');
+function canRollRelic(){return R.relics.length<maxRelics()&&RELICS.some(x=>!R.relics.includes(x.id))}
 function rollRelic(taken){const pool=RELICS.filter(x=>!R.relics.includes(x.id)&&!taken.includes(x.id));return pool.length?pool[Math.random()*pool.length|0]:null}
 function addRelic(cd){
   const rl=cd.rl;if(R.relics.includes(rl.id))return;R.relics.push(rl.id);
@@ -25,5 +26,5 @@ function relicCardHTML(cd,i){
     <div class="rn" style="color:#ffd24a">RELIC</div>
     <div class="gl" style="background:#ffd24a1c;border-radius:50%">${cd.rl.g}</div>
     <div class="nm">${cd.rl.n}</div><div class="ds">${cd.rl.d}</div><div class="ds">Lasts this run</div>
-    <span class="tg" style="background:#ffd24a">Relic ${R.relics.length+1}/${MAX_RELICS}</span></div>`;
+    <span class="tg" style="background:#ffd24a">Relic ${R.relics.length+1}/${maxRelics()}</span></div>`;
 }

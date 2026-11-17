@@ -113,3 +113,5 @@ body.inmenu #hud,body.inmenu #bottom{visibility:hidden}
 #pausePanel{position:fixed;inset:0;z-index:7;background:#020306c0;display:flex;align-items:center;justify-content:center}
 .warp{display:block;font-size:12px;color:#7dffb0;margin:2px 0 8px;cursor:pointer}
 @media (max-width:600px){.chip .cn,.syn .cn{display:none}.chip{padding:2px 5px}#pauseBtn{width:40px}#muteBtn{display:none}}
+.nightOpt{color:#c79bff}
+.up.adv{border-color:#4a3a6a}.up.locked{opacity:.45}

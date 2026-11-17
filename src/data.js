@@ -61,3 +61,29 @@ const CH_HP=[1,3.7,10,34,50],CH_DMG=[1,1.6,2.5,3.6,4.4];
 const WARP_WAVE=5; // after clearing a site you may start there at this threat
 const SIG=[null,'crawler','spitter','bloater','phantom','splitter']; // signature creature per site
 UPG.push({k:'auto',n:'Spell Autocast',d:l=>l?'Spells cast themselves':'Spells cast themselves',base:150,g:1,max:1});
+// ===== v0.6 CONTENT =====
+// Each type now plays differently (not just colour): applied to every module/drone of that type.
+const TYPE_MOD={
+  Thermal:{dmg:1.3,rate:0.8,d:'Heavy hits: +30% damage, fires slower'},
+  Cryo:{dmg:0.85,rate:1.25,d:'Rapid fire, 12% chance to chill'},
+  Arc:{dmg:1,rate:1,d:'Every hit arcs to 1 more creature (35%)'},
+  Nano:{dmg:0.9,rate:1,d:'Every hit restores a little Hope'}
+};
+// Nightmare: harder replay of a cleared site with better rewards
+const NM={hp:[9,5,4.4,2.8,3.3],dmg:[2.6,2,1.7,1.35,1.4],core:2.5,scrap:1.3,bossHp:1.4,luck:0.6}; // per-site multipliers (story end makes early sites trivial)
+// Advanced repairs (tier 2) — unlocked by escaping and by clearing Nightmare sites
+const UPG2=[
+  {k:'crit',n:'Critical Strikes',d:l=>`${5*l}% crit chance (×2.5 dmg)`,base:400,g:1.55,max:10,req:'story'},
+  {k:'second',n:'Second Wind',d:()=>'Once per run: revive at 30% Hope',base:2500,g:1,max:1,req:'story'},
+  {k:'core2',n:'Core Refinery',d:l=>`+${10*l}% Xeno-cores`,base:800,g:1.45,max:20,req:'n1'},
+  {k:'range',n:'Long Barrels',d:l=>`+${6*l}% module range`,base:900,g:1.6,max:10,req:'n1'},
+  {k:'crate5',n:'Deep Salvage',d:()=>'Crates show +1 card',base:6000,g:1,max:1,req:'n2'},
+  {k:'kit',n:'Field Kit',d:l=>`Start with ${l} random module${l===1?'':'s'}`,base:2500,g:2.2,max:3,req:'n2'},
+  {k:'cap',n:'Capacitors',d:l=>`-${6*l}% spell cooldown`,base:3000,g:1.6,max:8,req:'n3'},
+  {k:'relic',n:'Relic Bay',d:l=>`${3+l} relic slots`,base:15000,g:1,max:1,req:'n3'},
+  {k:'bounty',n:'Bounty Hunter',d:l=>`+${25*l}% damage to bosses`,base:6000,g:1.55,max:8,req:'n4'},
+  {k:'cellx',n:'Cell Recycler',d:l=>`+${20*l}% energy cells`,base:6000,g:1.55,max:10,req:'n4'},
+  {k:'oc',n:'Overclock ∞',d:l=>`+${4*l}% all damage`,base:1500,g:1.17,max:999,req:'story'}
+];
+const REQ_TXT={story:'Escape the planet',n1:'Clear ☠ Crash Site',n2:'Clear ☠ Research Wreck',n3:'Clear ☠ Mining Hulk',n4:'Clear ☠ War Graveyard',n5:'Clear ☠ The Origin'};
+const reqMet=r=>r==='story'?!!meta.story:!!(meta.night&&meta.night[+r.slice(1)]);

@@ -19,6 +19,12 @@ const ACH=[
   {id:'over',n:'Living Dangerously',d:'Defeat a boss on OVERDRIVE'},
   {id:'calm',n:'Untouchable',d:'Clear a site without Hope dropping below 50%'},
   {id:'escape',n:'Liftoff',d:'Repair the ship and escape the planet'},
+  {id:'n1',n:'Nightmare: Crash Site',d:'Clear ☠ Crash Site'},
+  {id:'n2',n:'Nightmare: Research Wreck',d:'Clear ☠ Research Wreck'},
+  {id:'n3',n:'Nightmare: Mining Hulk',d:'Clear ☠ Mining Hulk'},
+  {id:'n4',n:'Nightmare: War Graveyard',d:'Clear ☠ War Graveyard'},
+  {id:'n5',n:'Nightmare: The Origin',d:'Clear ☠ The Origin'},
+  {id:'oc25',n:'Beyond Limits',d:'Reach Overclock level 25',c:()=>lv('oc')>=25},
   {id:'end20',n:'Endless Night',d:'Reach Threat 20 in Endless'},
   {id:'end40',n:'Eternal Flame',d:'Reach Threat 40 in Endless'}
 ];

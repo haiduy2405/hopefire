@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.0 — 2026-11-18
+- **Module identity per type**: Thermal (+30% dmg, slower), Cryo (+25% fire rate, 12% chill), Arc (every hit arcs for 35%), Nano (hits restore Hope)
+- **☠ Nightmare** for every cleared site: per-site creature multipliers, ×2.5 Xeno-cores, better crate luck
+- **Advanced Repairs** (tier 2): Critical Strikes, Second Wind, Core Refinery, Long Barrels, Deep Salvage, Field Kit, Capacitors, Relic Bay, Bounty Hunter, Cell Recycler, Overclock ∞
+- 6 achievements (Nightmare ×5, Overclock 25); upgrade cards show next-level effect
+- Simulated playtime: story ~75–110 min, story + all Nightmares ~3.5 h (bot), plus Endless
+- docs/BUSINESS_LEGAL.md: Steam, US/VN tax, VN game law, AI disclosure, net revenue estimate
+
 ## v0.5.0 — 2026-11-18
 - **Pixel-art pipeline**: procedural sprite builder (`tools/sprites/build.py`) → atlas; integer-scaled crisp sprites with code fallback
 - Art wave 1: crashed ship, 8 creatures (4-frame walk + hit flash), module housings ×4 types, drones, seamless ground for 5 sites, rocks, debris

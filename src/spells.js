@@ -11,7 +11,7 @@ const SPELLS=[
 ];
 const MAX_SPELLS=3,SPELL_CHANCE=0.2;
 const spellPow=s=>RAR[s.r].m*(1+0.5*(s.lv-1));
-const spellCd=s=>s.d.cd*Math.pow(0.9,s.lv-1);
+const spellCd=s=>s.d.cd*Math.pow(0.9,s.lv-1)*(1-0.06*lv('cap'));
 function addSpell(cd){
   const ex=R.spells.find(s=>s.d.id===cd.sp.id);
   if(ex){ex.lv++;ex.r=Math.max(ex.r,cd.r);addTxt(0,-80,ex.d.n+' Lv'+ex.lv,ex.d.c,13)}

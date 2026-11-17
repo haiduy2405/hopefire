@@ -5,7 +5,7 @@
 An incremental tower-defense game about a crashed spaceship on a hostile alien planet.
 Open salvage crates, build module synergies, and keep your **HOPE** burning.
 
-**Status:** v0.5.0 — đủ nội dung chơi từ đầu tới cuối + pixel-art đợt 1 — web build (vanilla JS, no dependencies, no build step).
+**Status:** v0.6.0 — chiến dịch 5 bãi + Nightmare + nâng cấp tầng 2 (~3,5 giờ+), pixel-art đợt 1 — web build (vanilla JS, no dependencies, no build step).
 
 ## Chạy game
 
@@ -47,6 +47,7 @@ src/main.js       vòng lặp game
 docs/DESIGN.md    thiết kế game
 docs/ROADMAP.md   lộ trình tới Steam
 docs/REVIEW_PROMPT.md  prompt tự review toàn diện game (chạy lại mỗi version lớn)
+docs/BUSINESS_LEGAL.md pháp lý, thuế VN/Mỹ, Steam, tiền thực nhận
 version.json      version mới nhất + ghi chú cập nhật (game đọc file này)
 tools/bump.ps1    tăng version 1 lệnh
 tools/sprites/build.py  tạo sprite pixel-art → assets/sprites.png/.json/.js
