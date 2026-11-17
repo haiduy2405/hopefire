@@ -45,6 +45,7 @@ src/ui.js         menu, mở thùng, chọn thẻ, hướng dẫn, kết thúc l
 src/main.js       vòng lặp game
 docs/DESIGN.md    thiết kế game
 docs/ROADMAP.md   lộ trình tới Steam
+docs/REVIEW_PROMPT.md  prompt tự review toàn diện game (chạy lại mỗi version lớn)
 version.json      version mới nhất + ghi chú cập nhật (game đọc file này)
 tools/bump.ps1    tăng version 1 lệnh
 CHANGELOG.md      lịch sử phiên bản

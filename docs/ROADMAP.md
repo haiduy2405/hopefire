@@ -17,16 +17,14 @@
 - [x] Màn kết: sửa xong tàu, cất cánh + hé lộ twist
 
 - [ ] Playtest thật → chỉnh cân bằng theo cảm giác người chơi (sim mới chỉ là bot)
-- [ ] Ngôn ngữ trong Settings (cần bản dịch)
 
-## 🎨 Đồ họa & âm thanh
+## 🎨 Đồ họa (ưu tiên hiện tại)
 - [ ] Sprite pixel-art thật (mua asset pack có license thương mại hoặc tự vẽ)
 - [ ] Hiệu ứng nổ/tia bằng sprite sheet
-- [ ] Nhạc nền theo chapter + SFX thật
+- [ ] (để sau) Nhạc nền theo chapter + SFX thật
 
-## 📦 Phát hành
+## 📦 Phát hành (để sau) — game chỉ tiếng Anh
 - [x] Settings: âm lượng, ngôn ngữ, tốc độ mặc định
-- [ ] Bản dịch (EN trước; ZH/RU/PT-BR/JA là thị trường incremental lớn)
 - [ ] Đóng gói desktop (Electron/Tauri) + Steamworks (achievements, cloud save)
 - [ ] Demo lên itch.io + IncrementalDB → lấy phản hồi
 - [ ] Trang Steam ($100), gom wishlist, Steam Next Fest
