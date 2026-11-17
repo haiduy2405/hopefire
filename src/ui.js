@@ -2,10 +2,10 @@
 // ===== UI =====
 function renderChips(){
   if(!R)return;let h='';
-  for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}"><span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>${x.t.n.split(' ')[0]}${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
+  for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}"><span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span><span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
   for(let i=R.mods.length;i<R.slots;i++)h+=`<span class="chip" style="opacity:.3">—</span>`;
   for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip" title="${rl.n}: ${rl.d}">${rl.g}</span>`}
-  for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}" style="color:${TYPES[k].c};border-color:${TYPES[k].c}" title="2: +25% dmg · 4: ${TYPES[k].b4}">${k} ${n}/${n>=2?4:2}${n>=4?' ✓':''}</span>`}
+  for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}" style="color:${TYPES[k].c};border-color:${TYPES[k].c}" title="2: +25% dmg · 4: ${TYPES[k].b4}">${k[0]}<span class="cn">${k.slice(1)}</span> ${n}/${n>=2?4:2}${n>=4?' ✓':''}</span>`}
   $('row1').innerHTML=h;
 }
 let hudT=0;
@@ -40,10 +40,13 @@ function openPack(){
   if(!R||R.over||R.paused||R.tipPause)return;const c=packCost();if(R.gold<c)return;
   audioInit();R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();sfx('crate');
   meta.stats.crates++;const n=hasRel('echo')?4:3,taken=[];
-  curCards=Array.from({length:n},()=>{
+  const roll=()=>{
     const armed=R.mods.length>=2;
     if(armed&&meta.tut.mod&&canRollRelic()&&Math.random()<RELIC_CHANCE){const rl=rollRelic(taken);if(rl){taken.push(rl.id);return{rl,r:3}}}
-    return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()}});
+    return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()}};
+  const key=c=>c.rl?'r'+c.rl.id:c.sp?'s'+c.sp.id:'m'+c.t.id;
+  curCards=[];const seen=new Set();
+  for(let tries=0;curCards.length<n&&tries<60;tries++){const c=roll();if(seen.has(key(c)))continue;seen.add(key(c));curCards.push(c)}
   if(!meta.tut.mod)curCards.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
   if(!meta.tut.mod)curCards[1].r=Math.max(1,curCards[1].r);
   show(`<div class="panel center"><h2>SALVAGE CRATE</h2><div class="crate" id="crateEl"><div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div></div><div style="color:#7f8899;font-size:12px">tap to open</div></div>`);
@@ -106,7 +109,7 @@ function endRun(won){
     <button class="big" id="toMenu">${ending?'🚀 LIFTOFF ▸':'REPAIR SHIP ▸'}</button></div>`);$('toMenu').onclick=()=>{sfx('click');if(ending)startEnding();else menu()}},1100);
 }
 function menu(){
-  R=null;hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
+  R=null;document.body.classList.add('inmenu');hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
   const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;
   const cheapest=UPG.filter(u=>lv(u.k)<u.max).sort((a,b)=>upCost(a)-upCost(b))[0];
   let h=`<div class="panel"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div>
@@ -114,7 +117,7 @@ function menu(){
   if(meta.runs>0){
     h+=`<h2>CRASH SITES</h2><div class="chs">`;
     for(let i=1;i<=MAXCH;i++)h+=`<button data-ch="${i}" class="${meta.sel===i?'sel':''}" ${i>meta.chapter?'disabled':''}>${i}. ${i>meta.chapter?'🔒 ???':SITES[i-1]}${meta.best[i]>BOSS_WAVE?' ✓':''}</button>`;
-    h+=`</div>${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
+    h+=`</div>${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE} (site already cleared)</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
     for(const u of UPG){const l=lv(u.k),mx=l>=u.max,c=upCost(u);
       h+=`<div class="up ${firstRepair&&u===cheapest?'hl':''}"><b>${u.n}</b><span class="lv">Lv ${l}/${u.max}</span><span>${u.d(l)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`}
     h+=`</div>`;
@@ -123,17 +126,27 @@ function menu(){
   show(h);
   modal.querySelectorAll('.chs button').forEach(b=>b.onclick=()=>{sfx('click');meta.sel=+b.dataset.ch;save();menu()});
   modal.querySelectorAll('.up button').forEach(b=>b.onclick=()=>{audioInit();const u=UPG.find(x=>x.k===b.dataset.k),c=upCost(u);if(meta.mastery>=c&&lv(u.k)<u.max){meta.mastery-=c;meta.up[u.k]=lv(u.k)+1;save();sfx('up');menu()}});
-  $('startBtn').onclick=()=>{audioInit();sfx('click');hide();if(!meta.tut.intro)startCutscene('run');else newRun(Math.min(meta.sel,meta.chapter))};
+  $('startBtn').onclick=()=>{audioInit();sfx('click');hide();if(!meta.tut.intro)startCutscene('run');else{const c=Math.min(meta.sel,meta.chapter);newRun(c,false,meta.warp&&meta.best[c]>BOSS_WAVE)}};
+  const wb=$('warpChk');if(wb)wb.onchange=e=>{meta.warp=e.target.checked;save()};
   const ib=$('introBtn');if(ib)ib.onclick=()=>startCutscene('menu');
   const bind=(id,f)=>{const b=$(id);if(b)b.onclick=()=>{audioInit();sfx('click');f()}};
   bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('endBtn',()=>startEnding('menu'));
   bind('endlessBtn',()=>{hide();newRun(MAXCH,true)});
 }
 $('packBtn').onclick=openPack;
+function togglePause(force){
+  if(!R||R.over||R.paused||CUT)return;const on=force!==undefined?force:!R.userPause;if(on===!!R.userPause)return;R.userPause=on;
+  $('pauseBtn').textContent=on?'▶':'II';sfx('click');
+  if(on)$('upd').classList.contains('hidden')&&showPausePanel();else{const p=$('pausePanel');if(p)p.remove()}
+}
+function showPausePanel(){const d=document.createElement('div');d.id='pausePanel';d.innerHTML='<div class="panel center" style="max-width:360px"><div class="logo" style="font-size:34px">PAUSED</div><p style="color:#9aa3b3;font-size:12px;margin:10px 0 16px">Esc / P to resume</p><button class="big" id="resumeBtn">▶ RESUME</button></div>';document.body.appendChild(d);$('resumeBtn').onclick=()=>togglePause(false)}
+$('pauseBtn').onclick=()=>togglePause();
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&R&&!R.over&&!R.paused)togglePause(true)});
 $('skipCut').onclick=endCutscene;
-$('spdBtn').onclick=()=>{sfx('click');speed=speed===1?2:speed===2?3:1;$('spdBtn').textContent=speed+'x'};
+$('spdBtn').onclick=()=>{sfx('click');speed=speed===1?2:speed===2?3:1;$('spdBtn').textContent=speed+'x';meta.set.spd=speed;save()};
+speed=meta.set.spd||1;
 $('reactBtn').onclick=()=>{if(!R||R.over)return;sfx('click');R.react=(R.react+1)%3;refreshReactBtn();R.banner={s:'REACTOR: '+REACT[R.react].n,t:1.2};R.ringPulse=0.6};
 $('muteBtn').onclick=()=>{meta.muted=!meta.muted;save();audioInit();applyVolume();$('muteBtn').textContent=meta.muted?'🔇':'🔊'};
 $('muteBtn').textContent=meta.muted?'🔇':'🔊';
 $('quitBtn').onclick=()=>{const b=$('quitBtn');if(!R||R.over||R.paused)return;if(b.dataset.c){delete b.dataset.c;b.textContent='✕';endRun(false)}else{b.dataset.c=1;b.textContent='?';setTimeout(()=>{delete b.dataset.c;b.textContent='✕'},1500)}};
-addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else openPack()}else if(curCards&&/^Digit[123]$/.test(e.code)&&modal.querySelector('.card'))pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});
+addEventListener('keydown',e=>{if(e.code==='Escape'||e.code==='KeyP'){togglePause();return}if(R&&R.userPause)return;if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else openPack()}else if(curCards&&/^Digit[123]$/.test(e.code)&&modal.querySelector('.card'))pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});

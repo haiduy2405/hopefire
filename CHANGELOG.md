@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.5.0 — 2026-11-18
+- **Pixel-art pipeline**: procedural sprite builder (`tools/sprites/build.py`) → atlas; integer-scaled crisp sprites with code fallback
+- Art wave 1: crashed ship, 8 creatures (4-frame walk + hit flash), module housings ×4 types, drones, seamless ground for 5 sites, rocks, debris
+- Pause (Esc / P / button), auto-pause on tab switch
+- Damage numbers merge per target
+- Warp start (cleared sites begin at Threat 5); compact chips on phones
+- Fixed: duplicate cards in one crate, cores lost when updating mid-run, HUD visible behind menu, speed reset each run, endless boss tip
+
 ## v0.4.0 — 2026-11-17
 - New creatures: **Spitter** (ranged acid), **Bloater** (explodes; shoot it to blast its friends), **Wisp** (flying, half damage from mortars), **Phantom** (cloaked until close), **Splitter** (bursts into skitters)
 - Unique boss per site: Devourer, Brood Mother (spawns crawlers), Crusher (armored, vulnerable only when stunned after a charge), Phantom Warlord (blinks + escort), The Origin (3 phases: minions → drains light → enraged acid volleys)

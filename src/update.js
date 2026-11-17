@@ -38,6 +38,7 @@ function showUpdate(){
 function laterUpdate(){$('upd').classList.add('hidden');$('upd').innerHTML='';if(R)R.updPause=false;refreshUpdBtn()}
 function refreshUpdBtn(){const b=$('updBtn');if(!UPD||!$('upd').classList.contains('hidden'))return;b.textContent='⬆ v'+UPD.version;b.classList.remove('hidden')}
 function doUpdate(){
+  if(R&&!R.over){R.over=true;meta.mastery+=Math.floor(R.cores);meta.runs++}
   save();
   const u=new URL(location.href);u.searchParams.set('v',UPD.version);
   location.replace(u.toString());

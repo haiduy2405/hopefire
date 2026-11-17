@@ -5,14 +5,14 @@
 An incremental tower-defense game about a crashed spaceship on a hostile alien planet.
 Open salvage crates, build module synergies, and keep your **HOPE** burning.
 
-**Status:** v0.4.0 — đủ nội dung chơi từ đầu tới cuối (5 bãi + màn kết + Endless) — web build (vanilla JS, no dependencies, no build step).
+**Status:** v0.5.0 — đủ nội dung chơi từ đầu tới cuối + pixel-art đợt 1 — web build (vanilla JS, no dependencies, no build step).
 
 ## Chạy game
 
 - Mở `index.html` bằng trình duyệt (Chrome/Edge). Không cần cài gì.
 - Hoặc bật **GitHub Pages** (Settings → Pages → Branch `main` / root) để chơi qua link, kể cả trên điện thoại.
 
-**Điều khiển:** `Space` mở thùng · `1/2/3` chọn thẻ · `Q/W/E` dùng phép · `R` đổi chế độ lò phản ứng.
+**Điều khiển:** `Space` mở thùng · `1/2/3` chọn thẻ · `Q/W/E` dùng phép · `R` đổi chế độ lò phản ứng · `Esc`/`P` tạm dừng.
 
 ## Phát hành bản mới (người chơi nhận ngay)
 
@@ -34,6 +34,7 @@ css/style.css     giao diện
 src/data.js       số liệu: module, quái, độ hiếm, nâng cấp, chapter
 src/core.js       lưu game (localStorage) + tiện ích
 src/audio.js      âm thanh tổng hợp bằng WebAudio (không dùng file)
+src/sprites.js    nạp atlas sprite, vẽ pixel-art phóng to theo số nguyên (thiếu thì vẽ bằng code)
 src/render.js     canvas, ánh sáng/bóng tối, vẽ tàu/module/quái/hiệu ứng
 src/game.js       logic 1 lượt chơi: spawn, AI quái, bắn, Hope, boss
 src/spells.js     thẻ phép (Solar Flare, Cryo Nova, Overcharge, Emergency Cell, Shock Pulse)
@@ -48,11 +49,13 @@ docs/ROADMAP.md   lộ trình tới Steam
 docs/REVIEW_PROMPT.md  prompt tự review toàn diện game (chạy lại mỗi version lớn)
 version.json      version mới nhất + ghi chú cập nhật (game đọc file này)
 tools/bump.ps1    tăng version 1 lệnh
+tools/sprites/build.py  tạo sprite pixel-art → assets/sprites.png/.json/.js
+assets/           atlas sprite (xem docs/ASSETS.md)
 CHANGELOG.md      lịch sử phiên bản
 ```
 
 ## Ghi chú
 
-- Toàn bộ đồ họa hiện là vẽ bằng code (placeholder), sẽ thay bằng pixel-art thật.
+- Sprite pixel-art tạo bằng `tools/sprites/build.py` (xem `docs/ASSETS.md` để thay bằng hình vẽ tay).
 - Save nằm trong `localStorage` của trình duyệt (key `hopefire_v1`).
 - © duyluma. All rights reserved.

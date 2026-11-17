@@ -58,5 +58,6 @@ const BOSSES=[
 const SPAWN_TABLE=[['crawler',50,1,1],['skitter',25,3,1],['brute',10,5,1],['spitter',14,2,2],['bloater',10,2,3],['wisp',16,4,3],['phantom',12,2,4],['splitter',12,2,5]];
 // per-site difficulty (creature HP and damage multipliers), tuned by simulation
 const CH_HP=[1,3.7,10,34,50],CH_DMG=[1,1.6,2.5,3.6,4.4];
+const WARP_WAVE=5; // after clearing a site you may start there at this threat
 const SIG=[null,'crawler','spitter','bloater','phantom','splitter']; // signature creature per site
 UPG.push({k:'auto',n:'Spell Autocast',d:l=>l?'Spells cast themselves':'Spells cast themselves',base:150,g:1,max:1});

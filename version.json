@@ -1,12 +1,12 @@
 {
-  "version": "0.4.0",
-  "date": "2026-11-17",
+  "version": "0.5.0",
+  "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "5 new creatures: Spitter, Bloater, Wisp, Phantom, Splitter",
-    "Every site now has its own boss with unique mechanics",
-    "Drone modules, relics, achievements, stats, settings",
-    "Spell Autocast upgrade, ending sequence and Endless mode",
-    "Rebalanced all 5 sites"
+    "New pixel-art: ship, all 8 creatures, modules, drones, ground for 5 sites",
+    "Pause (Esc / P / II button), auto-pause when you switch tabs",
+    "Damage numbers merge per target — readable in big fights",
+    "Warp start: begin a cleared site at Threat 5",
+    "Fixes: duplicate cards in a crate, lost cores when updating mid-run, HUD behind menu, speed reset"
   ]
 }

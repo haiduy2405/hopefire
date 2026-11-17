@@ -6,6 +6,7 @@
 - v0.3 — Tách code thành repo, thẻ phép (5 loại), cutscene mở đầu trong engine.
 - v0.3.1 — Kiểm tra bản mới trong game, bảng cập nhật, hiển thị version.
 - v0.4.0 — 5 quái mới, 5 boss riêng, Drone, relic, thành tựu, thống kê, settings, autocast, màn kết, Endless, cân bằng lại.
+- v0.5.0 — Pipeline pixel-art + art đợt 1 (tàu, 8 quái, module, drone, nền), Pause, gộp số sát thương, Warp start, sửa 5 bug.
 
 ## 🔜 Gameplay (ưu tiên trước — "hay, mượt, cuốn")
 - [x] Mỗi chapter có quái/cơ chế riêng (quái nổ, quái bay, quái tàng hình…)
@@ -19,7 +20,9 @@
 - [ ] Playtest thật → chỉnh cân bằng theo cảm giác người chơi (sim mới chỉ là bot)
 
 ## 🎨 Đồ họa (ưu tiên hiện tại)
-- [ ] Sprite pixel-art thật (mua asset pack có license thương mại hoặc tự vẽ)
+- [x] Pipeline pixel-art + art đợt 1 (tự tạo bằng code)
+- [ ] Art đợt 2: 5 boss, orb loot, đạn, nổ, thùng cứu hộ, khung thẻ, icon relic (thay emoji)
+- [ ] Tinh chỉnh tay các sprite quan trọng (tàu, quái) trong Aseprite
 - [ ] Hiệu ứng nổ/tia bằng sprite sheet
 - [ ] (để sau) Nhạc nền theo chapter + SFX thật
 

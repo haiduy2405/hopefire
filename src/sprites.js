@@ -1,0 +1,26 @@
+"use strict";
+// ===== SPRITES =====
+// Atlas = assets/sprites.png + assets/sprites.js (window.SPRITE_DATA), built by tools/sprites/build.py.
+// 1 art pixel = ART_PX world units. Sprites are always scaled by a whole number of device pixels,
+// so pixels stay crisp. Anything missing from the atlas falls back to the code-drawn version.
+const ART_PX=1;
+const SPR={ready:false,img:null,data:window.SPRITE_DATA||null,has(n){return this.ready&&!!this.data.sprites[n]}};
+if(SPR.data){const img=new Image();img.onload=()=>{SPR.img=img;SPR.ready=true;groundFor=-1};img.src='assets/'+SPR.data.image+'?v='+(window.HF_VERSION||'')}
+// draws frame fi of sprite `name` with its anchor at world draw-coords (x,y) of context c
+function drawSpr(c,name,fi,x,y,flip){
+  const fr=SPR.data.sprites[name];if(!fr)return 0;const f=fr[(fi|0)%fr.length],m=c.getTransform();
+  const ax=f.ax!==undefined?f.ax:f.w/2,ay=f.ay!==undefined?f.ay:f.h-1;
+  c.save();c.imageSmoothingEnabled=false;
+  if(Math.abs(m.b)>1e-3||Math.abs(m.c)>1e-3){ // rotated context (cutscenes): draw in local units
+    c.translate(x,y);if(flip)c.scale(-1,1);c.drawImage(SPR.img,f.x,f.y,f.w,f.h,-ax*ART_PX,-ay*ART_PX,f.w*ART_PX,f.h*ART_PX);c.restore();return 1}
+  const M=Math.max(1,Math.round(m.a*ART_PX)),dx=Math.round(m.a*x+m.e),dy=Math.round(m.d*y+m.f);
+  c.setTransform(1,0,0,1,0,0);
+  if(flip){c.translate(dx,dy);c.scale(-1,1);c.drawImage(SPR.img,f.x,f.y,f.w,f.h,-Math.round(ax*M),-Math.round(ay*M),f.w*M,f.h*M)}
+  else c.drawImage(SPR.img,f.x,f.y,f.w,f.h,dx-Math.round(ax*M),dy-Math.round(ay*M),f.w*M,f.h*M);
+  c.restore();return M/m.a; // world units per art pixel actually used
+}
+// pre-scaled ground tile pattern (integer scale)
+function tilePattern(c,name,M){
+  const f=SPR.data.sprites[name][0],t=document.createElement('canvas');t.width=f.w*M;t.height=f.h*M;
+  const tc=t.getContext('2d');tc.imageSmoothingEnabled=false;tc.drawImage(SPR.img,f.x,f.y,f.w,f.h,0,0,t.width,t.height);return c.createPattern(t,'repeat');
+}

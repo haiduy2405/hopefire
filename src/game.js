@@ -3,15 +3,17 @@
 let R=null,speed=1;
 const hasRel=id=>!!(R&&R.relics&&R.relics.includes(id));
 const ringR=()=>BASE_RING*REACT[R.react].ring*(hasRel('dampener')?0.85:1);
-function newRun(ch,endless){
+function newRun(ch,endless,warp){
+  document.body.classList.remove('inmenu');
   const maxHope=100*(1+0.25*lv('hp'));
   R={ch,endless:!!endless,t:0,wave:1,waveT:0,spawnT:1,hope:maxHope,maxHope,gold:15+8*lv('start'),cores:0,packs:0,mods:[],en:[],pr:[],fx:[],pt:[],txt:[],orbs:[],
     kills:0,boltCd:0.6,bossSpawned:false,boss:null,lastBossWave:0,bossKills:0,over:false,won:false,shake:0,slots:4+lv('slots'),paused:false,tipPause:false,syn:{},
     banner:{s:endless?'ENDLESS WASTES':SITES[ch-1],sub:endless?'How long can hope last?':'Site '+ch,t:2.6},react:1,spells:[],relics:[],overT:0,ringPulse:0,
     shipAim:-Math.PI/2,shipFl:0,smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
+  if(warp&&!endless){R.wave=WARP_WAVE;R.gold+=Math.floor(40*Math.pow(2.2,ch-1));R.banner={s:'WARP → THREAT '+WARP_WAVE,sub:SITES[ch-1],t:2.2}}
   const sig=SIG[ch]||'crawler';
   for(let i=0;i<16;i++)spawn(ch>1&&i%5===0&&sig!=='bloater'?sig:(Math.random()<.2?'skitter':'crawler'),'ambient');
-  speed=meta.set.spd||1;$('spdBtn').textContent=speed+'x';
+  $('spdBtn').textContent=speed+'x';
   layoutMods();renderChips();refreshReactBtn();renderSpellBar();
   if(!meta.tut.start)setTimeout(()=>tip('start',`Your ship is wrecked. The creatures out there are <b>blind</b> — they only sense you inside the <b>ring</b>.<br>Your heat ray still fires. Keep <b>🔥 HOPE</b> above zero.`,true),600);
   else if(meta.runs>=1&&!meta.tut.reactor)setTimeout(()=>tip('reactor',`<b>Reactor unlocked.</b> OVERDRIVE = more damage &amp; loot, but a <b>wider ring</b> — more of them will notice you.`,false,7),800);
@@ -51,9 +53,11 @@ const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0;
 // pick target in range that is closest to the ship (biggest threat); cloaked ones are skipped
 function threatTarget(x,y,range){let b=null,bd=1e18;const r2=range*range;for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-x,dy=e.y-y;if(dx*dx+dy*dy>r2)continue;const ds=e.x*e.x+e.y*e.y-(e.state==='rush'?1e6:0);if(ds<bd){bd=ds;b=e}}return b}
 function addTxt(x,y,v,c,s){if(typeof v!=='string'&&!meta.set.nums)return;if(R.txt.length<80)R.txt.push({x:x+rnd(-6,6),y,v:typeof v==='string'?v:fmt(v),c,t:0.75,s:s||11})}
+function dmgTxt(e,d,c){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o.age<0.35);if(t){t.n+=d;t.v=fmt(t.n);t.t=0.75;t.c=c;t.s=Math.min(16,11+Math.log10(1+t.n/(e.mhp||1)*10)*3);return}
+  if(R.txt.length<45)R.txt.push({e,n:d,age:0,x:e.x+rnd(-6,6),y:e.y*K-e.r*1.6-(e.fly?22:0),v:fmt(d),c,t:0.75,s:11})}
 function hit(e,d,ty,primary){
   if(e.dead)return;if(e.armor!==undefined)d*=e.armor;
-  e.hp-=d;e.hit=0.08;sfx('hit');addTxt(e.x,e.y*K-e.r*1.6-(e.fly?22:0),d,e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
+  e.hp-=d;e.hit=0.08;sfx('hit');dmgTxt(e,d,e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
   if(e.state!=='rush')alertE(e);
   if(ty&&primary&&R.syn[ty]>=4){
     if(ty==='Thermal'){e.burn=3;e.bd=Math.max(e.bd,d*0.4)}
@@ -94,7 +98,7 @@ function bossDown(e){
 function spawnBoss(bk){
   const rr=ringR(),b=spawn('boss','wander',bk),a=Math.random()*6.28;b.x=Math.cos(a)*rr*1.5;b.y=Math.sin(a)*rr*1.5;
   R.boss=b;R.shake=12;sfx('boss');R.banner={s:'⚠ '+BOSSES[bk-1].n+' ⚠',sub:BOSSES[bk-1].d,t:2.6};
-  if(!meta.tut.boss)setTimeout(()=>tip('boss','That thing <b>swallowed a part we need</b> to repair the ship. Bring it down!',false,6),300);
+  if(!R.endless&&!meta.tut.boss)setTimeout(()=>tip('boss','That thing <b>swallowed a part we need</b> to repair the ship. Bring it down!',false,6),300);
 }
 // boss behaviours (only while charging the ship)
 function bossTick(e,dt,d){
@@ -242,7 +246,7 @@ function update(dt){
   // fx decay
   for(const f of R.fx)f.t-=dt;
   for(const p of R.pt){p.t-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=(p.g||0)*dt;if(!p.smoke){p.vx*=0.95}else p.s+=dt*5}
-  for(const t of R.txt){t.t-=dt;t.y-=32*dt}
+  for(const t of R.txt){t.t-=dt;t.y-=32*dt;t.age=(t.age||0)+dt}
   R.en=R.en.filter(e=>!e.dead);R.pr=R.pr.filter(p=>!p.dead);R.fx=R.fx.filter(f=>f.t>0);R.pt=R.pt.filter(p=>p.t>0);R.txt=R.txt.filter(t=>t.t>0);R.orbs=R.orbs.filter(o=>!o.dead);
   if(R.pt.length>500)R.pt.splice(0,R.pt.length-500);
   if(R.banner)R.banner.t-=dt;R.ringPulse=Math.max(0,R.ringPulse-dt*1.5);
