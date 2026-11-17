@@ -3,8 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>HOPEFIRE — v0.3</title>
-<link rel="stylesheet" href="css/style.css">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>HOPEFIRE</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E">
+<script>
+// ===== VERSION =====
+// Bump this together with version.json on every release (tools/bump.ps1 does both).
+window.HF_VERSION='0.3.1';
+document.title='HOPEFIRE v'+window.HF_VERSION;
+// Every asset URL carries ?v=<version>, so a new version never loads stale cached files.
+document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION+'">');
+</script>
 </head>
 <body>
 <canvas id="c"></canvas>
@@ -14,6 +23,7 @@
   <span class="stat" id="coreT">✦ 0</span>
   <span class="stat" id="threatT">THREAT 1</span>
   <span class="stat" id="siteT"></span>
+  <span class="stat ver" id="verT"></span>
 </div>
 <div id="tip"></div>
 <div id="bottom">
@@ -28,16 +38,14 @@
   </div>
 </div>
 <div id="modal"></div>
+<div id="upd" class="hidden"></div>
+<button id="updBtn" class="hidden"></button>
 <div id="flash"></div>
 <button id="skipCut">SKIP ▸▸</button>
-<script src="src/data.js"></script>
-<script src="src/core.js"></script>
-<script src="src/audio.js"></script>
-<script src="src/render.js"></script>
-<script src="src/game.js"></script>
-<script src="src/spells.js"></script>
-<script src="src/cutscene.js"></script>
-<script src="src/ui.js"></script>
-<script src="src/main.js"></script>
+<script>
+['data','core','audio','render','game','spells','cutscene','update','ui','main'].forEach(function(n){
+  document.write('<script src="src/'+n+'.js?v='+window.HF_VERSION+'"><\/script>');
+});
+</script>
 </body>
 </html>

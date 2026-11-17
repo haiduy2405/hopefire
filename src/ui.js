@@ -13,7 +13,7 @@ function hud(dt){
   const p=Math.max(0,R.hope)/R.maxHope;$('hopebar').style.width=(100*p)+'%';$('hopebar').className=p<0.25?'low':'';$('hopetxt').textContent='HOPE '+Math.ceil(p*100)+'%';
   $('scrapT').textContent='⚙ '+fmt(R.gold);$('coreT').textContent='✦ '+fmt(R.cores);$('threatT').textContent=R.wave>=BOSS_WAVE?'THREAT MAX':'THREAT '+R.wave;$('siteT').textContent=SITES[R.ch-1];
   spellHud();
-  const c=packCost();$('packBtn').textContent='OPEN CRATE  ⚙'+fmt(c);$('packBtn').disabled=R.gold<c||R.paused||R.over||R.tipPause;
+  const c=packCost();$('packBtn').textContent='OPEN CRATE  ⚙'+fmt(c);$('packBtn').disabled=R.gold<c||R.paused||R.over||R.tipPause||R.updPause;
 }
 function refreshReactBtn(){const b=$('reactBtn');if(!R||meta.runs<1){b.classList.add('hide');return}b.classList.remove('hide');const r=REACT[R.react];b.innerHTML='⚛ REACTOR<br>'+r.n;b.style.background=r.c}
 const modal=$('modal');
@@ -100,7 +100,7 @@ function menu(){
   R=null;hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
   const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;
   const cheapest=UPG.filter(u=>lv(u.k)<u.max).sort((a,b)=>upCost(a)-upCost(b))[0];
-  let h=`<div class="panel"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires.</div>
+  let h=`<div class="panel"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div>
   <div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div>`;
   if(meta.runs>0){
     h+=`<h2>CRASH SITES</h2><div class="chs">`;
