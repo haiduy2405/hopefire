@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>HOPEFIRE — v0.3</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="hope">🔥<div id="hopewrap"><div id="hopebar"></div><div id="hopetxt"></div></div></div>
+  <span class="stat" id="scrapT">⚙ 0</span>
+  <span class="stat" id="coreT">✦ 0</span>
+  <span class="stat" id="threatT">THREAT 1</span>
+  <span class="stat" id="siteT"></span>
+</div>
+<div id="tip"></div>
+<div id="bottom">
+  <div id="row1"></div>
+  <div id="spellBar"></div>
+  <div id="row2">
+    <button class="btn" id="quitBtn" title="Abandon run">✕</button>
+    <button class="btn hide" id="reactBtn">⚛ NORMAL</button>
+    <button class="btn" id="packBtn">OPEN CRATE</button>
+    <button class="btn" id="spdBtn">1x</button>
+    <button class="btn" id="muteBtn">🔊</button>
+  </div>
+</div>
+<div id="modal"></div>
+<div id="flash"></div>
+<button id="skipCut">SKIP ▸▸</button>
+<script src="src/data.js"></script>
+<script src="src/core.js"></script>
+<script src="src/audio.js"></script>
+<script src="src/render.js"></script>
+<script src="src/game.js"></script>
+<script src="src/spells.js"></script>
+<script src="src/cutscene.js"></script>
+<script src="src/ui.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>
