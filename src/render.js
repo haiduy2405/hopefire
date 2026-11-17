@@ -35,7 +35,7 @@ function buildGround(ch){
     g.fillStyle='#2b2f2a';g.beginPath();g.moveTo(x-s,y);g.lineTo(x-s*0.6,y-s*0.8);g.lineTo(x+s*0.3,y-s);g.lineTo(x+s,y-s*0.3);g.lineTo(x+s*0.8,y+s*0.2);g.lineTo(x-s*0.5,y+s*0.3);g.closePath();g.fill();
     g.fillStyle='#ffffff14';g.fillRect(x-s*0.5,y-s*0.8,s*0.6,s*0.25)}
   // debris shards
-  for(let i=0;i<26;i++){const a=r()*Math.PI*2,d=rnd(70,260),x=Math.cos(a)*d,y=Math.sin(a)*d*K;
+  for(let i=0;i<10;i++){const a=r()*Math.PI*2,d=rnd(110,300),x=Math.cos(a)*d,y=Math.sin(a)*d*K;
     if(useSpr){drawSpr(g,'debris_'+(i%3),0,x,y,r()<.5);continue}g.save();g.translate(x,y);g.rotate(r()*6);g.fillStyle='#4a5162';g.fillRect(-6,-2,rnd(6,16),rnd(3,6));g.fillStyle='#000';g.fillRect(-6,2,10,1);g.restore()}
   // glowing plants (drawn later in additive pass)
   plants=[];for(let i=0;i<60;i++){const a=r()*Math.PI*2,d=rnd(160,720);plants.push({x:Math.cos(a)*d,y:Math.sin(a)*d*K,s:rnd(1.5,3.5),c:['#7dffb0','#5cd0ff','#c79bff'][r()*3|0],ph:r()*6})}
