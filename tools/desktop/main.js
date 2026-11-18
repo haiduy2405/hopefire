@@ -1,5 +1,6 @@
 const {app,BrowserWindow,ipcMain,screen}=require('electron');const path=require('path'),fs=require('fs');
 app.commandLine.appendSwitch('autoplay-policy','no-user-gesture-required');
+app.commandLine.appendSwitch('ignore-gpu-blocklist');app.commandLine.appendSwitch('enable-gpu-rasterization');
 // window modes: 'fullscreen' (default) | 'borderless' (frameless window covering the screen) | 'maximized' | 'windowed'
 const CFG=()=>path.join(app.getPath('userData'),'window.json');
 let mode='fullscreen',win=null;
@@ -30,4 +31,4 @@ const LOG=()=>path.join(app.getPath('userData'),'crash.log');
 function clog(s){try{fs.appendFileSync(LOG(),new Date().toISOString()+' '+s+'\n')}catch(_){}}
 app.on('child-process-gone',(e,d)=>clog('child-gone '+JSON.stringify(d)));
 app.whenReady().then(()=>{create();if(win)win.webContents.on('render-process-gone',(e,d)=>{clog('render-gone '+JSON.stringify(d));try{win.reload()}catch(_){}});
-  try{clog('gpu '+JSON.stringify(app.getGPUFeatureStatus()))}catch(_){}});app.on('window-all-closed',()=>app.quit());
+  setTimeout(()=>{try{clog('gpu(after 8s) '+JSON.stringify(app.getGPUFeatureStatus()))}catch(_){}},8000)});app.on('window-all-closed',()=>app.quit());

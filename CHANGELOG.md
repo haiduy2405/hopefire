@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.16.4 — 2026-11-18
+- Desktop: crash.log on Duy's PC showed every GPU feature `disabled_software` (canvas/raster/compositing on CPU) → added ignore-gpu-blocklist + enable-gpu-rasterization; GPU status now logged 8 s after start.
+
 ## v0.16.3 — 2026-11-18
 - The gold rectangle around the crate was the pad/keyboard focus ring (.padfocus on #crateEl) — removed for the crate.
 
