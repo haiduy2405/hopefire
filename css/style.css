@@ -668,3 +668,6 @@ body:has(#modal:not(.hidden)).od::after{animation:none;opacity:.6}
 body:has(#modal:not(.hidden)) .odBtn.ready{animation:none}
 .crpanel .motes i{animation-duration:6s!important;box-shadow:none!important}
 .crate:not(.open){will-change:transform}
+/* the crate never shows the gold pad-focus rectangle (A / Space opens it anyway) */
+#crateEl.padfocus,#crateEl:focus,#crateEl:focus-visible{outline:none!important;box-shadow:none!important;transform:none}
+#crateEl.padfocus:not(.open){filter:none!important}

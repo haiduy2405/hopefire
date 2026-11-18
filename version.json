@@ -1,9 +1,8 @@
 {
-  "version": "0.16.2",
+  "version": "0.16.3",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Crate opening: no golden frame, smoother animation",
-    "Less GPU load while crate/cards are open (fix for FPS drop/crash)"
+    "Removed the gold rectangle (gamepad/keyboard focus ring) around the opening crate"
   ]
 }
