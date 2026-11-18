@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.8.2 — 2026-11-18
+- **Crate 2.0** (`src/crate.js`): rarity-tell crate (glow colour + shake strength), light rays on open, staggered card flips with rarity sounds, legendary screen shake/flash
+- Cards: element badge + pips (new pips glow), **team-DPS delta**, synergy **ACTIVATES** / **breaks** badges, ★ upgrade and replace tags, BEST DPS ribbon, stat line (dmg · rate · range · area)
+- Build bar above the cards (slots, element meters, team DPS) with hover preview of each card
+- Element info popover (crate badges, build bar, in-game synergy chips): passive, tier 2/4 bonuses, all modules of that element with owned stars
+- In-game synergy activation celebration (banner, rings, particles, sound); keys 1–5 pick cards, Space opens the crate
+- README rewritten as full handoff for any new Claude session
+
 ## v0.8.1 — 2026-11-18
 - AI-assisted sprites for all 5 bosses (+40% size) and 12 ground props (rocks, crystals, glowing plants, wreckage); warm crash-site ground
 - UI scales with screen size (`--uz`), softer plant glows

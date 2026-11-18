@@ -12,7 +12,7 @@ Inspired by *Booster Pack Heroes* (Steam). See `docs/DESIGN.md`.
 
 ## Code
 Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.js` then `src/*.js` in this order:
-`data, core, audio, render, sprites, game, spells, relics, progress, cutscene, update, ui, main` (classic scripts sharing globals; keep the order).
+`data, core, audio, render, sprites, game, spells, relics, progress, cutscene, update, crate, ui, main` (classic scripts sharing globals; keep the order).
 - Balance numbers live in `src/data.js` (CH_HP, CH_DMG, NM, UPG, UPG2, BOSSES, SPAWN_TABLE…).
 - Sprites: `python tools/sprites/build.py` → `assets/sprites.png/.json/.js` (procedural pixel art; code fallback when a sprite is missing). See `docs/ASSETS.md`.
 - Save: `localStorage['hopefire_v1']`, merged with `defMeta()` in `src/core.js` — add new fields there with defaults, never rename keys.
@@ -31,10 +31,13 @@ Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.j
 ## Business / legal (see docs/BUSINESS_LEGAL.md)
 Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding on US-customer revenue); VN tax-exempt under the yearly revenue threshold but must keep records/declare; Decree 147/2024 avoided by offline play + VN region lock; **disclose AI-generated content on Steam**; Steam build must disable the online update check.
 
+## Duy's standing rules
+- Game must hook players from the very first runs (gameplay + feedback + FX + animation + music + sound).
+- **No trailer / store screenshots until Duy plays and approves the finished game.**
+- Keep Electron for desktop (Tauri/Rust considered and rejected).
+- Work carefully: future AI reviews will build on this (docs/REVIEW_PROMPT.md).
+- Update README.md ("Đã/đang/sẽ") + this file after every big step — they are the handoff for any new Claude account.
+
 ## Status & next steps
-Current: **v0.8.1** — AI-assisted art (ChatGPT image gen in Duy's browser → magenta sheet → `tools/sprites/import_ai.py` → `assets/ai/` → build.py) for ship, cannon, turrets, 8 creatures, 5 bosses, ground props. Store assets done: `store/` (key art, logo, all capsules, 7 screenshots, trailer_v1_silent.mp4), `docs/STEAM_PAGE.md`. Desktop build: `tools/desktop/package_win.ps1` → `build/HOPEFIRE/HOPEFIRE.exe`.
-Next:
-1. **Duy only:** Steamworks account (identity, $100, bank, W-8BEN tax interview). Then Claude fills the store page from docs/STEAM_PAGE.md → Coming Soon ASAP.
-2. Trailer music (licensed/royalty-free) — trailer is silent.
-3. Steam SDK (steamworks.js) achievements + cloud save; demo build (sites 1–2) for Next Fest.
-4. Art still procedural: drones, loot orbs, crate, spell FX, cutscene planet; ground tiles for sites 2–5.
+See README.md → "Đã làm / đang làm / sẽ làm" (kept current). Current: **v0.8.2** (Crate 2.0 in src/crate.js).
+Next: adaptive music + SFX → game-feel pass → first-run pacing → REVIEW_PROMPT v2 + independent review → v0.9.

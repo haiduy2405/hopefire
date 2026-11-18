@@ -53,13 +53,3 @@ function spellHud(){
   if(!R)return;const bs=$('spellBar').querySelectorAll('.spell');
   R.spells.forEach((s,i)=>{const b=bs[i];if(!b)return;const f=s.cd>0?s.cd/spellCd(s):0;b.querySelector('.cdov').style.height=(f*100)+'%';b.classList.toggle('ready',f===0)});
 }
-function spellCardHTML(cd,i){
-  const ex=R.spells.find(s=>s.d.id===cd.sp.id);
-  let tag;if(ex)tag=`<span class="tg" style="background:#ffd24a">Level up → Lv${ex.lv+1}</span>`;
-  else if(R.spells.length>=MAX_SPELLS){const w=R.spells.reduce((a,b)=>spellPow(b)<spellPow(a)?b:a);tag=`<span class="tg" style="background:#ff5a5a">Replaces ${w.d.n}</span>`}
-  else tag=`<span class="tg" style="background:#c79bff">New spell</span>`;
-  return `<div class="card r${cd.r} spellcard" style="--rc:${RAR[cd.r].c};border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
-    <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n} · SPELL</div>
-    <div class="gl" style="background:${cd.sp.c}22;color:${cd.sp.c};border-radius:50%">${ico('sp_'+cd.sp.id,3,0,cd.sp.g)}</div>
-    <div class="nm">${cd.sp.n}</div><div class="ds">${cd.sp.d}</div><div class="ds">Cooldown ${cd.sp.cd}s</div>${tag}</div>`;
-}

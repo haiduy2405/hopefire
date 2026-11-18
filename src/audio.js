@@ -14,7 +14,7 @@ function audioInit(){
 }
 function tone(type,f0,f1,dur,vol,delay){const t=AC.currentTime+(delay||0);const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.03)}
 function noise(dur,vol,fc,delay){const t=AC.currentTime+(delay||0);const s=AC.createBufferSource();s.buffer=noiseBuf;const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=fc;const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(f);f.connect(g);g.connect(master);s.start(t,Math.random()*0.5,dur+0.05)}
-const GAP={hit:40,shot:50,lance:50,pick:45,alert:220,kill:45,beam:70,mortar:80,boom:70,hurt:120,cell:80};
+const GAP={flip0:40,flip1:40,flip2:40,flip3:40,hit:40,shot:50,lance:50,pick:45,alert:220,kill:45,beam:70,mortar:80,boom:70,hurt:120,cell:80};
 function sfx(n){
   if(!AC||meta.muted)return;const now=performance.now();if(now-(lastS[n]||0)<(GAP[n]||0))return;lastS[n]=now;
   try{switch(n){
@@ -43,5 +43,14 @@ function sfx(n){
     case 'roar':tone('sawtooth',180,520,0.5,0.06);tone('sawtooth',120,300,0.6,0.05,0.05);noise(0.5,0.05,1200);break;
     case 'title':[0,1,2,3].forEach(i=>tone('triangle',196*Math.pow(1.5,i%3)*(i>2?2:1),198*Math.pow(1.5,i%3)*(i>2?2:1),1.6,0.05,i*0.35));break;
     case 'up':tone('square',500,1000,0.1,0.04);break;
+    case 'crack0':noise(0.18,0.07,1600);tone('square',300,180,0.08,0.03);break;
+    case 'crack1':noise(0.22,0.08,2200);tone('triangle',520,1040,0.18,0.05);break;
+    case 'crack2':noise(0.3,0.09,2600);[0,1,2].forEach(i=>tone('triangle',440*Math.pow(1.335,i),446*Math.pow(1.335,i),0.3,0.05,i*0.06));break;
+    case 'crack3':noise(0.45,0.12,3200);tone('sine',90,40,0.5,0.14);[0,1,2,3].forEach(i=>tone('triangle',523*Math.pow(1.26,i),528*Math.pow(1.26,i),0.45,0.055,0.1+i*0.07));break;
+    case 'flip0':noise(0.05,0.04,4200);tone('square',700,520,0.04,0.018);break;
+    case 'flip1':noise(0.05,0.04,4200);tone('triangle',880,1320,0.12,0.04);break;
+    case 'flip2':noise(0.06,0.05,4200);tone('triangle',990,1485,0.16,0.05);tone('triangle',1320,1980,0.2,0.035,0.05);break;
+    case 'flip3':noise(0.08,0.06,5000);[0,1,2,3,4].forEach(i=>tone('triangle',660*Math.pow(1.26,i),664*Math.pow(1.26,i),0.4,0.05,i*0.05));tone('sine',110,55,0.4,0.1);break;
+    case 'synergy':[0,1,2].forEach(i=>tone('sawtooth',330*Math.pow(1.5,i),335*Math.pow(1.5,i),0.35,0.03,i*0.07));[0,1,2].forEach(i=>tone('triangle',660*Math.pow(1.5,i),664*Math.pow(1.5,i),0.5,0.045,0.05+i*0.07));break;
   }}catch(e){}
 }

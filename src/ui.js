@@ -5,8 +5,8 @@ function renderChips(){
   for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}">${ico('c_'+x.t.c+'_'+x.t.ty,1,0,`<span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>`)}<span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
   for(let i=R.mods.length;i<R.slots;i++)h+=`<span class="chip" style="opacity:.3">—</span>`;
   for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip" title="${rl.n}: ${rl.d}">${ico('rl_'+rl.id,1,0,rl.g)}</span>`}
-  for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}" style="color:${TYPES[k].c};border-color:${TYPES[k].c}" title="2: +25% dmg · 4: ${TYPES[k].b4}">${k[0]}<span class="cn">${k.slice(1)}</span> ${n}/${n>=2?4:2}${n>=4?' ✓':''}</span>`}
-  $('row1').innerHTML=h;
+  for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}${n>=4?' max':''}" data-el="${k}" style="color:${TYPES[k].c};border-color:${TYPES[k].c};--ec:${TYPES[k].c}" title="Tap for ${k} bonuses">${k[0]}<span class="cn">${k.slice(1)}</span> ${pips(k,n)}</span>`}
+  $('row1').innerHTML=h;bindElemBadges($('row1'));
 }
 let hudT=0;
 function hud(dt){
@@ -35,46 +35,6 @@ function tutorialTick(){
   if(meta.tut.done1)return;
   if(R.tutStep===0&&meta.tut.start&&R.t>5){R.tutStep=1;R.gold=Math.max(R.gold,packCost());tip('crate','A <b>salvage crate</b> from an older wreck! Tap <b>OPEN CRATE</b> (or Space).',false,30);$('packBtn').classList.add('pulse')}
 }
-let curCards=null;
-function openPack(){
-  if(!R||R.over||R.paused||R.tipPause)return;const c=packCost();if(R.gold<c)return;
-  audioInit();R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();sfx('crate');
-  meta.stats.crates++;const n=(hasRel('echo')?4:3)+lv('crate5'),taken=[];
-  const roll=()=>{
-    const armed=R.mods.length>=2;
-    if(armed&&meta.tut.mod&&canRollRelic()&&Math.random()<RELIC_CHANCE){const rl=rollRelic(taken);if(rl){taken.push(rl.id);return{rl,r:3}}}
-    return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()}};
-  const key=c=>c.rl?'r'+c.rl.id:c.sp?'s'+c.sp.id:'m'+c.t.id;
-  curCards=[];const seen=new Set();
-  for(let tries=0;curCards.length<n&&tries<60;tries++){const c=roll();if(seen.has(key(c)))continue;seen.add(key(c));curCards.push(c)}
-  if(!meta.tut.mod)curCards.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
-  if(!meta.tut.mod)curCards[1].r=Math.max(1,curCards[1].r);
-  show(`<div class="panel center"><h2>SALVAGE CRATE</h2><div class="crate" id="crateEl">${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div><div style="color:#7f8899;font-size:12px">tap to open</div></div>`);
-  let opened=false;const go=()=>{if(opened)return;opened=true;const el=$('crateEl');if(el&&SPR.data&&SPR.data.sprites.crate){el.innerHTML=ico('crate',4,1);el.classList.add('open');setTimeout(()=>revealCards(c),220)}else revealCards(c)};
-  $('crateEl').onclick=go;setTimeout(go,750);
-}
-function revealCards(c){
-  const best=Math.max(...curCards.filter(x=>!x.rl).map(x=>x.r),0);if(best===3){flash(0.8);sfx('legend');meta.stats.legend++}else if(curCards.some(x=>x.rl))sfx('legend');else if(best>=1)sfx('rare');
-  let h='<div class="panel center"><h2>CHOOSE ONE</h2><div class="cards">';
-  curCards.forEach((cd,i)=>{
-    if(cd.sp){h+=spellCardHTML(cd,i);return}
-    if(cd.rl){h+=relicCardHTML(cd,i);return}
-    const ex=R.mods.find(x=>x.t.id===cd.t.id);let tag;
-    if(ex)tag=`<span class="tg" style="background:#ffd24a">★ Upgrade to ★${ex.s+1}</span>`;
-    else if(R.mods.length>=R.slots){const w=R.mods.reduce((a,b)=>power(b)<power(a)?b:a);tag=`<span class="tg" style="background:#ff5a5a">Replaces ${w.t.n}</span>`}
-    else tag=`<span class="tg" style="background:#7dffb0">New module</span>`;
-    const col=TYPES[cd.t.ty].c;
-    h+=`<div class="card r${cd.r}" style="--rc:${RAR[cd.r].c};border-color:${RAR[cd.r].c};animation-delay:${i*0.12}s" data-i="${i}">
-      <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n}</div>
-      <div class="gl" style="background:${col}22;color:${col}">${ico('c_'+cd.t.c+'_'+cd.t.ty,3,0,cd.t.g)}</div>
-      <div class="nm">${cd.t.n}</div><div class="ds" style="color:${col}">${cd.t.ty} · ${TYPE_MOD[cd.t.ty].d}</div><div class="ds">${cd.t.d}</div>
-      <div class="ds">DPS ~${fmt(cd.t.dmg*cd.t.rate*TYPE_MOD[cd.t.ty].dmg*TYPE_MOD[cd.t.ty].rate*RAR[cd.r].m*tierM(R.ch)*(1+0.15*lv('dmg')))}</div>${tag}</div>`;
-  });
-  h+=`</div><button class="small" id="skipBtn" style="font-size:13px;color:#8a92a2">Scrap it (+40% refund)</button></div>`;
-  show(h);
-  modal.querySelectorAll('.card').forEach(el=>el.onclick=()=>pick(+el.dataset.i));
-  $('skipBtn').onclick=()=>{R.gold+=Math.floor(c*0.4);closePack()};
-}
 function pick(i){
   if(!curCards)return;const cd=curCards[i];sfx('up');
   if(cd.sp){addSpell(cd);closePack();return}
@@ -85,7 +45,7 @@ function pick(i){
   if(ex){ex.s++;ex.r=Math.max(ex.r,cd.r);ex.tier=Math.max(ex.tier,R.ch);target=ex;addTxt(ex.x,ex.y*K-34,'★ UP','#ffd24a',14)}
   else if(R.mods.length<R.slots){target=mk();R.mods.push(target)}
   else{let wi=0;R.mods.forEach((h,j)=>{if(power(h)<power(R.mods[wi]))wi=j});target=mk();R.mods[wi]=target}
-  layoutMods();renderChips();closePack();
+  const prevSyn=Object.assign({},R.syn);layoutMods();renderChips();closePack();synCelebrate(prevSyn);
   R.fx.push({type:'ring',x:target.x,y:target.y*K,r0:4,r1:34,t:0.4,T:0.4,c:TYPES[cd.t.ty].c});
   for(let k=0;k<14;k++)R.pt.push({x:target.x,y:target.y*K-10,vx:rnd(-90,90),vy:rnd(-150,-30),t:rnd(.3,.6),c:TYPES[cd.t.ty].c,s:3,g:300,add:1});
   if(!meta.tut.mod)setTimeout(()=>tip('mod','Modules fire on their own. Get the <b>same module</b> again to upgrade it <b>★</b>.',false,6),300);
@@ -156,4 +116,4 @@ $('reactBtn').onclick=()=>{if(!R||R.over)return;sfx('click');R.react=(R.react+1)
 $('muteBtn').onclick=()=>{meta.muted=!meta.muted;save();audioInit();applyVolume();$('muteBtn').textContent=meta.muted?'🔇':'🔊'};
 $('muteBtn').textContent=meta.muted?'🔇':'🔊';
 $('quitBtn').onclick=()=>{const b=$('quitBtn');if(!R||R.over||R.paused)return;if(b.dataset.c){delete b.dataset.c;b.textContent='✕';endRun(false)}else{b.dataset.c=1;b.textContent='?';setTimeout(()=>{delete b.dataset.c;b.textContent='✕'},1500)}};
-addEventListener('keydown',e=>{if(e.code==='Escape'||e.code==='KeyP'){togglePause();return}if(R&&R.userPause)return;if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else openPack()}else if(curCards&&/^Digit[123]$/.test(e.code)&&modal.querySelector('.card'))pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});
+addEventListener('keydown',e=>{if($('einfo')&&(e.code==='Escape'||e.code==='Space')){$('einfo').click();e.preventDefault();return}if(e.code==='Escape'||e.code==='KeyP'){togglePause();return}if(R&&R.userPause)return;if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else if($('crateEl'))$('crateEl').click();else openPack()}else if(curCards&&/^Digit[1-5]$/.test(e.code)&&modal.querySelector('.card')&&+e.code[5]<=curCards.length)pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});

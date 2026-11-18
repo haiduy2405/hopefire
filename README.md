@@ -2,61 +2,94 @@
 
 > *When all hope is lost, the ship still fires.*
 
-An incremental tower-defense game about a crashed spaceship on a hostile alien planet.
-Open salvage crates, build module synergies, and keep your **HOPE** burning.
+Incremental tower defense: a crashed ship on a planet of blind monsters. Open salvage crates, build element synergies, keep **HOPE** burning, repair the ship between runs.
 
-**Status:** v0.6.0 — chiến dịch 5 bãi + Nightmare + nâng cấp tầng 2 (~3,5 giờ+), pixel-art đợt 1 — web build (vanilla JS, no dependencies, no build step).
+---
 
-## Chạy game
+## 👋 Đọc trước nếu bạn là Claude (hoặc AI) mới vào dự án
 
-- Mở `index.html` bằng trình duyệt (Chrome/Edge). Không cần cài gì.
-- Hoặc bật **GitHub Pages** (Settings → Pages → Branch `main` / root) để chơi qua link, kể cả trên điện thoại.
+File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xong 2 file này là làm tiếp được, không cần hỏi lại Duy.
 
-**Điều khiển:** `Space` mở thùng · `1/2/3` chọn thẻ · `Q/W/E` dùng phép · `R` đổi chế độ lò phản ứng · `Esc`/`P` tạm dừng.
+**Chủ dự án:** Duy (handle *duyluma*) — dựng phim/nhiếp ảnh, **không phải lập trình viên**.
+- Nói chuyện **tiếng Việt**, ngắn, TL;DR trước, thẳng thắn (chỉ ra chỗ sai).
+- Mục tiêu duy nhất: **kiếm tiền** từ game. Mọi quyết định tối đa xác suất bán được.
+- Duy cho phép: dùng AI khác (ChatGPT Plus để sinh ảnh), dùng trình duyệt Chrome của anh ấy (đã đăng nhập Google/ChatGPT), chạy lệnh trên máy Windows của anh ấy (Desktop Commander).
+- **Quy tắc Duy đã chốt:**
+  1. Game phải **cuốn hút ngay từ những ván đầu** (gameplay + phản hồi + hiệu ứng + animation + nhạc + âm thanh).
+  2. **Không làm trailer/ảnh store** cho tới khi Duy chơi và **duyệt** game hoàn chỉnh.
+  3. Giữ **Electron** cho bản desktop (đã cân nhắc Tauri/Rust → không đổi).
+  4. Làm cẩn thận: sau này sẽ dùng AI để review và nâng cấp tiếp (xem `docs/REVIEW_PROMPT.md`).
+  5. Cập nhật README + CLAUDE.md mỗi khi xong việc lớn.
+- Việc **chỉ Duy làm được** (pháp lý, danh tính): đăng ký Steamworks, trả $100, xác minh danh tính, ngân hàng, khai thuế W-8BEN.
 
-## Phát hành bản mới (người chơi nhận ngay)
+### Đã làm / đang làm / sẽ làm (cập nhật: 2026-11-18)
 
-1. Tăng version (sửa cả `index.html` lẫn `version.json`):
-   ```powershell
-   .\tools\bump.ps1 -Version 0.3.2 -Notes "Boss mới","Cân bằng lại"
-   # bắt buộc cập nhật, ẩn nút "Later":  thêm -Force
-   ```
-2. Ghi vào `CHANGELOG.md`, rồi `git add -A; git commit -m "v0.3.2"; git push`.
-3. GitHub Pages build khoảng 30–60 giây. Người đang chơi sẽ thấy bảng **Update available** trong vòng tối đa 60 giây sau đó (hoặc ngay khi quay lại tab game).
+**Đã xong** (chi tiết: `CHANGELOG.md`)
+- Gameplay đầy đủ: 5 bãi + 5 boss, 8 loại quái, 16 module (4 hệ × lance/rail/mortar/drone), 5 phép, 8 relic, Nightmare cho từng bãi, Endless, 20+ nâng cấp vĩnh viễn, 25 thành tựu, cutscene mở đầu/kết thúc. Thời lượng ~3,5 giờ (đo bằng bot).
+- Đồ họa: key art + sprite **AI-assisted** (ChatGPT → nền magenta → `tools/sprites/import_ai.py`) cho tàu, súng, 4 tháp pháo, 8 quái, 5 boss, đồ trang trí mặt đất. Hiệu ứng: tia lửa, vết dịch, xác tan, khựng hình khi chí mạng, slow-mo khi giết boss, ánh sáng ấm, bụi, tàn lửa.
+- **Crate 2.0 (đang hoàn thiện, v0.9):** crate báo trước độ hiếm (màu đèn + độ rung), thẻ lật lần lượt có âm thanh theo độ hiếm, thanh build (ô trống, DPS đội, tiến độ hệ) có xem trước khi rê chuột, mỗi thẻ hiện **% DPS đội thay đổi**, hệ **được kích hoạt / bị phá**, nhãn **BEST DPS**; bấm vào hệ (trên thẻ, thanh build, chip trong trận) để xem bảng thông tin hệ; ăn mừng khi kích hoạt hệ trong trận.
+- Bản desktop Windows (Electron): `tools/desktop/package_win.ps1` → `build/HOPEFIRE/HOPEFIRE.exe`. Shortcut “HOPEFIRE (test)” trên Desktop của Duy.
+- Tài liệu store (đã làm **sớm**, sẽ làm lại sau khi Duy duyệt game): `store/` (key art, logo, capsule các cỡ, ảnh chụp, trailer nháp), `docs/STEAM_PAGE.md`.
+- Pháp lý/thuế: `docs/BUSINESS_LEGAL.md`.
 
-Mọi file đều kèm `?v=<version>` nên bản mới không bao giờ bị dính cache cũ.
+**Đang làm (thứ tự ưu tiên)** — kế hoạch “cuốn ngay từ ván đầu”
+1. Crate 2.0 → hoàn thiện + phát hành v0.9.
+2. Nhạc nền thích ứng (WebAudio, lớp nhạc tăng theo mức đe dọa/boss) + làm lại SFX, mix âm lượng.
+3. Game feel: animation nâng ★, hút loot có cao độ tăng dần, phản hồi Hope, chuyển wave, khoảnh khắc chết/thắng.
+4. Nhịp ván đầu (FTUE): trong 60 giây đầu người chơi phải có giết quái, mở crate, tăng sức mạnh, lựa chọn có ý nghĩa. Kết quả đo bot người mới (v0.8.1): ván 1 sống 106 s, 91 kill, 5 crate, 3 module.
+5. Cập nhật `docs/REVIEW_PROMPT.md` (tiêu chí “cuốn”, cảm giác, rõ ràng) → chạy review AI độc lập.
+
+**Sẽ làm**
+- Đồ họa còn vẽ bằng code: drone, đồ rơi, hiệu ứng phép, hành tinh trong cutscene, nền đất bãi 2–5.
+- Steam SDK (steamworks.js): thành tựu + cloud save; bản demo (bãi 1–2) cho Next Fest.
+- Sau khi Duy duyệt game: trailer + ảnh store làm lại, nhạc trailer có bản quyền, mở trang **Coming Soon** ngay để gom wishlist.
+- Thị trường: đối thủ trực tiếp *Booster Pack Heroes* ra mắt 10/11/2026 trên Steam/App Store/Google Play, 91% đánh giá tích cực → thể loại có người mua; HOPEFIRE cần khác biệt (ánh sáng/bóng tối, hệ nguyên tố, cốt truyện).
+
+---
+
+## Chơi / test
+
+- **Bản Windows:** chạy `build\HOPEFIRE\HOPEFIRE.exe` (F11 = toàn màn hình). Build lại: `powershell -ExecutionPolicy Bypass -File tools\desktop\package_win.ps1`.
+- **Bản web:** GitHub Pages của repo, hoặc mở bằng server local: `python -m http.server 8765` rồi vào `http://localhost:8765` (đừng mở bằng file:// khi test cập nhật).
+- **Phím:** `Space` mở crate · `1–5` chọn thẻ · `Q/W/E` phép · `R` lò phản ứng · `Esc/P` tạm dừng · `F11` toàn màn hình (desktop).
+
+## Quy trình phát hành (mỗi version)
+
+1. Tăng version ở `index.html` **và** `version.json` (cùng số; ghi chú cho người chơi bằng tiếng Anh). `tools/bump.ps1` làm cả hai.
+2. Ghi `CHANGELOG.md`, tick `docs/ROADMAP.md`, cập nhật mục “Đã/đang/sẽ” ở README này + `CLAUDE.md`.
+3. `node --check src/*.js`, test headless (Playwright + Chrome) — xem `CLAUDE.md` mục Testing; cân bằng: `python tools/sim/run.py --runs 2`.
+4. `git push` lên `main` (GitHub Pages tự cập nhật; game hiện bảng “Update available”). Trên máy Duy: `git pull` trong `D:\GITHUB\HOPEFIRE`, build lại bản Windows.
 
 ## Cấu trúc
 
 ```
-index.html        khung HTML + HUD
-css/style.css     giao diện
-src/data.js       số liệu: module, quái, độ hiếm, nâng cấp, chapter
-src/core.js       lưu game (localStorage) + tiện ích
-src/audio.js      âm thanh tổng hợp bằng WebAudio (không dùng file)
-src/sprites.js    nạp atlas sprite, vẽ pixel-art phóng to theo số nguyên (thiếu thì vẽ bằng code)
-src/render.js     canvas, ánh sáng/bóng tối, vẽ tàu/module/quái/hiệu ứng
-src/game.js       logic 1 lượt chơi: spawn, AI quái, bắn, Hope, boss
-src/spells.js     thẻ phép (Solar Flare, Cryo Nova, Overcharge, Emergency Cell, Shock Pulse)
-src/relics.js     relic bị động (tối đa 3/lượt)
-src/progress.js   thành tựu, thống kê, settings, tự dùng phép
-src/cutscene.js   cutscene mở đầu + màn kết, dựng trong engine
-src/update.js     kiểm tra bản mới (version.json) + bảng cập nhật
-src/ui.js         menu, mở thùng, chọn thẻ, hướng dẫn, kết thúc lượt
-src/main.js       vòng lặp game
-docs/DESIGN.md    thiết kế game
-docs/ROADMAP.md   lộ trình tới Steam
-docs/REVIEW_PROMPT.md  prompt tự review toàn diện game (chạy lại mỗi version lớn)
-docs/BUSINESS_LEGAL.md pháp lý, thuế VN/Mỹ, Steam, tiền thực nhận
-version.json      version mới nhất + ghi chú cập nhật (game đọc file này)
-tools/bump.ps1    tăng version 1 lệnh
-tools/sprites/build.py  tạo sprite pixel-art → assets/sprites.png/.json/.js
-assets/           atlas sprite (xem docs/ASSETS.md)
-CHANGELOG.md      lịch sử phiên bản
+index.html            khung HTML + HUD; nạp assets/sprites.js rồi src/*.js theo thứ tự cố định
+css/style.css         giao diện (UI tự phóng to theo màn hình qua biến --uz)
+src/data.js           số liệu: module, quái, độ hiếm, nâng cấp, boss, cân bằng (CH_HP, CH_DMG, NM…)
+src/core.js           lưu game (localStorage 'hopefire_v1', merge với defMeta) + tiện ích
+src/audio.js          âm thanh tổng hợp WebAudio (không dùng file)
+src/render.js         canvas, ánh sáng/bóng tối, vẽ tàu/module/quái/hiệu ứng, nền đất
+src/sprites.js        atlas sprite; sprite AI vẽ đúng kích thước thế giới (meta px), icon HTML ico()
+src/game.js           logic 1 lượt: spawn, AI quái, bắn, Hope, boss, hiệu ứng chết
+src/spells.js         5 phép
+src/relics.js         8 relic
+src/progress.js       thành tựu, thống kê, settings, autocast
+src/cutscene.js       cutscene mở đầu + màn kết
+src/update.js         kiểm tra bản mới (tắt trong bản desktop: window.HF_DESKTOP)
+src/crate.js          Crate 2.0: nghi thức mở, thẻ, thanh build, % DPS, hệ, bảng thông tin hệ
+src/ui.js             menu, chọn thẻ (pick), HUD, hướng dẫn, kết thúc lượt
+src/main.js           vòng lặp game (hit-stop, slow-mo)
+assets/ai/            sprite AI đã xử lý (PNG + JSON) — build.py ưu tiên dùng
+tools/sprites/        build.py (atlas), import_ai.py (tách nền magenta, cắt, mắt, khung đi bộ)
+tools/sim/            bot chơi cả chiến dịch để cân bằng
+tools/desktop/        Electron: main.js, preload.js, icon, package_win.ps1
+store/                key art, logo, capsule Steam, ảnh chụp, trailer nháp
+docs/                 DESIGN, ROADMAP, REVIEW_PROMPT, BUSINESS_LEGAL, STEAM_PAGE, STORE_ART, ASSETS
 ```
 
-## Ghi chú
+## Quy trình đồ họa AI (đã kiểm chứng)
 
-- Sprite pixel-art tạo bằng `tools/sprites/build.py` (xem `docs/ASSETS.md` để thay bằng hình vẽ tay).
-- Save nằm trong `localStorage` của trình duyệt (key `hopefire_v1`).
-- © duyluma. All rights reserved.
+1. Trong ChatGPT (cùng cuộc chat “Create Pixel Art Key Art” để giữ phong cách): yêu cầu sprite sheet **cùng phong cách key art, góc 3/4, quay sang phải, không bóng đổ, nền magenta #FF00FF phẳng, nhiều khoảng trống, không chữ**.
+2. Tải ảnh về `D:\DOWNLOADS` → chép vào `store/<tên>_v1.png`.
+3. `python3 tools/sprites/import_ai.py store/<sheet>.png ten1,ten2,... rong1,rong2,... [--cols 4] [--frames 4|1] [--legs 0.3] [--strict]` (dùng `--strict` nếu art có màu tím). Tên trùng sprite cũ sẽ ghi đè.
+4. `python3 tools/sprites/build.py` → atlas mới. Khai báo AI trên Steam (đoạn mẫu trong `docs/STEAM_PAGE.md`).

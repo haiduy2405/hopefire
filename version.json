@@ -1,10 +1,10 @@
 {
-  "version": "0.8.1",
+  "version": "0.8.2",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "All 5 bosses redrawn: bigger, scarier, fully animated",
-    "New planet floor: rocks, glowing crystals, alien plants and ship wreckage",
-    "Interface scales up on big screens (1080p, 1440p, 4K)"
+    "Salvage crates reborn: the crate's glow hints at its best card, cards flip one by one with rarity sounds",
+    "Every card now shows how much it changes your team DPS and which synergy it activates (or breaks)",
+    "New build bar while choosing + tap any element for its full bonuses and module list"
   ]
 }
