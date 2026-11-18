@@ -9,7 +9,7 @@ const UPDATE_EVERY=60000;
 let UPD=null;
 function cmpVer(a,b){const pa=String(a).split('.').map(Number),pb=String(b).split('.').map(Number);for(let i=0;i<3;i++){const d=(pa[i]||0)-(pb[i]||0);if(d)return d}return 0}
 async function checkUpdate(){
-  if(VERSION==='dev')return;
+  if(VERSION==='dev'||window.HF_DESKTOP)return; // desktop/Steam build: no online update check (Steam updates the game)
   try{
     const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;
     const j=await r.json();
