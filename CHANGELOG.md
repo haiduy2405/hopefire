@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.11.0 — 2026-11-18
+- AI art (ChatGPT, pixel-art key-art style) in `assets/ui/`: crate_closed/opening/open, hud_hope, hud_boss, hud_medal, kit_panel, kit_plaque, card_common/rare/epic/legend. Cut from magenta sheets with `tools/sprites/import_ui.py` (`--hollow` punches the black centre).
+- HOPE bar: framed DOM bar (`#hopetrk` sits in the frame hollow), shine sweep, red pulse when low. HUD is 80px tall (arena offset `top=80*UZ` in render.js).
+- Boss bar: canvas `drawBossBar()` with frame, damage-chip trail, quarter ticks, armored tint, slide-in.
+- Crate scene: 9-slice `border-image` panel, plaque headers, per-rarity card frames, crate image swaps closed → opening → open. CSS asset urls are `../assets/ui/…` (relative to css/).
+- package_win.ps1 now also copies assets/ui, assets/vo, assets/music (previously only sprites were packaged).
+- Disclose these as AI-generated on Steam.
+
 ## v0.10.1 — 2026-11-18
 - Electron: starts fullscreen; window mode saved in userData/window.json (fullscreen, borderless frameless, maximized, windowed); Options → Window mode (`HF_WIN` in preload). Borderless recreates the window.
 - Build bar has a fixed height (hovering a card no longer wraps/unwraps it and re-centres the panel); hover lifts replaced by in-place scale so the pointer never leaves the hit area at an edge (no flicker). Probe: tools/test/shift_test.py.

@@ -16,6 +16,7 @@ $app = "$out\resources\app"; New-Item -ItemType Directory -Force "$app\assets" |
 Copy-Item "$root\index.html","$root\version.json" $app
 Copy-Item "$root\css","$root\src" $app -Recurse
 Copy-Item "$root\assets\sprites.png","$root\assets\sprites.js","$root\assets\sprites.json" "$app\assets"
+foreach ($d in "ui","vo","music") { if (Test-Path "$root\assets\$d") { Copy-Item "$root\assets\$d" "$app\assets" -Recurse -Force } }
 Copy-Item "$PSScriptRoot\main.js","$PSScriptRoot\preload.js","$PSScriptRoot\package.json","$PSScriptRoot\icon.png" $app
 # icon + version info (needs Node.js)
 if (Get-Command node -ErrorAction SilentlyContinue) {
