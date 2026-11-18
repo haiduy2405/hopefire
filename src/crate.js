@@ -171,3 +171,26 @@ function synCelebrate(prev){
     for(const h of R.mods)if(h.t.ty===k){R.fx.push({type:'ring',x:h.x,y:h.y*K,r0:6,r1:46,t:0.6,T:0.6,c:TYPES[k].c});for(let j=0;j<10;j++)R.pt.push({x:h.x,y:h.y*K-14,vx:rnd(-60,60),vy:rnd(-160,-60),t:rnd(.4,.8),c:TYPES[k].c,s:3,g:120,add:1})}
     R.fx.push({type:'ring',x:0,y:0,r0:20,r1:ringR()*0.9,t:0.7,T:0.7,c:TYPES[k].c});}}
 }
+
+// ---------- LOADOUT panel (review everything you picked this run) ----------
+function showLoadout(){
+  if(!R||R.over||curCards||CUT)return;const was=R.paused;R.paused=true;sfx('click');
+  const syn=synOf(R.mods),tot=teamDps(R.mods)||1;
+  const mods=R.mods.map(h=>{const k=h.t.ty,c=TYPES[k].c,p=modPow(h,syn)*(1+0.15*lv('dmg')),m=TYPE_MOD[k];
+    return `<div class="lom" style="--rc:${RAR[h.r].c};--ec:${c}">${ico('mod_'+k,0.9,0,'')}<div class="lomi"><div class="lomn">${h.t.n} <span class="lst">${'★'.repeat(Math.min(h.s,5))}${h.s>5?'+':''}</span></div>
+      <div class="lomr" style="color:${RAR[h.r].c}">${RAR[h.r].n}</div>${elemBadge(k)}
+      <div class="loms">${fmt(h.t.dmg*m.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier))} dmg · ${(h.t.rate*m.rate).toFixed(1)}/s · ${h.t.c==='drone'?'anywhere':h.t.range+' range'}${h.t.aoe?' · area':''}</div>
+      <div class="lomb"><i style="width:${Math.round(p/tot*100)}%;background:${c}"></i><span>${fmt(p)} DPS · ${Math.round(p/tot*100)}%</span></div></div></div>`}).join('')||'<div class="loe">No modules yet — open a crate.</div>';
+  let syns='';for(const k in TYPES){const n=syn[k]||0,t=synTier(n);syns+=`<div class="los${t?' on':''}" data-el="${k}" style="--ec:${TYPES[k].c}"><div class="losh"><b>${k}</b><span class="lp">${pips(k,n)}</span></div><span>${t===2?ELEM_INFO[k].t4:t===1?ELEM_INFO[k].t2:n?`${2-n} more for +25% dmg`:'—'}</span></div>`}
+  const sp=R.spells.map((s,i)=>`<div class="lox" style="--rc:${RAR[s.r].c}">${ico('sp_'+s.d.id,2,0,s.d.g)}<div><b>${s.d.n}</b> <span class="lst">Lv${s.lv}</span> <span class="lok">${'QWE'[i]}</span><div class="loms">${s.d.d} · cooldown ${Math.round(spellCd(s))}s</div></div></div>`).join('')||'<div class="loe">No spells yet.</div>';
+  const rl=R.relics.map(id=>{const r=RELICS.find(x=>x.id===id);return `<div class="lox" style="--rc:#ffd24a">${ico('rl_'+r.id,2,0,r.g)}<div><b>${r.n}</b><div class="loms">${r.d}</div></div></div>`}).join('')||`<div class="loe">No relics yet (max ${maxRelics()}).</div>`;
+  const d=document.createElement('div');d.id='loadout';
+  d.innerHTML=`<div class="panel lopanel"><div class="lohead"><h2>LOADOUT</h2><div class="lodps">TEAM DPS <b>${fmt(tot)}</b> · Modules ${R.mods.length}/${R.slots} · Spells ${R.spells.length}/${MAX_SPELLS} · Relics ${R.relics.length}/${maxRelics()}</div></div>
+    <div class="losec">MODULES</div><div class="lomods">${mods}</div>
+    <div class="losec">SYNERGIES <small>tap for details</small></div><div class="losyn">${syns}</div>
+    <div class="lo2"><div><div class="losec">SPELLS</div>${sp}</div><div><div class="losec">RELICS</div>${rl}</div></div>
+    <div class="center"><button class="big" id="loClose">BACK TO BATTLE ▸</button><div class="chhelp">Tab / Esc to close</div></div></div>`;
+  document.body.appendChild(d);bindElemBadges(d);
+  const close=()=>{d.remove();if(R&&!was)R.paused=false;sfx('click')};$('loClose').onclick=close;d.onclick=e=>{if(e.target===d)close()};d._close=close;
+}
+function closeLoadout(){const d=$('loadout');if(d&&d._close)d._close()}

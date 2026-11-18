@@ -2,11 +2,11 @@
 // ===== UI =====
 function renderChips(){
   if(!R)return;let h='';
-  for(const x of R.mods)h+=`<span class="chip" style="border-color:${RAR[x.r].c}">${ico('c_'+x.t.c+'_'+x.t.ty,1,0,`<span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>`)}<span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
+  for(const x of R.mods)h+=`<span class="chip lochip" style="border-color:${RAR[x.r].c}">${ico('c_'+x.t.c+'_'+x.t.ty,1,0,`<span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>`)}<span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
   for(let i=R.mods.length;i<R.slots;i++)h+=`<span class="chip" style="opacity:.3">—</span>`;
-  for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip" title="${rl.n}: ${rl.d}">${ico('rl_'+rl.id,1,0,rl.g)}</span>`}
+  for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip lochip" title="${rl.n}: ${rl.d}">${ico('rl_'+rl.id,1,0,rl.g)}</span>`}
   for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}${n>=4?' max':''}" data-el="${k}" style="color:${TYPES[k].c};border-color:${TYPES[k].c};--ec:${TYPES[k].c}" title="Tap for ${k} bonuses">${k[0]}<span class="cn">${k.slice(1)}</span> ${pips(k,n)}</span>`}
-  $('row1').innerHTML=h;bindElemBadges($('row1'));
+  $('row1').innerHTML=h;bindElemBadges($('row1'));$('row1').querySelectorAll('.lochip').forEach(c=>c.onclick=()=>showLoadout());
 }
 let hudT=0;
 function hud(dt){
@@ -102,7 +102,7 @@ function menu(){
   bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('endBtn',()=>startEnding('menu'));
   bind('endlessBtn',()=>{hide();newRun(MAXCH,true)});
 }
-$('packBtn').onclick=openPack;
+$('packBtn').onclick=openPack;$('loadBtn').onclick=()=>showLoadout();
 function togglePause(force){
   if(!R||R.over||R.paused||CUT)return;const on=force!==undefined?force:!R.userPause;if(on===!!R.userPause)return;R.userPause=on;
   $('pauseBtn').textContent=on?'▶':'II';sfx('click');
@@ -118,6 +118,6 @@ $('reactBtn').onclick=()=>{if(!R||R.over)return;sfx('click');R.react=(R.react+1)
 $('muteBtn').onclick=()=>{meta.muted=!meta.muted;save();audioInit();applyVolume();$('muteBtn').textContent=meta.muted?'🔇':'🔊'};
 $('muteBtn').textContent=meta.muted?'🔇':'🔊';
 $('quitBtn').onclick=()=>{const b=$('quitBtn');if(!R||R.over||R.paused)return;if(b.dataset.c){delete b.dataset.c;b.textContent='✕';endRun(false)}else{b.dataset.c=1;b.textContent='?';setTimeout(()=>{delete b.dataset.c;b.textContent='✕'},1500)}};
-addEventListener('keydown',e=>{if($('einfo')&&(e.code==='Escape'||e.code==='Space')){$('einfo').click();e.preventDefault();return}if(e.code==='Escape'||e.code==='KeyP'){togglePause();return}if(R&&R.userPause)return;if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else if($('crateEl'))$('crateEl').click();else openPack()}else if(curCards&&/^Digit[1-5]$/.test(e.code)&&modal.querySelector('.card')&&+e.code[5]<=curCards.length)pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});
+addEventListener('keydown',e=>{if($('einfo')&&(e.code==='Escape'||e.code==='Space')){$('einfo').click();e.preventDefault();return}if($('loadout')&&(e.code==='Escape'||e.code==='Tab')){closeLoadout();e.preventDefault();return}if(e.code==='Tab'){e.preventDefault();showLoadout();return}if(e.code==='Escape'||e.code==='KeyP'){togglePause();return}if(R&&R.userPause)return;if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else if($('crateEl'))$('crateEl').click();else openPack()}else if(curCards&&/^Digit[1-5]$/.test(e.code)&&modal.querySelector('.card')&&+e.code[5]<=curCards.length)pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});
 
 function countUp(el,v,pre,suf){if(!el)return;const t0=performance.now(),D=900;const f=()=>{const p=Math.min(1,(performance.now()-t0)/D),e=1-Math.pow(1-p,3);el.textContent=pre+fmt(Math.floor(v*e))+suf;if(p<1){if(Math.random()<0.5)sfx('pick');requestAnimationFrame(f)}else{el.classList.add('done');sfx('up')}};f()}
