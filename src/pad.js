@@ -32,7 +32,8 @@ function padNextFocus(cur,dir,root){
     if(prim<=4)continue;const s=prim+2*cross;if(s<bs){bs=s;best=e}}
   return best;
 }
-function padSetFocus(e){if(PAD.fi)PAD.fi.classList.remove('padfocus');PAD.fi=e;if(e){e.classList.add('padfocus');try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}}
+function padHover(e,on){if(e&&e.classList.contains('card'))try{e.dispatchEvent(new MouseEvent(on?'mouseenter':'mouseleave'))}catch(_){}}   // same preview (team DPS change in the build bar) as mouse hover
+function padSetFocus(e){if(PAD.fi){PAD.fi.classList.remove('padfocus');if(PAD.fi!==e)padHover(PAD.fi,false)}PAD.fi=e;if(e){e.classList.add('padfocus');padHover(e,true);try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}}
 function padBack(layer){
   const id=layer&&layer.id;
   if(id==='einfo')layer.click();

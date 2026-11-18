@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.12 — 2026-11-18
+- Gamepad: focusing a card fires the same hover preview as the mouse (`padHover` → `mouseenter`/`mouseleave`), so TEAM DPS in the build bar updates while browsing cards with the pad.
+
 ## v0.9.11 — 2026-11-18
 - Key labels follow the input device: `spKey(i)` / `confirmKey()` (src/core.js, `PADMODE` set by pad.js) show X/Y/B and A (or □△○ ✕ on PlayStation pads) instead of Q/W/E and Space on the spell bar, spell cards, loadout, lock hint and tutorial tips; switch back to keys when the mouse/keyboard is used.
 
