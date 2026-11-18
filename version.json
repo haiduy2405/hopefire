@@ -1,8 +1,8 @@
 {
-  "version": "0.13.3",
+  "version": "0.13.4",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Two new late-game creatures: Mender (heals other creatures - kill it first) and Leaper (crouches, then leaps onto the ship)"
+    "Smoother menus (animations moved off the CPU), smaller crate art in the crate screen"
   ]
 }

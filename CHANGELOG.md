@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.13.4 — 2026-11-18
+- **Menu perf**: shine sweeps/breathe/upready now animate `transform` only (were `left`/box-shadow/filter = layout+repaint every frame); removed `filter:drop-shadow` from big panels (.panel, .chpanel/.crpanel) and tiles (.up/.ach/.slot) in favour of cheap box-shadow. Headless software render hub: 11 → 53 fps.
+- **Crate screen**: crate art 250 → 170 px in a fixed 184 px box (no layout shift between closed/open art), hint no longer overlaps.
+
 ## v0.13.3 — 2026-11-18
 - New creatures in src/threat.js: **Mender** (site 4+, heals creatures within 140 every 2.6 s for 14% max HP; priority target) and **Leaper** (site 3+, crouch telegraph then 0.75 s leap onto the hull, untargetable while airborne via `e.air`; render lifts the sprite). AI sprites assets/ai/mender, leaper. Spawn weights tuned by sim (all content ~222 min).
 
