@@ -1,10 +1,10 @@
 {
-  "version": "0.14.2",
+  "version": "0.15.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "New heavy hull-mounted main cannon for the ship",
-    "Menu music now starts immediately on the title screen",
-    "Big hordes no longer cause frame-rate stutter"
+    "8 languages: English, Tiếng Việt, 简体中文, Español, Português (Brasil), Русский, Deutsch, 日本語 (Options → Gameplay → Language)",
+    "Voice-over stays English; subtitles and all UI are translated",
+    "Translations are best-effort — tell us if something reads wrong"
   ]
 }

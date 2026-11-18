@@ -87,7 +87,7 @@ function panelOptions(back){
     audio:rng('oVol','vol','Sound effects')+rng('oMus','mus','Music')+rng('oVoice','voice','Voice')+chk('oMute',meta.muted,'Mute all'),
     video:`<label class="orow"><span>Interface size</span><select id="oUi">${[[0,'Auto'],[1,'100%'],[1.25,'125%'],[1.5,'150%'],[1.75,'175%']].map(([v,l])=>`<option value="${v}" ${S_.uiScale==v?'selected':''}>${l}</option>`).join('')}</select></label>`
       +(window.HF_WIN?`<label class="orow"><span>Window mode<small>F11 toggles fullscreen</small></span><select id="oWin">${[['fullscreen','Fullscreen'],['borderless','Borderless window'],['maximized','Maximized window'],['windowed','Windowed']].map(([v,l])=>`<option value="${v}" ${HF_WIN.get()===v?'selected':''}>${l}</option>`).join('')}</select></label>`:chk('oFull',!!document.fullscreenElement,'Fullscreen','F11'))+chk('oShake',S_.shake,'Screen shake')+chk('oFlash',S_.flashes,'Screen flashes','turn off if flashes bother you')+chk('oNums',S_.nums,'Damage numbers'),
-    game:`<label class="orow"><span>Default game speed</span><select id="oSpd">${[1,2,3].map(v=>`<option ${S_.spd===v?'selected':''} value="${v}">${v}x</option>`).join('')}</select></label>`
+    game:`<label class="orow"><span>Language</span><select id="oLang">${LANG_LIST.filter(l=>l[0]==='en'||langHas(l[0])).map(([c,n])=>`<option value="${c}" ${I18N.lang===c?'selected':''}>${n}</option>`).join('')}</select></label>`+`<label class="orow"><span>Default game speed</span><select id="oSpd">${[1,2,3].map(v=>`<option ${S_.spd===v?'selected':''} value="${v}">${v}x</option>`).join('')}</select></label>`
       +chk('oLock',S_.lockGame!==0,'Crate lock mini-game','off = crates open instantly')
       +chk('oRumble',S_.rumble!==0,'Controller vibration')
       +chk('oFps',!!S_.fps,'Show FPS overlay','also F3 · helps report performance')
@@ -105,6 +105,7 @@ function panelOptions(back){
   slide('oVol','vol',applyVolume);slide('oMus','mus',applyVolume);slide('oVoice','voice');
   on('oVol','onchange',()=>sfx('kill'));on('oVoice','onchange',()=>vo('synergy',1));
   on('oMute','onchange',e=>{meta.muted=e.target.checked;SETTINGS.muted=meta.muted;applyVolume();$('muteBtn').textContent=meta.muted?'🔇':'🔊';save()});
+  on('oLang','onchange',e=>{setLang(e.target.value);panelOptions(back)});
   on('oUi','onchange',e=>{S_.uiScale=+e.target.value;save();resize()});
   on('oWin','onchange',e=>{try{HF_WIN.set(e.target.value)}catch(_){}});
   on('oFull','onchange',e=>{try{e.target.checked?document.documentElement.requestFullscreen():document.exitFullscreen()}catch(_){}});

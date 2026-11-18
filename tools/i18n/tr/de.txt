@@ -1,0 +1,697 @@
+0|Space
+1|Kommandant
+2|Daten beschädigt, Sicherung wird verwendet
+3|+{0}% Schaden für jedes Thermal-Modul
+4|Treffer setzen Kreaturen in Brand: {0}% des Treffers brennen {1} s lang nach
+5|Schwere Einzeltreffer. Am besten gegen Brutes und Bosse.
+6|+{0}% Schaden für jedes Cryo-Modul
+7|Jeder Treffer verlangsamt Kreaturen um {0}%
+8|Schnelles Feuer + Kälte. Verschafft Zeit, wenn der Ring überläuft.
+9|+{0}% Schaden für jedes Arc-Modul
+10|Treffer springen als Blitz auf {0} nahe Kreaturen über ({1}% Schaden)
+11|Stark gegen Schwärme aus Crawlern und Skittern.
+12|+{0}% Schaden für jedes Nano-Modul
+13|Das Schiff regeneriert {0}% Hoffnung pro Sekunde
+14|Überleben. Treffer füllen Hoffnung auf; passt gut zu Overdrive.
+15|IMMER
+16|REAKTIONEN
+17|irgendwo tippen zum Schließen
+18|Noch keine Module — {0} eines Elements = Synergie
+19|TEAM-DPS
+20|★{0} → ★{1} UPGRADE
+21|Ersetzt {0}
+22|Neues Modul
+23|✦ {0} {1} AKTIV
+24|{0}/{1} bis zum nächsten {2}-Bonus
+25|⚠ bricht {0} {1}
+26|{0} TEAM-DPS {1}%
+27|{0} Schaden · {1}/s · {2}
+28|Stf{0} → Stf{1}
+29|Neuer Zauber · {0}
+30|{0} · ZAUBER
+31|Abklingzeit {0}s{1} · tippen oder {2}
+32|BERGUNGSKISTE
+33|SELTEN
+34|EPISCH
+35|LEGENDÄR
+36|PERFEKT!
+37|DANEBEN
+38|JACKPOT! +{0} KARTE
+39|Schloss {0} / {1} — schneller!
+40|WÄHLE EINES
+41|Verschrotten (+{0}% Erstattung)
+42|Tippe auf ein Element-Symbol für Details · {0}
+43|RELIKT
+44|Passiv · hält diesen Durchgang
+45|Relikt {0}/{1}
+46|{0} SYNERGIE {1}
+47|{0} DPS · {1}%
+48|Noch keine Module — öffne eine Kiste.
+49|Stf{0}
+50|{0} · Abklingzeit {1}s
+51|Noch keine Zauber.
+52|Noch keine Relikte (max. {0}).
+53|Noch keine Crew — Crew-Karten erscheinen in Kisten (max. {0}).
+54|AUSRÜSTUNG
+55|· Module {0}/{1} · Zauber {2}/{3} · Relikte {4}/{5}
+56|MODULE
+57|CREW {0}/{1}
+58|SYNERGIEN
+59|tippen für Details
+60|ZAUBER
+61|RELIKTE
+62|ZURÜCK IN DEN KAMPF ▸
+63|Tab / Esc zum Schließen
+64|Guardian
+65|Hält die Linie nahe am Rumpf. Kreaturen in seiner Nähe greifen
+66|ihn statt des Schiffs an. Trifft alle in Reichweite.
+67|Hunter
+68|Sprintet los, um zu töten. Jagt dein
+69|MARKIERTES
+70|Ziel zuerst, dann Carrier und schnelle Kreaturen. Sprung verursacht {0}× Schaden.
+71|Medic
+72|Repariert
+73|Hoffnung
+74|über Zeit und flickt die Crew. Schwacher Blaster.
+75|Engineer
+76|Stimmt das Modul neben sich ab:
+77|deutlich höhere Feuerrate
+78|. Wechselt zwischen Modulen.
+79|{0} Flächenschaden · {1} LP · zieht Angriffe an
+80|{0} Schaden · {1}/s · {2} LP
+81|+{0}% Hoffnung/s · heilt Crew
+82|+{0}% Feuerrate für ein Modul
+83|TRITT BEI
+84|Crew-Mitglied!
+85|Die Crew läuft im Ring und kämpft. Ihr Element löst ebenfalls
+86|Reaktionen aus. Max. {0} — erhalte dieselbe Rolle erneut für
+87|SPRUNG
+88|AM BODEN
+89|◆ CARRIER GESICHTET
+90|Markiere ihn (tippen) und töte ihn vor der Flucht: GRATIS-Kiste
+91|Carrier
+92|schleppt Bergungsgut um den Ring! Er greift nicht an — er flieht.
+93|Tippe ihn an, um ihn zu MARKIEREN
+94|: deine Module fokussieren ihn und er erleidet +{0}% Schaden. Töte ihn für eine
+95|GRATIS-KISTE
+96|CARRIER ENTKOMMEN
+97|Markiere den nächsten früher
+98|GRATIS-KISTE!
+99|KOPFGELD +
+100|Neue Crew · {0}/{1}
+101|{0} · CREW
+102|S.V. HOPE — Tiefraum-Forschungsschiff
+103|Rumpfbruch. Triebwerke fallen aus.
+104|RUMPF {0}%   ·   TRIEBWERK AUS
+105|HAUPTENERGIE {0}%   ·   HITZESTRAHL: ???
+106|Wo... bin ich?
+107|...Ich bin nicht allein.
+108|...aber jeder Schuss zehrt die letzte Energie auf.
+109|Die Kanone... funktioniert noch?
+110|🔥 HOFFNUNG
+111|HOPEFIRE
+112|Wenn alle Hoffnung verloren ist, feuert das Schiff weiter.
+113|— tippen zum Starten —
+114|Das letzte Teil rastet ein.
+115|Haupttriebwerk... online.
+116|Sie spüren es. Alle.
+117|Die S.V. HOPE verlässt den Orbit.
+118|SOL III  ·  ERDE
+119|ZEITVERSCHIEBUNG  +{0} JAHRE
+120|DANKE FÜRS SPIELEN
+121|ein Spiel von duyluma
+122|∞ Endless Wastes freigeschaltet
+123|— tippen zum Fortfahren —
+124|GEWÖHNLICH
+125|Brennt {0}%/s
+126|Verlangsamt {0}%
+127|Springt auf {0}
+128|Hoffnungsregen. {0}%/s
+129|Kurzer Strahl, Splash
+130|Große Reichweite, schnell
+131|Geschoss im Bogen, Fläche
+132|Flame Lance
+133|Thermal
+134|Heat Rail
+135|Magma Mortar
+136|Frost Lance
+137|Cryo
+138|Cryo Rail
+139|Hail Mortar
+140|Arc Lance
+141|Arc
+142|Volt Rail
+143|Storm Mortar
+144|Nano Lance
+145|Nano
+146|Swarm Rail
+147|Mender Mortar
+148|Crash Site
+149|Research Wreck
+150|Mining Hulk
+151|War Graveyard
+152|The Origin
+153|NIEDRIG
+154|NORMAL
+155|OVERDRIVE
+156|Modulschaden
+157|+{0}% Schaden
+158|Hoffnungskapazität
+159|+{0}% max. Hoffnung
+160|Hitzestrahl
+161|+{0}% Kanonenschaden
+162|Schrottbergung
+163|+{0}% Schrott
+164|Start-Schrott
+165|+{0} Schrott
+166|Feuerrate
+167|+{0}% Feuerrate
+168|Kistenglück
+169|+{0}% Chance auf Selten
+170|Hoffnungseffizienz
+171|-{0}% Hoffnungsverlust
+172|Kistenrabatt
+173|-{0}% Kistenpreis
+174|Modulplätze
+175|{0} Plätze
+176|Drohne: jagt überall im Ring
+177|Ember Drone
+178|Frost Drone
+179|Spark Drone
+180|Nano Drone
+181|THE DEVOURER
+182|Er hat den Navigationskern verschlungen.
+183|BROOD MOTHER
+184|Gebiert Crawler, während sie sich nähert.
+185|THE CRUSHER
+186|Gepanzert. Nur nach einem Ansturm verwundbar.
+187|PHANTOM WARLORD
+188|Blinkt mit seiner Garde durch die Dunkelheit.
+189|THE ORIGIN
+190|Die Quelle von allem. Es nährt sich von deinem Licht.
+191|Zauber automatisch wirken
+192|Zauber wirken sich selbst
+193|Schwere Treffer: +{0}% Schaden, feuert langsamer
+194|Schnelles Feuer, {0}% Chance auf Frost
+195|Jeder Treffer springt auf {0} weitere Kreatur über ({1}%)
+196|Jeder Treffer stellt etwas Hoffnung wieder her
+197|Kritische Treffer
+198|{0}% Krit-Chance (×{1} Schaden)
+199|Second Wind
+200|Einmal pro Durchgang: Wiederbelebung mit {0}% Hoffnung
+201|Kern-Raffinerie
+202|+{0}% Xeno-Kerne
+203|Lange Läufe
+204|+{0}% Modulreichweite
+205|Tiefenbergung
+206|Kisten zeigen +{0} Karte
+207|Feldausrüstung
+208|Starte mit {0} zufälligen Modul(en)
+209|Kondensatoren
+210|-{0}% Zauber-Abklingzeit
+211|Relikt-Bucht
+212|{0} Reliktplätze
+213|Kopfgeldjäger
+214|+{0}% Schaden gegen Bosse
+215|Zellen-Recycler
+216|+{0}% Energiezellen
+217|Overclock ∞
+218|+{0}% auf allen Schaden
+219|Dem Planeten entkommen
+220|Schließe ☠ Crash Site ab
+221|Schließe ☠ Research Wreck ab
+222|Schließe ☠ Mining Hulk ab
+223|Schließe ☠ War Graveyard ab
+224|Schließe ☠ The Origin ab
+225|ENDLESS WASTES
+226|Wie lange hält die Hoffnung?
+227|Gebiet
+228|WARP → BEDROHUNG
+229|☠ ALPTRAUM ·
+230|Kreaturen ×
+231|LP · Xeno-Kerne ×
+232|Dein Schiff ist zerstört. Die Kreaturen da draußen sind
+233|— sie spüren dich nur innerhalb des
+234|Dein Hitzestrahl feuert noch. Halte die
+235|über null.
+236|⚛ REAKTOR freigeschaltet
+237|(Knopf unten rechts, Taste
+238|). Er legt fest, wie viel Energie das Schiff verbrennt:
+239|kleinerer Ring = weniger Kreaturen bemerken dich, aber weniger Schaden und Beute.
+240|Nutze ihn bei niedriger Hoffnung.
+241|+{0}% Schaden,
+242|×{0} Schrott & Kerne
+243|= Kisten kommen schneller, aber mit
+244|größerem Ring
+245|und mehr Kreaturen.
+246|Nutze ihn, wenn deine Verteidigung stark ist.
+247|Neue Kreatur:
+248|Spitter
+249|halten Abstand und spucken Säure. Weitreichende
+250|Rail
+251|erledigen sie am besten.
+252|Bloater
+253|explodieren am Rumpf — töte sie früh, ihre Explosion verletzt andere Kreaturen.
+254|Wisp
+255|fliegen: Mörser verursachen nur halben Schaden an ihnen.
+256|Phantom
+257|sind getarnt, bis sie nah sind. Flächenschaden trifft sie trotzdem.
+258|Splitter
+259|zerplatzen beim Tod in Skitter. Hier wartet etwas Uraltes...
+260|KRIT
+261|Grüne
+262|Energiezellen
+263|stellen HOFFNUNG wieder her. Töte Brutes für bessere Chancen.
+264|★ GEBIET GESCHAFFT ★
+265|Teil geborgen
+266|FÄLLT
+267|Dieses Ding
+268|hat ein Teil verschluckt, das wir brauchen
+269|um das Schiff zu reparieren. Bring es zu Fall!
+270|BETÄUBT
+271|ES NÄHRT SICH VON DEINEM LICHT
+272|THE ORIGIN IST WÜTEND
+273|⚠ ETWAS RIESIGES NÄHERT SICH ⚠
+274|BEDROHUNG
+275|+HOFFNUNG
+276|Wenig Hoffnung? Reaktor LOW (R) verbirgt dich
+277|SECOND WIND
+278|⚠ DIE HORDE STÜRMT ⚠
+279|Aus dem
+280|Die
+281|draußen im Dunkeln sammelt sich auf einer Seite. Ein
+282|kommt — mach dich bereit (Zauber, Reaktor LOW, Guardian).
+283|OSTEN
+284|SÜDOSTEN
+285|SÜDEN
+286|SÜDWESTEN
+287|WESTEN
+288|NORDWESTEN
+289|NORDEN
+290|NORDOSTEN
+291|· min
+292|Share
+293|Options
+294|Back
+295|Start
+296|Rechts
+297|Links
+298|Runter
+299|[{0}] Überspringen
+300|[{0}/{1}] Nadel stoppen   [{2}] Sofort öffnen
+301|[{0}] Kiste öffnen
+302|[Steuerkreuz] Bewegen   [{0}] Wählen   [{1}/{2}] Fortsetzen
+303|[Steuerkreuz] Bewegen   [{0}] Wählen   [{1}] Zurück
+304|[{0}] Kiste  [{1}] Zauber  [{2}/{3}] Markieren  [{4}] Reaktor  [{5}] Tempo  [{6}] Ausrüstung  [{7}] Pause
+305|TIPPE auf eine Farbe ·
+306|First Light
+307|Töte deine erste Kreatur
+308|Exterminator
+309|Töte {0} Kreaturen
+310|Apex Predator
+311|Scavenger
+312|Öffne {0} Bergungskisten
+313|Jackpot
+314|Finde eine legendäre Karte
+315|Arcane Engineer
+316|Wirke {0} Zauber
+317|Perfect Harmony
+318|Erreiche eine Synergie aus {0} Modulen
+319|Full Arsenal
+320|Habe {0} Module gleichzeitig
+321|Collector
+322|Trage {0} Relikte in einem Durchgang
+323|Devourer Down
+324|Besiege The Devourer
+325|Brood Breaker
+326|Besiege Brood Mother
+327|Crushed
+328|Besiege The Crusher
+329|Ghostbuster
+330|Besiege Phantom Warlord
+331|Origin Story
+332|Besiege The Origin
+333|Living Dangerously
+334|Besiege einen Boss auf OVERDRIVE
+335|Untouchable
+336|Schließe ein Gebiet ab, ohne dass die Hoffnung unter {0}% fällt
+337|Liftoff
+338|Repariere das Schiff und entkomme dem Planeten
+339|Nightmare: Crash Site
+340|Nightmare: Research Wreck
+341|Nightmare: Mining Hulk
+342|Nightmare: War Graveyard
+343|Nightmare: The Origin
+344|Beyond Limits
+345|Erreiche Overclock-Stufe {0}
+346|Endless Night
+347|Erreiche Bedrohung {0} in Endless
+348|Eternal Flame
+349|🏆 ERFOLGE {0}/{1}
+350|◂ ZURÜCK
+351|Durchgänge
+352|Getötete Kreaturen
+353|Geöffnete Kisten
+354|Gewirkte Zauber
+355|Besiegte Bosse
+356|Gefundene legendäre Karten
+357|Abgeschlossene Gebiete
+358|Höchste Endless-Bedrohung
+359|Zeit auf dem Planeten
+360|📊 STATISTIK
+361|Brand+Frost
+362|SHATTER
+363|Brand + Frost: eine große Schadensexplosion am Ziel und Splitter ringsum
+364|Brand+Schock
+365|OVERLOAD
+366|Brand + Schock: eine Explosion, die nahe Kreaturen verletzt und zurückstößt
+367|Frost+Schock
+368|SUPERCONDUCT
+369|Frost + Schock: Ziel und Nachbarn erleiden +{0}% Schaden für {1} s
+370|CONTAGION
+371|Nanobots + beliebig: der andere Status springt auf {0} Nachbarn über und repariert etwas Hoffnung
+372|{0}. Kombiniere Elemente, um Reaktionen auszulösen.
+373|Scavenger's Lens
+374|+{0}% Schrott durch Abschüsse
+375|Spare Battery
+376|Echo Scanner
+377|Kisten zeigen {0} Karten
+378|Glass Cannon
+379|+{0}% Modulschaden, Hoffnung sinkt {1}% schneller
+380|Dampener Coil
+381|Erkennungsring {0}% kleiner
+382|Core Magnet
+383|Hair Trigger
+384|Der Hitzestrahl feuert doppelt so schnell
+385|Static Hull
+386|Kreaturen, die das Schiff treffen, werden geschockt
+387|RELIKT:
+388|× SERIE
+389|GEPANZERT
+390|S.V. HOPE
+391|Ausgewogen. Das Schiff, das hier abstürzte.
+392|BULWARK
+393|+{0}% max. Hoffnung, Hoffnung sinkt {1}% langsamer, aber −{2}% Schaden.
+394|Schließe Gebiet {0} ab
+395|PRISM
+396|Startet mit einem Seltenen Modul gratis und +{0}% Chance auf Selten. Kisten kosten {1}% mehr.
+397|EMBER
+398|+{0}% Schaden und +{1}% Feuerrate, aber Hoffnung sinkt {2}% schneller.
+399|Beende die Geschichte
+400|Swarm
+401|{0}% mehr Kreaturen, jede mit {1}% weniger LP.
+402|Elite Hunt
+403|Jedes Wellenereignis bringt einen Elite.
+404|Glass Hope
+405|−{0}% max. Hoffnung, +{1}% Schaden.
+406|Famine
+407|{0}% weniger Schrott von Kreaturen.
+408|Frenzy
+409|Kreaturen bewegen sich {0}% schneller.
+410|🛰 SCHIFF & MUTATOREN
+411|SCHIFF
+412|MUTATOREN
+413|wähle bis zu {0} (Nr. {1} ersetzt das älteste) · härtere Durchgänge zahlen mehr ✦
+414|Hitzebonus:
+415|Solar Flare
+416|Versengt jede Kreatur im Ring
+417|Cryo Nova
+418|Friert Kreaturen im Ring ~{0}s lang ein
+419|Overcharge
+420|Module feuern ~{1}s lang {0}× schneller
+421|Emergency Cell
+422|Stellt sofort ~{0}% Hoffnung wieder her
+423|Shock Pulse
+424|Schleudert nahe Kreaturen weg & betäubt sie
+425|Zauber erhalten!
+426|Tippe darauf (oder drücke
+427|) zum Wirken. Lädt sich mit der Zeit auf.
+428|{0} · Stf{1}
+429|AUTO
+430|CRAWLER
+431|SKITTER
+432|BRUTE
+433|SPITTER
+434|BLOATER
+435|WISP
+436|PHANTOM
+437|SPLITTER
+438|CHARGER
+439|SHELLBACK
+440|HATCHER
+441|SCREAMER
+442|LURKER
+443|MENDER
+444|LEAPER
+445|Charger
+446|: hält an, blinkt rot und
+447|rammt das Schiff
+448|. Töte oder friere es während des Anlaufs ein.
+449|Shellback
+450|: gepanzert, erleidet nur {0}% Schaden.
+451|Brand
+452|ignoriert Panzerung — Thermal-Module schmelzen es.
+453|Hatcher
+454|: bleibt hinten und gebiert alle paar Sekunden Skitter. Zuerst ausschalten — tippen, um
+455|Screamer
+456|: sein Schrei macht nahe Kreaturen schneller. Töte ihn für eine
+457|Surge Cell
+458|Mender
+459|: heilt die Kreaturen um sich herum alle paar Sekunden. Markiere und töte es zuerst.
+460|Leaper
+461|: duckt sich, dann
+462|springt es aufs Schiff
+463|und kann in der Luft nicht getroffen werden. Einfrieren oder beim Ducken beschießen.
+464|Lurker
+465|brechen aus dem Boden
+466|deinen Ring. Achte auf die Risse.
+467|OVERCHARGE
+468|◆ ELITE
+469|— töte ihn für eine Surge Cell
+470|ELITE ERLEDIGT
+471|VERSTUMMT
+472|NEST ZERSTÖRT
+473|FEHLERFREI ×
+474|FEHLERFREI
+475|⚠ SCHWARM-ANSTURM ⚠
+476|⚠ HINTERHALT ⚠
+477|Etwas ist unter der Erde
+478|⚠ BELAGERUNG ⚠
+479|Fernkampf-Kreaturen beziehen Position —
+480|LEICHT
+481|Entspannt. Mehr Hoffnung, weichere Kreaturen.
+482|Das beabsichtigte Erlebnis.
+483|SCHWER
+484|Härtere Schwärme, klügere Bosse.
+485|HÖLLE
+486|Für Veteranen. Jeder Fehler ist tödlich.
+487|OPTIONEN
+488|CREDITS
+489|© {0} duyluma
+490|Geschichte abgeschlossen ★
+491|SLOT {0}
+492|Gespielt {0} · {1} Durchgänge
+493|Zuletzt: {0}
+494|SPIELEN
+495|UMBENENNEN
+496|LÖSCHEN
+497|Leerer Slot
+498|NEUES SPIEL
+499|SPIELSTAND WÄHLEN
+500|NEUES SPIEL · SLOT {0}
+501|Name des Kommandanten
+502|Schwierigkeit
+503|ABBRECHEN
+504|START ▸
+505|SLOT {0} UMBENENNEN
+506|SPEICHERN
+507|SLOT {0} LÖSCHEN?
+508|· {0} · {1} gespielt.
+509|Das kann nicht rückgängig gemacht werden.
+510|ERNEUT KLICKEN ZUM BESTÄTIGEN
+511|AUDIO
+512|VIDEO
+513|SPIELWEISE
+514|STEUERUNG
+515|Soundeffekte
+516|Musik
+517|Stimme
+518|Alles stummschalten
+519|Oberflächengröße
+520|Fenstermodus
+521|F{0} schaltet Vollbild um
+522|Vollbild
+523|Bildschirmwackeln
+524|Bildschirmblitze
+525|ausschalten, falls Blitze stören
+526|Schadenszahlen
+527|Standard-Spielgeschwindigkeit
+528|Schloss-Minispiel
+529|aus = Kisten öffnen sich sofort
+530|Controller-Vibration
+531|FPS anzeigen
+532|auch F{0} · hilft beim Melden von Leistung
+533|Speicherdaten
+534|Sicherungscode kopieren oder einen in diesen Slot einspielen
+535|EXPORT
+536|IMPORT
+537|Zauber automatisch wirken
+538|Tutorial-Tipps
+539|Hinweise erneut anzeigen
+540|ZURÜCKSETZEN
+541|FERTIG
+542|EIN SPIEL VON
+543|DESIGN · REGIE
+544|CODE · DESIGN-UNTERSTÜTZUNG
+545|Entwickelt mit Claude (Anthropic)
+546|GRAFIK
+547|Key Art und Sprites mit KI-Bildwerkzeugen erstellt,
+548|vom Entwickler bearbeitet und integriert
+549|MUSIK & SOUND
+550|Adaptiver Soundtrack und Effekte, in der Engine synthetisiert{0}
+551|DANKE
+552|fürs Spielen. Halte das Licht am Brennen.
+553|SCHLIESSEN
+554|Kopiert.
+555|Importiert. Slot wird neu geladen...
+556|Dieser Code ist ungültig.
+557|HOFFNUNG
+558|BEDROHUNG MAX
+559|∞ Endless
+560|GRATIS-KISTE ÖFFNEN
+561|KISTE ÖFFNEN  ⚙
+562|ausblenden · weniger Beute
+563|×{0} Beute · Gefahr
+564|Standard-Ring, -Schaden und -Beute
+565|Ring {0} · Schaden {1} · Beute {2} · Kreaturen {3}
+566|⚛ REAKTOR ·
+567|VERSTANDEN
+568|Bergungskiste
+569|von einem älteren Wrack! Tippe
+570|KISTE ÖFFNEN
+571|Module feuern von selbst. Hol dir das
+572|gleiche Modul
+573|erneut, um es aufzuwerten
+574|Synergie!
+575|{0} Module einer Art:
+576|. Erreiche {0} für einen Spezialeffekt.
+577|{0} · Bedrohung
+578|Abschüsse
+579|· Kisten
+580|Erledigte Elites
+581|· Fehlerfreie Wellen
+582|· Niedrigste Hoffnung
+583|+{0} ✦ Xeno-Kerne
+584|✦ Xeno-Kerne
+585|◂ TITEL
+586|✦ Xeno-Kerne:
+587|· Slot {0}
+588|ABSTURZSTELLEN
+589|SCHIFFSREPARATUREN
+590|Stf {0}/{1}
+591|ERWEITERTE REPARATUREN
+592|Stf {0}
+593|Dein Schiff ist auf einem unbekannten Planeten abgestürzt.
+594|Etwas bewegt sich in der Dunkelheit.
+595|⚙ Einstellungen
+596|PAUSIERT
+597|Esc / P zum Fortsetzen
+598|▶ FORTSETZEN
+599|⚙ Optionen
+600|☰ Ausrüstung
+601|✕ Durchgang abbrechen
+602|⏏ Zum Titel
+603|REAKTOR:
+604|UPDATE VERFÜGBAR
+605|⬆ JETZT AKTUALISIEREN
+606|Rumpfbruch. Triebwerke fallen aus. Auf den Aufprall vorbereiten.
+607|KOMMANDANT
+608|...Wo... bin ich?
+609|Bewegung erkannt. Sie können uns nicht sehen... noch nicht.
+610|Sie sind blind. Sie spüren uns nur im Licht.
+611|Bergungskiste. Sehen wir, was überlebt hat.
+612|Okay. Das reicht.
+613|Systeme verbunden. Leistung steigt.
+614|Besser. Viel besser.
+615|Das habe ich gebraucht.
+616|Hoffnung kritisch. Ich... halte nicht mehr lange durch.
+617|Komm schon... bleib bei mir.
+618|Notstrom umgeleitet. Noch eine Chance.
+619|Riesiges Signal. Es hat unseren Navigationskern verschlungen.
+620|Brutsignatur. Sie gebiert beim Vorrücken mehr.
+621|Gepanzertes Ziel. Schlag zu, wenn es nicht mehr anstürmt.
+622|Es blinkt durch die Dunkelheit. Achte auf die Ränder.
+623|Die Quelle von allem. Es nährt sich von unserem Licht.
+624|Hab dich. Teil geborgen.
+625|Hoffnung... schwindet...
+626|Flick sie zusammen. Weiter geht's.
+627|Triebwerke bei Teilleistung. Wir können springen.
+628|Werte außerhalb der Skala. Das ist eine schlechte Idee.
+629|Alle Systeme wiederhergestellt. Hoffnung bei hundert Prozent.
+630|Bring uns nach Hause.
+631|Navigationskern wiederhergestellt. Sternkarten ausgerichtet.
+632|Position bestätigt. Dritter Planet von der Sonne.
+633|Wir haben eine Singularität durchquert. Zeitverschiebung: viertausend Jahre.
+634|Wir haben die Heimat nie verlassen. Wir kamen zu spät zurück.
+635|BEDROHUNG {0}
+636|Durchgang abbrechen
+637|⚛ NORMAL
+638|Ausrüstung (Tab)
+639|Pause (Esc / P)
+640|II
+641|ÜBERSPRINGEN ▸▸
+642|Gebiet {0}
+643|NANO-SYNERGIE {0}
+644|{0}× SERIE
+645|Aus dem SÜDOSTEN
+646|Sprache
+647|SPEICHERSLOTS
+648|Demnächst
+649|Auto
+650|Rahmenloses Fenster
+651|Maximiertes Fenster
+652|Fenster
+653|Karte wählen
+654|Zauber wirken
+655|Ausrüstung
+656|Reaktormodus
+657|Pause
+658|Gamepad
+659|SPIELSTAND EXPORTIEREN
+660|SPIELSTAND IMPORTIEREN
+661|DAS LETZTE TEIL
+662|TEIL GEBORGEN
+663|DIE HOFFNUNG SCHWINDET…
+664|🚀 ABHEBEN ▸
+665|SCHIFF REPARIEREN ▸
+666|Nächste:
+667|MAX
+668|DURCHGANG STARTEN
+669|AUFWACHEN
+670|Später
+671|Hitze
+672|AUS
+673|📊 Statistik
+674|🛰 Schiff
+675|🎬 Intro
+676|🚀 Ende
+677|▶ AUFWACHEN
+678|▶ DURCHGANG STARTEN
+679|Kiste öffnen / bestätigen
+680|Steuerkreuz/Stick + A/B in Menüs · A Kiste · X/Y/B Zauber · LB/RB markieren · LT Reaktor · RT Tempo · Back Ausrüstung · Start Pause
+681|Zusätzliche Musik mit Suno erstellt
+682|STIMMEN
+683|KI-Stimmen: Kokoro (Apache-{0}), Chatterbox (MIT)
+684|höchste Bedrohung {0}
+685|Gib Xeno-Kerne aus, um das Schiff zu reparieren. Jede Reparatur verlängert den nächsten Durchgang.
+686|Nächste: {0}
+687|blind
+688|Ring
+689|ausgewogen
+690|KISTE ÖFFNEN  ⚙{0}
+691|{0} Schaden · {1}/s · Reichweite {2}
+692|Tasten {0}–{1}
+693|Tippen für {0}-Boni
+694|keine
+695|HOFFNUNG {0}%
+696|REAKTOR · {0}

@@ -25,17 +25,18 @@ async def main():
         await ev("()=>{document.querySelector('.slot[data-n=\"1\"] [data-a=new]').click()}");await ev("__step(100)")
         await ev("()=>{document.querySelector('[data-ok]').click()}");await ev("__step(300)")
         await ev("()=>{const b=document.getElementById('startBtn');if(b)b.click()}");await ev("__step(300)")
-        for f in range(900):  # intro cutscene
+        for f in range(300):  # intro cutscene
             await ev("__step(33.3)")
             if f%20==0 and await ev("!!CUT"): await ev("()=>{CUT.t=9999;try{endCutscene()}catch(e){}}")
-        for run in range(3):
+        for run in range(2):
             if run==1: await ev("()=>{meta.chapter=5;meta.story=1;meta.mastery=99999;save()}")
-            for f in range(int(30*260)):
+            for f in range(1500):
                 await ev("__step(33.33)")
                 if f%3==0: await ev(BOT)
                 if f%30==0:
                     if await ev("!!CUT"): await ev("()=>{CUT.t=9999;try{endCutscene()}catch(e){}}")
                     if await ev("()=>R&&R.over"): break
+            open("/tmp/runtime_partial.json","w").write(json.dumps(await ev("()=>I18N.dump()"),ensure_ascii=False))
             await ev("__step(800)")
             # walk every hub button once
             ids=await ev("()=>[...document.querySelectorAll('#modal button')].map(b=>b.id).filter(Boolean)")

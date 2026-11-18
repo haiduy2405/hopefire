@@ -1,0 +1,697 @@
+0|Espacio
+1|Comandante
+2|datos dañados, usando copia de seguridad
+3|+{0}% de daño por cada módulo Térmico
+4|Los golpes prenden a las criaturas: el {0}% del golpe vuelve a arder durante {1} s
+5|Golpes únicos y pesados. Ideal contra Brutes y jefes.
+6|+{0}% de daño por cada módulo Criogénico
+7|Cada golpe ralentiza a las criaturas un {0}%
+8|Fuego rápido + frío. Gana tiempo cuando el anillo se llena.
+9|+{0}% de daño por cada módulo de Arco
+10|Los golpes encadenan rayos a {0} criaturas cercanas ({1}% de daño)
+11|Excelente contra enjambres de Crawlers y Skitters.
+12|+{0}% de daño por cada módulo Nano
+13|La nave regenera un {0}% de Esperanza por segundo
+14|Supervivencia. Los golpes recuperan Esperanza; combina con Overdrive.
+15|SIEMPRE
+16|REACCIONES
+17|toca en cualquier parte para cerrar
+18|Aún sin módulos — {0} de un elemento = sinergia
+19|DPS DEL EQUIPO
+20|MEJORA ★{0} → ★{1}
+21|Reemplaza a {0}
+22|Módulo nuevo
+23|✦ {0} {1} SE ACTIVA
+24|{0}/{1} para el siguiente bono de {2}
+25|⚠ rompe {0} {1}
+26|{0} DPS DEL EQUIPO {1}%
+27|{0} daño · {1}/s · {2}
+28|Nv{0} → Nv{1}
+29|Hechizo nuevo · {0}
+30|{0} · HECHIZO
+31|Reutilización {0}s{1} · toca o {2}
+32|CAJA DE RESCATE
+33|RARO
+34|ÉPICO
+35|LEGENDARIO
+36|¡PERFECTO!
+37|FALLO
+38|¡PREMIO GORDO! +{0} CARTA
+39|Cerradura {0} / {1} — ¡más rápido!
+40|ELIGE UNA
+41|Desechar (+{0}% de reembolso)
+42|Toca una insignia de elemento para ver detalles · {0}
+43|RELIQUIA
+44|Pasiva · dura toda la partida
+45|Reliquia {0}/{1}
+46|{0} SINERGIA {1}
+47|{0} DPS · {1}%
+48|Aún sin módulos — abre una caja.
+49|Nv{0}
+50|{0} · reutilización {1}s
+51|Aún sin hechizos.
+52|Aún sin reliquias (máx. {0}).
+53|Aún sin tripulación — las cartas de tripulación salen en las cajas (máx. {0}).
+54|EQUIPO
+55|· Módulos {0}/{1} · Hechizos {2}/{3} · Reliquias {4}/{5}
+56|MÓDULOS
+57|TRIPULACIÓN {0}/{1}
+58|SINERGIAS
+59|toca para ver detalles
+60|HECHIZOS
+61|RELIQUIAS
+62|VOLVER AL COMBATE ▸
+63|Tab / Esc para cerrar
+64|Guardian
+65|Mantiene la línea junto al casco. Las criaturas cercanas lo atacan
+66|a él en lugar de a la nave. Golpea a todos a su alcance.
+67|Hunter
+68|Sale corriendo a matar. Persigue tu objetivo
+69|MARCADO
+70|primero, luego a los carriers y a las criaturas rápidas. Su salto causa {0}× de daño.
+71|Medic
+72|Repara
+73|Esperanza
+74|con el tiempo y cura a la tripulación. Blaster débil.
+75|Engineer
+76|Ajusta el módulo junto al que está:
+77|cadencia de fuego mucho mayor
+78|. Rota entre módulos.
+79|{0} daño en área · {1} PS · provoca
+80|{0} daño · {1}/s · {2} PS
+81|+{0}% Esperanza/s · cura a la tripulación
+82|+{0}% de cadencia a un módulo
+83|SE UNE
+84|¡Nuevo tripulante!
+85|La tripulación camina dentro del anillo y lucha. Su elemento también activa
+86|reacciones. Máx. {0} — consigue el mismo rol de nuevo para
+87|SALTO
+88|ABATIDO
+89|◆ CARRIER AVISTADO
+90|Márcalo (toca) y mátalo antes de que escape: caja GRATIS
+91|Carrier
+92|¡lleva material de rescate por el anillo! No ataca — huye.
+93|Tócalo para MARCARLO
+94|: tus módulos lo focalizan y recibe +{0}% de daño. Mátalo para una
+95|CAJA GRATIS
+96|EL CARRIER ESCAPÓ
+97|Márcalo antes la próxima vez
+98|¡CAJA GRATIS!
+99|RECOMPENSA +
+100|Tripulante nuevo · {0}/{1}
+101|{0} · TRIPULACIÓN
+102|S.V. HOPE — nave de exploración de espacio profundo
+103|Brecha en el casco. Motores fallando.
+104|CASCO {0}%   ·   MOTOR APAGADO
+105|ENERGÍA PRINCIPAL {0}%   ·   RAYO DE CALOR: ???
+106|¿Dónde... estoy?
+107|...No estoy solo.
+108|...pero cada disparo consume la poca energía que queda.
+109|¿El cañón... aún funciona?
+110|🔥 ESPERANZA
+111|HOPEFIRE
+112|Cuando toda esperanza se pierde, la nave sigue disparando.
+113|— toca para empezar —
+114|La última pieza encaja.
+115|Motor principal... en línea.
+116|Lo sienten. Todos ellos.
+117|La S.V. HOPE abandona la órbita.
+118|SOL III  ·  TIERRA
+119|DESPLAZAMIENTO TEMPORAL  +{0} AÑOS
+120|GRACIAS POR JUGAR
+121|un juego de duyluma
+122|∞ Endless Wastes desbloqueado
+123|— toca para continuar —
+124|COMÚN
+125|Quema {0}%/s
+126|Ralentiza {0}%
+127|Encadena a {0}
+128|Regen. de Esperanza {0}%/s
+129|Rayo corto, daño en área
+130|Largo alcance, rápido
+131|Proyectil en arco, de área
+132|Flame Lance
+133|Térmico
+134|Heat Rail
+135|Magma Mortar
+136|Frost Lance
+137|Cryo
+138|Cryo Rail
+139|Hail Mortar
+140|Arc Lance
+141|Arco
+142|Volt Rail
+143|Storm Mortar
+144|Nano Lance
+145|Nano
+146|Swarm Rail
+147|Mender Mortar
+148|Crash Site
+149|Research Wreck
+150|Mining Hulk
+151|War Graveyard
+152|The Origin
+153|BAJO
+154|NORMAL
+155|OVERDRIVE
+156|Daño de módulos
+157|+{0}% de daño
+158|Capacidad de Esperanza
+159|+{0}% de Esperanza máx.
+160|Rayo de calor
+161|+{0}% de daño del cañón
+162|Recuperación de chatarra
+163|+{0}% de chatarra
+164|Chatarra inicial
+165|+{0} de chatarra
+166|Cadencia de fuego
+167|+{0}% de cadencia
+168|Suerte de cajas
+169|+{0}% de prob. rara
+170|Eficiencia de Esperanza
+171|-{0}% de consumo de Esperanza
+172|Descuento en cajas
+173|-{0}% precio de cajas
+174|Ranuras de módulo
+175|{0} ranuras
+176|Dron: caza en cualquier parte del anillo
+177|Ember Drone
+178|Frost Drone
+179|Spark Drone
+180|Nano Drone
+181|THE DEVOURER
+182|Se tragó el núcleo de navegación.
+183|BROOD MOTHER
+184|Engendra crawlers al acercarse.
+185|THE CRUSHER
+186|Blindado. Solo es vulnerable tras una embestida.
+187|PHANTOM WARLORD
+188|Parpadea en la oscuridad con su guardia.
+189|THE ORIGIN
+190|La fuente de todo. Se alimenta de tu luz.
+191|Lanzamiento automático
+192|Los hechizos se lanzan solos
+193|Golpes pesados: +{0}% de daño, dispara más lento
+194|Fuego rápido, {0}% de probabilidad de congelar
+195|Cada golpe salta a {0} criatura más ({1}%)
+196|Cada golpe restaura un poco de Esperanza
+197|Golpes críticos
+198|{0}% de prob. crítica (×{1} daño)
+199|Second Wind
+200|Una vez por partida: revive con {0}% de Esperanza
+201|Refinería de núcleos
+202|+{0}% de Xeno-núcleos
+203|Cañones largos
+204|+{0}% de alcance de módulos
+205|Rescate profundo
+206|Las cajas muestran +{0} carta
+207|Kit de campo
+208|Empieza con {0} módulo(s) aleatorio(s)
+209|Capacitores
+210|-{0}% de reutilización de hechizos
+211|Bahía de reliquias
+212|{0} ranuras de reliquia
+213|Cazarrecompensas
+214|+{0}% de daño a jefes
+215|Reciclador de celdas
+216|+{0}% de celdas de energía
+217|Overclock ∞
+218|+{0}% de todo el daño
+219|Escapa del planeta
+220|Supera ☠ Crash Site
+221|Supera ☠ Research Wreck
+222|Supera ☠ Mining Hulk
+223|Supera ☠ War Graveyard
+224|Supera ☠ The Origin
+225|ENDLESS WASTES
+226|¿Cuánto puede durar la esperanza?
+227|Sitio
+228|SALTO → AMENAZA
+229|☠ PESADILLA ·
+230|Criaturas ×
+231|PS · Xeno-núcleos ×
+232|Tu nave está destrozada. Las criaturas de ahí fuera son
+233|— solo te sienten dentro del
+234|Tu rayo de calor aún dispara. Mantén la
+235|por encima de cero.
+236|⚛ REACTOR desbloqueado
+237|(botón abajo a la derecha, tecla
+238|). Define cuánta energía quema la nave:
+239|anillo menor = menos criaturas te notan, pero menos daño y botín.
+240|Úsalo cuando la Esperanza esté baja.
+241|+{0}% de daño,
+242|×{0} de chatarra y núcleos
+243|= las cajas llegan antes, pero con un
+244|anillo mayor
+245|y más criaturas.
+246|Úsalo cuando tu defensa sea sólida.
+247|Criatura nueva:
+248|Spitter
+249|mantienen la distancia y escupen ácido. Los
+250|Rail
+251|de largo alcance los manejan mejor.
+252|Bloater
+253|explotan contra el casco — mátalos pronto, su explosión daña a otras criaturas.
+254|Wisp
+255|vuelan: los morteros solo les hacen la mitad de daño.
+256|Phantom
+257|están camuflados hasta que se acercan. El daño en área sí los alcanza.
+258|Splitter
+259|estallan en skitters al morir. Algo antiguo espera aquí...
+260|CRÍTICO
+261|Las celdas de
+262|energía verdes
+263|restauran ESPERANZA. Mata brutes para mejor probabilidad.
+264|★ SITIO SUPERADO ★
+265|Pieza recuperada
+266|CAE
+267|Esa cosa
+268|se tragó una pieza que necesitamos
+269|para reparar la nave. ¡Derríbala!
+270|ATURDIDO
+271|SE ALIMENTA DE TU LUZ
+272|THE ORIGIN ESTÁ FURIOSO
+273|⚠ ALGO ENORME SE ACERCA ⚠
+274|AMENAZA
+275|+ESPERANZA
+276|¿Poca Esperanza? El reactor LOW (R) te oculta
+277|SECOND WIND
+278|⚠ LA HORDA SE DESATA ⚠
+279|Desde el
+280|La
+281|en la oscuridad se concentra en un lado. Una
+282|se acerca — prepárate (hechizos, reactor LOW, Guardian).
+283|ESTE
+284|SURESTE
+285|SUR
+286|SUROESTE
+287|OESTE
+288|NOROESTE
+289|NORTE
+290|NORESTE
+291|· mín
+292|Share
+293|Options
+294|Back
+295|Start
+296|Derecha
+297|Izquierda
+298|Abajo
+299|[{0}] Saltar
+300|[{0}/{1}] Detén la aguja   [{2}] Abrir al instante
+301|[{0}] Abrir caja
+302|[Cruceta] Mover   [{0}] Elegir   [{1}/{2}] Reanudar
+303|[Cruceta] Mover   [{0}] Elegir   [{1}] Atrás
+304|[{0}] Caja  [{1}] Hechizos  [{2}/{3}] Marcar  [{4}] Reactor  [{5}] Velocidad  [{6}] Equipo  [{7}] Pausa
+305|TOCA en un color ·
+306|First Light
+307|Mata a tu primera criatura
+308|Exterminator
+309|Mata {0} criaturas
+310|Apex Predator
+311|Scavenger
+312|Abre {0} cajas de rescate
+313|Jackpot
+314|Encuentra una carta Legendaria
+315|Arcane Engineer
+316|Lanza {0} hechizos
+317|Perfect Harmony
+318|Alcanza una sinergia de {0} módulos
+319|Full Arsenal
+320|Ten {0} módulos a la vez
+321|Collector
+322|Lleva {0} reliquias en una partida
+323|Devourer Down
+324|Derrota a The Devourer
+325|Brood Breaker
+326|Derrota a Brood Mother
+327|Crushed
+328|Derrota a The Crusher
+329|Ghostbuster
+330|Derrota a Phantom Warlord
+331|Origin Story
+332|Derrota a The Origin
+333|Living Dangerously
+334|Derrota a un jefe en OVERDRIVE
+335|Untouchable
+336|Supera un sitio sin que la Esperanza baje del {0}%
+337|Liftoff
+338|Repara la nave y escapa del planeta
+339|Nightmare: Crash Site
+340|Nightmare: Research Wreck
+341|Nightmare: Mining Hulk
+342|Nightmare: War Graveyard
+343|Nightmare: The Origin
+344|Beyond Limits
+345|Alcanza el nivel de Overclock {0}
+346|Endless Night
+347|Alcanza Amenaza {0} en Endless
+348|Eternal Flame
+349|🏆 LOGROS {0}/{1}
+350|◂ VOLVER
+351|Partidas
+352|Criaturas eliminadas
+353|Cajas abiertas
+354|Hechizos lanzados
+355|Jefes derrotados
+356|Cartas legendarias halladas
+357|Sitios superados
+358|Mejor amenaza en Endless
+359|Tiempo en el planeta
+360|📊 ESTADÍSTICAS
+361|fuego+frío
+362|SHATTER
+363|Fuego + Frío: gran explosión de daño en el objetivo y esquirlas a su alrededor
+364|fuego+descarga
+365|OVERLOAD
+366|Fuego + Descarga: una explosión que daña y empuja a las criaturas cercanas
+367|frío+descarga
+368|SUPERCONDUCT
+369|Frío + Descarga: el objetivo y sus vecinas reciben +{0}% de daño durante {1} s
+370|CONTAGION
+371|Nanitas + cualquiera: el otro estado se propaga a {0} vecinas y repara un poco de Esperanza
+372|{0}. Mezcla elementos para activar reacciones.
+373|Scavenger's Lens
+374|+{0}% de chatarra por baja
+375|Spare Battery
+376|Echo Scanner
+377|Las cajas muestran {0} cartas
+378|Glass Cannon
+379|+{0}% de daño de módulos, la Esperanza se agota un {1}% más rápido
+380|Dampener Coil
+381|Anillo de detección un {0}% menor
+382|Core Magnet
+383|Hair Trigger
+384|El rayo de calor dispara el doble de rápido
+385|Static Hull
+386|Las criaturas que golpean la nave reciben una descarga
+387|RELIQUIA:
+388|× RACHA
+389|BLINDADO
+390|S.V. HOPE
+391|Equilibrada. La nave que se estrelló aquí.
+392|BULWARK
+393|+{0}% de Esperanza máx., la Esperanza se agota un {1}% más lento, pero −{2}% de daño.
+394|Supera el Sitio {0}
+395|PRISM
+396|Empieza con un módulo Raro gratis y +{0}% de prob. rara. Las cajas cuestan un {1}% más.
+397|EMBER
+398|+{0}% de daño y +{1}% de cadencia, pero la Esperanza se agota un {2}% más rápido.
+399|Termina la historia
+400|Swarm
+401|{0}% más criaturas, cada una con {1}% menos PS.
+402|Elite Hunt
+403|Cada evento de oleada trae un Elite.
+404|Glass Hope
+405|−{0}% de Esperanza máx., +{1}% de daño.
+406|Famine
+407|{0}% menos chatarra de las criaturas.
+408|Frenzy
+409|Las criaturas se mueven un {0}% más rápido.
+410|🛰 NAVE Y MUTADORES
+411|NAVE
+412|MUTADORES
+413|elige hasta {0} (el {1}º reemplaza al más antiguo) · las partidas difíciles pagan más ✦
+414|Bono de calor:
+415|Solar Flare
+416|Abrasa a toda criatura dentro del anillo
+417|Cryo Nova
+418|Congela a las criaturas del anillo ~{0}s
+419|Overcharge
+420|Los módulos disparan {0}× más rápido ~{1}s
+421|Emergency Cell
+422|Restaura al instante ~{0}% de Esperanza
+423|Shock Pulse
+424|Empuja a las criaturas cercanas y las aturde
+425|¡Hechizo adquirido!
+426|Tócalo (o pulsa
+427|) para lanzarlo. Se recarga con el tiempo.
+428|{0} · Nv{1}
+429|AUTO
+430|CRAWLER
+431|SKITTER
+432|BRUTE
+433|SPITTER
+434|BLOATER
+435|WISP
+436|PHANTOM
+437|SPLITTER
+438|CHARGER
+439|SHELLBACK
+440|HATCHER
+441|SCREAMER
+442|LURKER
+443|MENDER
+444|LEAPER
+445|Charger
+446|: se detiene, parpadea en rojo y
+447|embiste la nave
+448|. Mátalo o congélalo durante la preparación.
+449|Shellback
+450|: blindado, solo recibe el {0}% de daño.
+451|Quemadura
+452|ignora el blindaje — los módulos Térmicos lo funden.
+453|Hatcher
+454|: se queda atrás y engendra skitters cada pocos segundos. Elimínalo primero — tócalo para
+455|Screamer
+456|: su grito acelera a las criaturas cercanas. Mátalo para conseguir una
+457|Surge Cell
+458|Mender
+459|: cura a las criaturas a su alrededor cada pocos segundos. Márcalo y mátalo primero.
+460|Leaper
+461|: se agacha y luego
+462|salta sobre la nave
+463|y no se le puede golpear en el aire. Congélalo o dispárale al agacharse.
+464|Lurker
+465|irrumpen del suelo
+466|tu anillo. Atento a las grietas.
+467|OVERCHARGE
+468|◆ ELITE
+469|— mátalo para una Surge Cell
+470|ELITE ABATIDO
+471|SILENCIADO
+472|NIDO DESTRUIDO
+473|IMPECABLE ×
+474|IMPECABLE
+475|⚠ OLEADA RELÁMPAGO ⚠
+476|⚠ EMBOSCADA ⚠
+477|Hay algo bajo tierra
+478|⚠ ASEDIO ⚠
+479|Las criaturas a distancia toman posición —
+480|FÁCIL
+481|Relajado. Más Esperanza, criaturas más blandas.
+482|La experiencia prevista.
+483|DIFÍCIL
+484|Enjambres más duros, jefes más listos.
+485|INFIERNO
+486|Para veteranos. Cada error es fatal.
+487|OPCIONES
+488|CRÉDITOS
+489|© {0} duyluma
+490|Historia completada ★
+491|RANURA {0}
+492|Jugado {0} · {1} partidas
+493|Última: {0}
+494|JUGAR
+495|RENOMBRAR
+496|BORRAR
+497|Ranura vacía
+498|PARTIDA NUEVA
+499|ELIGE PARTIDA
+500|PARTIDA NUEVA · RANURA {0}
+501|Nombre del comandante
+502|Dificultad
+503|CANCELAR
+504|EMPEZAR ▸
+505|RENOMBRAR RANURA {0}
+506|GUARDAR
+507|¿BORRAR RANURA {0}?
+508|· {0} · {1} jugadas.
+509|Esto no se puede deshacer.
+510|PULSA OTRA VEZ PARA CONFIRMAR
+511|AUDIO
+512|VÍDEO
+513|JUGABILIDAD
+514|CONTROLES
+515|Efectos de sonido
+516|Música
+517|Voz
+518|Silenciar todo
+519|Tamaño de interfaz
+520|Modo de ventana
+521|F{0} alterna pantalla completa
+522|Pantalla completa
+523|Sacudida de pantalla
+524|Destellos de pantalla
+525|desactívalo si los destellos molestan
+526|Números de daño
+527|Velocidad de juego por defecto
+528|Minijuego de cerradura
+529|desactivado = las cajas se abren al instante
+530|Vibración del mando
+531|Mostrar FPS
+532|también F{0} · ayuda a informar del rendimiento
+533|Datos guardados
+534|copia un código de respaldo, o restaura uno en esta ranura
+535|EXPORTAR
+536|IMPORTAR
+537|Lanzamiento automático
+538|Consejos del tutorial
+539|mostrar las pistas otra vez
+540|RESTABLECER
+541|LISTO
+542|UN JUEGO DE
+543|DISEÑO · DIRECCIÓN
+544|CÓDIGO · APOYO AL DISEÑO
+545|Creado con Claude (Anthropic)
+546|ARTE
+547|Arte principal y sprites creados con herramientas de imagen con IA,
+548|editados e integrados por el desarrollador
+549|MÚSICA Y SONIDO
+550|Banda sonora adaptativa y efectos sintetizados en el motor{0}
+551|GRACIAS
+552|por jugar. Mantén la luz encendida.
+553|CERRAR
+554|Copiado.
+555|Importado. Recargando ranura...
+556|Ese código no es válido.
+557|ESPERANZA
+558|AMENAZA MÁX.
+559|∞ Endless
+560|ABRIR CAJA GRATIS
+561|ABRIR CAJA  ⚙
+562|ocultar · menos botín
+563|×{0} botín · peligro
+564|Anillo, daño y botín estándar
+565|Anillo {0} · Daño {1} · Botín {2} · Criaturas {3}
+566|⚛ REACTOR ·
+567|ENTENDIDO
+568|caja de rescate
+569|¡de un naufragio antiguo! Toca
+570|ABRIR CAJA
+571|Los módulos disparan solos. Consigue el
+572|mismo módulo
+573|otra vez para mejorarlo
+574|¡Sinergia!
+575|{0} módulos del mismo tipo:
+576|. Alcanza {0} para un efecto especial.
+577|{0} · Amenaza
+578|Bajas
+579|· Cajas
+580|Elites abatidos
+581|· Oleadas impecables
+582|· Esperanza mínima
+583|+{0} ✦ Xeno-núcleos
+584|✦ Xeno-núcleos
+585|◂ TÍTULO
+586|✦ Xeno-núcleos:
+587|· Ranura {0}
+588|SITIOS DE IMPACTO
+589|REPARACIONES DE LA NAVE
+590|Nv {0}/{1}
+591|REPARACIONES AVANZADAS
+592|Nv {0}
+593|Tu nave se ha estrellado en un planeta desconocido.
+594|Algo se mueve en la oscuridad.
+595|⚙ Ajustes
+596|PAUSA
+597|Esc / P para reanudar
+598|▶ REANUDAR
+599|⚙ Opciones
+600|☰ Equipo
+601|✕ Abandonar partida
+602|⏏ Salir al título
+603|REACTOR:
+604|ACTUALIZACIÓN DISPONIBLE
+605|⬆ ACTUALIZAR AHORA
+606|Brecha en el casco. Motores fallando. Prepárense para el impacto.
+607|COMANDANTE
+608|...¿Dónde... estoy?
+609|Movimiento detectado. No pueden vernos... todavía.
+610|Son ciegos. Solo nos sienten dentro de la luz.
+611|Caja de rescate. Veamos qué sobrevivió.
+612|Bien. Servirá.
+613|Sistemas enlazados. La potencia sube.
+614|Mejor. Mucho mejor.
+615|Esto es lo que necesitaba.
+616|Esperanza crítica. No... aguanto mucho más.
+617|Vamos... quédate conmigo.
+618|Redirigiendo energía de emergencia. Una oportunidad más.
+619|Señal enorme. Se tragó nuestro núcleo de navegación.
+620|Firma de nidada. Va engendrando más a medida que avanza.
+621|Objetivo blindado. Ataca cuando deje de cargar.
+622|Parpadea en la oscuridad. Vigila los bordes.
+623|La fuente de todo. Se alimenta de nuestra luz.
+624|Te tengo. Pieza recuperada.
+625|Esperanza... apagándose...
+626|Remiéndala. Volvemos a ello.
+627|Motores a potencia parcial. Podemos saltar.
+628|Lecturas fuera de escala. Es una mala idea.
+629|Todos los sistemas restaurados. Esperanza al cien por cien.
+630|Llévanos a casa.
+631|Núcleo de navegación restaurado. Cartas estelares alineadas.
+632|Posición confirmada. Tercer planeta desde el Sol.
+633|Cruzamos una singularidad. Desplazamiento temporal: cuatro mil años.
+634|Nunca nos fuimos de casa. Volvimos demasiado tarde.
+635|AMENAZA {0}
+636|Abandonar partida
+637|⚛ NORMAL
+638|Equipo (Tab)
+639|Pausa (Esc / P)
+640|II
+641|SALTAR ▸▸
+642|Sitio {0}
+643|SINERGIA NANO {0}
+644|{0}× RACHA
+645|Desde el SURESTE
+646|Idioma
+647|RANURAS DE GUARDADO
+648|Próximamente
+649|Auto
+650|Ventana sin bordes
+651|Ventana maximizada
+652|En ventana
+653|Elegir una carta
+654|Lanzar hechizos
+655|Equipo
+656|Modo del reactor
+657|Pausa
+658|Mando
+659|EXPORTAR PARTIDA
+660|IMPORTAR PARTIDA
+661|LA ÚLTIMA PIEZA
+662|PIEZA RECUPERADA
+663|LA ESPERANZA SE APAGA…
+664|🚀 DESPEGAR ▸
+665|REPARAR NAVE ▸
+666|Siguiente:
+667|MÁX
+668|INICIAR PARTIDA
+669|DESPERTAR
+670|Más tarde
+671|Calor
+672|NO
+673|📊 Estadísticas
+674|🛰 Nave
+675|🎬 Intro
+676|🚀 Final
+677|▶ DESPERTAR
+678|▶ INICIAR PARTIDA
+679|Abrir caja / confirmar
+680|Cruceta/stick + A/B en menús · A caja · X/Y/B hechizos · LB/RB marcar · LT reactor · RT velocidad · Back equipo · Start pausa
+681|Música adicional creada con Suno
+682|VOCES
+683|Voces de IA: Kokoro (Apache-{0}), Chatterbox (MIT)
+684|mejor amenaza {0}
+685|Gasta Xeno-núcleos para reparar la nave. Cada reparación alarga la siguiente partida.
+686|Siguiente: {0}
+687|ciegas
+688|anillo
+689|equilibrado
+690|ABRIR CAJA  ⚙{0}
+691|{0} daño · {1}/s · alcance {2}
+692|teclas {0}–{1}
+693|Toca para ver bonos de {0}
+694|ninguno
+695|ESPERANZA {0}%
+696|REACTOR · {0}

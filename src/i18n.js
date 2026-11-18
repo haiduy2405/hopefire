@@ -25,6 +25,14 @@ function tr(s){
     if(I18N.log)I18N.log.add(key);
     const d=I18N.dict?I18N.dict[key]:undefined;
     if(d!==undefined)out=m[1]+d.replace(/\{(\d+)\}/g,(x,i)=>nums[i]!==undefined?nums[i]:x)+m[3];
+    else if(I18N.pats){                                              // template keys whose {n} stood for text (names etc.)
+      for(const P of I18N.pats){const r=P.re.exec(core);if(!r)continue;
+        out=m[1]+P.t.replace(/\{(\d+)\}/g,(x,i)=>r[+i+1]!==undefined?tr(r[+i+1]):x)+m[3];break}
+    }
+    if(out===s){                                                       // "🔒 Name", "▸ Text": translate the part after a leading symbol
+      const r=/^([^\p{L}\p{N}{}\s]+\s+)([\s\S]*[A-Za-z]{2}[\s\S]*)$/u.exec(core);
+      if(r){const t=tr(r[2]);if(t!==r[2])out=m[1]+r[1]+t+m[3]}
+    }
   }
   if(I18N.cache.size>6000)I18N.cache.clear();
   I18N.cache.set(s,out);return out;
@@ -77,7 +85,10 @@ function trStart(){
 })();
 function setLang(code,noSave){
   if(!LANG_LIST.some(l=>l[0]===code)||(code!=='en'&&!langHas(code)))code='en';
-  LANG=I18N.lang=code;I18N.dict=code==='en'?null:(window.LANGS[code]||null);I18N.cache.clear();
+  LANG=I18N.lang=code;I18N.dict=code==='en'?null:(window.LANGS[code]||null);I18N.cache.clear();I18N.pats=null;
+  if(I18N.dict){const L=[];for(const k in I18N.dict){if(!/\{\d+\}/.test(k))continue;const lit=k.replace(/\{\d+\}/g,'');if((lit.match(/[A-Za-z]/g)||[]).length<4)continue;
+    L.push({n:lit.length,t:I18N.dict[k],re:new RegExp('^'+k.replace(/[.*+?^$()|[\]\\]/g,'\\$&').replace(/\{(\d+)\}/g,'([\\s\\S]*?)')+'$')})}
+    L.sort((a,b)=>b.n-a.n);I18N.pats=L}
   document.documentElement.lang=code;
   if(!noSave&&typeof SETTINGS!=='undefined'){SETTINGS.lang=code;if(typeof save==='function')save()}
   trTree(document.body,true);

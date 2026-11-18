@@ -1,0 +1,697 @@
+0|Space
+1|Chỉ huy
+2|dữ liệu lỗi, dùng bản sao lưu
+3|+{0}% sát thương cho mỗi mô-đun Nhiệt
+4|Đòn đánh làm sinh vật bốc cháy: {0}% sát thương cháy thêm trong {1} giây
+5|Đòn mạnh đơn lẻ. Tốt nhất để đánh Brute và trùm.
+6|+{0}% sát thương cho mỗi mô-đun Băng
+7|Mỗi đòn làm sinh vật chậm {0}%
+8|Bắn nhanh + làm lạnh. Câu giờ khi vòng đầy quái.
+9|+{0}% sát thương cho mỗi mô-đun Điện
+10|Đòn đánh phóng sét sang {0} sinh vật gần đó ({1}% sát thương)
+11|Rất hiệu quả với bầy Crawler và Skitter.
+12|+{0}% sát thương cho mỗi mô-đun Nano
+13|Tàu hồi {0}% Hy vọng mỗi giây
+14|Sinh tồn. Đòn đánh hồi Hy vọng; hợp với Overdrive.
+15|LUÔN LUÔN
+16|PHẢN ỨNG
+17|chạm bất kỳ đâu để đóng
+18|Chưa có mô-đun — {0} mô-đun cùng nguyên tố = cộng hưởng
+19|DPS ĐỘI
+20|NÂNG CẤP ★{0} → ★{1}
+21|Thay thế {0}
+22|Mô-đun mới
+23|✦ {0} {1} KÍCH HOẠT
+24|{0}/{1} để đạt thưởng {2} kế tiếp
+25|⚠ phá vỡ {0} {1}
+26|{0} DPS ĐỘI {1}%
+27|{0} st · {1}/giây · {2}
+28|Cấp{0} → Cấp{1}
+29|Kỹ năng mới · {0}
+30|{0} · KỸ NĂNG
+31|Hồi chiêu {0}s{1} · chạm hoặc {2}
+32|THÙNG CỨU HỘ
+33|HIẾM
+34|SỬ THI
+35|HUYỀN THOẠI
+36|HOÀN HẢO!
+37|TRƯỢT
+38|TRÚNG LỚN! +{0} THẺ
+39|Khóa {0} / {1} — nhanh lên!
+40|CHỌN MỘT
+41|Phá bỏ (hoàn {0}%)
+42|Chạm vào biểu tượng nguyên tố để xem chi tiết · {0}
+43|DI VẬT
+44|Bị động · kéo dài hết lượt chơi
+45|Di vật {0}/{1}
+46|{0} CỘNG HƯỞNG {1}
+47|{0} DPS · {1}%
+48|Chưa có mô-đun — hãy mở thùng cứu hộ.
+49|Cấp{0}
+50|{0} · hồi chiêu {1}s
+51|Chưa có kỹ năng.
+52|Chưa có di vật (tối đa {0}).
+53|Chưa có đồng đội — thẻ đồng đội xuất hiện trong thùng (tối đa {0}).
+54|TRANG BỊ
+55|· Mô-đun {0}/{1} · Kỹ năng {2}/{3} · Di vật {4}/{5}
+56|MÔ-ĐUN
+57|ĐỒNG ĐỘI {0}/{1}
+58|CỘNG HƯỞNG
+59|chạm để xem chi tiết
+60|KỸ NĂNG
+61|DI VẬT
+62|QUAY LẠI TRẬN ▸
+63|Tab / Esc để đóng
+64|Guardian
+65|Giữ tuyến gần thân tàu. Sinh vật ở gần anh ta sẽ tấn công
+66|anh ta thay vì con tàu. Chém trúng mọi thứ trong tầm.
+67|Hunter
+68|Lao ra để giết. Săn đuổi mục tiêu
+69|ĐÃ ĐÁNH DẤU
+70|trước, rồi đến Carrier và sinh vật nhanh. Vồ gây {0}× sát thương.
+71|Medic
+72|Hồi
+73|Hy vọng
+74|theo thời gian và chữa cho đồng đội. Súng yếu.
+75|Engineer
+76|Chỉnh mô-đun mà anh ta đứng cạnh:
+77|tốc độ bắn nhanh hơn nhiều
+78|. Luân phiên giữa các mô-đun.
+79|{0} st quét · {1} HP · thu hút đòn
+80|{0} st · {1}/giây · {2} HP
+81|+{0}% Hy vọng/giây · chữa đồng đội
+82|+{0}% tốc độ bắn cho một mô-đun
+83|GIA NHẬP
+84|Đồng đội mới!
+85|Đồng đội đi trong vòng và chiến đấu. Nguyên tố của họ cũng kích hoạt
+86|phản ứng. Tối đa {0} — nhận lại cùng vai trò để
+87|VỒ
+88|HẠ GỤC
+89|◆ PHÁT HIỆN CARRIER
+90|Đánh dấu (chạm) và hạ nó trước khi nó trốn: thùng MIỄN PHÍ
+91|Carrier
+92|đang mang phế liệu chạy quanh vòng! Nó không tấn công — nó bỏ chạy.
+93|Chạm vào nó để ĐÁNH DẤU
+94|: mô-đun sẽ tập trung bắn nó và nó chịu thêm +{0}% sát thương. Hạ nó để nhận
+95|THÙNG MIỄN PHÍ
+96|CARRIER ĐÃ TRỐN THOÁT
+97|Lần sau hãy đánh dấu sớm hơn
+98|THÙNG MIỄN PHÍ!
+99|TIỀN THƯỞNG +
+100|Đồng đội mới · {0}/{1}
+101|{0} · ĐỒNG ĐỘI
+102|S.V. HOPE — tàu khảo sát không gian sâu
+103|Thân tàu thủng. Động cơ hỏng.
+104|THÂN TÀU {0}%   ·   ĐỘNG CƠ NGẮT
+105|NGUỒN CHÍNH {0}%   ·   TIA NHIỆT: ???
+106|Mình... đang ở đâu?
+107|...Mình không đơn độc.
+108|...nhưng mỗi phát bắn đều rút cạn chút điện còn lại.
+109|Khẩu pháo... vẫn chạy được?
+110|🔥 HY VỌNG
+111|HOPEFIRE
+112|Khi mọi hy vọng đã mất, con tàu vẫn khai hỏa.
+113|— chạm để bắt đầu —
+114|Mảnh cuối cùng đã vào khớp.
+115|Động cơ chính... hoạt động.
+116|Chúng cảm nhận được. Tất cả.
+117|S.V. HOPE rời quỹ đạo.
+118|SOL III  ·  TRÁI ĐẤT
+119|LỆCH THỜI GIAN  +{0} NĂM
+120|CẢM ƠN BẠN ĐÃ CHƠI
+121|một trò chơi của duyluma
+122|∞ Endless Wastes đã mở khóa
+123|— chạm để tiếp tục —
+124|THƯỜNG
+125|Cháy {0}%/giây
+126|Làm chậm {0}%
+127|Lan sang {0}
+128|Hồi Hy vọng {0}%/giây
+129|Tia ngắn, nổ lan
+130|Tầm xa, bắn nhanh
+131|Đạn bắn vòng cung, diện rộng
+132|Flame Lance
+133|Nhiệt
+134|Heat Rail
+135|Magma Mortar
+136|Frost Lance
+137|Băng
+138|Cryo Rail
+139|Hail Mortar
+140|Arc Lance
+141|Điện
+142|Volt Rail
+143|Storm Mortar
+144|Nano Lance
+145|Nano
+146|Swarm Rail
+147|Mender Mortar
+148|Crash Site
+149|Research Wreck
+150|Mining Hulk
+151|War Graveyard
+152|The Origin
+153|THẤP
+154|BÌNH THƯỜNG
+155|OVERDRIVE
+156|Sát thương mô-đun
+157|+{0}% sát thương
+158|Sức chứa Hy vọng
+159|+{0}% Hy vọng tối đa
+160|Tia nhiệt
+161|+{0}% sát thương pháo
+162|Thu hồi phế liệu
+163|+{0}% phế liệu
+164|Phế liệu khởi đầu
+165|+{0} phế liệu
+166|Tốc độ bắn
+167|+{0}% tốc độ bắn
+168|May mắn thùng
+169|+{0}% tỉ lệ hiếm
+170|Tiết kiệm Hy vọng
+171|-{0}% hao Hy vọng
+172|Giảm giá thùng
+173|-{0}% giá thùng
+174|Ô mô-đun
+175|{0} ô
+176|Drone: săn khắp nơi trong vòng
+177|Ember Drone
+178|Frost Drone
+179|Spark Drone
+180|Nano Drone
+181|THE DEVOURER
+182|Nó đã nuốt lõi định vị.
+183|BROOD MOTHER
+184|Đẻ ra crawler khi tiến lại gần.
+185|THE CRUSHER
+186|Giáp dày. Chỉ dễ tổn thương sau khi húc.
+187|PHANTOM WARLORD
+188|Chớp nhoáng trong bóng tối cùng đội cận vệ.
+189|THE ORIGIN
+190|Nguồn gốc của tất cả. Nó ăn ánh sáng của bạn.
+191|Tự động dùng kỹ năng
+192|Kỹ năng tự kích hoạt
+193|Đòn nặng: +{0}% sát thương, bắn chậm hơn
+194|Bắn liên thanh, {0}% cơ hội làm lạnh
+195|Mỗi đòn phóng sang thêm {0} sinh vật ({1}%)
+196|Mỗi đòn hồi một chút Hy vọng
+197|Đòn chí mạng
+198|{0}% tỉ lệ chí mạng (×{1} st)
+199|Second Wind
+200|Một lần mỗi lượt: hồi sinh với {0}% Hy vọng
+201|Lò tinh luyện lõi
+202|+{0}% Lõi Xeno
+203|Nòng dài
+204|+{0}% tầm bắn mô-đun
+205|Thu hồi sâu
+206|Thùng hiện thêm +{0} thẻ
+207|Bộ dụng cụ
+208|Bắt đầu với {0} mô-đun ngẫu nhiên
+209|Tụ điện
+210|-{0}% hồi chiêu kỹ năng
+211|Khoang di vật
+212|{0} ô di vật
+213|Thợ săn tiền thưởng
+214|+{0}% sát thương lên trùm
+215|Tái chế pin
+216|+{0}% pin năng lượng
+217|Overclock ∞
+218|+{0}% mọi sát thương
+219|Thoát khỏi hành tinh
+220|Vượt ☠ Crash Site
+221|Vượt ☠ Research Wreck
+222|Vượt ☠ Mining Hulk
+223|Vượt ☠ War Graveyard
+224|Vượt ☠ The Origin
+225|ENDLESS WASTES
+226|Hy vọng kéo dài được bao lâu?
+227|Địa điểm
+228|DỊCH CHUYỂN → MỐI ĐE DỌA
+229|☠ ÁC MỘNG ·
+230|Sinh vật ×
+231|HP · Lõi Xeno ×
+232|Con tàu của bạn đã hỏng nát. Những sinh vật ngoài kia
+233|— chúng chỉ cảm nhận bạn trong
+234|Tia nhiệt vẫn bắn được. Giữ
+235|trên mức không.
+236|⚛ Đã mở khóa LÒ PHẢN ỨNG
+237|(nút góc dưới bên phải, phím
+238|). Nó quyết định tàu đốt bao nhiêu năng lượng:
+239|vòng nhỏ hơn = ít sinh vật phát hiện bạn, nhưng ít sát thương & chiến lợi phẩm hơn.
+240|Dùng khi Hy vọng thấp.
+241|+{0}% sát thương,
+242|×{0} phế liệu & lõi
+243|= thùng đến nhanh hơn, nhưng
+244|vòng lớn hơn
+245|và nhiều sinh vật hơn.
+246|Dùng khi phòng thủ vững.
+247|Sinh vật mới:
+248|Spitter
+249|giữ khoảng cách và phun axit. Tầm xa
+250|Rail
+251|đối phó tốt nhất.
+252|Bloater
+253|nổ trên thân tàu — hạ chúng sớm, vụ nổ cũng gây hại cho sinh vật khác.
+254|Wisp
+255|biết bay: súng cối chỉ gây một nửa sát thương lên chúng.
+256|Phantom
+257|tàng hình cho đến khi lại gần. Sát thương diện rộng vẫn trúng.
+258|Splitter
+259|vỡ thành skitter khi bị hạ. Có thứ cổ xưa đang chờ ở đây...
+260|CHÍ MẠNG
+261|Pin năng lượng
+262|màu xanh
+263|hồi HY VỌNG. Hạ Brute để có cơ hội tốt hơn.
+264|★ ĐÃ VƯỢT ĐỊA ĐIỂM ★
+265|Đã thu hồi linh kiện
+266|NGÃ XUỐNG
+267|Thứ đó
+268|đã nuốt một linh kiện chúng ta cần
+269|để sửa tàu. Hạ nó đi!
+270|CHOÁNG
+271|NÓ ĂN ÁNH SÁNG CỦA BẠN
+272|THE ORIGIN ĐÃ NỔI GIẬN
+273|⚠ THỨ KHỔNG LỒ ĐANG TIẾN LẠI ⚠
+274|MỐI ĐE DỌA
+275|+HY VỌNG
+276|Hy vọng thấp? Lò phản ứng LOW (R) giúp bạn ẩn mình
+277|SECOND WIND
+278|⚠ BẦY ĐÀN TRÀN TỚI ⚠
+279|Từ hướng
+280|Bầy
+281|ngoài bóng tối đang tụ về một phía. Một
+282|đang đến — hãy chuẩn bị (kỹ năng, lò phản ứng LOW, Guardian).
+283|ĐÔNG
+284|ĐÔNG NAM
+285|NAM
+286|TÂY NAM
+287|TÂY
+288|TÂY BẮC
+289|BẮC
+290|ĐÔNG BẮC
+291|· phút
+292|Share
+293|Options
+294|Back
+295|Start
+296|Phải
+297|Trái
+298|Xuống
+299|[{0}] Bỏ qua
+300|[{0}/{1}] Dừng kim   [{2}] Mở ngay
+301|[{0}] Mở thùng
+302|[D-pad] Di chuyển   [{0}] Chọn   [{1}/{2}] Tiếp tục
+303|[D-pad] Di chuyển   [{0}] Chọn   [{1}] Quay lại
+304|[{0}] Thùng  [{1}] Kỹ năng  [{2}/{3}] Đánh dấu  [{4}] Lò phản ứng  [{5}] Tốc độ  [{6}] Trang bị  [{7}] Tạm dừng
+305|CHẠM vào một màu ·
+306|First Light
+307|Hạ sinh vật đầu tiên
+308|Exterminator
+309|Hạ {0} sinh vật
+310|Apex Predator
+311|Scavenger
+312|Mở {0} thùng cứu hộ
+313|Jackpot
+314|Tìm một thẻ Huyền thoại
+315|Arcane Engineer
+316|Dùng {0} kỹ năng
+317|Perfect Harmony
+318|Đạt cộng hưởng {0} mô-đun
+319|Full Arsenal
+320|Có {0} mô-đun cùng lúc
+321|Collector
+322|Mang {0} di vật trong một lượt
+323|Devourer Down
+324|Hạ The Devourer
+325|Brood Breaker
+326|Hạ Brood Mother
+327|Crushed
+328|Hạ The Crusher
+329|Ghostbuster
+330|Hạ Phantom Warlord
+331|Origin Story
+332|Hạ The Origin
+333|Living Dangerously
+334|Hạ một trùm ở chế độ OVERDRIVE
+335|Untouchable
+336|Vượt địa điểm mà Hy vọng không tụt dưới {0}%
+337|Liftoff
+338|Sửa tàu và thoát khỏi hành tinh
+339|Nightmare: Crash Site
+340|Nightmare: Research Wreck
+341|Nightmare: Mining Hulk
+342|Nightmare: War Graveyard
+343|Nightmare: The Origin
+344|Beyond Limits
+345|Đạt cấp Overclock {0}
+346|Endless Night
+347|Đạt Mối đe dọa {0} ở Endless
+348|Eternal Flame
+349|🏆 THÀNH TỰU {0}/{1}
+350|◂ QUAY LẠI
+351|Số lượt chơi
+352|Sinh vật đã hạ
+353|Thùng đã mở
+354|Kỹ năng đã dùng
+355|Trùm đã hạ
+356|Thẻ Huyền thoại đã tìm
+357|Địa điểm đã vượt
+358|Mối đe dọa Endless cao nhất
+359|Thời gian trên hành tinh
+360|📊 THỐNG KÊ
+361|cháy+lạnh
+362|SHATTER
+363|Cháy + Lạnh: bùng nổ sát thương lớn lên mục tiêu và mảnh vỡ xung quanh
+364|cháy+điện
+365|OVERLOAD
+366|Cháy + Điện: một vụ nổ gây sát thương và đẩy lùi sinh vật gần đó
+367|lạnh+điện
+368|SUPERCONDUCT
+369|Lạnh + Điện: mục tiêu và các sinh vật bên cạnh chịu +{0}% sát thương trong {1} giây
+370|CONTAGION
+371|Nano + bất kỳ: trạng thái còn lại lan sang {0} sinh vật bên cạnh và hồi một chút Hy vọng
+372|{0}. Kết hợp nguyên tố để kích hoạt phản ứng.
+373|Scavenger's Lens
+374|+{0}% phế liệu từ mỗi lần hạ
+375|Spare Battery
+376|Echo Scanner
+377|Thùng hiện {0} thẻ
+378|Glass Cannon
+379|+{0}% sát thương mô-đun, Hy vọng hao nhanh hơn {1}%
+380|Dampener Coil
+381|Vòng phát hiện nhỏ hơn {0}%
+382|Core Magnet
+383|Hair Trigger
+384|Tia nhiệt bắn nhanh gấp đôi
+385|Static Hull
+386|Sinh vật đánh vào tàu sẽ bị giật điện
+387|DI VẬT:
+388|× LIÊN TIẾP
+389|GIÁP DÀY
+390|S.V. HOPE
+391|Cân bằng. Con tàu đã rơi xuống đây.
+392|BULWARK
+393|+{0}% Hy vọng tối đa, Hy vọng hao chậm hơn {1}%, nhưng −{2}% sát thương.
+394|Vượt Địa điểm {0}
+395|PRISM
+396|Bắt đầu với một mô-đun Hiếm miễn phí và +{0}% tỉ lệ hiếm. Thùng đắt hơn {1}%.
+397|EMBER
+398|+{0}% sát thương và +{1}% tốc độ bắn, nhưng Hy vọng hao nhanh hơn {2}%.
+399|Hoàn thành cốt truyện
+400|Swarm
+401|Nhiều hơn {0}% sinh vật, mỗi con ít hơn {1}% HP.
+402|Elite Hunt
+403|Mỗi sự kiện đợt tấn công đều có một Elite.
+404|Glass Hope
+405|−{0}% Hy vọng tối đa, +{1}% sát thương.
+406|Famine
+407|Ít hơn {0}% phế liệu từ sinh vật.
+408|Frenzy
+409|Sinh vật di chuyển nhanh hơn {0}%.
+410|🛰 TÀU & BIẾN THỂ
+411|TÀU
+412|BIẾN THỂ
+413|chọn tối đa {0} (cái thứ {1} thay thế cái cũ nhất) · lượt khó hơn thưởng nhiều hơn ✦
+414|Thưởng độ nóng:
+415|Solar Flare
+416|Thiêu đốt mọi sinh vật trong vòng
+417|Cryo Nova
+418|Đóng băng sinh vật trong vòng khoảng {0}s
+419|Overcharge
+420|Mô-đun bắn nhanh gấp {0}× trong khoảng {1}s
+421|Emergency Cell
+422|Hồi ngay khoảng {0}% Hy vọng
+423|Shock Pulse
+424|Hất văng sinh vật gần đó & làm choáng
+425|Đã có kỹ năng mới!
+426|Chạm vào nó (hoặc nhấn
+427|) để dùng. Nó tự hồi theo thời gian.
+428|{0} · Cấp{1}
+429|TỰ ĐỘNG
+430|CRAWLER
+431|SKITTER
+432|BRUTE
+433|SPITTER
+434|BLOATER
+435|WISP
+436|PHANTOM
+437|SPLITTER
+438|CHARGER
+439|SHELLBACK
+440|HATCHER
+441|SCREAMER
+442|LURKER
+443|MENDER
+444|LEAPER
+445|Charger
+446|: dừng lại, nháy đỏ rồi
+447|húc vào tàu
+448|. Hạ hoặc đóng băng nó trong lúc lấy đà.
+449|Shellback
+450|: giáp dày, chỉ nhận {0}% sát thương.
+451|Cháy
+452|bỏ qua giáp — mô-đun Nhiệt làm tan chảy nó.
+453|Hatcher
+454|: đứng phía sau và đẻ skitter mỗi vài giây. Diệt nó trước — chạm để
+455|Screamer
+456|: tiếng hét làm sinh vật gần đó chạy nhanh hơn. Hạ nó để nhận
+457|Surge Cell
+458|Mender
+459|: chữa lành các sinh vật quanh nó mỗi vài giây. Đánh dấu và hạ nó trước.
+460|Leaper
+461|: thu người xuống, rồi
+462|nhảy lên tàu
+463|và không thể bị đánh khi đang trên không. Đóng băng hoặc bắn nó lúc thu người.
+464|Lurker
+465|trồi lên từ lòng đất
+466|vòng của bạn. Chú ý các vết nứt.
+467|OVERCHARGE
+468|◆ ELITE
+469|— hạ nó để nhận Surge Cell
+470|ĐÃ HẠ ELITE
+471|ĐÃ IM LẶNG
+472|TỔ ĐÃ SẬP
+473|HOÀN HẢO ×
+474|HOÀN HẢO
+475|⚠ BẦY ĐÀN ÀO TỚI ⚠
+476|⚠ PHỤC KÍCH ⚠
+477|Có thứ gì đó dưới lòng đất
+478|⚠ VÂY HÃM ⚠
+479|Sinh vật tầm xa vào vị trí —
+480|DỄ
+481|Thoải mái. Nhiều Hy vọng hơn, sinh vật yếu hơn.
+482|Trải nghiệm theo thiết kế.
+483|KHÓ
+484|Bầy đàn mạnh hơn, trùm thông minh hơn.
+485|ĐỊA NGỤC
+486|Dành cho cao thủ. Mỗi sai lầm đều chí mạng.
+487|TÙY CHỌN
+488|GHI CÔNG
+489|© {0} duyluma
+490|Hoàn thành cốt truyện ★
+491|Ô LƯU {0}
+492|Đã chơi {0} · {1} lượt
+493|Gần nhất: {0}
+494|CHƠI
+495|ĐỔI TÊN
+496|XOÁ
+497|Ô trống
+498|GAME MỚI
+499|CHỌN BẢN LƯU
+500|GAME MỚI · Ô LƯU {0}
+501|Tên chỉ huy
+502|Độ khó
+503|HUỶ
+504|BẮT ĐẦU ▸
+505|ĐỔI TÊN Ô LƯU {0}
+506|LƯU
+507|XOÁ Ô LƯU {0}?
+508|· {0} · đã chơi {1}.
+509|Không thể hoàn tác.
+510|NHẤN LẠI ĐỂ XÁC NHẬN
+511|ÂM THANH
+512|HÌNH ẢNH
+513|LỐI CHƠI
+514|ĐIỀU KHIỂN
+515|Hiệu ứng âm thanh
+516|Nhạc
+517|Giọng nói
+518|Tắt toàn bộ
+519|Cỡ giao diện
+520|Chế độ cửa sổ
+521|F{0} bật/tắt toàn màn hình
+522|Toàn màn hình
+523|Rung màn hình
+524|Loé sáng màn hình
+525|tắt nếu bị chói mắt
+526|Số sát thương
+527|Tốc độ game mặc định
+528|Mini-game khoá thùng
+529|tắt = thùng mở ngay lập tức
+530|Rung tay cầm
+531|Hiện FPS
+532|cũng là F{0} · giúp báo cáo hiệu năng
+533|Dữ liệu lưu
+534|sao chép mã sao lưu, hoặc khôi phục một mã vào ô lưu này
+535|XUẤT
+536|NHẬP
+537|Tự dùng kỹ năng
+538|Gợi ý hướng dẫn
+539|hiện lại các gợi ý
+540|ĐẶT LẠI
+541|XONG
+542|MỘT GAME CỦA
+543|THIẾT KẾ · CHỈ ĐẠO
+544|LẬP TRÌNH · HỖ TRỢ THIẾT KẾ
+545|Xây dựng cùng Claude (Anthropic)
+546|ĐỒ HOẠ
+547|Key art và sprite được tạo bằng công cụ ảnh AI,
+548|do nhà phát triển chỉnh sửa và tích hợp
+549|ÂM NHẠC & ÂM THANH
+550|Nhạc nền thích ứng và hiệu ứng được tổng hợp trong engine{0}
+551|CẢM ƠN
+552|vì đã chơi. Hãy giữ ngọn lửa cháy mãi.
+553|ĐÓNG
+554|Đã sao chép.
+555|Đã nhập. Đang tải lại ô lưu...
+556|Mã không hợp lệ.
+557|HY VỌNG
+558|MỐI ĐE DỌA TỐI ĐA
+559|∞ Endless
+560|MỞ THÙNG MIỄN PHÍ
+561|MỞ THÙNG  ⚙
+562|ẩn · ít chiến lợi phẩm
+563|×{0} chiến lợi phẩm · nguy hiểm
+564|Vòng, sát thương và chiến lợi phẩm tiêu chuẩn
+565|Vòng {0} · Sát thương {1} · Chiến lợi phẩm {2} · Sinh vật {3}
+566|⚛ LÒ PHẢN ỨNG ·
+567|ĐÃ HIỂU
+568|thùng cứu hộ
+569|từ một xác tàu cũ! Chạm
+570|MỞ THÙNG
+571|Mô-đun tự bắn. Nhận lại
+572|cùng mô-đun
+573|để nâng cấp nó
+574|Cộng hưởng!
+575|{0} mô-đun cùng loại:
+576|. Đạt {0} để có hiệu ứng đặc biệt.
+577|{0} · Mối đe dọa
+578|Hạ
+579|· Thùng
+580|Elite đã hạ
+581|· Đợt hoàn hảo
+582|· Hy vọng thấp nhất
+583|+{0} ✦ Lõi Xeno
+584|✦ Lõi Xeno
+585|◂ MÀN HÌNH CHÍNH
+586|✦ Lõi Xeno:
+587|· Ô lưu {0}
+588|ĐỊA ĐIỂM RƠI
+589|SỬA CHỮA TÀU
+590|Cấp {0}/{1}
+591|SỬA CHỮA NÂNG CAO
+592|Cấp {0}
+593|Con tàu của bạn đã rơi xuống một hành tinh lạ.
+594|Có thứ gì đó đang di chuyển trong bóng tối.
+595|⚙ Cài đặt
+596|TẠM DỪNG
+597|Esc / P để tiếp tục
+598|▶ TIẾP TỤC
+599|⚙ Tùy chọn
+600|☰ Trang bị
+601|✕ Bỏ lượt chơi
+602|⏏ Về màn hình chính
+603|LÒ PHẢN ỨNG:
+604|CÓ BẢN CẬP NHẬT
+605|⬆ CẬP NHẬT NGAY
+606|Thân tàu thủng. Động cơ hỏng. Chuẩn bị va chạm.
+607|CHỈ HUY
+608|...Mình... đang ở đâu?
+609|Phát hiện chuyển động. Chúng không thấy ta... chưa thấy.
+610|Chúng mù. Chúng chỉ cảm nhận ta trong ánh sáng.
+611|Thùng cứu hộ. Xem còn gì sống sót.
+612|Được rồi. Tạm ổn.
+613|Hệ thống đã liên kết. Công suất đang tăng.
+614|Tốt hơn. Tốt hơn nhiều.
+615|Đây chính là thứ tôi cần.
+616|Hy vọng cạn kiệt. Tôi... không trụ được lâu nữa.
+617|Cố lên... ở lại với tôi.
+618|Chuyển hướng điện khẩn cấp. Thêm một cơ hội.
+619|Tín hiệu khổng lồ. Nó đã nuốt lõi định vị của ta.
+620|Dấu hiệu bầy mẹ. Nó đang đẻ thêm khi tiến tới.
+621|Mục tiêu bọc giáp. Đánh khi nó ngừng lao tới.
+622|Nó chớp nhoáng trong bóng tối. Canh các rìa.
+623|Nguồn gốc của tất cả. Nó ăn ánh sáng của ta.
+624|Bắt được rồi. Đã thu hồi linh kiện.
+625|Hy vọng... đang tắt dần...
+626|Vá tàu lại. Ta đi tiếp.
+627|Động cơ có một phần công suất. Ta có thể nhảy.
+628|Chỉ số vượt thang đo. Đây là ý tồi.
+629|Mọi hệ thống đã phục hồi. Hy vọng một trăm phần trăm.
+630|Đưa chúng ta về nhà.
+631|Lõi định vị đã phục hồi. Bản đồ sao đã khớp.
+632|Xác nhận vị trí. Hành tinh thứ ba tính từ Mặt Trời.
+633|Chúng ta đã băng qua một điểm kỳ dị. Lệch thời gian: bốn nghìn năm.
+634|Chúng ta chưa từng rời nhà. Chúng ta trở về quá muộn.
+635|MỐI ĐE DỌA {0}
+636|Bỏ lượt chơi
+637|⚛ BÌNH THƯỜNG
+638|Trang bị (Tab)
+639|Tạm dừng (Esc / P)
+640|II
+641|BỎ QUA ▸▸
+642|Địa điểm {0}
+643|CỘNG HƯỞNG NANO {0}
+644|{0}× LIÊN TIẾP
+645|Từ hướng ĐÔNG NAM
+646|Ngôn ngữ
+647|LƯU TRỮ
+648|Sắp ra mắt
+649|Tự động
+650|Cửa sổ không viền
+651|Cửa sổ phóng to
+652|Cửa sổ
+653|Chọn một thẻ
+654|Dùng kỹ năng
+655|Trang bị
+656|Chế độ lò phản ứng
+657|Tạm dừng
+658|Tay cầm
+659|XUẤT BẢN LƯU
+660|NHẬP BẢN LƯU
+661|LINH KIỆN CUỐI CÙNG
+662|ĐÃ THU HỒI LINH KIỆN
+663|HY VỌNG TẮT DẦN…
+664|🚀 CẤT CÁNH ▸
+665|SỬA TÀU ▸
+666|Tiếp:
+667|TỐI ĐA
+668|BẮT ĐẦU LƯỢT
+669|THỨC DẬY
+670|Để sau
+671|Độ nóng
+672|TẮT
+673|📊 Thống kê
+674|🛰 Tàu
+675|🎬 Mở đầu
+676|🚀 Kết thúc
+677|▶ THỨC DẬY
+678|▶ BẮT ĐẦU LƯỢT
+679|Mở thùng / xác nhận
+680|D-pad/cần analog + A/B trong menu · A thùng · X/Y/B kỹ năng · LB/RB đánh dấu · LT lò phản ứng · RT tốc độ · Back trang bị · Start tạm dừng
+681|Nhạc bổ sung được tạo bằng Suno
+682|GIỌNG NÓI
+683|Giọng AI: Kokoro (Apache-{0}), Chatterbox (MIT)
+684|mối đe dọa cao nhất {0}
+685|Dùng Lõi Xeno để sửa tàu. Mỗi lần sửa giúp lượt sau kéo dài hơn.
+686|Tiếp: {0}
+687|mù
+688|vòng
+689|cân bằng
+690|MỞ THÙNG  ⚙{0}
+691|{0} st · {1}/giây · tầm {2}
+692|phím {0}–{1}
+693|Chạm để xem thưởng {0}
+694|không có
+695|HY VỌNG {0}%
+696|LÒ PHẢN ỨNG · {0}

@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.15.0 — 2026-11-18
+- **Languages**: English, Tiếng Việt, 简体中文, Español, Português (Brasil), Русский, Deutsch, 日本語 — Options → Gameplay → Language (auto-detected on first launch). Voice-over stays English; all UI, tips and subtitles are translated.
+- Runtime translation layer (`src/i18n.js`): English text is the key, dictionaries in `assets/lang/<code>.js` built from `tools/i18n/keys.json` + `tools/i18n/tr/*.txt` by `tools/i18n/build_lang.py`; template strings match by pattern, leading symbols/emoji are skipped, canvas text is translated too. English path has zero overhead.
+- Translations are machine-quality best effort; proper names (creatures, bosses, sites, achievements) stay English.
+
 ## v0.14.2 — 2026-11-18
 - **Ship cannon redesign**: new AI-art hull-mounted main cannon (bigger, grey-violet armour + cyan plasma core, orange hazard collar) so it no longer reads as one of the module turrets. Alternates kept in `tools/sprites/alt/`.
 - **Music**: title screen music starts immediately (audio is initialised at boot; Electron already allows autoplay, browsers unlock on first input).
