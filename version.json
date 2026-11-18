@@ -1,8 +1,8 @@
 {
-  "version": "0.13.1",
+  "version": "0.13.2",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Module, spell and relic icons now sit in framed medallions (loadout and build bar)"
+    "New creatures (Charger, Shellback, Hatcher, Screamer, Lurker) now have full pixel-art sprites with animation"
   ]
 }

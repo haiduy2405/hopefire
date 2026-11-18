@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.13.2 — 2026-11-18
+- AI pixel art for the 5 new creatures (assets/ai/charger|shellback|hatcher|screamer|lurker, 4 frames each; code-drawn fallback kept). Sheet imported with import_ai.py (names are assigned left→right, so list them in the sheet's visual order).
+
 ## v0.13.1 — 2026-11-18
 - Framed icon medallions for modules/spells/relics in the loadout (`.icof` wrapper in crate.js) and framed slots in the build bar.
 
