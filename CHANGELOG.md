@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.5 — 2026-11-18
+- **Voice-over**: 25 lines in `assets/vo/*.mp3` + manifest. HOPE = Kokoro-82M `af_heart` (Apache-2.0), COMMANDER = Chatterbox (MIT) cloned from a Kokoro `am_fenrir` reference with emotion (exaggeration) per line, ??? = HOPE + octave-down layer. Generated on Duy's PC (`tools/voice/gen_lines.py`, venvs in `D:\AI\hopefire_tts`; kokoro venv needs torch ≥2.6 cu124), post-processed here (`tools/voice/post.py`: trim, FX chain, −16 LUFS, mono mp3). Steam: declare AI-generated voices
+
 ## v0.9.4 — 2026-11-18
 - **Crate lock mini-game** (`src/crate.js` lockStart/lockTap/lockDraw): 3 locks per crate (one per card). A needle sweeps a dial (speed breathes with a sine, faster each lock, random direction); zones: RARE 56° always, EPIC 26° (55%), LEGENDARY 13° (15% + luck). Hit = rarity floor for that card; centre 16% = PERFECT +1 (max Epic). All 3 hit incl. an Epic/Legendary zone = JACKPOT extra card. AFK auto-miss after 3.6 s, Quick open button, Options toggle `SETTINGS.lockGame`. Not shown on the very first crate. Ticks/hit/perfect/miss/jackpot SFX
 - **The Horde** (`src/horde.js`): 80→420 non-simulated silhouettes with glowing eyes in packs outside the ring, grows with threat/site/Nightmare, flinches from the light, eyes turn red on ring pulses/OVERDRIVE, ambient growls
