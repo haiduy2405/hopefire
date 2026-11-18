@@ -97,13 +97,13 @@ function spellCardHTML(cd,i){
   const ex=R.spells.find(s=>s.d.id===cd.sp.id);
   let tag;if(ex)tag=`<span class="tg" style="background:#ffd24a">Lv${ex.lv} → Lv${ex.lv+1}</span>`;
   else if(R.spells.length>=MAX_SPELLS){const w=R.spells.reduce((a,b)=>spellPow(b)<spellPow(a)?b:a);tag=`<span class="tg" style="background:#ff5a5a">Replaces ${w.d.n}</span>`}
-  else tag=`<span class="tg" style="background:#c79bff">New spell · ${'QWE'[R.spells.length]}</span>`;
+  else tag=`<span class="tg" style="background:#c79bff">New spell · ${spKey(R.spells.length)}</span>`;
   const cd0=ex?spellCd(ex):cd.sp.cd*(1-0.06*lv('cap')),cd1=ex?spellCd({d:cd.sp,lv:ex.lv+1}):cd0;
   return `<div class="card r${cd.r} spellcard" style="--rc:${RAR[cd.r].c};border-color:${RAR[cd.r].c}" data-i="${i}">
     <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n} · SPELL</div>
     <div class="gl" style="background:${cd.sp.c}22;border-radius:50%">${ico('sp_'+cd.sp.id,3,0,cd.sp.g)}</div>
     <div class="nm">${cd.sp.n}</div><div class="ds">${cd.sp.d}</div>
-    <div class="ds st">Cooldown ${Math.round(cd0)}s${ex?` → ${Math.round(cd1)}s · power +50%`:''} · tap or ${'QWE'[ex?R.spells.indexOf(ex):Math.min(R.spells.length,2)]}</div>${tag}</div>`;
+    <div class="ds st">Cooldown ${Math.round(cd0)}s${ex?` → ${Math.round(cd1)}s · power +50%`:''} · tap or ${spKey(ex?R.spells.indexOf(ex):Math.min(R.spells.length,2))}</div>${tag}</div>`;
 }
 
 // ---------- ceremony ----------
@@ -136,7 +136,7 @@ function openPack(){
   show(`<div class="panel center crpanel"><h2>SALVAGE CRATE</h2>
     <div class="lockwrap${lockOn?'':' nolock'}">${lockOn?'<canvas id="lockCv"></canvas>':''}<div class="crate r${best}" id="crateEl" style="--tc:${tell}"><div class="crays"></div>${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div></div>
     ${lockOn?`<div class="lslots">${curCards.map((x,i)=>`<div class="lslot" id="ls${i}">${i<3?'🔒':''}</div>`).join('')}</div>
-    <div class="crhint" id="lhint">TAP when the needle is in a colour · <kbd>Space</kbd></div><button class="small lquick" id="lquick">Quick open ▸</button>`:'<div class="crhint">tap to open</div>'}</div>`);
+    <div class="crhint" id="lhint">TAP when the needle is in a colour · <kbd>${confirmKey()}</kbd></div><button class="small lquick" id="lquick">Quick open ▸</button>`:'<div class="crhint">tap to open</div>'}</div>`);
   let opened=false;const el=$('crateEl');
   const go=()=>{if(opened)return;opened=true;LK=null;const b2=Math.max(...curCards.map(x=>x.rl?3:x.r));sfx('crack'+b2);
     if(SPR.data&&SPR.data.sprites.crate){el.querySelector('.ico')&&(el.querySelector('.ico').outerHTML=ico('crate',4,1))}
@@ -216,7 +216,7 @@ function revealCards(c){
   let h=`<div class="panel center chpanel"><div id="buildBar" class="buildbar"></div><h2>CHOOSE ONE</h2><div class="cards">`;
   curCards.forEach((cd,i)=>{const inner=cd.cr?crewCardHTML(cd,i):cd.sp?spellCardHTML(cd,i):cd.rl?relicCardHTML(cd,i):moduleCardHTML(cd,i,i===bi);
     h+=`<div class="cwrap" style="--d:${0.08+i*0.17}s">${inner}<div class="cback r${cd.rl?3:cd.r}"></div></div>`});
-  h+=`</div><div class="chfoot"><button class="small" id="skipBtn">Scrap it (+40% refund)</button><span class="chhelp">Tap an element badge for details · keys 1–${curCards.length}</span></div></div>`;
+  h+=`</div><div class="chfoot"><button class="small" id="skipBtn">Scrap it (+40% refund)</button><span class="chhelp">Tap an element badge for details · ${PADMODE?'D-pad + '+padGlyph('A'):'keys 1–'+curCards.length}</span></div></div>`;
   show(h);renderBuildBar();
   const cards=[...modal.querySelectorAll('.card')];
   cards.forEach((el,i)=>{
@@ -252,7 +252,7 @@ function showLoadout(){
       <div class="loms">${fmt(h.t.dmg*m.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier))} dmg · ${(h.t.rate*m.rate).toFixed(1)}/s · ${h.t.c==='drone'?'anywhere':h.t.range+' range'}${h.t.aoe?' · area':''}</div>
       <div class="lomb"><i style="width:${Math.round(p/tot*100)}%;background:${c}"></i><span>${fmt(p)} DPS · ${Math.round(p/tot*100)}%</span></div></div></div>`}).join('')||'<div class="loe">No modules yet — open a crate.</div>';
   let syns='';for(const k in TYPES){const n=syn[k]||0,t=synTier(n);syns+=`<div class="los${t?' on':''}" data-el="${k}" style="--ec:${TYPES[k].c}"><div class="losh"><b>${k}</b><span class="lp">${pips(k,n)}</span></div><span>${t===2?ELEM_INFO[k].t4:t===1?ELEM_INFO[k].t2:n?`${2-n} more for +25% dmg`:'—'}</span></div>`}
-  const sp=R.spells.map((s,i)=>`<div class="lox" style="--rc:${RAR[s.r].c}">${ico('sp_'+s.d.id,2,0,s.d.g)}<div><b>${s.d.n}</b> <span class="lst">Lv${s.lv}</span> <span class="lok">${'QWE'[i]}</span><div class="loms">${s.d.d} · cooldown ${Math.round(spellCd(s))}s</div></div></div>`).join('')||'<div class="loe">No spells yet.</div>';
+  const sp=R.spells.map((s,i)=>`<div class="lox" style="--rc:${RAR[s.r].c}">${ico('sp_'+s.d.id,2,0,s.d.g)}<div><b>${s.d.n}</b> <span class="lst">Lv${s.lv}</span> <span class="lok">${spKey(i)}</span><div class="loms">${s.d.d} · cooldown ${Math.round(spellCd(s))}s</div></div></div>`).join('')||'<div class="loe">No spells yet.</div>';
   const rl=R.relics.map(id=>{const r=RELICS.find(x=>x.id===id);return `<div class="lox" style="--rc:#ffd24a">${ico('rl_'+r.id,2,0,r.g)}<div><b>${r.n}</b><div class="loms">${r.d}</div></div></div>`}).join('')||`<div class="loe">No relics yet (max ${maxRelics()}).</div>`;
   const crw=(R.crew||[]).map(c=>`<div class="lox" style="--rc:${RAR[c.r].c}"><img src="${crewPortrait(c.role,c.ty)}" alt=""><div><b>${c.ty} ${CREW[c.role].n}</b> <span class="lst">${'★'.repeat(Math.min(c.s,5))}</span> ${elemBadge(c.ty)}<div class="loms">${crewStat(c.role,c.r,c.s,c.ty)}${c.down>0?' · <b style="color:#ff5a5a">DOWN</b>':''}</div></div></div>`).join('')||`<div class="loe">No crew yet — crew cards appear in crates (max ${CREW_MAX}).</div>`;
   const d=document.createElement('div');d.id='loadout';

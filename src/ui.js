@@ -36,7 +36,7 @@ function tip(id,html,pause,secs){
 function hideTip(){$('tip').style.display='none';if(R)R.tipPause=false}
 function tutorialTick(){
   if(meta.tut.done1)return;
-  if(R.tutStep===0&&meta.tut.start&&R.t>5){R.tutStep=1;R.gold=Math.max(R.gold,packCost());vo('tut_crate',1);tip('crate','A <b>salvage crate</b> from an older wreck! Tap <b>OPEN CRATE</b> (or Space).',false,30);$('packBtn').classList.add('pulse')}
+  if(R.tutStep===0&&meta.tut.start&&R.t>5){R.tutStep=1;R.gold=Math.max(R.gold,packCost());vo('tut_crate',1);tip('crate','A <b>salvage crate</b> from an older wreck! Tap <b>OPEN CRATE</b> (or ${confirmKey()}).',false,30);$('packBtn').classList.add('pulse')}
 }
 function pick(i){
   if(!curCards)return;const cd=curCards[i];sfx('up');

@@ -65,7 +65,7 @@ function padPoll(now){
   // direction with repeat
   let dir=null;for(const d of['Up','Down','Left','Right'])if(c[d]){if(edge(d)){dir=d;PAD.hold[d]=now;PAD.lastRep=now}else if(now-PAD.hold[d]>380&&now-PAD.lastRep>130){dir=d;PAD.lastRep=now}}
   const layer=padLayer(),inCut=typeof CUT!=='undefined'&&CUT,hasLK=typeof LK!=='undefined'&&LK&&$('lockCv');
-  if(any||dir){if(!PAD.vis){PAD.vis=true;document.body.classList.add('padmode')}}
+  if(any||dir){if(!PAD.vis){PAD.vis=true;PADMODE=true;document.body.classList.add('padmode');padRelabel()}}
   if(inCut){
     if(edge('A')||edge('Start')){const s=$('skipCut');if(s&&padVis(s))s.click();else if(CUT.title>=1)cv.dispatchEvent(new PointerEvent('pointerdown'))}
   }else if(layer){
@@ -115,7 +115,8 @@ function padHint(t){
   const s=PAD.vis&&PAD.pad?t:'';if(s===PAD.hint)return;PAD.hint=s;h.textContent=s;h.style.display=s?'block':'none'}
 
 // ---------- wiring ----------
-function padHide(){if(PAD.vis){PAD.vis=false;document.body.classList.remove('padmode');padSetFocus(null);padHint('')}}
+function padRelabel(){try{if(typeof R!=='undefined'&&R&&!R.over){renderSpellBar();if($('lhint'))$('lhint').innerHTML=`TAP when the needle is in a colour · <kbd>${confirmKey()}</kbd>`}}catch(_){}}
+function padHide(){if(PAD.vis){PAD.vis=false;PADMODE=false;padRelabel();document.body.classList.remove('padmode');padSetFocus(null);padHint('')}}
 addEventListener('pointerdown',padHide);addEventListener('keydown',padHide);
 addEventListener('pointermove',e=>{if(Math.abs(e.movementX||0)+Math.abs(e.movementY||0)>3)padHide()});
 addEventListener('gamepaddisconnected',()=>{if(typeof R!=='undefined'&&R&&!R.over&&!R.paused&&!(typeof CUT!=='undefined'&&CUT))togglePause(true)});

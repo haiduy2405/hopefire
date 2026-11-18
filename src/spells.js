@@ -19,7 +19,7 @@ function addSpell(cd){
     if(R.spells.length<MAX_SPELLS)R.spells.push(s);
     else{let wi=0;R.spells.forEach((x,i)=>{if(spellPow(x)<spellPow(R.spells[wi]))wi=i});R.spells[wi]=s}}
   renderSpellBar();
-  if(!meta.tut.spell)setTimeout(()=>tip('spell','<b>Spell acquired!</b> Tap it (or Q / W / E) to cast. It recharges over time.',false,6),300);
+  if(!meta.tut.spell)setTimeout(()=>tip('spell','<b>Spell acquired!</b> Tap it (or press '+(PADMODE?'X / Y / B':'Q / W / E')+') to cast. It recharges over time.',false,6),300);
 }
 function castSpell(i){
   const s=R&&R.spells[i];if(!s||s.cd>0||R.paused||R.over||R.tipPause)return;
@@ -44,7 +44,7 @@ function renderSpellBar(){
   const bar=$('spellBar');if(!R||!R.spells.length){bar.innerHTML='';bar.style.display='none';return}
   bar.style.display='flex';
   bar.innerHTML=R.spells.map((s,i)=>`<button class="spell" data-i="${i}" style="border-color:${RAR[s.r].c};color:${s.d.c}" title="${s.d.n}: ${s.d.d}">
-    <span class="sg">${ico('sp_'+s.d.id,2,0,s.d.g)}</span><span class="sl">${'QWE'[i]} · Lv${s.lv}</span><span class="cdov"></span></button>`).join('');
+    <span class="sg">${ico('sp_'+s.d.id,2,0,s.d.g)}</span><span class="sl" data-k="${i}">${spKey(i)} · Lv${s.lv}</span><span class="cdov"></span></button>`).join('');
   if(lv('auto'))bar.innerHTML+=`<button class="autoBtn ${meta.autoCast?'on':''}" id="autoBtn">AUTO<br>${meta.autoCast?'ON':'OFF'}</button>`;
   bar.querySelectorAll('.spell').forEach(b=>b.onclick=()=>castSpell(+b.dataset.i));
   const ab=$('autoBtn');if(ab)ab.onclick=()=>{meta.autoCast=!meta.autoCast;save();sfx('click');renderSpellBar()};
