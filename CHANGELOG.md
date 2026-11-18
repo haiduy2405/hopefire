@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.9.9 — 2026-11-18
+- **Fix**: crate lock mini-game was scaled twice on big screens (`.lockwrap` multiplied `--uz` although `#modal` is already zoomed) → panel overflowed with scrollbars and the dial was cropped. Canvas buffer now sized from `getBoundingClientRect`.
+- **Cards**: the 3 choice cards are always the same width/height (flex stretch) with the DPS/tag row pinned to the bottom.
+
 ## v0.9.8 — 2026-11-18
 - **Gamepad support** (`src/pad.js`, standard/XInput mapping, tested design in `docs/superpowers/`): menus use D-pad/left stick with a gold focus ring (A select, B back); battle: A crate / lock-needle, X·Y·B spells, LB/RB or right stick marks targets, LT reactor, RT speed, Back loadout, Start pause; pausing automatically when the pad disconnects. Button hints bar (Xbox or PlayStation glyphs), vibration on hits/crates/bosses (Options → Gameplay → Controller vibration). Mouse/keyboard hide the pad UI instantly. Flydigi Vader 4 Pro must be in XInput mode.
 

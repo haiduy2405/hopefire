@@ -158,7 +158,7 @@ function lockZones(){const z=[LZ[0]];if(Math.random()<0.55)z.push(LZ[1]);if(Math
 function lockStart(done){
   const n=Math.min(3,curCards.length);
   LK={i:0,n,done,ang:Math.random()*360,dir:Math.random()<.5?1:-1,base:190,ph:Math.random()*6,zones:lockZones(),t:0,hits:0,res:[],fx:[],flash:0,wait:0,tick:0,last:performance.now()};
-  const cv2=$('lockCv'),dpr=Math.min(2,devicePixelRatio||1),sz=cv2.clientWidth||300;cv2.width=sz*dpr;cv2.height=sz*dpr;LK.cv=cv2;LK.g=cv2.getContext('2d');LK.g.scale(dpr*sz/300,dpr*sz/300);
+  const cv2=$('lockCv'),dpr=Math.min(2,devicePixelRatio||1),sz=cv2.getBoundingClientRect().width||300;cv2.width=sz*dpr;cv2.height=sz*dpr;LK.cv=cv2;LK.g=cv2.getContext('2d');LK.g.scale(dpr*sz/300,dpr*sz/300);
   const loop=now=>{if(!LK||!$('lockCv'))return;const dt=Math.min(0.05,(now-LK.last)/1000);LK.last=now;lockStep(dt);lockDraw();requestAnimationFrame(loop)};requestAnimationFrame(loop);
 }
 function lockSpeed(){return LK.base*(1+0.22*LK.i)*(1+0.38*Math.sin(LK.t*2.3+LK.ph))}

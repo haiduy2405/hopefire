@@ -145,7 +145,8 @@ body.inmenu #hud,body.inmenu #bottom{visibility:hidden}
 .crhint{color:#7f8899;font-size:12px}
 .mshake{animation:shake .05s 6 alternate}
 .chpanel{max-width:900px}
-.cwrap{position:relative;perspective:900px}
+.cards{align-items:stretch}.cwrap{position:relative;perspective:900px;display:flex}.cwrap .card{flex:1 1 auto;box-sizing:border-box}
+.card .dps,.card .tg{margin-top:auto}.card .dps+.tg,.card .dps~.tg{margin-top:0}
 .cwrap .card{animation:cfr .5s var(--d) backwards cubic-bezier(.2,.8,.3,1.2)}
 @keyframes cfr{0%,45%{transform:rotateY(-90deg) scale(.9);opacity:0}46%{opacity:1}100%{transform:none;opacity:1}}
 .cback{position:absolute;inset:0;border-radius:6px;border:3px solid #39404f;pointer-events:none;opacity:0;
@@ -333,7 +334,7 @@ body.intitle #hud,body.intitle #bottom{display:none}
 .locrew .lox{flex:1 1 200px}
 .locrew img{width:40px;height:40px;image-rendering:pixelated}
 /* crate lock mini-game */
-.lockwrap{position:relative;width:calc(300px*var(--uz,1));height:calc(300px*var(--uz,1));margin:4px auto 0;max-width:80vw;max-height:80vw}
+.lockwrap{position:relative;width:300px;height:300px;margin:4px auto 0;max-width:calc(80vw/var(--uz,1));max-height:calc(80vw/var(--uz,1))} /* #modal is already zoomed by --uz: do not scale again */
 .lockwrap.nolock{width:auto;height:auto}
 .lockwrap canvas{position:absolute;inset:0;width:100%;height:100%}
 .lockwrap{display:grid;place-items:center}
