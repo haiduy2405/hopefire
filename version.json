@@ -1,9 +1,9 @@
 {
-  "version": "0.10.1",
+  "version": "0.11.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Desktop: the game starts fullscreen; Options has Window mode (Fullscreen / Borderless / Maximized / Windowed)",
-    "Fixed the screen jumping up and down while moving the cursor over crate cards and buttons"
+    "New HOPE bar and ornate boss health bar with damage trail",
+    "Crate opening redone: new armored crate art, ornate panel, header plaques and rarity card frames (common/rare/epic/legendary)"
   ]
 }

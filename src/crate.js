@@ -135,12 +135,12 @@ function openPack(){
   const lockOn=SETTINGS.lockGame!==0&&meta.tut.mod&&R.mods.length>=1;
   const motes=Array.from({length:16},(_,i)=>`<i style="--x:${(Math.random()*96+2).toFixed(1)}%;--d:${(3+Math.random()*3.5).toFixed(2)}s;--dl:-${(Math.random()*5).toFixed(2)}s;--s:${(2+Math.random()*3).toFixed(1)}px;--dx:${Math.round(Math.random()*60-30)}px"></i>`).join('');
   show(`<div class="panel center crpanel r${best}" style="--tc:${tell}"><div class="motes">${motes}</div><h2>SALVAGE CRATE</h2>
-    <div class="lockwrap${lockOn?'':' nolock'}">${lockOn?'<canvas id="lockCv"></canvas>':''}<div class="crate r${best}" id="crateEl" style="--tc:${tell}"><div class="crays"></div>${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div></div>
+    <div class="lockwrap${lockOn?'':' nolock'}">${lockOn?'<canvas id="lockCv"></canvas>':''}<div class="crate r${best}" id="crateEl" style="--tc:${tell}"><div class="crays"></div><img class="crimg" id="crImg" src="assets/ui/crate_closed.png" alt="" draggable="false"></div></div>
     ${lockOn?`<div class="lslots">${curCards.map((x,i)=>`<div class="lslot" id="ls${i}">${i<3?'🔒':''}</div>`).join('')}</div>
     <div class="crhint" id="lhint">TAP at a colour · <kbd>${confirmKey()}</kbd></div><button class="small lquick" id="lquick">Quick open ▸</button>`:'<div class="crhint">tap to open</div>'}</div>`);
   let opened=false;const el=$('crateEl');
   const go=()=>{if(opened)return;opened=true;LK=null;const b2=Math.max(...curCards.map(x=>x.rl?3:x.r));sfx('crack'+b2);
-    if(SPR.data&&SPR.data.sprites.crate){el.querySelector('.ico')&&(el.querySelector('.ico').outerHTML=ico('crate',4,1))}
+    {const im=$('crImg');if(im){im.src='assets/ui/crate_opening.png';setTimeout(()=>{if(im.isConnected)im.src='assets/ui/crate_open.png'},170)}}
     el.classList.add('open');{const lw=modal.querySelector('.lockwrap');if(lw)for(let k=0;k<(b2>=2?3:1);k++)lw.insertAdjacentHTML('beforeend',`<div class="cburst" style="animation-delay:${k*0.14}s"></div>`)}
     if(b2===3){flash(0.5);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),400)}
     setTimeout(()=>revealCards(c),b2>=2?520:300)};
@@ -273,3 +273,5 @@ function showLoadout(){
   const close=()=>{d.remove();if(R&&!was)R.paused=false;sfx('click')};$('loClose').onclick=close;d.onclick=e=>{if(e.target===d)close()};d._close=close;
 }
 function closeLoadout(){const d=$('loadout');if(d&&d._close)d._close()}
+// preload the crate art so the open animation never flashes an empty frame
+['crate_closed','crate_opening','crate_open','kit_panel','kit_plaque','card_common','card_rare','card_epic','card_legend'].forEach(n=>{const i=new Image();i.src='assets/ui/'+n+'.png'});

@@ -9,7 +9,7 @@ function resize(){
   for(const c of [cv,dk,gc]){c.width=W*DPR;c.height=H*DPR}
   cv.style.width=W+'px';cv.style.height=H+'px';
   UZ=SETTINGS.uiScale>0?SETTINGS.uiScale:Math.max(1,Math.min(1.8,Math.min(W/1280,H/760)));document.documentElement.style.setProperty('--uz',UZ);
-  const top=54*UZ,bot=118*UZ;S=Math.min(W/560,(H-top-bot)/(K*620));OX=W/2;OY=top+(H-top-bot)/2+12;groundFor=-1;
+  const top=80*UZ,bot=118*UZ;S=Math.min(W/560,(H-top-bot)/(K*620));OX=W/2;OY=top+(H-top-bot)/2+12;groundFor=-1;
 }
 addEventListener('resize',resize);resize();
 function buildGround(ch){
@@ -131,7 +131,7 @@ function render(dt){
     ctx.globalAlpha=1;
     // screen space
     ctx.setTransform(DPR,0,0,DPR,0,0);ctx.textAlign='center';ctx.textBaseline='middle';
-    if(R.boss&&!R.boss.dead&&R.boss.state==='rush'||R.boss&&!R.boss.dead&&Math.hypot(R.boss.x,R.boss.y)<rr*1.6){const bw=Math.min(440,W-40),bx=(W-bw)/2,by=64;ctx.fillStyle='#000';ctx.fillRect(bx-2,by-2,bw+4,16);ctx.fillStyle='#8a1838';ctx.fillRect(bx,by,bw*Math.max(0,R.boss.hp/R.boss.mhp),12);ctx.fillStyle='#fff';ctx.font='bold 10px monospace';ctx.fillText(BOSSES[(R.boss.bk||1)-1].n+'  '+fmt(R.boss.hp)+(R.boss.armor<1?'  [ARMORED]':''),W/2,by+6)}
+    if(R.boss&&!R.boss.dead&&(R.boss.state==='rush'||Math.hypot(R.boss.x,R.boss.y)<rr*1.6)){drawBossBar(dt)}else R.bossBarT=0;
     if(R.banner&&R.banner.t>0){ctx.globalAlpha=Math.min(1,R.banner.t);const y=OY-rr*K*S-36;ctx.font='bold 26px monospace';ctx.lineWidth=5;ctx.strokeStyle='#000';ctx.strokeText(R.banner.s,W/2,y);ctx.fillStyle='#ffb03a';ctx.fillText(R.banner.s,W/2,y);
       if(R.banner.sub){ctx.font='12px monospace';ctx.fillStyle='#9aa3b3';ctx.fillText(R.banner.sub,W/2,y-24)}ctx.globalAlpha=1}
     // cinematic vignette (always)
@@ -331,4 +331,28 @@ function drawCannon(c){
   const a=R?R.shipAim:(CUT?CUT.aim:-Math.PI/2),rec=(R&&R.shipFl>0)||(CUT&&CUT.fl>0)?4:0;
   c.save();c.translate(0,-44);c.rotate(a);c.fillStyle='#000';c.fillRect(-2-rec,-4,24,8);c.fillStyle='#9aa4b2';c.fillRect(-rec,-2.5,20,5);c.fillStyle='#ffb03a';c.fillRect(17-rec,-2.5,3,5);c.restore();
   c.fillStyle='#000';c.beginPath();c.arc(0,-44,8.5,0,7);c.fill();c.fillStyle='#596274';c.beginPath();c.arc(0,-44,7,0,7);c.fill();c.fillStyle='#7c879b';c.fillRect(-3,-48,4,3);
+}
+
+// ---- boss health bar: ornate AI-art frame, damage-chip trail, slide-in ----
+const UI_IMG={};['hud_boss'].forEach(n=>{const im=new Image();im.src='assets/ui/'+n+'.png';UI_IMG[n]=im});
+function drawBossBar(dt){
+  const b=R.boss,p=Math.max(0,b.hp/b.mhp),u=UZ,fr=UI_IMG.hud_boss,ok=fr&&fr.complete&&fr.naturalWidth;
+  R.bossBarT=(R.bossBarT||0)+dt;const a=Math.min(1,R.bossBarT*3);
+  if(R.bossChip==null||R.bossChipB!==b)R.bossChip=p,R.bossChipB=b;R.bossChip=Math.max(p,R.bossChip-dt*0.22);
+  const bw=Math.min(700*u,W-16),bh=ok?bw*fr.naturalHeight/fr.naturalWidth:34*u,bx=(W-bw)/2,by=84*u-(1-a)*30*u;
+  const hx=ok?bx+bw*0.102:bx+4,hy=ok?by+bh*0.448:by+4,hw=ok?bw*0.797:bw-8,hh=ok?bh*0.306:bh-8;
+  ctx.save();ctx.globalAlpha=a;
+  ctx.fillStyle='#120508';ctx.fillRect(hx,hy,hw,hh);
+  ctx.fillStyle='#ffd9a8';ctx.fillRect(hx,hy,hw*R.bossChip,hh);                      // damage trail
+  const g=ctx.createLinearGradient(0,hy,0,hy+hh);g.addColorStop(0,'#ff6a4a');g.addColorStop(0.5,'#c4183c');g.addColorStop(1,'#6e0a22');
+  ctx.fillStyle=g;ctx.fillRect(hx,hy,hw*p,hh);
+  ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(hx,hy,hw*p,hh*0.35);
+  if(b.armor<1){ctx.fillStyle='rgba(120,180,255,0.35)';ctx.fillRect(hx,hy,hw*p,hh);ctx.strokeStyle='#8fc4ff';ctx.lineWidth=2;ctx.strokeRect(hx,hy,hw*p,hh)}
+  for(let k=1;k<4;k++){ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(hx+hw*k/4-1,hy,2,hh)}  // quarter ticks
+  if(ok)ctx.drawImage(fr,bx,by,bw,bh);
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineJoin='round';
+  const fs=Math.round(Math.max(11,Math.min(16*u,hh*0.55)));ctx.font='900 '+fs+'px monospace';ctx.lineWidth=4;ctx.strokeStyle='#000';
+  const t=BOSSES[(b.bk||1)-1].n+'   '+fmt(b.hp)+(b.armor<1?'   ARMORED':'');
+  ctx.strokeText(t,W/2,hy+hh/2+1);ctx.fillStyle='#fff';ctx.fillText(t,W/2,hy+hh/2+1);
+  ctx.restore();
 }

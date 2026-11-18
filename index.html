@@ -9,7 +9,7 @@
 <script>
 // ===== VERSION =====
 // Bump this together with version.json on every release (tools/bump.ps1 does both).
-window.HF_VERSION='0.10.1';
+window.HF_VERSION='0.11.0';
 document.title='HOPEFIRE v'+window.HF_VERSION;
 // Every asset URL carries ?v=<version>, so a new version never loads stale cached files.
 document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION+'">');
@@ -18,7 +18,7 @@ document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION
 <body>
 <canvas id="c"></canvas>
 <div id="hud">
-  <div class="hope">🔥<div id="hopewrap"><div id="hopebar"></div><div id="hopetxt"></div></div></div>
+  <div class="hope"><div id="hopewrap"><div id="hopetrk"><div id="hopebar"></div><div id="hopeshine"></div><div id="hopetxt"></div></div><img id="hopefr" src="assets/ui/hud_hope.png" alt="" draggable="false"></div></div>
   <span class="stat" id="scrapT">⚙ 0</span>
   <span class="stat" id="coreT">✦ 0</span>
   <span class="stat" id="threatT">THREAT 1</span>
