@@ -127,7 +127,17 @@ function render(dt){
     for(const e of R.en)if(e.hp<e.mhp&&e.k!=='boss'){const w=e.r*2,y=e.y*K-e.r*2.1;ctx.fillStyle='#000';ctx.fillRect(e.x-w/2-1,y-1,w+2,4);ctx.fillStyle='#ff4d5e';ctx.fillRect(e.x-w/2,y,w*Math.max(0,e.hp/e.mhp),2)}
     // floating text
     ctx.lineWidth=3;ctx.strokeStyle='#000';
-    for(const t of R.txt){ctx.globalAlpha=Math.min(1,t.t*2.5);const pop=t.rx?1+0.7*Math.max(0,(t.t-(t.T-0.14))/0.14):1+0.55*Math.max(0,1-(0.75-t.t)*9);ctx.font=`${t.rx?900:'bold'} ${Math.round(t.s*pop)}px monospace`;ctx.lineWidth=t.rx?4:3;ctx.strokeText(t.v,t.x,t.y);ctx.fillStyle=t.c;ctx.fillText(t.v,t.x,t.y)}
+    for(const t of R.txt){
+      const age=t.rx?(t.T-t.t):(0.75-t.t),life=t.rx?t.T:0.75,a=Math.min(1,t.t/Math.min(0.3,life*0.4));
+      // ease-out-back pop on spawn, small settle; long-lived hints stay at scale 1
+      const k=Math.min(1,Math.max(0,age/0.16)),pop=t.rx?1+0.7*Math.max(0,(t.t-(t.T-0.14))/0.14):(t.t>5?1:1+(t.crit?0.9:0.5)*(1-k)*(1-k)+0.12*Math.sin(k*3.14));
+      const fs=Math.round(t.s*pop),px=t.x+(t.dx||0)*Math.min(1,age/0.5);
+      ctx.globalAlpha=a;ctx.font=`900 ${fs}px "Arial Black","Segoe UI Black",Impact,monospace`;ctx.lineJoin='round';
+      ctx.lineWidth=Math.max(3,fs*0.22);ctx.strokeStyle='#07080c';ctx.strokeText(t.v,px,t.y);
+      ctx.save();ctx.shadowColor=t.c;ctx.shadowBlur=t.crit||t.rx?14:6;
+      const g=ctx.createLinearGradient(0,t.y-fs*0.5,0,t.y+fs*0.5);g.addColorStop(0,'#fff');g.addColorStop(0.45,t.c);g.addColorStop(1,t.c);
+      ctx.fillStyle=t.crit||t.rx?g:t.c;ctx.fillText(t.v,px,t.y);ctx.restore();
+    }
     ctx.globalAlpha=1;
     // screen space
     ctx.setTransform(DPR,0,0,DPR,0,0);ctx.textAlign='center';ctx.textBaseline='middle';

@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.12.0 — 2026-11-18
+- Whole-game UI restyle with the AI-art kit (brass + gunmetal, amber glow): primary/secondary/danger/disabled buttons, tabs, tiles (upgrades, achievements, save slots), chips, spell buttons, tooltips/toasts, every panel (hub, options, pause, loadout, stats, dialogs). 9-slice `border-image` in css/style.css (v0.12 section); assets in `assets/ui/` (btn_*, tab_*, pk_*).
+- Crate choice cards always stay on ONE row (even 4 cards); dark scrollbars; compact build bar.
+- Floating text redone: heavy font, thick outline, glow, gradient fill for crits/reaction words, ease-out pop + fast-then-slow rise, crit "!" with shock ring; damage numbers a bit larger. Fixed a bug where long-lived hint text (Reactor hint) was scaled ~12x.
+- Reactor button no longer overflows; options panel no longer double-framed; no purple ring on upgrade buttons.
+- Disclose AI-generated art on Steam.
+
 ## v0.11.1 — 2026-11-18
 - Pad focus restore: if the focused control disappears or gets disabled after a re-render (bought the last affordable upgrade), focus goes to `#startBtn` (BEGIN RUN) instead of the nearest neighbour (was the 7/25 achievements button). Test: tools/test/begin_test.py.
 

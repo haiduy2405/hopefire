@@ -1,8 +1,10 @@
 {
-  "version": "0.11.1",
+  "version": "0.12.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Controller: after you buy the last affordable repair, the cursor jumps to BEGIN RUN instead of a random button"
+    "Whole-game UI restyle: framed brass buttons, tabs, panels, tiles and dialogs",
+    "Crate cards always on one row; punchier damage numbers, crit shock rings and text effects",
+    "Fixes: Reactor button overflow, double-framed options, oversized hint text"
   ]
 }

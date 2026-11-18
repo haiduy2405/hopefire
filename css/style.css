@@ -460,3 +460,91 @@ button:not(:disabled):not(.tbtn):hover{transform:scale(1.04)}
 .padfocus{outline:none!important}
 .card.padfocus{box-shadow:none!important}
 @media (max-width:600px){.card{border-width:10px;border-image-width:10px;width:100%;min-height:250px}.card.r2{border-width:12px 10px;border-image-width:12px 10px}.card.r3{border-width:18px 10px 12px;border-image-width:18px 10px 12px;margin-top:0}.panel.chpanel,.panel.crpanel{border-width:30px;border-image-width:30px}.chpanel h2,.crpanel h2{padding:16px 46px 12px;font-size:13px}.panel.chpanel::before,.panel.crpanel::before{inset:-18px}}
+
+/* v0.11.2: all choice cards stay on ONE row (4 cards too), no white scrollbars, build bar never clips */
+.cards{flex-wrap:nowrap!important;gap:14px;justify-content:center;width:100%}
+.cwrap{flex:1 1 0;min-width:0;max-width:240px}
+.cwrap .card{width:100%;min-width:0}
+.chpanel{max-width:1060px}
+.panel{scrollbar-width:thin;scrollbar-color:#3a4358 #0b0e14}
+.panel::-webkit-scrollbar{width:8px;height:8px}.panel::-webkit-scrollbar-track{background:#0b0e14}.panel::-webkit-scrollbar-thumb{background:#3a4358;border-radius:4px}
+.chpanel,.crpanel{overflow-x:hidden}
+.buildbar{gap:10px;padding:6px 8px}
+.bslot{width:22px;height:22px}.bslots{gap:3px}
+.bel{padding:2px 5px;gap:3px;font-size:10px}.bels{gap:5px;flex:1 1 auto;justify-content:center}
+.bdps{min-width:118px}
+
+.panel.chpanel,.panel.crpanel{background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--tc,#cfd6e4) 20%,#10141d) 0,#0a0d14 72%)}
+.panel.chpanel::before,.panel.crpanel::before{display:none}
+.panel.chpanel,.panel.crpanel{background-origin:border-box;background-repeat:no-repeat;background-position:12px 12px;background-size:calc(100% - 24px) calc(100% - 24px)}
+
+/* ================= v0.12 premium UI kit: every button, tab, tile, chip, tip and panel ================= */
+/* faced buttons: 9-slice art with the face included */
+button.big,#packBtn,.tbtn,.btn,.menuRow button,.up button,#tip button,.chs button,.otabs button,.diff,.warp+*{--bw:14px}
+.big,#packBtn:not(:disabled),.tbtn.prim,.up button:not(:disabled),#tip button,.dlg .tbtn.prim{border:var(--bw) solid transparent!important;border-image:url(../assets/ui/btn_primary.png) 64 fill/var(--bw) stretch!important;background:none!important;border-radius:0!important;color:#2b1300!important;text-shadow:0 1px 0 #ffd48a88}
+.btn:not(#packBtn),.menuRow button,.tbtn:not(.prim):not(.danger),.small.tbtn{border:var(--bw) solid transparent!important;border-image:url(../assets/ui/btn_secondary.png) 64 fill/var(--bw) stretch!important;background:none!important;border-radius:0!important;color:#eadfca!important}
+.tbtn.danger{border:var(--bw) solid transparent!important;border-image:url(../assets/ui/btn_danger.png) 64 fill/var(--bw) stretch!important;background:none!important;color:#ffe4dc!important;border-radius:0!important}
+button:disabled,.btn:disabled,#packBtn:disabled,.up button:disabled{border:var(--bw) solid transparent!important;border-image:url(../assets/ui/btn_disabled.png) 64 fill/var(--bw) stretch!important;background:none!important;color:#8b8f99!important;border-radius:0!important;text-shadow:none}
+.big{--bw:20px;padding:6px 34px;font-size:19px}
+#packBtn{--bw:16px;height:60px;font-size:17px;padding:0}
+.btn{height:54px;padding:0 6px;min-width:54px}
+#spdBtn{width:64px;color:#9fe3ff!important}
+.menuRow button{padding:2px 8px;font-size:12px}
+.tbtn{padding:6px 22px;min-width:260px}.tbtn.sm{min-width:0;padding:2px 10px;--bw:10px}
+.tbtn small{color:inherit;opacity:.75}
+.tbtn.prim small{color:#4a2606}
+.up button{--bw:9px;padding:0 4px;font-size:12px;margin-top:auto}
+#tip button{--bw:10px;padding:0 14px}
+.btn:active{transform:translateY(2px)}
+
+/* tabs */
+.chs button,.otabs button,.diff{border:12px solid transparent!important;border-image:url(../assets/ui/tab_off.png) 52 fill/12px stretch!important;background:none!important;border-radius:0!important;color:#c7cdd9!important;padding:0 6px}
+.chs button.sel,.otabs button.on,.diff.on{border-image:url(../assets/ui/tab_on.png) 52 fill/12px stretch!important;color:#2b1300!important;text-shadow:0 1px 0 #ffd48a88}
+.chs button:disabled,.diff.lock{border-image:url(../assets/ui/btn_disabled.png) 64 fill/12px stretch!important;color:#7d818c!important;opacity:.8}
+.diff span{color:inherit;opacity:.75}
+.chs button:not(:disabled):not(.sel):hover{background:none!important;color:#fff!important}
+
+/* tiles / save slots / achievements */
+.up,.ach,.slot{border:24px solid transparent;border-image:url(../assets/ui/pk_tile.png) 80/24px stretch;background:#0a0d14;background-origin:border-box;background-repeat:no-repeat;background-position:5px 5px;background-size:calc(100% - 10px) calc(100% - 10px);border-radius:0;box-shadow:none;padding:0 4px;filter:drop-shadow(0 6px 10px #000a)}
+.ach{border-width:18px;border-image-width:18px;border-image-slice:80;padding:0 2px}
+.up.hl{animation:none;filter:drop-shadow(0 0 12px #ffb03aaa)}
+.up.locked,.ach{opacity:.55}.ach.got{opacity:1;border-color:transparent;filter:drop-shadow(0 0 10px #ffd24a77)}
+.up.adv{border-color:transparent;filter:drop-shadow(0 0 8px #8f6bd155)}
+.slot.empty{border-style:solid}
+.slot:hover{border-color:transparent;filter:drop-shadow(0 0 14px #ffb03a99)}
+
+/* chips, synergy tags */
+.chip,.syn{border:8px solid transparent;border-image:url(../assets/ui/pk_chip.png) 40/8px stretch;background:#0b0e14;background-origin:border-box;background-repeat:no-repeat;background-position:2px 2px;background-size:calc(100% - 4px) calc(100% - 4px);border-radius:0;padding:0 2px}
+.syn{opacity:.6}.syn.on{opacity:1;filter:drop-shadow(0 0 6px var(--ec))}
+
+/* spells */
+.spell{width:74px;height:74px;border:16px solid transparent!important;border-image:url(../assets/ui/pk_spell.png) 90/16px stretch!important;border-radius:0;background:#0b0e14;background-origin:border-box;background-repeat:no-repeat;background-position:4px 4px;background-size:calc(100% - 8px) calc(100% - 8px);overflow:visible;opacity:.7}
+.spell.ready{opacity:1;box-shadow:none;filter:drop-shadow(0 0 10px currentColor)}
+.spell .cdov{inset:auto 0 0 0}
+
+/* tip + toasts */
+#tip,.toast{border:20px solid transparent;border-image:url(../assets/ui/pk_tip.png) 60/20px stretch;background:#0a0d14;background-origin:border-box;background-repeat:no-repeat;background-position:6px 6px;background-size:calc(100% - 12px) calc(100% - 12px);box-shadow:none;padding:0 4px;filter:drop-shadow(0 8px 14px #000c)}
+#tip{width:min(500px,92vw)}.toast{border-color:transparent}
+
+/* generic panels (hub, options, pause, loadout, stats...) */
+.panel{border:42px solid transparent;border-image:url(../assets/ui/kit_panel.png) 90/42px stretch;background:radial-gradient(ellipse at 50% 20%,#161b27 0,#0a0d14 75%);background-origin:border-box;background-repeat:no-repeat;background-position:9px 9px;background-size:calc(100% - 18px) calc(100% - 18px);box-shadow:none;padding:0 6px 4px;filter:drop-shadow(0 16px 36px #000d)}
+.panel::-webkit-scrollbar{width:8px}
+.panel.chpanel,.panel.crpanel{border-width:58px;border-image-slice:90;border-image-width:58px}
+@media (max-width:600px){.btn{height:46px;--bw:10px}#packBtn{height:50px;--bw:12px}.panel{border-width:26px;border-image-width:26px}.up,.slot{border-width:16px;border-image-width:16px}.tbtn{min-width:200px}.spell{width:60px;height:60px;border-width:12px!important;border-image-width:12px!important}}
+@keyframes upready2{50%{filter:brightness(1.18) drop-shadow(0 0 7px #ffb03a)}}
+.up button:not(:disabled){animation:upready2 1.9s ease-in-out infinite;box-shadow:none!important}
+/* options / dialogs: framed like every other panel; no double frame inside the hub modal */
+.panel>.opanel{width:auto;background:none;border:0;box-shadow:none;padding:6px 4px;filter:none}
+.tpage>.opanel,.tdpanel{border:42px solid transparent;border-image:url(../assets/ui/kit_panel.png) 90/42px stretch;background:radial-gradient(ellipse at 50% 20%,#161b27 0,#0a0d14 75%);background-origin:border-box;background-repeat:no-repeat;background-position:9px 9px;background-size:calc(100% - 18px) calc(100% - 18px);box-shadow:none;padding:0 6px 4px;filter:drop-shadow(0 16px 36px #000d)}
+.up,.slot{border-width:20px;border-image-width:20px;border-image-slice:80}
+@media (prefers-reduced-motion:reduce){.up button:not(:disabled){animation:none!important}}
+.tbtn,.big,.btn{box-shadow:none!important}
+.lopanel .center{margin-top:18px}
+.padfocus:not(.card){outline:2px solid #ffd24a!important;outline-offset:2px;filter:brightness(1.15) drop-shadow(0 0 10px #ffd24a)}
+.up,.ach,.slot{padding:6px 8px}
+.slot{padding-top:2px}
+.diff{padding:4px 10px;justify-content:center}
+.diff b{letter-spacing:2px}
+.slot .sact{animation:none;text-shadow:none;color:inherit}
+#reactBtn{width:150px;font-size:11px;line-height:1.1;padding:0 6px;white-space:nowrap}
+#reactBtn small{font-size:9px;margin-top:0}

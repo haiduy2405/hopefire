@@ -58,13 +58,13 @@ function threatTarget(x,y,range){const m=R.mark;if(m&&!m.dead&&!isHidden(m)&&(m.
 // word texts (STREAK, SHATTER, MARKED...) stack upwards instead of printing over each other
 function wordY(x,y,s){let yy=y;for(let k=0;k<4;k++){let hit=false;for(const t of R.txt)if(t.w&&Math.abs(t.x-x)<110&&Math.abs(t.y-yy)<s+8){hit=true;break}if(!hit)break;yy-=s+8}return yy}
 function addTxt(x,y,v,c,s){const w=typeof v==='string';if(!w&&!meta.set.nums)return;if(R.txt.length<80)R.txt.push({x:x+rnd(-6,6),y:w?wordY(x,y,s||11):y,v:w?v:fmt(v),c,t:0.75,s:s||11,w:w?1:0})}
-function dmgTxt(e,d,c){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o.age<0.35);if(t){t.n+=d;t.v=fmt(t.n);t.t=0.75;t.c=c;t.s=Math.min(16,11+Math.log10(1+t.n/(e.mhp||1)*10)*3);return}
-  if(R.txt.length<45)R.txt.push({e,n:d,age:0,x:e.x+rnd(-6,6),y:e.y*K-e.r*1.6-(e.fly?22:0),v:fmt(d),c,t:0.75,s:11})}
+function dmgTxt(e,d,c,crit){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o.age<0.35);if(t){t.n+=d;t.v=fmt(t.n)+(t.crit||crit?'!':'');t.t=0.75;t.c=crit?c:t.c;if(crit)t.crit=1;t.s=Math.min(t.crit?27:20,13+Math.log10(1+t.n/(e.mhp||1)*10)*3.4+(t.crit?5:0));return}
+  if(R.txt.length<45)R.txt.push({e,n:d,age:0,x:e.x+rnd(-6,6),y:e.y*K-e.r*1.6-(e.fly?22:0),v:fmt(d)+(crit?'!':''),c,t:0.75,s:crit?20:13,crit:crit?1:0,dx:rnd(-14,14)})}
 function hit(e,d,ty,primary){
   if(e.dead)return;if(e.armor!==undefined)d*=e.armor;if(e.k==='boss')d*=1+0.25*lv('bounty');
   let crit=false;if(primary&&ty&&lv('crit')&&Math.random()<0.05*lv('crit')){d*=2.5;crit=true}
   if(e.vuln>0)d*=1.25;if(R.mark===e)d*=1.25;
-  e.hp-=d;e.hit=0.08;sfx('hit');if(R.pt.length<420){const sc=ty?TYPES[ty].c:'#ffe9b0',yy=e.y*K-e.r*0.6-(e.fly?22:0);for(let i=0;i<(crit?6:2);i++)R.pt.push({x:e.x+rnd(-e.r*.4,e.r*.4),y:yy,vx:rnd(-90,90),vy:rnd(-110,-10),t:rnd(.12,.25),c:sc,s:crit?3:2,g:200,add:1})}if(crit){R.hs=Math.max(R.hs||0,0.035);addTxt(e.x,e.y*K-e.r*2.6,'CRIT','#fff27a',10)}dmgTxt(e,d,crit?'#fff27a':e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
+  e.hp-=d;e.hit=0.08;sfx('hit');if(crit&&R.fx.length<60)R.fx.push({type:'ring',x:e.x,y:e.y*K-e.r*0.6,r0:3,r1:e.r*2.2+14,t:0.28,T:0.28,c:'#fff27a'});if(R.pt.length<420){const sc=ty?TYPES[ty].c:'#ffe9b0',yy=e.y*K-e.r*0.6-(e.fly?22:0);for(let i=0;i<(crit?6:2);i++)R.pt.push({x:e.x+rnd(-e.r*.4,e.r*.4),y:yy,vx:rnd(-90,90),vy:rnd(-110,-10),t:rnd(.12,.25),c:sc,s:crit?3:2,g:200,add:1})}if(crit){R.hs=Math.max(R.hs||0,0.035);addTxt(e.x,e.y*K-e.r*2.6,'CRIT','#fff27a',10)}dmgTxt(e,d,crit?'#fff27a':e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0',crit);
   if(primary&&ty){ // type passives (modules & drones only)
     elemHit(e,ty,d);if(e.dead||e.hp<=0){if(!e.dead)kill(e);return}
     if(ty==='Cryo'){if(Math.random()<0.12)e.slow=Math.max(e.slow,1.2)}
@@ -274,7 +274,7 @@ function update(dt){
   // fx decay
   for(const f of R.fx)f.t-=dt;
   for(const p of R.pt){p.t-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=(p.g||0)*dt;if(!p.smoke){p.vx*=0.95}else p.s+=dt*5}
-  for(const t of R.txt){t.t-=dt;t.y-=32*dt;t.age=(t.age||0)+dt}
+  for(const t of R.txt){t.t-=dt;t.age=(t.age||0)+dt;t.y-=(t.w||t.t>5?32:22+95*Math.max(0,1-t.age/0.22))*dt}
   R.en=R.en.filter(e=>!e.dead);R.pr=R.pr.filter(p=>!p.dead);R.fx=R.fx.filter(f=>f.t>0);R.pt=R.pt.filter(p=>p.t>0);R.txt=R.txt.filter(t=>t.t>0);R.orbs=R.orbs.filter(o=>!o.dead);
   if(R.pt.length>500)R.pt.splice(0,R.pt.length-500);
   if(R.banner)R.banner.t-=dt;R.ringPulse=Math.max(0,R.ringPulse-dt*1.5);

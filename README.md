@@ -24,6 +24,8 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 ### Đã làm / đang làm / sẽ làm (cập nhật: 2026-11-18)
 
+**Vừa xong v0.12.0 (2026-11-18):** làm lại toàn bộ UI theo bộ AI-art (nút, tab, khung, panel, tile, dialog — `assets/ui/`, CSS section v0.12), thẻ crate luôn 1 hàng, chữ/damage/crit FX đẹp hơn. Trước đó: v0.10–0.11 (crate 2.0, thanh HOPE/boss AI-art, chế độ cửa sổ).
+
 **Đã xong** (chi tiết: `CHANGELOG.md`)
 - Gameplay đầy đủ: 5 bãi + 5 boss, 8 loại quái, 16 module (4 hệ × lance/rail/mortar/drone), 5 phép, 8 relic, Nightmare cho từng bãi, Endless, 20+ nâng cấp vĩnh viễn, 25 thành tựu, cutscene mở đầu/kết thúc. Thời lượng ~3,5 giờ (đo bằng bot).
 - Đồ họa: key art + sprite **AI-assisted** (ChatGPT → nền magenta → `tools/sprites/import_ai.py`) cho tàu, súng, 4 tháp pháo, 8 quái, 5 boss, đồ trang trí mặt đất. Hiệu ứng: tia lửa, vết dịch, xác tan, khựng hình khi chí mạng, slow-mo khi giết boss, ánh sáng ấm, bụi, tàn lửa.
