@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.13.1 — 2026-11-18
+- Framed icon medallions for modules/spells/relics in the loadout (`.icof` wrapper in crate.js) and framed slots in the build bar.
+
 ## v0.13.0 — 2026-11-18
 - **New creatures** (`src/threat.js`): Charger (telegraphed ram), Shellback (35% damage taken, burn ignores armour), Hatcher (births skitters, priority target), Screamer (aura +40% speed, drops a Surge Cell), Lurker (erupts inside the ring). First sighting shows a tip.
 - **Wave events** each threat level (65%): Swarm Rush, Ambush, Siege, Elite; plus the existing horde surges. Elites: x3.5 HP, crown + gold aura, 4x loot, drop a Surge Cell.

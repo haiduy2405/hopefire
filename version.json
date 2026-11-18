@@ -1,11 +1,8 @@
 {
-  "version": "0.13.0",
+  "version": "0.13.1",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "5 new creatures: Charger, Shellback, Hatcher, Screamer, Lurker",
-    "Wave events (Swarm Rush, Ambush, Siege), Elite creatures with crowns, Surge Cells to tap for Overcharge",
-    "Flawless-wave bonuses and a victory Rank (S/A/B/C) with Xeno-core bonus",
-    "Shine-swept buttons and framed icon medallions"
+    "Module, spell and relic icons now sit in framed medallions (loadout and build bar)"
   ]
 }
