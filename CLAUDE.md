@@ -26,7 +26,7 @@ Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.j
 ## Testing
 - Serve the repo: `python -m http.server 8765`, test with headless Chrome (Playwright). Never test via file:// for update/fetch features.
 - Balance: `python tools/sim/run.py --runs 2` (bot plays story + all Nightmares). Current target/result: story ~75–110 min, everything ~3.5 h, no stage needing >~15 runs.
-- Full review procedure: `docs/REVIEW_PROMPT.md`; last report `docs/reviews/REVIEW_v0.4.0.md`.
+- Full review procedure: `docs/REVIEW_PROMPT.md`; last report `docs/reviews/REVIEW_v0.13.4.md` (7.2/10; top gaps: no real playtest data, Steam path, replay value, FX clutter at 150 creatures, phone layout).
 
 ## Business / legal (see docs/BUSINESS_LEGAL.md)
 Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding on US-customer revenue); VN tax-exempt under the yearly revenue threshold but must keep records/declare; Decree 147/2024 avoided by offline play + VN region lock; **disclose AI-generated content on Steam**; Steam build must disable the online update check.
