@@ -1,10 +1,8 @@
 {
-  "version": "0.12.0",
+  "version": "0.12.1",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Whole-game UI restyle: framed brass buttons, tabs, panels, tiles and dialogs",
-    "Crate cards always on one row; punchier damage numbers, crit shock rings and text effects",
-    "Fixes: Reactor button overflow, double-framed options, oversized hint text"
+    "Hub redesigned to fit one screen: compact header, 4-column repair tiles, pinned BEGIN RUN bar (no more page scrolling)"
   ]
 }

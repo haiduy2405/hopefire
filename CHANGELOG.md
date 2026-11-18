@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.12.1 — 2026-11-18
+- Hub fits one screen at every size: compact header (logo + Xeno-cores + slot in one row), Crash Sites tabs inline, 4-column compact repair tiles, BEGIN RUN + menu buttons pinned in a footer. Only the tile list scrolls (late game with Advanced Repairs). Scroll position of the list is kept on re-render. Phone layout adjusted.
+
 ## v0.12.0 — 2026-11-18
 - Whole-game UI restyle with the AI-art kit (brass + gunmetal, amber glow): primary/secondary/danger/disabled buttons, tabs, tiles (upgrades, achievements, save slots), chips, spell buttons, tooltips/toasts, every panel (hub, options, pause, loadout, stats, dialogs). 9-slice `border-image` in css/style.css (v0.12 section); assets in `assets/ui/` (btn_*, tab_*, pk_*).
 - Crate choice cards always stay on ONE row (even 4 cards); dark scrollbars; compact build bar.

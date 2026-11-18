@@ -23,9 +23,9 @@ function refreshReactBtn(){const b=$('reactBtn');if(!R||meta.runs<1){b.classList
 const modal=$('modal');
 const panelSig=p=>{const h=p&&p.querySelector('.logo,h1,h2');return h?h.textContent:''};
 // re-rendering the same screen (e.g. buying an upgrade in the hub) keeps the scroll position
-function show(html){const old=modal.querySelector('.panel'),sig=panelSig(old),st=old?old.scrollTop:0;
+function show(html){const old=modal.querySelector('.panel'),sig=panelSig(old),st=old?old.scrollTop:0,ob=old&&old.querySelector('.hubbody'),sb=ob?ob.scrollTop:0;
   modal.innerHTML=html;modal.classList.remove('hidden');
-  const np=modal.querySelector('.panel');if(np&&st&&sig&&panelSig(np)===sig)np.scrollTop=st}
+  const np=modal.querySelector('.panel');if(np&&sig&&panelSig(np)===sig){if(st)np.scrollTop=st;const nb=np.querySelector('.hubbody');if(nb&&sb)nb.scrollTop=sb}}
 function hide(){modal.classList.add('hidden');modal.innerHTML=''}
 function flash(a){if(!SETTINGS.flashes)a*=0.25;const f=$('flash');f.style.transition='none';f.style.opacity=a;requestAnimationFrame(()=>{f.style.transition='opacity .45s';f.style.opacity=0})}
 // tips
@@ -83,12 +83,11 @@ function menu(){
   R=null;document.body.classList.add('inmenu');hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
   const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;if(firstRepair)setTimeout(()=>vo('repair'),400);
   const cheapest=UPG.filter(u=>lv(u.k)<u.max).sort((a,b)=>upCost(a)-upCost(b))[0];
-  let h=`<div class="panel"><div class="hubtop"><button class="small" id="toTitleBtn">◂ TITLE</button><span class="hubslot">${esc(meta.name)} · <b class="d-${meta.diff}">${diffName(meta.diff)}</b> · Slot ${SLOT}</span></div><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div>
-  <div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div>`;
+  let h=`<div class="panel hubp"><div class="hubhead"><button class="small" id="toTitleBtn">◂ TITLE</button><div class="hubbrand"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div></div><div class="hubmeta"><div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div><span class="hubslot">${esc(meta.name)} · <b class="d-${meta.diff}">${diffName(meta.diff)}</b> · Slot ${SLOT}</span></div></div>`;
   if(meta.runs>0){
-    h+=`<h2>CRASH SITES</h2><div class="chs">`;
+    h+=`<div class="hubsites"><h2>CRASH SITES</h2><div class="chs">`;
     for(let i=1;i<=MAXCH;i++)h+=`<button data-ch="${i}" class="${meta.sel===i?'sel':''}" ${i>meta.chapter?'disabled':''}>${i}. ${i>meta.chapter?'🔒 ???':SITES[i-1]}${meta.best[i]>BOSS_WAVE?' ✓':''}${meta.night[i]?' ☠':''}</button>`;
-    h+=`</div>${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE}</label><label class="warp nightOpt"><input type="checkbox" id="nightChk" ${meta.nightSel?'checked':''}> ☠ Nightmare — creatures ×${NM.hp[meta.sel-1]} HP, Xeno-cores ×${NM.core}${meta.night[meta.sel]?' (cleared)':''}</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
+    h+=`</div></div><div class="hubbody">${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE}</label><label class="warp nightOpt"><input type="checkbox" id="nightChk" ${meta.nightSel?'checked':''}> ☠ Nightmare — creatures ×${NM.hp[meta.sel-1]} HP, Xeno-cores ×${NM.core}${meta.night[meta.sel]?' (cleared)':''}</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
     for(const u of UPG){const l=lv(u.k),mx=l>=u.max,c=upCost(u);
       h+=`<div class="up ${firstRepair&&u===cheapest?'hl':''}"><b>${u.n}</b><span class="lv">Lv ${l}/${u.max}</span><span>${l?u.d(l):'Next: '+u.d(1)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`}
     h+=`</div>`;
@@ -97,8 +96,8 @@ function menu(){
         h+=ok?`<div class="up adv"><b>${u.n}</b><span class="lv">Lv ${l}${u.max<999?'/'+u.max:''}</span><span>${l?u.d(l):'Next: '+u.d(1)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`
           :`<div class="up locked"><b>🔒 ${u.n}</b><span class="lv">${REQ_TXT[u.req]}</span><span>${u.d(1)}</span></div>`}
       h+=`</div>`}
-  }else h+=`<p style="color:#9aa3b3;font-size:13px;line-height:1.7;margin:14px 0 20px">Your ship has crashed on an unknown planet.<br>Something is moving in the dark.</p>`;
-  h+=`<div class="center"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button></div><div class="menuRow">${meta.runs?`<button id="achBtn">🏆 ${ACH.filter(a=>meta.ach[a.id]).length}/${ACH.length}</button><button id="statBtn">📊 Stats</button>`:''}<button id="setBtn">⚙ Settings</button>${meta.tut.intro?'<button id="introBtn">🎬 Intro</button>':''}${meta.story?'<button id="endBtn">🚀 Ending</button>':''}</div></div>`;
+  }else h+=`<div class="hubbody"><p style="color:#9aa3b3;font-size:13px;line-height:1.7;margin:14px 0 20px">Your ship has crashed on an unknown planet.<br>Something is moving in the dark.</p>`;
+  h+=`</div><div class="hubfoot"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button><div class="menuRow">${meta.runs?`<button id="achBtn">🏆 ${ACH.filter(a=>meta.ach[a.id]).length}/${ACH.length}</button><button id="statBtn">📊 Stats</button>`:''}<button id="setBtn">⚙ Settings</button>${meta.tut.intro?'<button id="introBtn">🎬 Intro</button>':''}${meta.story?'<button id="endBtn">🚀 Ending</button>':''}</div></div></div>`;
   show(h);
   modal.querySelectorAll('.chs button').forEach(b=>b.onclick=()=>{sfx('click');meta.sel=+b.dataset.ch;save();menu()});
   modal.querySelectorAll('.up button').forEach(b=>b.onclick=()=>{audioInit();const u=UPG.concat(UPG2).find(x=>x.k===b.dataset.k),c=upCost(u);if(meta.mastery>=c&&lv(u.k)<u.max){meta.mastery-=c;meta.up[u.k]=lv(u.k)+1;save();sfx('up');menu()}});

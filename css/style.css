@@ -548,3 +548,28 @@ button:disabled,.btn:disabled,#packBtn:disabled,.up button:disabled{border:var(-
 .slot .sact{animation:none;text-shadow:none;color:inherit}
 #reactBtn{width:150px;font-size:11px;line-height:1.1;padding:0 6px;white-space:nowrap}
 #reactBtn small{font-size:9px;margin-top:0}
+/* v0.12 hub: fits one screen — fixed header + footer, only the repair list scrolls (if ever) */
+.panel.hubp{display:flex;flex-direction:column;overflow:hidden;max-width:1000px;border-width:34px;border-image-width:34px;background-position:7px 7px;background-size:calc(100% - 14px) calc(100% - 14px)}
+.hubp .hubhead{display:flex;align-items:center;gap:16px;flex:0 0 auto}
+.hubp .hubbrand{flex:1;min-width:0}
+.hubp .logo{font-size:34px;letter-spacing:6px;line-height:1.05}
+.hubp .tag{margin:2px 0 0;font-size:11px}
+.hubp .hubmeta{text-align:right;flex:0 0 auto}
+.hubp .mast{font-size:16px;margin:0 0 2px}
+.hubp .hubsites{display:flex;align-items:center;gap:12px;flex:0 0 auto;margin-top:8px;flex-wrap:wrap}
+.hubp .hubsites h2{margin:0;font-size:13px;letter-spacing:3px;white-space:nowrap}
+.hubp .chs{margin:0;gap:4px}
+.hubp .chs button{padding:2px 6px;font-size:11px;border-width:10px!important;border-image-width:10px!important}
+.hubp .hubbody{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;padding:2px 4px 2px 0;margin-top:6px}
+.hubp .hubbody h2{margin:8px 0 6px;font-size:13px;letter-spacing:3px}
+.hubp .ups{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-bottom:8px}
+.hubp .up{border-width:14px;border-image-width:14px;padding:0 4px;display:grid;grid-template-columns:1fr auto;grid-template-areas:"n l" "d d" "b b";column-gap:6px;row-gap:1px;align-content:center;min-height:0;font-size:11px;line-height:1.25}
+.hubp .up>b{grid-area:n;font-size:12px}
+.hubp .up>.lv{grid-area:l;font-size:10px;align-self:center}
+.hubp .up>span:not(.lv){grid-area:d;font-size:11px}
+.hubp .up>button{grid-area:b;--bw:8px;min-height:22px;padding:0 6px;font-size:11px;margin-top:2px;border-width:8px!important;border-image-width:8px!important}
+.hubp .hubfoot{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:6px}
+.hubp .hubfoot .menuRow{margin:0}
+.hubp .hubfoot .big{padding:4px 22px;font-size:16px}
+@media (max-width:600px){.panel.hubp{border-width:24px;border-image-width:24px}.hubp .hubhead{flex-wrap:wrap;gap:6px}.hubp .hubmeta{text-align:left}.hubp .logo{font-size:26px;letter-spacing:3px}.hubp .ups{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.hubp .hubhead{display:grid;grid-template-columns:auto 1fr;gap:4px 8px}.hubp .hubbrand{grid-column:1/-1;order:2}.hubp .logo{white-space:nowrap;font-size:28px}.hubp .tag{font-size:10px}.hubp .hubmeta{order:1;text-align:right}.hubp .hubhead>#toTitleBtn{order:0}}
