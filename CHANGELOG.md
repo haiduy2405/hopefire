@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.11.1 — 2026-11-18
+- Pad focus restore: if the focused control disappears or gets disabled after a re-render (bought the last affordable upgrade), focus goes to `#startBtn` (BEGIN RUN) instead of the nearest neighbour (was the 7/25 achievements button). Test: tools/test/begin_test.py.
+
 ## v0.11.0 — 2026-11-18
 - AI art (ChatGPT, pixel-art key-art style) in `assets/ui/`: crate_closed/opening/open, hud_hope, hud_boss, hud_medal, kit_panel, kit_plaque, card_common/rare/epic/legend. Cut from magenta sheets with `tools/sprites/import_ui.py` (`--hollow` punches the black centre).
 - HOPE bar: framed DOM bar (`#hopetrk` sits in the frame hollow), shine sweep, red pulse when low. HUD is 80px tall (arena offset `top=80*UZ` in render.js).

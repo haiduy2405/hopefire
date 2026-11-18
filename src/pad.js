@@ -38,6 +38,7 @@ const padSig=l=>{const h=l&&l.querySelector('.logo,h1,h2,.snum');return (l&&l.id
 // After the screen is re-drawn (buying an upgrade, switching a tab...) put the cursor back on the same control instead of the first one
 function padRestore(layer){const m=PAD.mem;if(!m||m.sig!==padSig(layer))return null;const L=padCands(layer);if(!L.length)return null;
   let f=m.key?L.find(e=>padKey(e)===m.key):null;
+  if(!f&&m.key){const pb=layer.querySelector('#startBtn');if(pb&&L.includes(pb))f=pb}   // the control vanished/got disabled (e.g. bought the last affordable upgrade) -> BEGIN RUN, not a random neighbour
   if(!f){let bd=1e9;for(const e of L){const r=e.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-m.cx,r.top+r.height/2-m.cy);if(d<bd){bd=d;f=e}}}
   return f}
 function padSetFocus(e){if(PAD.fi){PAD.fi.classList.remove('padfocus');if(PAD.fi!==e)padHover(PAD.fi,false)}PAD.fi=e;if(e){const r=e.getBoundingClientRect(),ly=padLayer();PAD.mem={key:padKey(e),cx:r.left+r.width/2,cy:r.top+r.height/2,sig:padSig(ly)};e.classList.add('padfocus');padHover(e,true);try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}}

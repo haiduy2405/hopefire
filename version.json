@@ -1,9 +1,8 @@
 {
-  "version": "0.11.0",
+  "version": "0.11.1",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "New HOPE bar and ornate boss health bar with damage trail",
-    "Crate opening redone: new armored crate art, ornate panel, header plaques and rarity card frames (common/rare/epic/legendary)"
+    "Controller: after you buy the last affordable repair, the cursor jumps to BEGIN RUN instead of a random button"
   ]
 }
