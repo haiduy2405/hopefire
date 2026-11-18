@@ -15,11 +15,15 @@ from PIL import Image, ImageFilter
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'assets', 'ai')
 
-def key_magenta(im):
+def key_magenta(im, strict=False):
     im = im.convert('RGBA'); p = im.load(); w, h = im.size
     for y in range(h):
         for x in range(w):
             r, g, b, a = p[x, y]
+            if strict:  # only near-pure #FF00FF is background (keeps purple art)
+                if r > 205 and b > 205 and g < 90: p[x, y] = (0, 0, 0, 0)
+                elif r > 175 and b > 175 and g < 130: p[x, y] = (min(r, g + 60), g, min(b, g + 60), 110)
+                continue
             m = min(r, b) - g                       # "magenta-ness"
             if m > 70 and r > 100 and b > 100: p[x, y] = (0, 0, 0, 0)
             elif m > 35 and r > 90 and b > 90:      # fringe: fade + despill
@@ -84,7 +88,7 @@ def main():
     sheet, names, widths = sys.argv[1], sys.argv[2].split(','), [float(v) for v in sys.argv[3].split(',')]
     opt = lambda k, d: type(d)(sys.argv[sys.argv.index(k) + 1]) if k in sys.argv else d
     cols, nfr, legs, px = opt('--cols', 4), opt('--frames', 4), opt('--legs', 0.3), opt('--px', 0.5)
-    im = key_magenta(Image.open(sheet)); boxes = components(im)
+    im = key_magenta(Image.open(sheet), '--strict' in sys.argv); boxes = components(im)
     boxes = sorted(boxes, key=lambda b: -b[4])[:len(names)]
     rows = sorted(boxes, key=lambda b: (b[1] + b[3]) / 2); rh = (max(b[3] for b in boxes) - min(b[1] for b in boxes)) / max(1, math.ceil(len(names) / cols))
     y0 = min(b[1] for b in boxes)

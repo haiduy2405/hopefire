@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.1 — 2026-11-18
+- AI-assisted sprites for all 5 bosses (+40% size) and 12 ground props (rocks, crystals, glowing plants, wreckage); warm crash-site ground
+- UI scales with screen size (`--uz`), softer plant glows
+- Desktop build: `tools/desktop/package_win.ps1` (Electron, icon, no online update check)
+- Store: 7 screenshots (1080p), trailer v1 (42 s), `docs/STEAM_PAGE.md`
+
 ## v0.8.0 — 2026-11-18
 - **New art direction** matching the Steam key art: AI-assisted hi-res pixel sprites for the ship, heat-ray cannon, 4 turret types and all 8 creatures (procedural walk frames, auto eye detection) — `tools/sprites/import_ai.py`
 - Juice: hit sparks, goo decals that fade, death flash + dissolving corpses, crit hit-stop, boss kill hit-stop + slow-mo + fireworks, engine embers, dust motes, warm flickering light pool, cinematic vignette, damage-number pop, softer smoke

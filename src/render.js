@@ -30,17 +30,21 @@ function buildGround(ch){
   // skid trail
   g.fillStyle='#00000050';g.beginPath();g.moveTo(-60,-6);g.lineTo(-420,-150*K);g.lineTo(-400,-100*K);g.lineTo(-40,18);g.fill();
   // rocks
-  for(let i=0;i<70;i++){const a=r()*Math.PI*2,d=rnd(140,700),x=Math.cos(a)*d,y=Math.sin(a)*d*K,s=rnd(4,16);
+  const aiG=useSpr&&SPR.data.sprites.rock_3&&SPR.data.sprites.rock_3[0].px,RK=[0,0,0,1,1,3,2];
+  for(let i=0;i<(aiG?55:70);i++){const a=r()*Math.PI*2,d=rnd(140,700),x=Math.cos(a)*d,y=Math.sin(a)*d*K,s=rnd(4,16);
+    if(aiG){drawSpr(g,'rock_'+RK[i%RK.length],0,x,y,r()<.5);continue}
     if(useSpr){drawSpr(g,'rock_'+(i%3),0,x,y,r()<.5);continue}
     g.fillStyle='#00000055';g.beginPath();g.ellipse(x+2,y+s*0.35,s,s*0.4,0,0,7);g.fill();
     g.fillStyle='#2b2f2a';g.beginPath();g.moveTo(x-s,y);g.lineTo(x-s*0.6,y-s*0.8);g.lineTo(x+s*0.3,y-s);g.lineTo(x+s,y-s*0.3);g.lineTo(x+s*0.8,y+s*0.2);g.lineTo(x-s*0.5,y+s*0.3);g.closePath();g.fill();
     g.fillStyle='#ffffff14';g.fillRect(x-s*0.5,y-s*0.8,s*0.6,s*0.25)}
   // debris shards
-  for(let i=0;i<10;i++){const a=r()*Math.PI*2,d=rnd(110,300),x=Math.cos(a)*d,y=Math.sin(a)*d*K;
+  for(let i=0;i<(aiG?14:10);i++){const a=r()*Math.PI*2,d=rnd(aiG?80:110,300),x=Math.cos(a)*d,y=Math.sin(a)*d*K;
+    if(aiG){drawSpr(g,'debris_'+(i%4),0,x,y,r()<.5);continue}
     if(useSpr){drawSpr(g,'debris_'+(i%3),0,x,y,r()<.5);continue}g.save();g.translate(x,y);g.rotate(r()*6);g.fillStyle='#4a5162';g.fillRect(-6,-2,rnd(6,16),rnd(3,6));g.fillStyle='#000';g.fillRect(-6,2,10,1);g.restore()}
   // glowing plants (drawn later in additive pass)
   plants=[];for(let i=0;i<60;i++){const a=r()*Math.PI*2,d=rnd(160,720);plants.push({x:Math.cos(a)*d,y:Math.sin(a)*d*K,s:rnd(1.5,3.5),c:['#7dffb0','#5cd0ff','#c79bff'][r()*3|0],ph:r()*6})}
-  for(const p of plants){g.strokeStyle='#1d2a22';g.lineWidth=1.5;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(p.x,p.y-8);g.stroke()}
+  if(aiG){plants.forEach((p,i)=>{const nm=p.c==='#5cd0ff'?'plant_0':p.c==='#7dffb0'?'plant_1':'crystal_'+(i%2),f=SPR.data.sprites[nm][0];p.ai=1;p.gy=p.y-f.h*f.px*0.55;p.gr=f.w*f.px*0.6;drawSpr(g,nm,0,p.x,p.y,i%2)})}
+  else for(const p of plants){g.strokeStyle='#1d2a22';g.lineWidth=1.5;g.beginPath();g.moveTo(p.x,p.y);g.lineTo(p.x,p.y-8);g.stroke()}
 }
 // ===== RENDER =====
 let lightsFrame=[];
@@ -83,7 +87,7 @@ function render(dt){
   ctx.setTransform(DPR*S,0,0,DPR*S,DPR*(OX+sx),DPR*(OY+sy));
   // additive glow pass
   ctx.globalCompositeOperation='lighter';
-  for(const p of plants){const a=0.35+0.25*Math.sin(T*1.5+p.ph);ctx.globalAlpha=a*0.16;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y-9,p.s*2,0,7);ctx.fill();ctx.globalAlpha=a*0.9;ctx.fillRect(p.x-p.s*0.4,p.y-9-p.s*0.4,p.s*0.8,p.s*0.8);ctx.globalAlpha=a*0.5;ctx.fillRect(p.x-0.5,p.y-9,1,9)}
+  for(const p of plants){const a=0.35+0.25*Math.sin(T*1.5+p.ph);if(p.ai){ctx.globalAlpha=a*0.10;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.gy,p.gr*1.15,0,7);ctx.fill();ctx.globalAlpha=a*0.12;ctx.beginPath();ctx.arc(p.x,p.gy,p.gr*0.6,0,7);ctx.fill();continue}ctx.globalAlpha=a*0.16;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y-9,p.s*2,0,7);ctx.fill();ctx.globalAlpha=a*0.9;ctx.fillRect(p.x-p.s*0.4,p.y-9-p.s*0.4,p.s*0.8,p.s*0.8);ctx.globalAlpha=a*0.5;ctx.fillRect(p.x-0.5,p.y-9,1,9)}
   ctx.globalAlpha=1;
   // warm light pool around the ship (matches key art)
   {ctx.save();ctx.scale(1,K);const fl=1+0.03*Math.sin(T*7)+0.02*Math.sin(T*13.3),g=ctx.createRadialGradient(0,0,8,0,0,rr*1.05*fl);g.addColorStop(0,'rgba(255,150,70,0.30)');g.addColorStop(0.45,'rgba(255,110,40,0.13)');g.addColorStop(1,'rgba(255,80,20,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,rr*1.05*fl,0,7);ctx.fill();ctx.restore()}
@@ -189,13 +193,13 @@ function drawEnemy(e,T){
   const z=e.fly?22+Math.sin(T*6+e.ph)*3:0;e.zOff=z;const hidden=!!(R&&isHidden(e));
   if(e.k!=='boss'&&SPR.has(e.k)){
     const fi=Math.floor(e.ph*1.4)%4,a0=c.globalAlpha;if(hidden)c.globalAlpha=0.2;
-    const k=drawSpr(c,e.hit>0?e.k+'_flash':e.k,fi,X,Y-z,e.face<0);c.globalAlpha=a0;
+    const k=drawSpr(c,e.k,fi,X,Y-z,e.face<0);if(e.hit>0){c.globalAlpha=(hidden?0.2:1)*0.65;drawSpr(c,e.k+'_flash',fi,X,Y-z,e.face<0)}c.globalAlpha=a0;
     const f=SPR.data.sprites[e.k][fi];e.eyes=f.eyes.map(([x,y,s])=>[x*k,y*k,s*k]);e.spr=true;e._bob=0;
     if(e.frz>0){c.fillStyle='#bff0ffa0';c.beginPath();c.ellipse(X,Y-z-r*0.6,r*1.2,r*0.9,0,0,7);c.fill()}else if(e.slow>0){c.fillStyle='#5cd0ff40';c.beginPath();c.ellipse(X,Y-z-r*0.6,r*1.1,r*0.8,0,0,7);c.fill()}
     return}
   if(e.k==='boss'&&SPR.has('boss_'+(e.bk||1))){
     const nm='boss_'+(e.bk||1),fi=Math.floor(e.ph*1.1)%4,a0=c.globalAlpha;if(hidden)c.globalAlpha=0.12;
-    const k=drawSpr(c,e.hit>0?nm+'_flash':nm,fi,X,Y,e.face<0);
+    const k=drawSpr(c,nm,fi,X,Y,e.face<0);if(e.hit>0&&(e.hfl=(e.hfl||0)+1)%3===0){const a1=c.globalAlpha;c.globalAlpha=a1*0.35;drawSpr(c,nm+'_flash',fi,X,Y,e.face<0);c.globalAlpha=a1}
     const f=SPR.data.sprites[nm][fi];e.eyes=f.eyes.map(([x,y,s])=>[x*k,y*k,s*k]);e.spr=true;e._bob=0;
     c.save();c.translate(X,Y);
     if(e.bk===3){if(e.armor>1){c.strokeStyle=`rgba(255,225,77,${0.4+0.3*Math.sin(T*12)})`;c.lineWidth=2;c.beginPath();c.ellipse(0,-r*1.6,r*0.95,r*0.35,0,0,7);c.stroke()}

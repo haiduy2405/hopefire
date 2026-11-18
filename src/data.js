@@ -21,7 +21,7 @@ const EK={
   boss:{hp:1500,spd:9,dmg:15,r:36,g:80,core:40,cell:1,c:'#341a30'}
 };
 const SITES=['Crash Site','Research Wreck','Mining Hulk','War Graveyard','The Origin'];
-const SITE_BG=[['#141712','#1b2019'],['#10161b','#172029'],['#18140d','#221c12'],['#151014','#1f171d'],['#170b0d','#221013']];
+const SITE_BG=[['#160f0b','#21170f'],['#10161b','#172029'],['#18140d','#221c12'],['#151014','#1f171d'],['#170b0d','#221013']];
 const MAXCH=SITES.length, WAVE_LEN=20, BOSS_WAVE=10, BASE_RING=230;
 const REACT=[{n:'LOW',ring:.85,dmg:.85,loot:.75,spawn:.8,c:'#5cd0ff'},{n:'NORMAL',ring:1,dmg:1,loot:1,spawn:1,c:'#7dffb0'},{n:'OVERDRIVE',ring:1.25,dmg:1.35,loot:1.6,spawn:1.35,c:'#ff5a3d'}];
 const UPG=[

@@ -226,7 +226,7 @@ def drone(ty):
 
 # ---------------------------------------------------------------- ground
 SITE_PAL = [  # dark, mid, light, accent  (per crash site)
-    ('#121510', '#181d16', '#20271d', '#2a3324'),
+    ('#18110c', '#211710', '#2b1e14', '#37271a'),
     ('#0e1418', '#141c23', '#1b2630', '#24323f'),
     ('#161209', '#1e180e', '#272013', '#33291a'),
     ('#130e12', '#1b1419', '#241b22', '#2e232c'),
@@ -451,7 +451,7 @@ def build():
             sprites[name] = frs; sprites[name + '_flash'] = fl
             print('  ai sprite:', name, len(frs), 'frames')
     # shelf packing
-    W = 1024; x = y = 1; rowh = 0; placed = {}
+    W = 2048; x = y = 1; rowh = 0; placed = {}
     items = sorted(((n, i, im, meta) for n, fr in sprites.items() for i, (im, meta) in enumerate(fr)), key=lambda t: -t[2].height)
     for n, i, im, meta in items:
         if x + im.width + 1 > W: x = 1; y += rowh + 1; rowh = 0
