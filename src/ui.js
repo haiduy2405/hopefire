@@ -32,7 +32,7 @@ function flash(a){if(!SETTINGS.flashes)a*=0.25;const f=$('flash');f.style.transi
 let tipTimer=null;
 function tip(id,html,pause,secs){
   if(meta.tut[id]||!R||R.over)return;meta.tut[id]=1;save();
-  const el=$('tip');el.innerHTML=html+(pause?'<button id="tipOk">GOT IT</button>':'');el.style.display='block';
+  const el=$('tip');el.innerHTML=html+(pause?'<button id="tipOk">GOT IT</button>':'');el.style.display='block';el.style.top=R.boss?'310px':'';   // keep clear of the boss bar
   clearTimeout(tipTimer);
   if(pause){R.tipPause=true;$('tipOk').onclick=()=>{sfx('click');el.style.display='none';if(R)R.tipPause=false}}
   else tipTimer=setTimeout(()=>{el.style.display='none'},(secs||5)*1000);
