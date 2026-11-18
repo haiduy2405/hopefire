@@ -52,7 +52,7 @@ function alertE(e){
   if(e.state==='rush')return;e.state='rush';e.alertT=0.45;R.ringPulse=1;sfx('alert');
   R.fx.push({type:'ring',x:e.x,y:e.y*K,r0:4,r1:30,t:0.4,T:0.4,c:'#ff3a3a'});
 }
-const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0||e.emerge>0;
+const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0||e.emerge>0||e.air>0;
 // pick target in range that is closest to the ship (biggest threat); cloaked ones are skipped
 function threatTarget(x,y,range){const m=R.mark;if(m&&!m.dead&&!isHidden(m)&&(m.x-x)**2+(m.y-y)**2<=range*range)return m;let b=null,bd=1e18;const r2=range*range;for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-x,dy=e.y-y;if(dx*dx+dy*dy>r2)continue;const ds=e.x*e.x+e.y*e.y-(e.state==='rush'?1e6:0);if(ds<bd){bd=ds;b=e}}return b}
 // word texts (STREAK, SHATTER, MARKED...) stack upwards instead of printing over each other

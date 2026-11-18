@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.13.3 — 2026-11-18
+- New creatures in src/threat.js: **Mender** (site 4+, heals creatures within 140 every 2.6 s for 14% max HP; priority target) and **Leaper** (site 3+, crouch telegraph then 0.75 s leap onto the hull, untargetable while airborne via `e.air`; render lifts the sprite). AI sprites assets/ai/mender, leaper. Spawn weights tuned by sim (all content ~222 min).
+
 ## v0.13.2 — 2026-11-18
 - AI pixel art for the 5 new creatures (assets/ai/charger|shellback|hatcher|screamer|lurker, 4 frames each; code-drawn fallback kept). Sheet imported with import_ai.py (names are assigned left→right, so list them in the sheet's visual order).
 

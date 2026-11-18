@@ -7,22 +7,28 @@ Object.assign(EK,{
   shellback:{hp:80,spd:30,dmg:7,r:13,g:3,core:2,cell:.1,c:'#4a5560'},   // 65% damage resist; burn ignores it
   hatcher:{hp:70,spd:26,dmg:0,r:14,g:4,core:3,cell:.2,c:'#3a5a4a'},     // keeps distance, births skitters: kill first
   screamer:{hp:36,spd:40,dmg:0,r:10,g:3,core:3,cell:.1,c:'#5a3a6a'},    // aura: nearby creatures run 40% faster
-  lurker:{hp:34,spd:84,dmg:8,r:9,g:2,core:2,cell:.06,c:'#5a4a30'}       // erupts from the ground inside the ring
+  lurker:{hp:34,spd:84,dmg:8,r:9,g:2,core:2,cell:.06,c:'#5a4a30'},      // erupts from the ground inside the ring
+  mender:{hp:50,spd:28,dmg:0,r:11,g:4,core:3,cell:.15,c:'#4a6a5a'},     // keeps distance, heals nearby creatures: kill first
+  leaper:{hp:45,spd:60,dmg:8,r:11,g:3,core:2,cell:.1,c:'#6a5a3a'}       // crouches, then leaps onto the ship (untargetable in the air)
 });
-SPAWN_TABLE.push(['charger',9,6,1],['shellback',11,3,2],['hatcher',6,5,3],['screamer',7,4,4]);
-const KIND_NAME={crawler:'CRAWLER',skitter:'SKITTER',brute:'BRUTE',spitter:'SPITTER',bloater:'BLOATER',wisp:'WISP',phantom:'PHANTOM',splitter:'SPLITTER',charger:'CHARGER',shellback:'SHELLBACK',hatcher:'HATCHER',screamer:'SCREAMER',lurker:'LURKER'};
+SPAWN_TABLE.push(['charger',9,6,1],['shellback',11,3,2],['hatcher',6,5,3],['screamer',7,4,4],['leaper',5,6,3],['mender',3,7,4]);
+const KIND_NAME={crawler:'CRAWLER',skitter:'SKITTER',brute:'BRUTE',spitter:'SPITTER',bloater:'BLOATER',wisp:'WISP',phantom:'PHANTOM',splitter:'SPLITTER',charger:'CHARGER',shellback:'SHELLBACK',hatcher:'HATCHER',screamer:'SCREAMER',lurker:'LURKER',mender:'MENDER',leaper:'LEAPER'};
 const THREAT_TIPS={
   charger:'<b>Charger</b>: it stops, flashes red and <b>rams the ship</b>. Kill or freeze it during the wind-up.',
   shellback:'<b>Shellback</b>: armoured, takes only 35% damage. <b>Burn</b> ignores armour — Thermal modules melt it.',
   hatcher:'<b>Hatcher</b>: stays back and births skitters every few seconds. Focus it first — tap it to <b>mark</b>.',
   screamer:'<b>Screamer</b>: its scream makes nearby creatures run faster. Kill it for a <b>Surge Cell</b>.',
+  mender:'<b>Mender</b>: heals the creatures around it every few seconds. Mark it and kill it first.',
+  leaper:'<b>Leaper</b>: crouches, then <b>leaps onto the ship</b> and cannot be hit in the air. Freeze it or shoot it during the crouch.',
   lurker:'<b>Lurkers</b> burst out of the ground <i>inside</i> your ring. Watch for the cracks.'};
-const PRIORITY_KIND={hatcher:1,screamer:1};
+const PRIORITY_KIND={hatcher:1,screamer:1,mender:1};
 
 function threatInit(e){
   if(e.k==='shellback')e.armor=0.35;
   if(e.k==='charger'){e.cm='walk';e.cw=0}
   if(e.k==='hatcher')e.ai=rnd(1.5,3);
+  if(e.k==='mender')e.ai=rnd(1,2);
+  if(e.k==='leaper'){e.cm='walk';e.cw=0}
   if(!e.bk&&THREAT_TIPS[e.k]&&meta.tut.done1&&R&&!R.over)setTimeout(()=>tip('k_'+e.k,THREAT_TIPS[e.k],false,6),500);
 }
 // custom movement/attacks for the new kinds. Returns [vx,vy] when it handled the creature, else null.
@@ -37,13 +43,29 @@ function threatMove(e,dt,d,rr,slowM){
     if(d<250&&!(e.frz>0)){e.cm='wind';e.cw=0.95;sfx('alert');addTxt(e.x,e.y*K-e.r*2.6,'!!','#ff3a3a',18);return [0,0]}
     const sp=e.spd*slowM;return [-e.x/d*sp,-e.y/d*sp];
   }
-  if(k==='hatcher'||k==='screamer'){
-    const hold=k==='hatcher'?195:165;
+  if(k==='leaper'){
+    if(e.cm==='crouch'){e.cw-=dt;if(e.cw<=0){e.cm='air';e.cw=0.75;e.lx=e.x;e.ly=e.y;sfx('roar')}return [0,0]}
+    if(e.cm==='air'){
+      e.cw-=dt;const p=Math.min(1,1-e.cw/0.75),L=Math.max(1,Math.hypot(e.lx,e.ly)),tx=e.lx/L*(30+e.r),ty=e.ly/L*(30+e.r);
+      e.x=e.lx+(tx-e.lx)*p;e.y=e.ly+(ty-e.ly)*p;e.air=Math.sin(p*Math.PI)*34;
+      if(e.cw<=0){e.air=0;e.cm='done';damageHope(e.dmg*1.8,e);R.shake=Math.max(R.shake,6);R.fx.push({type:'boom',x:e.x,y:e.y*K,r:26,t:.3,T:.3,c:'#ffb060'})}
+      return [0,0]}
+    if(e.cm==='walk'&&d<270&&d>110&&!(e.frz>0)){e.cm='crouch';e.cw=0.8;sfx('alert');addTxt(e.x,e.y*K-e.r*2.6,'!','#ffb060',18);return [0,0]}
+    return null;
+  }
+  if(k==='hatcher'||k==='screamer'||k==='mender'){
+    const hold=k==='hatcher'?195:k==='mender'?175:165;
     if(d>hold){const sp=e.spd*slowM;return [-e.x/d*sp,-e.y/d*sp]}
     if(k==='hatcher'&&!(e.frz>0)){e.ai-=dt;if(e.ai<=0){e.ai=4.6;hatch(e)}}
+    if(k==='mender'&&!(e.frz>0)){e.ai-=dt;if(e.ai<=0){e.ai=2.6;mend(e)}}
     return [0,0];
   }
   return null;
+}
+function mend(e){
+  let n=0;for(const o of R.en)if(o!==e&&!o.dead&&o.k!=='boss'&&o.hp<o.mhp&&Math.hypot(o.x-e.x,o.y-e.y)<140){o.hp=Math.min(o.mhp,o.hp+o.mhp*0.14);n++;
+    if(R.fx.length<60)R.fx.push({type:'ring',x:o.x,y:o.y*K-o.r*0.6,r0:3,r1:16,t:.35,T:.35,c:'#7dff9a'})}
+  if(n){R.fx.push({type:'ring',x:e.x,y:e.y*K,r0:6,r1:140,t:.5,T:.5,c:'#7dff9a'});addTxt(e.x,e.y*K-e.r*2.4,'+','#7dff9a',13)}
 }
 function hatch(e){
   if(R.en.length>120)return;

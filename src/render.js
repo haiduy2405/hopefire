@@ -210,7 +210,7 @@ function drawMod(h){
 function drawEnemy(e,T){
   const c=ctx,X=e.x,Y=e.y*K,r=e.r,ph=e.ph,lunge=e.lunge>0?-e.face*0:0;
   const bob=Math.sin(ph*2)*r*0.07,col=e.hit>0?'#ffffff':e.c,dark='#140d17';
-  const z=e.fly?22+Math.sin(T*6+e.ph)*3:0;e.zOff=z;const hidden=!!(R&&isHidden(e));
+  const z=(e.fly?22+Math.sin(T*6+e.ph)*3:0)+(e.air||0);e.zOff=z;const hidden=!!(R&&isHidden(e)&&!(e.air>0));
   const sk=e.sk||e.k;
   if(e.k!=='boss'&&SPR.has(sk)){
     const fi=Math.floor(e.ph*1.4)%4,a0=c.globalAlpha;if(hidden)c.globalAlpha=0.2;
