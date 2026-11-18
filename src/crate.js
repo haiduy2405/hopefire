@@ -133,14 +133,16 @@ function openPack(){
   const best=Math.max(...curCards.map(x=>x.rl?3:x.r)),tell=['#cfd6e4',RAR[1].c,RAR[2].c,RAR[3].c][best];
   sfx('crate');
   const lockOn=SETTINGS.lockGame!==0&&meta.tut.mod&&R.mods.length>=1;
-  show(`<div class="panel center crpanel"><h2>SALVAGE CRATE</h2>
+  const motes=Array.from({length:16},(_,i)=>`<i style="--x:${(Math.random()*96+2).toFixed(1)}%;--d:${(3+Math.random()*3.5).toFixed(2)}s;--dl:-${(Math.random()*5).toFixed(2)}s;--s:${(2+Math.random()*3).toFixed(1)}px;--dx:${Math.round(Math.random()*60-30)}px"></i>`).join('');
+  show(`<div class="panel center crpanel r${best}" style="--tc:${tell}"><div class="motes">${motes}</div><h2>SALVAGE CRATE</h2>
     <div class="lockwrap${lockOn?'':' nolock'}">${lockOn?'<canvas id="lockCv"></canvas>':''}<div class="crate r${best}" id="crateEl" style="--tc:${tell}"><div class="crays"></div>${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div></div>
     ${lockOn?`<div class="lslots">${curCards.map((x,i)=>`<div class="lslot" id="ls${i}">${i<3?'🔒':''}</div>`).join('')}</div>
-    <div class="crhint" id="lhint">TAP when the needle is in a colour · <kbd>${confirmKey()}</kbd></div><button class="small lquick" id="lquick">Quick open ▸</button>`:'<div class="crhint">tap to open</div>'}</div>`);
+    <div class="crhint" id="lhint">TAP at a colour · <kbd>${confirmKey()}</kbd></div><button class="small lquick" id="lquick">Quick open ▸</button>`:'<div class="crhint">tap to open</div>'}</div>`);
   let opened=false;const el=$('crateEl');
   const go=()=>{if(opened)return;opened=true;LK=null;const b2=Math.max(...curCards.map(x=>x.rl?3:x.r));sfx('crack'+b2);
     if(SPR.data&&SPR.data.sprites.crate){el.querySelector('.ico')&&(el.querySelector('.ico').outerHTML=ico('crate',4,1))}
-    el.classList.add('open');if(b2===3){flash(0.5);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),400)}
+    el.classList.add('open');{const lw=modal.querySelector('.lockwrap');if(lw)for(let k=0;k<(b2>=2?3:1);k++)lw.insertAdjacentHTML('beforeend',`<div class="cburst" style="animation-delay:${k*0.14}s"></div>`)}
+    if(b2===3){flash(0.5);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),400)}
     setTimeout(()=>revealCards(c),b2>=2?520:300)};
   if(!lockOn){el.onclick=go;setTimeout(go,best>=2?1050:700);return}
   lockStart(go);el.onclick=e=>{e.stopPropagation();lockTap()};
@@ -196,11 +198,15 @@ function lockDraw(){const L=LK,g=L.g,cx=150,cy=150,R0=120;g.clearRect(0,0,300,30
   g.lineCap='butt';g.lineWidth=20;g.strokeStyle='#14161f';g.beginPath();g.arc(cx,cy,R0,0,7);g.stroke();
   g.lineWidth=2;g.strokeStyle='#2e3344';g.beginPath();g.arc(cx,cy,R0+11,0,7);g.stroke();g.beginPath();g.arc(cx,cy,R0-11,0,7);g.stroke();
   for(let k=0;k<12;k++){const a=(k*30-90)*Math.PI/180;g.strokeStyle='#3a4157';g.lineWidth=2;g.beginPath();g.moveTo(cx+Math.cos(a)*(R0-9),cy+Math.sin(a)*(R0-9));g.lineTo(cx+Math.cos(a)*(R0+9),cy+Math.sin(a)*(R0+9));g.stroke()}
-  const T=performance.now()/1000;
+  const T=performance.now()/1000,tc=(L.tc=L.tc||getComputedStyle($('crateEl')).getPropertyValue('--tc').trim()||'#cfd6e4');
+  g.save();g.setLineDash([3,11]);g.lineDashOffset=-T*18;g.globalAlpha=0.32;g.strokeStyle=tc;g.lineWidth=2;g.beginPath();g.arc(cx,cy,R0-30,0,7);g.stroke();g.restore();
   for(const z of L.zones){const a0=(z.a-z.w/2-90)*Math.PI/180,a1=(z.a+z.w/2-90)*Math.PI/180,pul=z.t===3?0.6+0.4*Math.sin(T*10):1;
+    if(Math.abs(((L.ang-z.a+540)%360)-180)<=z.w/2){g.save();g.globalAlpha=0.4;g.strokeStyle='#ffffff';g.lineWidth=26;g.beginPath();g.arc(cx,cy,R0,a0,a1);g.stroke();g.restore()}   // needle is inside: NOW!
     g.save();g.shadowColor=z.c;g.shadowBlur=14*pul;g.strokeStyle=z.c;g.globalAlpha=0.85*pul;g.lineWidth=18;g.beginPath();g.arc(cx,cy,R0,a0,a1);g.stroke();g.restore();
     const pc=(z.a-90)*Math.PI/180,pw=z.w*0.16*Math.PI/180;g.strokeStyle='#ffffff';g.globalAlpha=0.55;g.lineWidth=18;g.beginPath();g.arc(cx,cy,R0,pc-pw,pc+pw);g.stroke();g.globalAlpha=1}
-  if(L.flash>0){g.strokeStyle=L.fc;g.globalAlpha=L.flash;g.lineWidth=6;g.beginPath();g.arc(cx,cy,R0+18+(1-L.flash)*20,0,7);g.stroke();g.globalAlpha=1}
+  if(L.flash>0){g.strokeStyle=L.fc;g.globalAlpha=L.flash;g.lineWidth=6;g.beginPath();g.arc(cx,cy,R0+12+(1-L.flash)*14,0,7);g.stroke();g.globalAlpha=1}
+  const tr=(L.trail=L.trail||[]);tr.unshift(L.ang);if(tr.length>12)tr.length=12;
+  for(let k=1;k<tr.length;k++){const d=((tr[k-1]-tr[k]+540)%360)-180;if(Math.abs(d)>40||!d)continue;g.globalAlpha=0.3*(1-k/tr.length);g.strokeStyle='#fff';g.lineWidth=18;g.lineCap='butt';g.beginPath();g.arc(cx,cy,R0,(tr[k]-90)*Math.PI/180,(tr[k-1]-90)*Math.PI/180,d<0);g.stroke()}g.globalAlpha=1;
   const a=(L.ang-90)*Math.PI/180;g.save();g.shadowColor='#fff';g.shadowBlur=12;g.strokeStyle='#ffffff';g.lineWidth=4;g.lineCap='round';
   g.beginPath();g.moveTo(cx+Math.cos(a)*(R0-26),cy+Math.sin(a)*(R0-26));g.lineTo(cx+Math.cos(a)*(R0+16),cy+Math.sin(a)*(R0+16));g.stroke();g.restore();
   g.fillStyle='#fff';g.beginPath();g.arc(cx+Math.cos(a)*(R0+16),cy+Math.sin(a)*(R0+16),4,0,7);g.fill();
@@ -213,7 +219,8 @@ function revealCards(c){
   // best DPS module card (only highlight when there is a real choice)
   let bi=-1,bp=-1e9;curCards.forEach((cd,i)=>{if(cd.t){const p=previewPick(cd).pct;if(p>bp){bp=p;bi=i}}});
   bi=-1; // no 'best' hint: the player decides (DPS is only one axis now)
-  let h=`<div class="panel center chpanel"><div id="buildBar" class="buildbar"></div><h2>CHOOSE ONE</h2><div class="cards">`;
+  const tcB=['#cfd6e4',RAR[1].c,RAR[2].c,RAR[3].c][Math.max(bestR,curCards.some(x=>x.rl)?3:0)];
+  let h=`<div class="panel center chpanel" style="--tc:${tcB}"><div id="buildBar" class="buildbar"></div><h2>CHOOSE ONE</h2><div class="cards">`;
   curCards.forEach((cd,i)=>{const inner=cd.cr?crewCardHTML(cd,i):cd.sp?spellCardHTML(cd,i):cd.rl?relicCardHTML(cd,i):moduleCardHTML(cd,i,i===bi);
     h+=`<div class="cwrap" style="--d:${0.08+i*0.17}s">${inner}<div class="cback r${cd.rl?3:cd.r}"></div></div>`});
   h+=`</div><div class="chfoot"><button class="small" id="skipBtn">Scrap it (+40% refund)</button><span class="chhelp">Tap an element badge for details · ${PADMODE?'D-pad + '+padGlyph('A'):'keys 1–'+curCards.length}</span></div></div>`;

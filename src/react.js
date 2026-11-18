@@ -51,7 +51,7 @@ function react(e,a,b,d){
   }
   if(first&&!meta.tut['rx_'+R_.n]){meta.tut['rx_'+R_.n]=1;save();setTimeout(()=>{if(R&&!R.over)tip('rx',`<b style="color:${R_.c}">${R_.n}!</b> ${R_.d}. Mix elements to trigger reactions.`,false,6)},200)}
 }
-function rxText(e,n,c,big){if(R.txt.length<80)R.txt.push({x:e.x,y:e.y*K-e.r*2.4-(e.fly?22:0),v:n,c,t:big?1.3:0.9,T:big?1.3:0.9,s:big?20:15,rx:1})}
+function rxText(e,n,c,big){if(R.txt.length<80){const s=big?20:15;R.txt.push({x:e.x,y:wordY(e.x,e.y*K-e.r*2.4-(e.fly?22:0),s),v:n,c,t:big?1.3:0.9,T:big?1.3:0.9,s,rx:1,w:1})}}
 // status pips above creatures + vuln/mark rings (drawn in world space, normal blend)
 function drawStatuses(T){
   for(const e of R.en){if(e.dead||isHidden(e))continue;const X=e.x,Y=e.y*K-(e.fly?22:0);

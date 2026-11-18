@@ -1,8 +1,10 @@
 {
-  "version": "0.9.12",
+  "version": "0.10.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Controller: choosing a card now previews the team DPS change in the build bar, like hovering with the mouse"
+    "Polish pass: richer crate opening scene (rarity glow, motes, burst rings, shimmer on rare cards)",
+    "Menus keep your cursor position after buying an upgrade (no more jumping back to the top)",
+    "Every button now reacts to hover, press and idle; reaction words and toasts no longer overlap each other or the tutorial tip"
   ]
 }

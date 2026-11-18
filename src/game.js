@@ -55,7 +55,9 @@ function alertE(e){
 const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0;
 // pick target in range that is closest to the ship (biggest threat); cloaked ones are skipped
 function threatTarget(x,y,range){const m=R.mark;if(m&&!m.dead&&!isHidden(m)&&(m.x-x)**2+(m.y-y)**2<=range*range)return m;let b=null,bd=1e18;const r2=range*range;for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-x,dy=e.y-y;if(dx*dx+dy*dy>r2)continue;const ds=e.x*e.x+e.y*e.y-(e.state==='rush'?1e6:0);if(ds<bd){bd=ds;b=e}}return b}
-function addTxt(x,y,v,c,s){if(typeof v!=='string'&&!meta.set.nums)return;if(R.txt.length<80)R.txt.push({x:x+rnd(-6,6),y,v:typeof v==='string'?v:fmt(v),c,t:0.75,s:s||11})}
+// word texts (STREAK, SHATTER, MARKED...) stack upwards instead of printing over each other
+function wordY(x,y,s){let yy=y;for(let k=0;k<4;k++){let hit=false;for(const t of R.txt)if(t.w&&Math.abs(t.x-x)<110&&Math.abs(t.y-yy)<s+8){hit=true;break}if(!hit)break;yy-=s+8}return yy}
+function addTxt(x,y,v,c,s){const w=typeof v==='string';if(!w&&!meta.set.nums)return;if(R.txt.length<80)R.txt.push({x:x+rnd(-6,6),y:w?wordY(x,y,s||11):y,v:w?v:fmt(v),c,t:0.75,s:s||11,w:w?1:0})}
 function dmgTxt(e,d,c){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o.age<0.35);if(t){t.n+=d;t.v=fmt(t.n);t.t=0.75;t.c=c;t.s=Math.min(16,11+Math.log10(1+t.n/(e.mhp||1)*10)*3);return}
   if(R.txt.length<45)R.txt.push({e,n:d,age:0,x:e.x+rnd(-6,6),y:e.y*K-e.r*1.6-(e.fly?22:0),v:fmt(d),c,t:0.75,s:11})}
 function hit(e,d,ty,primary){

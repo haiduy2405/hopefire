@@ -21,7 +21,11 @@ const pctS=v=>(v>=1?'+':'−')+Math.round(Math.abs(v-1)*100)+'%';
 function reactSub(i){const r=REACT[i];return i===1?'Standard ring, damage and loot':`Ring ${pctS(r.ring)} · Damage ${pctS(r.dmg)} · Loot ${pctS(r.loot)} · Creatures ${pctS(r.spawn)}`}
 function refreshReactBtn(){const b=$('reactBtn');if(!R||meta.runs<1){b.classList.add('hide');return}b.classList.remove('hide');const r=REACT[R.react];b.innerHTML='⚛ REACTOR · '+r.n+'<small>'+REACT_SHORT[R.react]+'</small>';b.style.background=r.c;b.title=reactSub(R.react)+' (R)'}
 const modal=$('modal');
-function show(html){modal.innerHTML=html;modal.classList.remove('hidden')}
+const panelSig=p=>{const h=p&&p.querySelector('.logo,h1,h2');return h?h.textContent:''};
+// re-rendering the same screen (e.g. buying an upgrade in the hub) keeps the scroll position
+function show(html){const old=modal.querySelector('.panel'),sig=panelSig(old),st=old?old.scrollTop:0;
+  modal.innerHTML=html;modal.classList.remove('hidden');
+  const np=modal.querySelector('.panel');if(np&&st&&sig&&panelSig(np)===sig)np.scrollTop=st}
 function hide(){modal.classList.add('hidden');modal.innerHTML=''}
 function flash(a){if(!SETTINGS.flashes)a*=0.25;const f=$('flash');f.style.transition='none';f.style.opacity=a;requestAnimationFrame(()=>{f.style.transition='opacity .45s';f.style.opacity=0})}
 // tips
@@ -127,3 +131,11 @@ $('quitBtn').onclick=()=>{const b=$('quitBtn');if(!R||R.over||R.paused)return;if
 addEventListener('keydown',e=>{if($('einfo')&&(e.code==='Escape'||e.code==='Space')){$('einfo').click();e.preventDefault();return}if($('loadout')&&(e.code==='Escape'||e.code==='Tab')){closeLoadout();e.preventDefault();return}if(e.code==='Tab'){e.preventDefault();showLoadout();return}if(e.code==='Escape'||e.code==='KeyP'){togglePause();return}if(R&&R.userPause)return;if(e.code==='Space'){e.preventDefault();if(R&&R.tipPause&&$('tipOk'))$('tipOk').click();else if($('crateEl'))$('crateEl').click();else openPack()}else if(curCards&&/^Digit[1-5]$/.test(e.code)&&modal.querySelector('.card')&&+e.code[5]<=curCards.length)pick(+e.code[5]-1);else if(e.code==='KeyR')$('reactBtn').click();else if(R&&!curCards&&/^Key[QWE]$/.test(e.code))castSpell('QWE'.indexOf(e.code[3]))});
 
 function countUp(el,v,pre,suf){if(!el)return;const t0=performance.now(),D=900;const f=()=>{const p=Math.min(1,(performance.now()-t0)/D),e=1-Math.pow(1-p,3);el.textContent=pre+fmt(Math.floor(v*e))+suf;if(p<1){if(Math.random()<0.5)sfx('pick');requestAnimationFrame(f)}else{el.classList.add('done');sfx('up')}};f()}
+
+// ---------- small touches: hover tick + press ripple on every button/card ----------
+(function(){let last=null,lt=0;
+  document.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const b=e.target.closest&&e.target.closest('button:not(:disabled):not(.tbtn),.card');
+    if(b&&b!==last&&performance.now()-lt>60){last=b;lt=performance.now();if(typeof sfx==='function'&&!b.classList.contains('card'))sfx('flip0')}else if(!b)last=null});
+  document.addEventListener('pointerdown',e=>{if(!SETTINGS||SETTINGS.flashes===0)return;const b=e.target.closest&&e.target.closest('button:not(:disabled),.card');if(!b)return;
+    const r=document.createElement('div');r.className='rip';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';document.body.appendChild(r);r.addEventListener('animationend',()=>r.remove())});
+})();

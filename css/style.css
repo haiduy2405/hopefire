@@ -89,7 +89,7 @@ h2{font-size:18px;margin:10px 0 8px;letter-spacing:2px;color:#cfd4de}
 .updn{text-align:left;font-size:13px;line-height:1.7;margin:6px auto 14px;max-width:360px;color:#cfd4de;padding-left:18px}
 .updw{font-size:12px;color:#ffb03a;margin-bottom:14px}
 #updBtn{position:fixed;top:62px;right:12px;z-index:8;padding:7px 12px;border-radius:16px;background:#7dffb0;color:#111;font-size:12px;border:2px solid #000;animation:pbtn .7s infinite alternate}
-#toasts{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;gap:6px;pointer-events:none;width:min(440px,92vw)}
+#toasts{position:fixed;top:108px;right:12px;z-index:10;display:flex;flex-direction:column;gap:6px;pointer-events:none;width:min(360px,92vw);align-items:flex-end}
 .toast{background:#0f131bf5;border:2px solid #ffd24a;padding:8px 12px;font-size:12px;box-shadow:0 6px 20px #000;animation:tin .3s;transition:opacity .5s,transform .5s}
 .toast.out{opacity:0;transform:translateY(-10px)}
 @keyframes tin{from{opacity:0;transform:translateY(-12px)}}
@@ -354,3 +354,55 @@ body.intitle #hud,body.intitle #bottom{display:none}
 .padfocus{outline:3px solid #ffd24a!important;outline-offset:3px;box-shadow:0 0 0 5px #ffd24a,0 0 24px #ffd24acc!important;position:relative;z-index:1}
 .card.padfocus{transform:translateY(-6px) scale(1.04)}
 #padHint{position:fixed;left:50%;bottom:4px;transform:translateX(-50%);z-index:30;pointer-events:none;display:none;max-width:96vw;padding:3px 12px;border-radius:10px;background:#05060acc;border:1px solid #ffffff22;color:#cfd4de;font-size:12px;white-space:nowrap;letter-spacing:.3px}
+
+/* ===== Interaction layer (v0.10): hover / press / focus / idle ===== */
+button,.card,.up,.lochip,[data-el],.spell{transition:transform .14s cubic-bezier(.2,.9,.3,1.3),filter .14s,box-shadow .18s,background-color .18s,border-color .18s,color .18s}
+button:not(:disabled):not(.tbtn):hover{filter:brightness(1.16) saturate(1.1);transform:translateY(-2px)}
+button:not(:disabled):not(.tbtn):active{transform:translateY(1px) scale(.97);filter:brightness(.94);transition-duration:.05s}
+button:focus-visible{outline:3px solid #ffd24a;outline-offset:2px}
+.card:hover{transform:translateY(-8px) scale(1.035);box-shadow:0 14px 34px color-mix(in srgb,var(--rc,#9aa4b2) 45%,transparent)}
+.card:active{transform:translateY(-3px) scale(.99)}
+.padfocus:not(.card){transform:translateY(-2px)}
+.up:hover{border-color:#4a5372;background:#1b2130}
+.up button:not(:disabled){animation:upready 1.9s ease-in-out infinite}
+@keyframes upready{50%{box-shadow:0 0 0 2px #c79bff44,0 0 14px #c79bff99}}
+.big:not(:disabled){animation:breathe 2.4s ease-in-out infinite}
+@keyframes breathe{50%{box-shadow:0 0 26px #ffb03a99,0 0 0 3px #ffb03a33}}
+.chs button:not(:disabled):not(.sel):hover{background:#2e374b;color:#fff}
+.chs button.sel{box-shadow:0 0 14px #ffb03a77}
+.spell:hover{opacity:1;transform:scale(1.08)}
+.mast b{display:inline-block}
+.rip{position:fixed;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:2px solid #ffd24a;pointer-events:none;z-index:60;animation:rip .45s ease-out forwards}
+@keyframes rip{to{transform:scale(5);opacity:0}}
+@media (prefers-reduced-motion:reduce){.up button,.big{animation:none!important}.rip{display:none}}
+
+/* ===== Crate scene (v0.10) ===== */
+.crpanel{position:relative;overflow-x:hidden;overflow-y:auto;background:radial-gradient(ellipse at 50% 40%,color-mix(in srgb,var(--tc,#cfd6e4) 24%,#0f131b) 0,#0f131b 66%);animation:crin .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes crin{from{transform:scale(.9) translateY(14px);opacity:0}}
+.crpanel h2{letter-spacing:5px;text-shadow:0 0 18px var(--tc);animation:crh .6s ease-out}
+@keyframes crh{from{letter-spacing:14px;opacity:0}}
+.crpanel>*:not(.motes){position:relative;z-index:1}
+.motes{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.motes i{position:absolute;bottom:-8px;left:var(--x);width:var(--s);height:var(--s);background:var(--tc);opacity:0;box-shadow:0 0 8px var(--tc);animation:mote var(--d) linear var(--dl) infinite}
+@keyframes mote{0%{transform:translate(0,0);opacity:0}12%{opacity:.85}100%{transform:translate(var(--dx),-520px);opacity:0}}
+.lockwrap::before{content:'';position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px 0 0 -130px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--tc) 42%,transparent) 0,transparent 68%);animation:cglow 1.7s ease-in-out infinite;pointer-events:none}
+@keyframes cglow{50%{transform:scale(1.2);opacity:.65}}
+.lockwrap .crate{position:relative;z-index:1}
+.lockwrap canvas{z-index:2}
+.crpanel.r2 .lockwrap::before,.crpanel.r3 .lockwrap::before{animation-duration:1s}
+.cburst{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:5px solid var(--tc);box-shadow:0 0 26px var(--tc),inset 0 0 20px var(--tc);pointer-events:none;z-index:3;opacity:0;animation:cburst .75s ease-out forwards}
+@keyframes cburst{0%{transform:scale(.3);opacity:.95}100%{transform:scale(3.4);opacity:0}}
+.crhint{animation:hintp 1.5s ease-in-out infinite}
+@keyframes hintp{50%{opacity:.5}}
+.lslot{position:relative}
+.lslot.hit::after{content:'';position:absolute;inset:-3px;border-radius:9px;border:2px solid var(--lc);animation:lring .55s ease-out forwards;pointer-events:none}
+@keyframes lring{to{transform:scale(1.8);opacity:0}}
+.lslot.miss{animation:lshk .3s}
+@keyframes lshk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes cfr{0%{transform:translateY(-110px) rotateY(-90deg) scale(.5);opacity:0}45%{transform:translateY(-34px) rotateY(-90deg) scale(.82);opacity:0}46%{opacity:1}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.motes{display:none}.lockwrap::before{animation:none}}
+.chpanel{background:radial-gradient(ellipse at 50% 32%,color-mix(in srgb,var(--tc,#cfd6e4) 15%,#0f131b) 0,#0f131b 70%);animation:crin .3s cubic-bezier(.2,.9,.3,1.2)}
+.chpanel h2{text-shadow:0 0 16px var(--tc)}
+.card.r2::after,.card.r3::after{content:'';position:absolute;inset:0;border-radius:6px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.17) 50%,transparent 58%);background-size:260% 100%;animation:shine 3s ease-in-out infinite}
+@keyframes shine{from{background-position:160% 0}to{background-position:-60% 0}}
+@media (max-width:600px){#tip{font-size:12px;padding:8px 10px;line-height:1.45;top:50px}#toasts{top:86px}}

@@ -33,7 +33,14 @@ function padNextFocus(cur,dir,root){
   return best;
 }
 function padHover(e,on){if(e&&e.classList.contains('card'))try{e.dispatchEvent(new MouseEvent(on?'mouseenter':'mouseleave'))}catch(_){}}   // same preview (team DPS change in the build bar) as mouse hover
-function padSetFocus(e){if(PAD.fi){PAD.fi.classList.remove('padfocus');if(PAD.fi!==e)padHover(PAD.fi,false)}PAD.fi=e;if(e){e.classList.add('padfocus');padHover(e,true);try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}}
+function padKey(e){const d=e.dataset||{};return e.id||(d.k&&'k:'+d.k)||(d.ch&&'ch:'+d.ch)||(d.t&&'t:'+d.t)||(d.i&&'i:'+d.i)||(d.a&&'a:'+(e.closest('[data-n]')?e.closest('[data-n]').dataset.n:'')+d.a)||(d.el&&'el:'+d.el)||''}
+const padSig=l=>{const h=l&&l.querySelector('.logo,h1,h2,.snum');return (l&&l.id||'')+'|'+(h?h.textContent:'')};
+// After the screen is re-drawn (buying an upgrade, switching a tab...) put the cursor back on the same control instead of the first one
+function padRestore(layer){const m=PAD.mem;if(!m||m.sig!==padSig(layer))return null;const L=padCands(layer);if(!L.length)return null;
+  let f=m.key?L.find(e=>padKey(e)===m.key):null;
+  if(!f){let bd=1e9;for(const e of L){const r=e.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-m.cx,r.top+r.height/2-m.cy);if(d<bd){bd=d;f=e}}}
+  return f}
+function padSetFocus(e){if(PAD.fi){PAD.fi.classList.remove('padfocus');if(PAD.fi!==e)padHover(PAD.fi,false)}PAD.fi=e;if(e){const r=e.getBoundingClientRect(),ly=padLayer();PAD.mem={key:padKey(e),cx:r.left+r.width/2,cy:r.top+r.height/2,sig:padSig(ly)};e.classList.add('padfocus');padHover(e,true);try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}}
 function padBack(layer){
   const id=layer&&layer.id;
   if(id==='einfo')layer.click();
@@ -70,7 +77,7 @@ function padPoll(now){
   if(inCut){
     if(edge('A')||edge('Start')){const s=$('skipCut');if(s&&padVis(s))s.click();else if(CUT.title>=1)cv.dispatchEvent(new PointerEvent('pointerdown'))}
   }else if(layer){
-    if(!PAD.fi||!document.contains(PAD.fi)||!layer.contains(PAD.fi)||!padVis(PAD.fi)){const f=padNextFocus(null,'down',layer);padSetFocus(f)}
+    if(!PAD.fi||!document.contains(PAD.fi)||!layer.contains(PAD.fi)||!padVis(PAD.fi)){const f=padRestore(layer)||padNextFocus(null,'down',layer);padSetFocus(f)}
     if(hasLK){if(edge('A')||edge('RT'))lockTap();else if(edge('Y')){const q=$('lquick');q&&q.click()}}
     else if($('crateEl')&&padVis($('crateEl'))){if(edge('A'))$('crateEl').click()}
     else{
@@ -116,7 +123,7 @@ function padHint(t){
   const s=PAD.vis&&PAD.pad?t:'';if(s===PAD.hint)return;PAD.hint=s;h.textContent=s;h.style.display=s?'block':'none'}
 
 // ---------- wiring ----------
-function padRelabel(){try{if(typeof R!=='undefined'&&R&&!R.over){renderSpellBar();if($('lhint'))$('lhint').innerHTML=`TAP when the needle is in a colour · <kbd>${confirmKey()}</kbd>`}}catch(_){}}
+function padRelabel(){try{if(typeof R!=='undefined'&&R&&!R.over){renderSpellBar();if($('lhint'))$('lhint').innerHTML=`TAP at a colour · <kbd>${confirmKey()}</kbd>`}}catch(_){}}
 function padHide(){if(PAD.vis){PAD.vis=false;PADMODE=false;padRelabel();document.body.classList.remove('padmode');padSetFocus(null);padHint('')}}
 addEventListener('pointerdown',padHide);addEventListener('keydown',padHide);
 addEventListener('pointermove',e=>{if(Math.abs(e.movementX||0)+Math.abs(e.movementY||0)>3)padHide()});

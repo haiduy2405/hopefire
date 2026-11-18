@@ -136,7 +136,7 @@ function render(dt){
       if(R.banner.sub){ctx.font='12px monospace';ctx.fillStyle='#9aa3b3';ctx.fillText(R.banner.sub,W/2,y-24)}ctx.globalAlpha=1}
     // cinematic vignette (always)
     {const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.42,W/2,H/2,Math.max(W,H)*0.75);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,0.45)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
-    if(R.stkShow&&R.stkShow.t>0){R.stkShow.t-=dt;const s=R.stkShow,a=Math.min(1,s.t*3),sc=1+(s.big?0.5:0.2)*Math.max(0,s.t-0.5)*2;ctx.globalAlpha=a;ctx.font=`900 ${Math.round(22*sc)}px monospace`;ctx.lineWidth=5;ctx.strokeStyle='#000';const y=OY-ringR()*K*S*0.55;
+    if(R.stkShow&&R.stkShow.t>0){R.stkShow.t-=dt;const s=R.stkShow,a=Math.min(1,s.t*3),sc=1+(s.big?0.5:0.2)*Math.max(0,s.t-0.5)*2;ctx.globalAlpha=a;ctx.font=`900 ${Math.round(22*sc)}px monospace`;ctx.lineWidth=5;ctx.strokeStyle='#000';const y=Math.min(H-150,OY+ringR()*K*S+34);   // below the ring: reaction words print above/inside it
       ctx.strokeText(s.n+'× STREAK',W/2,y);ctx.fillStyle=s.big?'#ffd24a':'#ffb03a';ctx.fillText(s.n+'× STREAK',W/2,y);ctx.globalAlpha=1}
     // low hope vignette
     if(R.hope<R.maxHope*0.25&&!R.over){const a=0.25+0.15*Math.sin(T*6);const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.7);g.addColorStop(0,'rgba(120,0,0,0)');g.addColorStop(1,`rgba(160,0,0,${a})`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}

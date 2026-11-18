@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.10.0 — 2026-11-18
+- Crate scene 2.0: rarity-coloured panel/glow (`--tc`), floating motes while opening, burst rings on reveal, lock mini-game rune ring + needle trail + in-zone highlight, shimmer on rare cards.
+- Focus/scroll memory: after any hub re-render (buy upgrade, etc.) the cursor stays on the same item and the scroll position is kept (`panelSig`, `padRestore`).
+- Interaction layer: hover tick, press ripple, idle pulse on primary buttons.
+- Floating word texts stack upwards (`wordY`) instead of overlapping; STREAK moved below the ring; toasts moved to the right under the tip; compact tip on phones.
+- Pad: rumble toggle in Options.
+
 ## v0.9.12 — 2026-11-18
 - Gamepad: focusing a card fires the same hover preview as the mouse (`padHover` → `mouseenter`/`mouseleave`), so TEAM DPS in the build bar updates while browsing cards with the pad.
 
