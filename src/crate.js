@@ -78,7 +78,7 @@ function moduleCardHTML(cd,i,best){
   else tag=`<span class="tg" style="background:#7dffb0">New module</span>`;
   const syn=pv.up.length?pv.up.map(([e,t])=>`<div class="sact" style="--ec:${TYPES[e].c}">✦ ${e.toUpperCase()} ${SYN_T[t-1]} ACTIVATES</div>`).join('')
     :(n1>n0&&n1<4?`<div class="sprog">${n1}/${n1<2?2:4} to next ${k} bonus</div>`:'');
-  const have=[...new Set(R.mods.map(h=>h.t.ty))],newRx=[...buildReactions([...have,k])].filter(n=>!buildReactions(have).has(n));
+  const have=haveElems(),newRx=[...buildReactions([...have,k])].filter(n=>!buildReactions(have).has(n));
   const rxl=newRx.length?`<div class="rxu">${newRx.map(n=>{const r=Object.values(RX).find(x=>x.n===n);return `<span style="--rc2:${r.c}" title="${r.d}">⚡ ${n}</span>`}).join('')}</div>`:'';
   const brk=pv.down.map(([e,t])=>`<div class="sbrk">⚠ breaks ${e} ${SYN_T[t-1]}</div>`).join('');
   const p=pv.pct,dl=`<div class="dps ${p>=0?'up':'dn'}">${p>=0?'▲':'▼'} TEAM DPS ${p>=0?'+':''}${Math.round(p*100)}%</div>`;
@@ -113,8 +113,9 @@ function rollCrate(){
   const roll=()=>{
     const armed=R.mods.length>=2;
     if(armed&&meta.tut.mod&&canRollRelic()&&Math.random()<RELIC_CHANCE){const rl=rollRelic(taken);if(rl){taken.push(rl.id);return{rl,r:3}}}
+    if(Math.random()<crewChance())return rollCrewCard();
     return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()}};
-  const key=c=>c.rl?'r'+c.rl.id:c.sp?'s'+c.sp.id:'m'+c.t.id;
+  const key=c=>c.cr?'c'+c.cr:c.rl?'r'+c.rl.id:c.sp?'s'+c.sp.id:'m'+c.t.id;
   const out=[],seen=new Set();
   for(let tries=0;out.length<n&&tries<60;tries++){const c=roll();if(seen.has(key(c)))continue;seen.add(key(c));out.push(c)}
   if(!meta.tut.mod)out.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
@@ -122,11 +123,12 @@ function rollCrate(){
   if(meta.runs===0&&R.mods.length===1&&out.every(c=>!c.t||c.t.ty!==R.mods[0].t.ty)){
     const mate=MODS.filter(m=>m.ty===R.mods[0].t.ty&&m.id!==R.mods[0].t.id&&m.c!=='drone');const i=out.findIndex(c=>c.t);
     if(mate.length&&i>=0)out[i]={t:mate[Math.random()*mate.length|0],r:Math.max(1,out[i].r)};}
+  if(meta.runs>=1&&!meta.tut.crewcard&&R.mods.length>=2&&!out.some(c=>c.cr)){meta.tut.crewcard=1;out[out.length-1]=rollCrewCard();out[out.length-1].r=Math.max(1,out[out.length-1].r)}
   return out;
 }
 function openPack(){
-  if(!R||R.over||R.paused||R.tipPause)return;const c=packCost();if(R.gold<c)return;
-  audioInit();R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();
+  if(!R||R.over||R.paused||R.tipPause)return;const free=(R.free||0)>0,c=free?0:packCost();if(R.gold<c)return;
+  audioInit();if(free)R.free--;else R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();
   meta.stats.crates++;curCards=rollCrate();
   const best=Math.max(...curCards.map(x=>x.rl?3:x.r)),tell=['#cfd6e4',RAR[1].c,RAR[2].c,RAR[3].c][best];
   sfx('crate');
@@ -147,7 +149,7 @@ function revealCards(c){
   let bi=-1,bp=-1e9;curCards.forEach((cd,i)=>{if(cd.t){const p=previewPick(cd).pct;if(p>bp){bp=p;bi=i}}});
   bi=-1; // no 'best' hint: the player decides (DPS is only one axis now)
   let h=`<div class="panel center chpanel"><div id="buildBar" class="buildbar"></div><h2>CHOOSE ONE</h2><div class="cards">`;
-  curCards.forEach((cd,i)=>{const inner=cd.sp?spellCardHTML(cd,i):cd.rl?relicCardHTML(cd,i):moduleCardHTML(cd,i,i===bi);
+  curCards.forEach((cd,i)=>{const inner=cd.cr?crewCardHTML(cd,i):cd.sp?spellCardHTML(cd,i):cd.rl?relicCardHTML(cd,i):moduleCardHTML(cd,i,i===bi);
     h+=`<div class="cwrap" style="--d:${0.08+i*0.17}s">${inner}<div class="cback r${cd.rl?3:cd.r}"></div></div>`});
   h+=`</div><div class="chfoot"><button class="small" id="skipBtn">Scrap it (+40% refund)</button><span class="chhelp">Tap an element badge for details · keys 1–${curCards.length}</span></div></div>`;
   show(h);renderBuildBar();
@@ -187,9 +189,11 @@ function showLoadout(){
   let syns='';for(const k in TYPES){const n=syn[k]||0,t=synTier(n);syns+=`<div class="los${t?' on':''}" data-el="${k}" style="--ec:${TYPES[k].c}"><div class="losh"><b>${k}</b><span class="lp">${pips(k,n)}</span></div><span>${t===2?ELEM_INFO[k].t4:t===1?ELEM_INFO[k].t2:n?`${2-n} more for +25% dmg`:'—'}</span></div>`}
   const sp=R.spells.map((s,i)=>`<div class="lox" style="--rc:${RAR[s.r].c}">${ico('sp_'+s.d.id,2,0,s.d.g)}<div><b>${s.d.n}</b> <span class="lst">Lv${s.lv}</span> <span class="lok">${'QWE'[i]}</span><div class="loms">${s.d.d} · cooldown ${Math.round(spellCd(s))}s</div></div></div>`).join('')||'<div class="loe">No spells yet.</div>';
   const rl=R.relics.map(id=>{const r=RELICS.find(x=>x.id===id);return `<div class="lox" style="--rc:#ffd24a">${ico('rl_'+r.id,2,0,r.g)}<div><b>${r.n}</b><div class="loms">${r.d}</div></div></div>`}).join('')||`<div class="loe">No relics yet (max ${maxRelics()}).</div>`;
+  const crw=(R.crew||[]).map(c=>`<div class="lox" style="--rc:${RAR[c.r].c}"><img src="${crewPortrait(c.role,c.ty)}" alt=""><div><b>${c.ty} ${CREW[c.role].n}</b> <span class="lst">${'★'.repeat(Math.min(c.s,5))}</span> ${elemBadge(c.ty)}<div class="loms">${crewStat(c.role,c.r,c.s,c.ty)}${c.down>0?' · <b style="color:#ff5a5a">DOWN</b>':''}</div></div></div>`).join('')||`<div class="loe">No crew yet — crew cards appear in crates (max ${CREW_MAX}).</div>`;
   const d=document.createElement('div');d.id='loadout';
   d.innerHTML=`<div class="panel lopanel"><div class="lohead"><h2>LOADOUT</h2><div class="lodps">TEAM DPS <b>${fmt(tot)}</b> · Modules ${R.mods.length}/${R.slots} · Spells ${R.spells.length}/${MAX_SPELLS} · Relics ${R.relics.length}/${maxRelics()}</div></div>
     <div class="losec">MODULES</div><div class="lomods">${mods}</div>
+    <div class="losec">CREW ${(R.crew||[]).length}/${CREW_MAX}</div><div class="locrew">${crw}</div>
     <div class="losec">SYNERGIES <small>tap for details</small></div><div class="losyn">${syns}</div>
     <div class="lo2"><div><div class="losec">SPELLS</div>${sp}</div><div><div class="losec">RELICS</div>${rl}</div></div>
     <div class="center"><button class="big" id="loClose">BACK TO BATTLE ▸</button><div class="chhelp">Tab / Esc to close</div></div></div>`;

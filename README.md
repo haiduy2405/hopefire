@@ -27,17 +27,19 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 **Đã xong** (chi tiết: `CHANGELOG.md`)
 - Gameplay đầy đủ: 5 bãi + 5 boss, 8 loại quái, 16 module (4 hệ × lance/rail/mortar/drone), 5 phép, 8 relic, Nightmare cho từng bãi, Endless, 20+ nâng cấp vĩnh viễn, 25 thành tựu, cutscene mở đầu/kết thúc. Thời lượng ~3,5 giờ (đo bằng bot).
 - Đồ họa: key art + sprite **AI-assisted** (ChatGPT → nền magenta → `tools/sprites/import_ai.py`) cho tàu, súng, 4 tháp pháo, 8 quái, 5 boss, đồ trang trí mặt đất. Hiệu ứng: tia lửa, vết dịch, xác tan, khựng hình khi chí mạng, slow-mo khi giết boss, ánh sáng ấm, bụi, tàn lửa.
-- **Crate 2.0 (v0.8.2):** crate báo trước độ hiếm (màu đèn + độ rung), thẻ lật lần lượt có âm thanh theo độ hiếm, thanh build (ô trống, DPS đội, tiến độ hệ) có xem trước khi rê chuột, mỗi thẻ hiện **% DPS đội thay đổi**, hệ **được kích hoạt / bị phá**, (nhãn BEST DPS đã bỏ ở v0.9.2); bấm vào hệ (trên thẻ, thanh build, chip trong trận) để xem bảng thông tin hệ; ăn mừng khi kích hoạt hệ trong trận.
+- **Crate 2.0 (v0.8.2):** crate báo trước độ hiếm (màu đèn + độ rung), thẻ lật lần lượt có âm thanh theo độ hiếm, thanh build (ô trống, DPS đội, tiến độ hệ) có xem trước khi rê chuột, mỗi thẻ hiện **% DPS đội thay đổi**, hệ **được kích hoạt / bị phá**, (nhãn BEST DPS đã bỏ ở v0.9.3); bấm vào hệ (trên thẻ, thanh build, chip trong trận) để xem bảng thông tin hệ; ăn mừng khi kích hoạt hệ trong trận.
 - Bản desktop Windows (Electron): `tools/desktop/package_win.ps1` → `build/HOPEFIRE/HOPEFIRE.exe`. Shortcut “HOPEFIRE (test)” trên Desktop của Duy.
 - Tài liệu store (đã làm **sớm**, sẽ làm lại sau khi Duy duyệt game): `store/` (key art, logo, capsule các cỡ, ảnh chụp, trailer nháp), `docs/STEAM_PAGE.md`.
 - Pháp lý/thuế: `docs/BUSINESS_LEGAL.md`.
 
 **Vừa xong v0.9.0 (2026-11-18):** Crate 2.0, nhạc thích ứng tự tổng hợp (`src/music.js`), SFX mới, game feel (nâng ★, module rơi xuống, streak, rung thanh Hope, màn chết slow-mo), ván đầu dạy synergy, màn kết có mục tiêu boss + số nâng cấp mua được, REVIEW_PROMPT v2, script test trong `tools/test/`. Bot cân bằng: cốt truyện 106 phút, toàn bộ 229 phút.
 
-**Vừa xong v0.9.2 (2026-11-18) — chống “chơi thụ động”:** Duy góp ý người chơi chỉ bấm BEST DPS rồi ngồi xem. Đã làm: (A) **phản ứng nguyên tố** `src/react.js` — mỗi hệ để lại trạng thái, hệ thứ hai kích nổ SHATTER / OVERLOAD / SUPERCONDUCT / CONTAGION (chữ to, âm riêng, gợi ý lần đầu) → chọn thẻ phải tính combo; (C) **chạm quái để đánh dấu** (+25% sát thương, súng ưu tiên) → người chơi luôn có việc; (D) bỏ nhãn BEST DPS, thẻ hiện huy hiệu phản ứng sẽ mở. Cân bằng lại máu quái: cốt truyện 90 phút, toàn bộ 198 phút.
+**Vừa xong v0.9.3 (2026-11-18) — chống “chơi thụ động”:** Duy góp ý người chơi chỉ bấm BEST DPS rồi ngồi xem. Đã làm: (A) **phản ứng nguyên tố** `src/react.js` — mỗi hệ để lại trạng thái, hệ thứ hai kích nổ SHATTER / OVERLOAD / SUPERCONDUCT / CONTAGION (chữ to, âm riêng, gợi ý lần đầu) → chọn thẻ phải tính combo; (C) **chạm quái để đánh dấu** (+25% sát thương, súng ưu tiên) → người chơi luôn có việc; (D) bỏ nhãn BEST DPS, thẻ hiện huy hiệu phản ứng sẽ mở. Cân bằng lại máu quái: cốt truyện 90 phút, toàn bộ 198 phút.
 
-**Đang làm / chờ** (cập nhật v0.9.2)
-0. **(B) Crew — kế hoạch tiếp theo, chờ Duy chơi thử v0.9.2:** crate có loại thẻ mới mở **thành viên tổ lái** đi lại trong vòng tròn và đánh quái. 4 vai: Guardian (chặn quái sát tàu), Hunter (đuổi quái nhanh), Medic (hồi Hope), Engineer (tăng tốc bắn tháp gần). Tối đa 3, có máu / gục / hồi sinh, lên ★ khi trùng. Art qua ChatGPT cùng style.
+**Vừa xong v0.9.3:** **Crew** (`src/crew.js`: Guardian/Hunter/Medic/Engineer, tối đa 3, có hệ nguyên tố, gục/hồi sinh, ★ khi trùng), **Carrier** (quái chở hàng chạy vòng quanh ring, đánh dấu + giết = crate MIỄN PHÍ → lý do để đánh dấu), **Bounty** (giết quái đã đánh dấu = 2× scrap), **Reactor** giải thích rõ (nút, banner, bảng hướng dẫn lần đầu). Bot: cốt truyện 75–97 phút, toàn bộ 3–4 giờ.
+
+**Đang làm / chờ** (cập nhật v0.9.3)
+0. **Crew đã làm (v0.9.3)** — art crew đang vẽ bằng code, cần làm sprite AI cùng style. Chờ Duy chơi thử crew + carrier.
 1. **Duy đang chơi thử** → chờ góp ý.
 2. **Độ khó:** Duy chốt 4 mức Dễ / Vừa / Khó / Hell. Làm **Normal thật chuẩn trước**; save slot đã lưu `meta.diff`, màn tạo game hiện 4 mức (chỉ Normal mở). Làm 3 mức còn lại SAU khi Normal được duyệt.
 3. **Lồng tiếng:** dùng TTS miễn phí, thương mại được: **Kokoro-82M** (Apache-2.0, giọng HOPE) + **Chatterbox** (MIT, có điều chỉnh cảm xúc, giọng COMMANDER). Cài trên máy Duy (RTX 3060 Ti): `tools/voice/setup_tts.ps1` → `D:\AI\hopefire_tts` (log `setup.log`). Kịch bản: `docs/VOICE_SCRIPT.md`. Code phát thoại sẵn sàng (`src/voice.js`).

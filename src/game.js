@@ -10,7 +10,7 @@ function newRun(ch,endless,warp,night){
   R={ch,endless:!!endless,night:!!night&&!endless,revived:false,t:0,wave:1,waveT:0,spawnT:1,hope:maxHope,maxHope,gold:15+8*lv('start'),cores:0,packs:0,mods:[],en:[],pr:[],fx:[],pt:[],txt:[],orbs:[],
     kills:0,boltCd:0.6,bossSpawned:false,boss:null,lastBossWave:0,bossKills:0,over:false,won:false,shake:0,slots:4+lv('slots'),paused:false,tipPause:false,syn:{},
     banner:{s:endless?'ENDLESS WASTES':SITES[ch-1],sub:endless?'How long can hope last?':'Site '+ch,t:2.6},react:1,spells:[],relics:[],overT:0,ringPulse:0,
-    shipAim:-Math.PI/2,shipFl:0,smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
+    crew:[],free:0,shipAim:-Math.PI/2,shipFl:0,smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
   if(warp&&!endless){R.wave=WARP_WAVE;R.gold+=Math.floor(40*Math.pow(2.2,ch-1));R.banner={s:'WARP → THREAT '+WARP_WAVE,sub:SITES[ch-1],t:2.2}}
   if(R.night)R.banner={s:'☠ NIGHTMARE · '+SITES[ch-1],sub:'Creatures ×'+NM.hp[ch-1]+' HP · Xeno-cores ×'+NM.core,t:2.8};
   for(let i=0;i<lv('kit');i++)R.mods.push({t:MODS[Math.random()*MODS.length|0],r:0,s:1,tier:ch,cd:0.5,fl:0,x:0,y:0});
@@ -19,7 +19,7 @@ function newRun(ch,endless,warp,night){
   $('spdBtn').textContent=speed+'x';
   layoutMods();renderChips();refreshReactBtn();renderSpellBar();
   if(!meta.tut.start)setTimeout(()=>vo('tut_ring',1),300);if(R.night)setTimeout(()=>vo('nightmare',1),600);if(!meta.tut.start)setTimeout(()=>tip('start',`Your ship is wrecked. The creatures out there are <b>blind</b> — they only sense you inside the <b>ring</b>.<br>Your heat ray still fires. Keep <b>🔥 HOPE</b> above zero.`,true),600);
-  else if(meta.runs>=1&&!meta.tut.reactor)setTimeout(()=>tip('reactor',`<b>Reactor unlocked.</b> OVERDRIVE = more damage &amp; loot, but a <b>wider ring</b> — more of them will notice you.`,false,7),800);
+  else if(meta.runs>=1&&!meta.tut.reactor)setTimeout(()=>tip('reactor',`<b>⚛ REACTOR unlocked</b> (button bottom-right, key <b>R</b>). It sets how much power the ship burns:<table class="rtab"><tr><td style="color:${REACT[0].c}">LOW</td><td>smaller ring = fewer creatures notice you, but less damage &amp; loot. <i>Use it when Hope is low.</i></td></tr><tr><td style="color:${REACT[1].c}">NORMAL</td><td>balanced.</td></tr><tr><td style="color:${REACT[2].c}">OVERDRIVE</td><td>+35% damage, <b>×1.6 scrap &amp; cores</b> = crates come faster, but a <b>bigger ring</b> and more creatures. <i>Use it when your defence is strong.</i></td></tr></table>`,true),800);
   else if(ch>1&&!meta.tut['site'+ch])setTimeout(()=>tip('site'+ch,SITE_TIPS[ch]||'',false,7),900);
 }
 const SITE_TIPS={2:'New creature: <b>Spitters</b> keep their distance and spit acid. Long-range <b>Rails</b> handle them best.',
@@ -70,7 +70,7 @@ function hit(e,d,ty,primary){
     else if(ty==='Arc'){let o=null,bd=110*110;for(const x of R.en){if(x.dead||x===e)continue;const dd=(x.x-e.x)**2+(x.y-e.y)**2;if(dd<bd){bd=dd;o=x}}
       if(o){R.fx.push({type:'zap',x:e.x,y:e.y*K-e.r*.6,x2:o.x,y2:o.y*K-o.r*.6,t:0.12,T:0.12,c:TYPES.Arc.c});hit(o,d*0.35,ty,false)}}
   }
-  if(e.state!=='rush')alertE(e);
+  if(e.k==='carrier')e.panic=2;else if(e.state!=='rush')alertE(e);
   if(ty&&primary&&R.syn[ty]>=4){
     if(ty==='Thermal'){e.burn=3;e.bd=Math.max(e.bd,d*0.4)}
     else if(ty==='Cryo'){e.slow=1.6}
@@ -88,7 +88,7 @@ function blast(x,y,r,dmg,col,src){
   if(dmg)for(const o of R.en)if(!o.dead&&o!==src&&Math.hypot(o.x-x,o.y-y)<r+o.r)hit(o,dmg,null,false);
 }
 function kill(e){
-  if(e.dead)return;e.dead=true;R.kills++;meta.stats.kills++;sfx('kill');streakAdd();const k=EK[e.k],L=REACT[R.react].loot;
+  if(e.dead)return;e.dead=true;if(R.mark===e||e.k==='carrier')bountyKill(e);R.kills++;meta.stats.kills++;sfx('kill');streakAdd();const k=EK[e.k],L=REACT[R.react].loot;
   const nS=R.night?NM.scrap:1,nC=R.night?NM.core:1,cx=1+0.2*lv('cellx');
   drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS);
   drop('core',e.x,e.y,k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1)*(1+0.1*lv('core2'))*nC);
@@ -97,7 +97,7 @@ function kill(e){
   for(let i=0;i<n;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.5-(e.fly?22:0),vx:rnd(-110,110),vy:rnd(-140,40),t:rnd(0.3,0.8),c:i%3?e.c:'#9cff5a',s:rnd(2,5),g:260});
   R.fx.push({type:'ring',x:e.x,y:e.y*K,r0:4,r1:e.r*2.2,t:0.25,T:0.25,c:'#9cff5a'});
   const dec=R.dec||(R.dec=[]);if(dec.length>140)dec.shift();dec.push({x:e.x+rnd(-3,3),y:e.y,r:e.r*rnd(1.0,1.5)*(e.k==='boss'?1.6:1),a:rnd(0,3),c:e.c,t:12,n:3+(Math.random()*3|0)});
-  if(e.spr){const cp=R.corpses||(R.corpses=[]);cp.push({k:e.k==='boss'?'boss_'+(e.bk||1):e.k,fi:Math.floor(e.ph*1.4)%4,x:e.x,y:e.y,z:e.fly?22:0,face:e.face,t:e.k==='boss'?1.2:0.45,T:e.k==='boss'?1.2:0.45})}
+  if(e.spr){const cp=R.corpses||(R.corpses=[]);cp.push({k:e.k==='boss'?'boss_'+(e.bk||1):(e.sk||e.k),fi:Math.floor(e.ph*1.4)%4,x:e.x,y:e.y,z:e.fly?22:0,face:e.face,t:e.k==='boss'?1.2:0.45,T:e.k==='boss'?1.2:0.45})}
   if(e.k==='boss'){R.hs=0.16;R.slow=1.4;for(let i=0;i<7;i++)R.fx.push({type:'ring',x:e.x+rnd(-40,40),y:e.y*K+rnd(-30,10),r0:6,r1:rnd(40,90),t:0.3+i*0.12,T:0.3+i*0.12,c:i%2?'#ffb03a':'#ff5a3d'});
     for(let i=0;i<80;i++)R.pt.push({x:e.x+rnd(-30,30),y:e.y*K-30+rnd(-20,20),vx:rnd(-260,260),vy:rnd(-320,40),t:rnd(.5,1.4),c:i%2?'#ffb03a':'#ffe14d',s:rnd(2,5),g:240,add:1})}
   else if(R.pt.length<420)for(let i=0;i<5;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.6-(e.fly?22:0),vx:rnd(-70,70),vy:rnd(-120,-30),t:rnd(.2,.4),c:'#ffffff',s:2,g:200,add:1});
@@ -176,6 +176,7 @@ function update(dt){
     e.hit=Math.max(0,e.hit-dt);statusTick(e,dt);if(e.slow>0)e.slow-=dt;if(e.frz>0)e.frz-=dt;
     if(e.burn>0){e.burn-=dt;e.hp-=e.bd*dt;if(Math.random()<dt*8)R.pt.push({x:e.x+rnd(-e.r,e.r),y:e.y*K-e.r,vx:0,vy:-40,t:0.4,c:'#ff7a3d',s:2,g:0,add:1});if(e.burn<=0)e.bd=0;if(e.hp<=0){kill(e);continue}}
     const d=Math.hypot(e.x,e.y)||1,slowM=e.frz>0?0.08:e.slow>0?0.6:1;let vx=0,vy=0;
+    if(e.state==='carry'){carryMove(e,dt,rr,slowM);continue}
     if(e.state==='ambient'){
       e.wt-=dt;if(e.wt<=0){e.wt=rnd(1,3);e.hd+=rnd(-0.6,0.6)}
       const sp=10*slowM;vx=Math.cos(e.hd)*sp;vy=Math.sin(e.hd)*sp;
@@ -188,6 +189,7 @@ function update(dt){
     }else{
       if(e.k==='boss')bossTick(e,dt,d);
       if(e.alertT>0){e.alertT-=dt}
+      else if(crewEngage(e,dt,slowM)){}
       else if(e.k==='spitter'&&d<175){ // hold distance and spit acid
         e.ai-=dt;if(e.ai<=0&&!(e.frz>0)){e.ai=2.2;R.pr.push({k:'acid',x:e.x,y:e.y,z:12,dmg:e.dmg});sfx('mortar')}
       }else{const reach=40+e.r,sp=e.spd*slowM*(e.spdM===undefined?1:e.spdM);
@@ -198,10 +200,11 @@ function update(dt){
     }
     e.x+=vx*dt;e.y+=vy*dt;if(Math.abs(vx)>1)e.face=vx>0?1:-1;e.ph+=dt*(Math.hypot(vx,vy)*0.12+0.5);if(e.lunge>0)e.lunge-=dt;
   }
+  carrierTick(dt,rr);crewTick(dt,rr);
   // modules
   const as=(1+0.08*lv('aspd'))*(R.overT>0?2:1);
   for(const h of R.mods){
-    h.cd=(h.cd||0)-dt*as;h.fl=Math.max(0,(h.fl||0)-dt);
+    h.cd=(h.cd||0)-dt*as*(1+(h.eng||0));h.fl=Math.max(0,(h.fl||0)-dt);
     if(h.t.c==='drone'){droneTick(h,dt,rr);continue}
     if(h.cd>0)continue;
     const tg=threatTarget(h.x,h.y,h.t.range*(1+0.06*lv('range')));if(!tg){h.cd=0.1;continue}
@@ -274,6 +277,7 @@ function update(dt){
   if(R.pt.length>500)R.pt.splice(0,R.pt.length-500);
   if(R.banner)R.banner.t-=dt;R.ringPulse=Math.max(0,R.ringPulse-dt*1.5);
   spellTick(dt);autoCastTick(dt);tutorialTick();if(R.hope<R.maxHope*0.25&&!R.dying&&R.t>3)vo('low_hope');
+  if(meta.runs>=1&&R.react>0&&R.hope<R.maxHope*0.3&&!R.rHint&&!R.dying){R.rHint=1;R.txt.push({x:0,y:-96,v:'Low Hope? Reactor LOW (R) hides you',c:'#5cd0ff',t:3,s:12});const b=$('reactBtn');b.classList.add('pulse');setTimeout(()=>b.classList.remove('pulse'),4000)}
   R.achT-=dt;if(R.achT<=0){R.achT=1;achScan()}
   if(R.hope<=0&&!R.over){
     if(lv('second')&&!R.revived){R.revived=true;R.hope=R.maxHope*0.3;flash(0.6);sfx('cell');R.banner={s:'SECOND WIND',t:1.6};vo('second_wind',1);

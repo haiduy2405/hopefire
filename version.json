@@ -1,11 +1,12 @@
 {
-  "version": "0.9.2",
+  "version": "0.9.3",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Elemental reactions: mix elements for SHATTER, OVERLOAD, SUPERCONDUCT and CONTAGION",
-    "Tap a creature to mark it: your modules focus it and it takes +25% damage",
-    "Crate cards show which reactions a pick unlocks (no more 'best' hint - build your own combo)",
-    "Creatures are a little tougher from Site 2 on to match the new damage"
+    "CREW: crates can now give you a Guardian, Hunter, Medic or Engineer who walk inside the ring and fight (max 3, upgrade with duplicates)",
+    "CARRIERS haul salvage around the ring - mark one (tap) and kill it before it escapes for a FREE crate",
+    "Killing any marked creature pays a BOUNTY in scrap; the Hunter chases your marked target",
+    "Reactor now explains itself: effects on the button, on every switch and in a first-time guide",
+    "Bosses are a little tougher"
   ]
 }

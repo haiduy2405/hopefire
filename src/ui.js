@@ -14,9 +14,12 @@ function hud(dt){
   const p=Math.max(0,R.hope)/R.maxHope;$('hopebar').style.width=(100*p)+'%';$('hopebar').className=p<0.25?'low':'';$('hopetxt').textContent='HOPE '+Math.ceil(p*100)+'%';
   $('scrapT').textContent='⚙ '+fmt(R.gold);$('coreT').textContent='✦ '+fmt(R.cores);$('threatT').textContent=!R.endless&&R.wave>=BOSS_WAVE?'THREAT MAX':'THREAT '+R.wave;$('siteT').textContent=R.endless?'∞ Endless':(R.night?'☠ ':'')+SITES[R.ch-1];
   spellHud();
-  const c=packCost();$('packBtn').textContent='OPEN CRATE  ⚙'+fmt(c);$('packBtn').disabled=R.gold<c||R.paused||R.over||R.tipPause||R.updPause;
+  const fr=(R.free||0)>0,c=fr?0:packCost();$('packBtn').textContent=fr?'OPEN FREE CRATE'+(R.free>1?' ×'+R.free:''):'OPEN CRATE  ⚙'+fmt(c);$('packBtn').classList.toggle('freec',fr);$('packBtn').disabled=R.gold<c||R.paused||R.over||R.tipPause||R.updPause;
 }
-function refreshReactBtn(){const b=$('reactBtn');if(!R||meta.runs<1){b.classList.add('hide');return}b.classList.remove('hide');const r=REACT[R.react];b.innerHTML='⚛ REACTOR<br>'+r.n;b.style.background=r.c}
+const REACT_SHORT=['hide · less loot','balanced','×1.6 loot · danger'];
+const pctS=v=>(v>=1?'+':'−')+Math.round(Math.abs(v-1)*100)+'%';
+function reactSub(i){const r=REACT[i];return i===1?'Standard ring, damage and loot':`Ring ${pctS(r.ring)} · Damage ${pctS(r.dmg)} · Loot ${pctS(r.loot)} · Creatures ${pctS(r.spawn)}`}
+function refreshReactBtn(){const b=$('reactBtn');if(!R||meta.runs<1){b.classList.add('hide');return}b.classList.remove('hide');const r=REACT[R.react];b.innerHTML='⚛ REACTOR · '+r.n+'<small>'+REACT_SHORT[R.react]+'</small>';b.style.background=r.c;b.title=reactSub(R.react)+' (R)'}
 const modal=$('modal');
 function show(html){modal.innerHTML=html;modal.classList.remove('hidden')}
 function hide(){modal.classList.add('hidden');modal.innerHTML=''}
@@ -39,6 +42,7 @@ function pick(i){
   if(!curCards)return;const cd=curCards[i];sfx('up');
   if(cd.sp){addSpell(cd);closePack();return}
   if(cd.rl){addRelic(cd);closePack();return}
+  if(cd.cr){addCrew(cd);closePack();return}
   const ex=R.mods.find(x=>x.t.id===cd.t.id);
   const mk=()=>({t:cd.t,r:cd.r,s:1,tier:R.ch,cd:0.3,fl:0,x:0,y:0});
   let target;
@@ -116,7 +120,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&R&&!R.over
 $('skipCut').onclick=endCutscene;
 $('spdBtn').onclick=()=>{sfx('click');speed=speed===1?2:speed===2?3:1;$('spdBtn').textContent=speed+'x';meta.set.spd=speed;save()};
 speed=meta.set.spd||1;
-$('reactBtn').onclick=()=>{if(!R||R.over)return;sfx('click');R.react=(R.react+1)%3;refreshReactBtn();R.banner={s:'REACTOR: '+REACT[R.react].n,t:1.2};R.ringPulse=0.6};
+$('reactBtn').onclick=()=>{if(!R||R.over)return;sfx('click');R.react=(R.react+1)%3;refreshReactBtn();R.banner={s:'REACTOR: '+REACT[R.react].n,sub:reactSub(R.react),t:1.8};R.ringPulse=0.6};
 $('muteBtn').onclick=()=>{meta.muted=!meta.muted;save();audioInit();applyVolume();$('muteBtn').textContent=meta.muted?'🔇':'🔊'};
 $('muteBtn').textContent=meta.muted?'🔇':'🔊';
 $('quitBtn').onclick=()=>{const b=$('quitBtn');if(!R||R.over||R.paused)return;if(b.dataset.c){delete b.dataset.c;b.textContent='✕';endRun(false)}else{b.dataset.c=1;b.textContent='?';setTimeout(()=>{delete b.dataset.c;b.textContent='✕'},1500)}};

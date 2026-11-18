@@ -67,7 +67,7 @@ function render(dt){
   ctx.globalAlpha=1;
   // y-sorted entities
   const list=[{y:0,f:drawShip}];
-  if(R){for(const h of R.mods){list.push({y:h.y,f:()=>drawMod(h)});if(h.dx!==undefined)list.push({y:h.dy+30,f:()=>drawDrone(h,T)})}for(const e of R.en)list.push({y:e.y,f:()=>drawEnemy(e,T)});
+  if(R){for(const h of R.mods){list.push({y:h.y,f:()=>drawMod(h)});if(h.dx!==undefined)list.push({y:h.dy+30,f:()=>drawDrone(h,T)})}for(const e of R.en)list.push({y:e.y,f:()=>{drawEnemy(e,T);if(e.k==='carrier')drawCarrierExtras(e,T)}});for(const c of R.crew||[])list.push({y:c.y,f:()=>drawCrew(c,T)});
     if(R.corpses)for(const cp of R.corpses)if(SPR.has(cp.k))list.push({y:cp.y,f:()=>{const p=1-cp.t/cp.T;ctx.globalAlpha=Math.max(0,1-p*p);drawSpr(ctx,p<0.15?cp.k+'_flash':cp.k,cp.fi,cp.x,cp.y*K-cp.z*(1-p)+p*6,cp.face<0);ctx.globalAlpha=1}})}
   list.sort((a,b)=>a.y-b.y);for(const it of list)it.f();
   if(R){
@@ -198,10 +198,13 @@ function drawEnemy(e,T){
   const c=ctx,X=e.x,Y=e.y*K,r=e.r,ph=e.ph,lunge=e.lunge>0?-e.face*0:0;
   const bob=Math.sin(ph*2)*r*0.07,col=e.hit>0?'#ffffff':e.c,dark='#140d17';
   const z=e.fly?22+Math.sin(T*6+e.ph)*3:0;e.zOff=z;const hidden=!!(R&&isHidden(e));
-  if(e.k!=='boss'&&SPR.has(e.k)){
+  const sk=e.sk||e.k;
+  if(e.k!=='boss'&&SPR.has(sk)){
     const fi=Math.floor(e.ph*1.4)%4,a0=c.globalAlpha;if(hidden)c.globalAlpha=0.2;
-    const k=drawSpr(c,e.k,fi,X,Y-z,e.face<0);if(e.hit>0){c.globalAlpha=(hidden?0.2:1)*0.65;drawSpr(c,e.k+'_flash',fi,X,Y-z,e.face<0)}c.globalAlpha=a0;
-    const f=SPR.data.sprites[e.k][fi];e.eyes=f.eyes.map(([x,y,s])=>[x*k,y*k,s*k]);e.spr=true;e._bob=0;
+    if(e.k==='carrier'){c.save();c.translate(X,Y-z);c.scale(0.85,0.85);c.translate(-X,-(Y-z))}
+    const k=drawSpr(c,sk,fi,X,Y-z,e.face<0);if(e.hit>0){c.globalAlpha=(hidden?0.2:1)*0.65;drawSpr(c,sk+'_flash',fi,X,Y-z,e.face<0)}c.globalAlpha=a0;
+    if(e.k==='carrier')c.restore();
+    const f=SPR.data.sprites[sk][fi];e.eyes=f.eyes.map(([x,y,s])=>[x*k,y*k,s*k]);e.spr=true;e._bob=0;
     if(e.frz>0){c.fillStyle='#bff0ffa0';c.beginPath();c.ellipse(X,Y-z-r*0.6,r*1.2,r*0.9,0,0,7);c.fill()}else if(e.slow>0){c.fillStyle='#5cd0ff40';c.beginPath();c.ellipse(X,Y-z-r*0.6,r*1.1,r*0.8,0,0,7);c.fill()}
     return}
   if(e.k==='boss'&&SPR.has('boss_'+(e.bk||1))){
@@ -302,6 +305,7 @@ function drawFx(f){
   else if(f.type==='zap'){ctx.strokeStyle=f.c;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(f.x,f.y);const n=4;for(let i=1;i<n;i++){ctx.lineTo(f.x+(f.x2-f.x)*i/n+rnd(-9,9),f.y+(f.y2-f.y)*i/n+rnd(-9,9))}ctx.lineTo(f.x2,f.y2);ctx.stroke()}
   else if(f.type==='ring'){const k=1-a;ctx.strokeStyle=f.c;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r0+(f.r1-f.r0)*k,(f.r0+(f.r1-f.r0)*k)*K,0,0,7);ctx.stroke()}
   else if(f.type==='boom'){const k=1-a;ctx.fillStyle=f.c;ctx.globalAlpha=a*0.35;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.4+k*0.8),f.r*(0.4+k*0.8)*K,0,0,7);ctx.fill();ctx.globalAlpha=a;ctx.strokeStyle='#fff3c0';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.3+k),f.r*(0.3+k)*K,0,0,7);ctx.stroke()}
+  else if(f.type==='slash'){const p=1-f.t/f.T;ctx.strokeStyle=f.c;ctx.globalAlpha=a;ctx.lineWidth=3*(1-p)+1;ctx.beginPath();ctx.arc(f.x,f.y,10+p*4,f.f>0?-1.2:Math.PI-0.6,f.f>0?0.6:Math.PI+1.2);ctx.stroke();ctx.globalAlpha=1}
   else if(f.type==='spark'){glowDot(f.x,f.y,10,f.c,a)}
   ctx.globalAlpha=1;
 }

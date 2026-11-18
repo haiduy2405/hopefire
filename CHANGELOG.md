@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.9.3 — 2026-11-18
+- **Crew** (`src/crew.js`): new crate card type (20% when crew < 3, 10% when full; guaranteed once in run 2+). Guardian (taunts creatures within 66 near the hull, cleave), Hunter (chases MARK → carriers → fast creatures, pounce 2×), Medic (Hope regen 0.25–1%/s, heals crew), Engineer (+30–60% fire rate to the module he tends, rotates every 7 s). Element per crew member → statuses/reactions. HP, DOWN for 8 s then respawn at the hatch, ★ via duplicates. Procedural pixel figures + card portraits (AI art later). Loadout lists crew
+- **Carriers**: from ~30 s then every 55–75 s (not during bosses) a carrier circles the ring edge for 15 s then escapes; never attacks; panics when hit. Kill = FREE crate (`R.free`, crate button turns gold). First one pauses with a tip that teaches MARK
+- **Bounty**: killing a marked creature drops 2× its scrap
+- **Reactor clarity**: button shows mode + short effect, switch banner lists exact % changes, first-time guide is a pausing table (when to use LOW / OVERDRIVE), low-Hope hint pulses the button
+- Balance: boss HP +15–25%, CH_HP sites 2–5 +6–9%. Bot (marks carriers/boss): story 75–97 min, everything 182–254 min, no errors
+
 ## v0.9.2 — 2026-11-18
 - **Elemental reactions** (`src/react.js`): module hits leave a status (Thermal=burn, Cryo=chill, Arc=shock, Nano=nanites, 2.6 s); a second element triggers a reaction (0.9 s cooldown per creature): SHATTER (burn+chill, 1.8× burst + shards), OVERLOAD (burn+shock, explosion + knockback), SUPERCONDUCT (chill+shock, +25% damage taken 3 s + slow), CONTAGION (nano+any, spreads status to 3, repairs a bit of Hope). Status pips, big reaction text, unique SFX, first-time tips
 - **Focus mark**: tap/click a creature → modules prioritise it, +25% damage, rotating red reticle

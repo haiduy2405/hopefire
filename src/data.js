@@ -18,6 +18,7 @@ const EK={
   crawler:{hp:22,spd:46,dmg:4,r:10,g:1,core:1,cell:.05,c:'#4b3a5c'},
   skitter:{hp:13,spd:92,dmg:3,r:8,g:1,core:1,cell:.04,c:'#5d4b2c'},
   brute:{hp:110,spd:28,dmg:12,r:16,g:5,core:3,cell:.3,c:'#5c2f3c'},
+  carrier:{hp:110,spd:36,dmg:0,r:13,g:6,core:3,cell:.5,c:'#8a6a2a'},
   boss:{hp:1500,spd:9,dmg:15,r:36,g:80,core:40,cell:1,c:'#341a30'}
 };
 const SITES=['Crash Site','Research Wreck','Mining Hulk','War Graveyard','The Origin'];
@@ -48,16 +49,16 @@ Object.assign(EK,{
   splitter:{hp:70,spd:36,dmg:7,r:13,g:2,core:2,cell:.1,c:'#5a2a4a'}    // splits into 2 skitters
 });
 const BOSSES=[
-  {n:'THE DEVOURER',c:'#341a30',hp:1,spd:1,d:'It swallowed the navigation core.'},
-  {n:'BROOD MOTHER',c:'#24402f',hp:1.1,spd:0.9,d:'Births crawlers as it approaches.'},
-  {n:'THE CRUSHER',c:'#4a3a24',hp:1.05,spd:1,d:'Armored. Only vulnerable after a charge.'},
-  {n:'PHANTOM WARLORD',c:'#22223a',hp:1,spd:1.2,d:'Blinks through the dark with its guard.'},
-  {n:'THE ORIGIN',c:'#3a0f1a',hp:1.3,spd:0.8,d:'The source of it all. It feeds on your light.'}
+  {n:'THE DEVOURER',c:'#341a30',hp:1.15,spd:1,d:'It swallowed the navigation core.'},
+  {n:'BROOD MOTHER',c:'#24402f',hp:1.3,spd:0.9,d:'Births crawlers as it approaches.'},
+  {n:'THE CRUSHER',c:'#4a3a24',hp:1.25,spd:1,d:'Armored. Only vulnerable after a charge.'},
+  {n:'PHANTOM WARLORD',c:'#22223a',hp:1.2,spd:1.2,d:'Blinks through the dark with its guard.'},
+  {n:'THE ORIGIN',c:'#3a0f1a',hp:1.55,spd:0.8,d:'The source of it all. It feeds on your light.'}
 ];
 // [kind, weight, minThreat, minSite]
 const SPAWN_TABLE=[['crawler',50,1,1],['skitter',25,3,1],['brute',10,5,1],['spitter',14,2,2],['bloater',10,2,3],['wisp',16,4,3],['phantom',12,2,4],['splitter',12,2,5]];
 // per-site difficulty (creature HP and damage multipliers), tuned by simulation
-const CH_HP=[1.05,4.15,11.2,38,56],CH_DMG=[1,1.6,2.5,3.6,4.4];
+const CH_HP=[1.05,4.4,12,41,61],CH_DMG=[1,1.6,2.5,3.6,4.4];
 const WARP_WAVE=5; // after clearing a site you may start there at this threat
 const SIG=[null,'crawler','spitter','bloater','phantom','splitter']; // signature creature per site
 UPG.push({k:'auto',n:'Spell Autocast',d:l=>l?'Spells cast themselves':'Spells cast themselves',base:150,g:1,max:1});

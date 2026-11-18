@@ -318,3 +318,17 @@ body.intitle #hud,body.intitle #bottom{display:none}
 
 .rxu{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}.rxu span{font-size:10px;font-weight:bold;letter-spacing:.5px;color:var(--rc2);border:1px solid var(--rc2);padding:1px 5px;border-radius:2px;text-shadow:0 0 6px var(--rc2)}
 .eirx{border-top:1px solid #1d2230;padding:6px 0;color:#a8b0bf;font-size:11px;display:flex;flex-direction:column;gap:4px}
+/* reactor */
+#reactBtn{width:128px}
+#reactBtn small{display:block;font-size:10px;font-weight:600;opacity:.85;margin-top:1px}
+.rtab{margin:8px 0 2px;border-collapse:collapse;font-size:12px;text-align:left}
+.rtab td{padding:3px 6px;vertical-align:top;border-top:1px solid #ffffff18}
+.rtab td:first-child{font-weight:900;white-space:nowrap}
+@media (max-width:600px){#reactBtn{width:92px}#reactBtn small{font-size:8px}}
+/* crew */
+.crewcard .gl{display:flex;align-items:center;justify-content:center}
+.crimg{width:64px;height:64px;image-rendering:pixelated}
+#packBtn.freec{background:linear-gradient(#ffe27a,#ffb020);color:#2a1a00;border-color:#ffd24a;box-shadow:0 0 16px #ffd24a88}
+.locrew{display:flex;gap:8px;flex-wrap:wrap}
+.locrew .lox{flex:1 1 200px}
+.locrew img{width:40px;height:40px;image-rendering:pixelated}

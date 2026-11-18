@@ -1,9 +1,10 @@
-()=>{meta=defMeta();meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1,site2:1,site3:1,site4:1,site5:1};
+()=>{meta=defMeta();meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1,site2:1,site3:1,site4:1,site5:1,carrier:1,crew:1,crewcard:1,reactor:1};
 const out={milestones:[]};let T=0,runs=0;
 function buy(){let b=true;while(b){b=false;const pool=UPG.concat(UPG2.filter(u=>reqMet(u.req))).filter(u=>lv(u.k)<u.max).sort((a,c)=>upCost(a)-upCost(c));const u=pool[0];if(u&&meta.mastery>=upCost(u)){meta.mastery-=upCost(u);meta.up[u.k]=lv(u.k)+1;b=true}}}
 function play(ch,night){hide();newRun(ch,false,false,night);let s=0;
   while(!R.over&&s<60*600){
-    if(R.gold>=packCost()&&!R.paused){openPack();revealCards(packCost());let bi=0,bs=-1;curCards.forEach((c,i)=>{let sc=c.rl?8:c.sp?(R.spells.find(x=>x.d.id===c.sp.id)?5:R.spells.length<3?4:0)+c.r:c.r*2+(R.mods.find(h=>h.t.id===c.t.id)?3:0);if(sc>bs){bs=sc;bi=i}});pick(bi)}
+    if(R.gold>=packCost()&&!R.paused){openPack();revealCards(packCost());let bi=0,bs=-1;curCards.forEach((c,i)=>{let sc=c.cr?c.r*2+(R.crew.find(x=>x.role===c.cr)?3:R.crew.length<3?2:-5):c.rl?8:c.sp?(R.spells.find(x=>x.d.id===c.sp.id)?5:R.spells.length<3?4:0)+c.r:c.r*2+(R.mods.find(h=>h.t.id===c.t.id)?3:0);if(sc>bs){bs=sc;bi=i}});pick(bi)}
+    if(s%30===0&&(!R.mark||R.mark.dead)){const cr=R.en.find(e=>e.k==='carrier'&&Math.hypot(e.x,e.y)<ringR()*1.15);if(cr)R.mark=cr;else if(R.boss&&!R.boss.dead)R.mark=R.boss}
     update(1/60);s++;if(R.boss&&R.boss.dead&&!R.over){for(let k=0;k<100;k++)update(1/60);if(!R.over)endRun(true)}}
   T+=R.t;runs++;return R.won}
 while(runs<400){
