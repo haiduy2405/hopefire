@@ -1,8 +1,9 @@
 {
-  "version": "0.9.6",
+  "version": "0.9.7",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "New artwork for your crew (Guardian, Hunter, Medic, Engineer) and the salvage Carrier"
+    "New ending twist: after liftoff, the alien planet is revealed to be Earth, four thousand years in the future",
+    "Crew now have their own attack poses (Guardian, Hunter, Medic, Engineer)"
   ]
 }

@@ -40,7 +40,7 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 **Vừa xong v0.9.4:** **Mở crate = mini-game bẻ 3 khóa** (canh kim quay: xanh ≥Rare, tím ≥Epic, vàng ≥Legendary, giữa vùng = PERFECT; trúng cả 3 có tím/vàng = JACKPOT thêm 1 thẻ; tắt được trong Options). **Bầy quái (horde)** hàng trăm cặp mắt trong bóng tối, đông dần theo threat; **Surge**: bầy dồn về một phía rồi lao vào (mũi tên đỏ báo trước). Cân bằng lại độ hiếm gốc + máu quái. Bot (bẻ khóa giỏi): cốt truyện ~70–80 phút.
 
-**Vừa xong v0.9.6:** **Art AI cho Crew (4 nhân vật) và Carrier** — thay hình vẽ bằng code; nguyên tố hiện bằng chấm màu dưới chân. Sheet gốc: `store/crew_v1.png`, `store/carrier_v1.png`.
+**Vừa xong v0.9.7:** **Twist kết mới** — sau khi cất cánh, hành tinh "lạ" hóa ra là **Trái Đất**, phi hành gia bị điểm kỳ dị ném tới tương lai +4.000 năm (Trái Đất hoang tàn); 5 câu voice mới. **Pose đánh riêng cho 4 crew.** Trước đó: v0.9.6: **Art AI cho Crew (4 nhân vật) và Carrier** — thay hình vẽ bằng code; nguyên tố hiện bằng chấm màu dưới chân. Sheet gốc: `store/crew_v1.png`, `store/carrier_v1.png`.
 
 **Vừa xong v0.9.5:** **Lồng tiếng** 25 câu (HOPE = Kokoro, COMMANDER = Chatterbox; miễn phí, dùng thương mại được). Tạo lại: trên máy Duy chạy `D:\AI\hopefire_tts\kokoro\Scripts\python.exe tools\voice\gen_lines.py kokoro` rồi `...\chatter\Scripts\python.exe tools\voice\gen_lines.py chatter` (ra `build\vo_raw`), sau đó `python tools/voice/post.py <thư mục vo_raw>` (cần ffmpeg) → `assets/vo/`.
 

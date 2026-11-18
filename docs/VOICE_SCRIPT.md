@@ -33,7 +33,11 @@ Two voices, English only. Keep every line short (≤ 4 s) so it never blocks pla
 | nightmare | HOPE | Nightmare run start | "Readings off the scale. This is a bad idea." | wary |
 | ending_1 | HOPE | ending, liftoff | "All systems restored. Hope at one hundred percent." | emotional |
 | ending_2 | COMMANDER | ending | "Take us home." | quiet, emotional |
-| ending_3 | ??? (HOPE, distorted) | ending twist | "You are not the first. You will not be the last." | cold, layered |
+| ending_3 | HOPE | ending, orbit | "Navigation core restored. Star charts aligned." | calm |
+| ending_4 | HOPE | ending, scan | "Position confirmed. Third planet from the Sun." | flat, slow |
+| ending_5 | COMMANDER | ending twist | "...Earth." | broken, quiet |
+| ending_6 | HOPE | ending twist | "We crossed a singularity. Temporal displacement: four thousand years." | cold, precise |
+| ending_7 | COMMANDER | ending twist | "We never left home. We came back too late." | hollow, emotional |
 
 ## Generation checklist
 1. ElevenLabs (paid plan, commercial licence) → Voice Library or Voice Design for both voices; keep the same voice IDs for every line.

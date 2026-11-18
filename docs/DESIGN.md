@@ -30,7 +30,7 @@ Tên game: **HOPE** (tên con tàu, cũng là hi vọng) + **FIRE** (tia nhiệt
 | Drone | Lớp module thứ 4: bay khắp vòng tròn săn quái nguy hiểm nhất |
 | Relic | 8 vật phẩm bị động, tối đa 3/lượt, chỉ xuất hiện khi đã có 2 module |
 | Thành tựu | 19 cái, mỗi cái +50 Xeno-core |
-| Sau phá đảo | Màn kết (cất cánh + twist) → mở Endless Wastes (boss mỗi 10 Threat) |
+| Sau phá đảo | Màn kết (cất cánh + twist: hành tinh "lạ" hóa ra là Trái Đất, phi hành gia bị điểm kỳ dị ném tới tương lai +4.000 năm, Trái Đất hoang tàn) → mở Endless Wastes (boss mỗi 10 Threat) |
 
 ## Khác biệt so với Booster Pack Heroes (sửa đúng điểm bị chê)
 - Chọn 1/3 thẻ thay vì random hoàn toàn → lựa chọn có ý nghĩa.

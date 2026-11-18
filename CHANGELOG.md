@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.9.7 — 2026-11-18
+- **New ending twist**: after liftoff the nav core aligns and the scan sweeps the dust off the "alien" planet — it is **Earth**, 4,000 years in the future (the crew crossed a singularity). Procedural pixel globe in `src/cutscene.js` (buildEarth/earthFrame: ash-brown continents, dead ocean, dust storms, debris ring, scan line), labels "SOL III · EARTH" / "TEMPORAL DISPLACEMENT +4,000 YEARS". Replaces the old "You are not the first" line. 5 new VO lines ending_3..7 (`docs/VOICE_SCRIPT.md`).
+- **Crew attack poses**: `assets/ai/crew_<role>_atk` (anchored at the feet, `tools/sprites/import_crew_atk.py`); shown while a crew member attacks (0.28 s). Carrier hitbox slightly larger (r 15).
+- Voice tools: `ONLY=id,id` env filter in `gen_lines.py` / `post.py` to regenerate single lines.
+
 ## v0.9.6 — 2026-11-18
 - **AI art for crew and carrier**: 4 crew sprites (`assets/ai/crew_<role>`, 4 walk frames, hit flash) replace the code-drawn astronauts in battle, in the crate cards and in the Loadout; the element is shown by a coloured pip at the feet. New `carrier` sprite (six-legged pack-beast hauling a golden crate) replaces the re-used brute; carrier radius 13 → 15 to match the bigger sprite. Code-drawn figure stays as fallback when the atlas is missing. Source sheets: `store/crew_v1.png`, `store/carrier_v1.png` (ChatGPT; declare AI art on Steam)
 

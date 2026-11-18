@@ -151,8 +151,57 @@ function cutRender(){
 }
 cv.addEventListener('pointerdown',()=>{if(CUT&&CUT.title>=1)(CUT.kind==='end'?finishEnding():endCutscene())});
 
+// ---- the twist: the "alien" planet is Earth, thousands of years in the future ----
+// Crude lon/lat polygons -> 360x180 land mask -> orthographic pixel globe (150 px, upscaled without smoothing = pixel-art look)
+const EARTH_LAND=[
+  [[-168,66],[-156,71],[-125,70],[-95,72],[-82,69],[-65,60],[-56,52],[-66,45],[-70,42],[-76,36],[-81,31],[-80,25],[-82,29],[-90,30],[-97,26],[-97,20],[-90,21],[-87,21],[-88,16],[-83,10],[-79,9],[-86,11],[-92,15],[-105,20],[-110,24],[-114,31],[-118,34],[-124,40],[-124,48],[-135,58],[-148,61],[-165,60]],
+  [[-79,9],[-73,12],[-62,11],[-52,5],[-35,-6],[-39,-14],[-48,-26],[-58,-38],[-66,-46],[-68,-55],[-74,-50],[-72,-30],[-70,-18],[-76,-14],[-81,-5],[-80,0],[-77,8]],
+  [[-55,60],[-45,60],[-20,70],[-20,81],[-60,82],[-72,78],[-55,68]],
+  [[-10,36],[-9,43],[-1,46],[-5,48],[5,53],[8,57],[10,63],[20,70],[40,68],[60,70],[100,77],[140,72],[170,68],[180,65],[160,58],[142,52],[135,43],[128,35],[122,30],[121,22],[108,20],[105,10],[100,2],[98,16],[92,22],[80,15],[77,8],[72,20],[67,25],[58,25],[56,26],[58,24],[55,17],[43,13],[35,28],[34,32],[36,36],[28,37],[24,38],[19,40],[15,38],[8,43],[3,43],[-2,37],[-9,37]],
+  [[-17,21],[-6,36],[10,37],[32,31],[35,28],[43,12],[51,12],[40,-5],[40,-15],[33,-26],[20,-35],[12,-18],[9,-1],[-8,4],[-17,14]],
+  [[114,-22],[122,-18],[131,-12],[137,-12],[142,-11],[146,-19],[153,-26],[150,-37],[140,-38],[131,-31],[115,-34]],
+  [[-5,50],[2,51],[0,58],[-6,58]],[[130,31],[141,36],[142,44],[137,38]],[[95,5],[105,-6],[120,-9],[110,-2]],
+  [[-180,-70],[180,-70],[180,-90],[-180,-90]]
+];
+let EARTH=null;
+function buildEarth(){
+  if(EARTH)return EARTH;
+  const mc=document.createElement('canvas');mc.width=360;mc.height=180;const m=mc.getContext('2d');
+  m.fillStyle='#000';m.fillRect(0,0,360,180);m.fillStyle='#fff';
+  for(const poly of EARTH_LAND){m.beginPath();poly.forEach(([lo,la],i)=>{const x=lo+180,y=90-la;i?m.lineTo(x,y):m.moveTo(x,y)});m.closePath();m.fill()}
+  const N=150,cv=document.createElement('canvas');cv.width=cv.height=N;const cx=cv.getContext('2d');
+  EARTH={land:m.getImageData(0,0,360,180).data,N,cv,cx,img:cx.createImageData(N,N)};return EARTH;
+}
+const hash2=(x,y)=>{const h=Math.sin(x*127.1+y*311.7)*43758.5453;return h-Math.floor(h)};
+// scan: rows above that fraction are "revealed" (dust cleared); <0 = fully veiled, >1 = fully revealed
+function earthFrame(lon0,T,scan){
+  const E=buildEarth(),N=E.N,d=E.img.data,la0=0.32,sl=Math.sin(la0),cl=Math.cos(la0),LX=-0.52,LY=-0.42,LZ=0.74;
+  for(let j=0;j<N;j++){
+    const dust=scan>=j/N+0.03?0.04:scan<=j/N-0.03?1:1-(scan-(j/N-0.03))/0.06*0.96;
+    for(let i=0;i<N;i++){
+      const x=(i+0.5)/N*2-1,y=(j+0.5)/N*2-1,r2=x*x+y*y,o=(j*N+i)*4;
+      if(r2>1){d[o+3]=0;continue}
+      const z=Math.sqrt(1-r2),yy=-y,y2=yy*cl+z*sl,z2=-yy*sl+z*cl,lat=Math.asin(y2),lon=Math.atan2(x,z2)+lon0;
+      const lo=((lon*180/Math.PI+540)%360),la=lat*180/Math.PI,px=Math.min(359,lo|0),py=Math.min(179,Math.max(0,(90-la)|0));
+      const land=E.land[(py*360+px)*4]>128,n=hash2(px,py),vr=Math.sin(px*0.09+py*0.05)*Math.sin(py*0.11-px*0.04)+0.35*(hash2(px>>3,py>>3)-0.5);
+      let r,g,b;
+      if(Math.abs(la)>74){r=176+n*14;g=180+n*14;b=184+n*12}                       // polar ice
+      else if(land){const sc=vr>0.3?0.74:vr<-0.45?1.12:1;r=(112+n*22)*sc;g=(92+n*18)*sc;b=(70+n*14)*sc}   // ash-brown land, dark burn scars
+      else{r=26+n*8;g=44+n*8;b=50+n*8}                                               // murky dead ocean
+      const cl2=Math.sin(lon*5+la*0.09+T*0.06)*Math.sin(la*0.21-lon*2.3+T*0.03)+0.3*hash2(px>>1,py>>1);   // drifting dust storms
+      const ca=Math.max(0,cl2-0.35)*0.7;r+=(150-r)*ca;g+=(118-g)*ca;b+=(92-b)*ca;
+      const vh=0.55+0.45*Math.sin(la*0.2+lon*3+T*0.1);r+=((150+vh*50)-r)*dust*0.92;g+=((54+vh*20)-g)*dust*0.92;b+=((40+vh*10)-b)*dust*0.92;   // veil: still looks alien until scanned
+      const dot=x*LX+y*LY+z*LZ,lit=Math.max(0.07,Math.min(1,dot*1.15+0.1)),rim=Math.pow(1-z,3)*0.9*Math.max(0.2,lit);
+      d[o]=Math.min(255,r*lit+rim*255*0.9);d[o+1]=Math.min(255,g*lit+rim*150*0.9);d[o+2]=Math.min(255,b*lit+rim*95*0.9);d[o+3]=255;
+    }
+  }
+  E.cx.putImageData(E.img,0,0);return E.cv;
+}
+const EARTH_DEBRIS=Array.from({length:46},()=>({a:Math.random()*6.28,r:1.18+Math.random()*0.5,w:(Math.random()<.5?-1:1)*(0.02+Math.random()*0.06),s:1+Math.random()*2.2,tl:0.25+Math.random()*0.5}));
+function endLine(id,col,dur){const L=VO_LINES[id];if(!vo(id,1))sub(L[1].replace(/^\.\.\./,'…'),dur||3,col)}
+
 // ===== ENDING =====
-// repair sparks → engine ignites → liftoff (every eye in the dark turns red) → space → signal twist → credits
+// repair sparks → engine ignites → liftoff (every eye in the dark turns red) → space → the planet is EARTH (singularity, +4,000 years) → credits
 function startEnding(after){
   audioInit();hide();hideTip();R=null;if(groundFor!==MAXCH)buildGround(MAXCH);
   const stars=[];for(let i=0;i<200;i++)stars.push([Math.random(),Math.random(),Math.random()*1.6+0.3,Math.random()*6]);
@@ -176,10 +225,13 @@ function endUpdate(dt){
     if(t>7){once('e3',()=>{sub('They feel it. All of them.',3,'#ff7b7b');sfx('alert')});for(const e of C.eyes)e.state='rush';C.lift+=dt*(20+(t-7)*60)}
     for(const e of C.eyes){e.ph+=dt*3;if(e.state==='rush'){const d=Math.hypot(e.x,e.y)||1;if(d>90){e.x-=e.x/d*110*dt;e.y-=e.y/d*110*dt;e.face=e.x<0?1:-1}}}
   }else if(t<16){C.phase='space';once('e4',()=>{sfx('rumble');sub('S.V. HOPE breaks orbit.',3,'#9aa3b3')})}
-  else{C.phase='black';
-    if(t>16.6)once('e5',()=>{sfx('alarm');sub('…incoming signal',3,'#5cd0ff')});
-    if(t>19.4)once('e6',()=>{sfx('heart');vo('ending_3',1);sub('“You are not the first. You will not be the last.”',4.6,'#ff7b7b')});
-    if(t>24.5){once('e7',()=>sfx('title'));C.title=Math.min(1,C.title+dt*0.6)}
+  else{C.phase='earth';
+    if(t>16.4)once('e5',()=>{sfx('alarm');endLine('ending_3','#5cd0ff',3.2)});
+    if(t>20.6)once('e6',()=>{sfx('heart');endLine('ending_4','#5cd0ff',3.2)});          // the scan sweeps the dust away
+    if(t>25.2)once('e7',()=>{sfx('heart');endLine('ending_5','#ffb03a',2.2)});
+    if(t>28.6)once('e8',()=>{sfx('alert');endLine('ending_6','#ff7b7b',5)});
+    if(t>34.2)once('e9',()=>{sfx('rumble');endLine('ending_7','#ffb03a',4)});
+    if(t>40.5){once('e10',()=>sfx('title'));C.title=Math.min(1,C.title+dt*0.6)}
   }
   for(const p of C.pt){p.t-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=(p.g||0)*dt}C.pt=C.pt.filter(p=>p.t>0);
 }
@@ -214,6 +266,24 @@ function endRender(){
     const px=W*(0.5+0.35*k),py=H*(0.75-0.6*k),sc=(0.9-0.7*k)*Math.min(1.4,Math.min(W,H)/500);
     ctx.globalCompositeOperation='lighter';ctx.save();ctx.translate(px-30*sc,py+20*sc);glowDot(0,0,50*sc,'#5cd0ff',0.9);ctx.restore();ctx.globalCompositeOperation='source-over';
     ctx.save();ctx.translate(px,py);ctx.scale(sc,sc);ctx.rotate(-0.6);drawShip();ctx.restore();
+  }else if(C.phase==='earth'){
+    ctx.setTransform(DPR,0,0,DPR,0,0);const t=C.t,fin=Math.min(1,(t-16)/1.2);
+    ctx.fillStyle='#02030a';ctx.fillRect(0,0,W,H);
+    for(const [x,y,s2,p] of C.stars){ctx.globalAlpha=(0.3+0.4*Math.sin(T*2+p))*fin;ctx.fillStyle='#fff';ctx.fillRect(x*W,y*H,s2,s2)}ctx.globalAlpha=1;
+    const R_=Math.min(W*0.27,H*0.31),cx=W*0.58,cy=H*0.4,scan=t<20.8?-1:(t-20.8)/3.4*1.1-0.05;
+    const tex=earthFrame(0.35+t*0.012,T,scan);
+    const ag=ctx.createRadialGradient(cx,cy,R_*0.92,cx,cy,R_*1.18);ag.addColorStop(0,'rgba(255,150,90,0.28)');ag.addColorStop(1,'rgba(255,150,90,0)');ctx.globalAlpha=fin;ctx.fillStyle=ag;ctx.beginPath();ctx.arc(cx,cy,R_*1.18,0,7);ctx.fill();
+    ctx.imageSmoothingEnabled=false;ctx.drawImage(tex,cx-R_,cy-R_,R_*2,R_*2);ctx.imageSmoothingEnabled=true;
+    for(const q of EARTH_DEBRIS){const a=q.a+t*q.w,ex=Math.cos(a)*q.r*R_,ey=Math.sin(a)*q.r*R_*q.tl;if(Math.sin(a)<0&&Math.hypot(ex,ey)<R_)continue;   // dead satellites / wreckage (back half hidden)
+      ctx.globalAlpha=0.55*fin;ctx.fillStyle='#9a928a';ctx.fillRect(cx+ex,cy+ey-R_*0.1,q.s,q.s)}ctx.globalAlpha=1;
+    if(scan>-0.05&&scan<1.05){const sy=cy-R_+scan*R_*2,hw=Math.sqrt(Math.max(0,R_*R_-(sy-cy)*(sy-cy)));if(hw>2){ctx.globalCompositeOperation='lighter';ctx.strokeStyle='rgba(92,208,255,0.85)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-hw-14,sy);ctx.lineTo(cx+hw+14,sy);ctx.stroke();ctx.globalCompositeOperation='source-over'}}
+    const sc=0.3*Math.min(1.4,Math.min(W,H)/500),sx=W*0.14+(t-16)*5,sy2=H*0.66-(t-16)*1.2;   // the ship, small, drifting towards the planet
+    ctx.globalAlpha=fin;ctx.save();ctx.translate(sx,sy2);ctx.scale(sc,sc);ctx.rotate(-0.25);drawShip();ctx.restore();ctx.globalAlpha=1;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    if(t>24.4){ctx.globalAlpha=Math.min(1,(t-24.4)*1.5);ctx.font='bold 15px monospace';ctx.fillStyle='#5cd0ff';ctx.fillText('SOL III  ·  EARTH',cx,cy+R_*1.28)}
+    if(t>29){ctx.globalAlpha=Math.min(1,(t-29)*1.2);ctx.font='bold 17px monospace';ctx.fillStyle='#ff7b7b';ctx.fillText('TEMPORAL DISPLACEMENT  +4,000 YEARS',cx,cy+R_*1.28+26)}
+    ctx.globalAlpha=1;
+    if(t>38.4){ctx.fillStyle='#000';ctx.globalAlpha=Math.min(1,(t-38.4)/2);ctx.fillRect(0,0,W,H);ctx.globalAlpha=1}
   }else ctx.setTransform(DPR,0,0,DPR,0,0);
   ctx.textAlign='center';ctx.textBaseline='middle';
   C.subs.forEach((s,i)=>{const a=Math.min(1,s.t*3,(s.dur-s.t)*2);ctx.globalAlpha=Math.max(0,a);ctx.font=(C.phase==='black'?'bold 19px':'17px')+' monospace';
