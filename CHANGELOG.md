@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.10 — 2026-11-18
+- Gamepad: initial focus in the crate chooser is the first card (was the build-bar element chip).
+
 ## v0.9.9 — 2026-11-18
 - **Fix**: crate lock mini-game was scaled twice on big screens (`.lockwrap` multiplied `--uz` although `#modal` is already zoomed) → panel overflowed with scrollbars and the dial was cropped. Canvas buffer now sized from `getBoundingClientRect`.
 - **Cards**: the 3 choice cards are always the same width/height (flex stretch) with the DPS/tag row pinned to the bottom.

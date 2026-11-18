@@ -24,7 +24,8 @@ function padCands(root){return [...root.querySelectorAll(PAD_SEL)].filter(e=>pad
 function padNextFocus(cur,dir,root){
   const L=padCands(root);if(!L.length)return null;
   const ctr=e=>{const r=e.getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
-  if(!cur||!L.includes(cur))return L.slice().sort((a,b)=>ctr(a)[1]-ctr(b)[1]||ctr(a)[0]-ctr(b)[0])[0];
+  if(!cur||!L.includes(cur)){const cards=L.filter(e=>e.classList.contains('card')),P=cards.length?cards:L;   // start on the first choice card, not the build bar
+    return P.slice().sort((a,b)=>ctr(a)[1]-ctr(b)[1]||ctr(a)[0]-ctr(b)[0])[0]}
   const [cx,cy]=ctr(cur);let best=null,bs=1e9;
   for(const e of L){if(e===cur)continue;const [x,y]=ctr(e),dx=x-cx,dy=y-cy;
     const prim=dir==='right'?dx:dir==='left'?-dx:dir==='down'?dy:-dy,cross=(dir==='left'||dir==='right')?Math.abs(dy):Math.abs(dx);
