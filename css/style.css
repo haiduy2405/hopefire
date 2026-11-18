@@ -406,3 +406,14 @@ button:focus-visible{outline:3px solid #ffd24a;outline-offset:2px}
 .card.r2::after,.card.r3::after{content:'';position:absolute;inset:0;border-radius:6px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.17) 50%,transparent 58%);background-size:260% 100%;animation:shine 3s ease-in-out infinite}
 @keyframes shine{from{background-position:160% 0}to{background-position:-60% 0}}
 @media (max-width:600px){#tip{font-size:12px;padding:8px 10px;line-height:1.45;top:50px}#toasts{top:86px}}
+/* v0.10.1: fixed-size build bar + non-moving hit areas, so hovering never reflows the screen */
+.buildbar{flex-wrap:nowrap;height:48px;min-height:48px;box-sizing:border-box;overflow:hidden}
+.bslots{flex:none}.bels{flex-wrap:nowrap;flex:0 1 auto;min-width:0;overflow:hidden;height:28px;align-items:center}.bel{flex:none}
+.bdps{flex:none;min-width:150px;text-align:right;white-space:nowrap}
+@media (max-width:600px){.buildbar{flex-wrap:wrap;height:auto;min-height:48px;overflow:visible}.bels{flex-wrap:wrap;height:auto}.bdps{min-width:0}}
+/* hover that moves the element away from the pointer made edges flicker -> grow in place instead */
+.card:hover,.card.padfocus{transform:scale(1.05)}
+.tbtn:hover{transform:scale(1.03);transform-origin:left center}
+button:not(:disabled):not(.tbtn):hover{transform:scale(1.04)}
+.padfocus:not(.card){transform:scale(1.03)}
+.bempty{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bslot{flex:none}

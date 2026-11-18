@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.10.1 — 2026-11-18
+- Electron: starts fullscreen; window mode saved in userData/window.json (fullscreen, borderless frameless, maximized, windowed); Options → Window mode (`HF_WIN` in preload). Borderless recreates the window.
+- Build bar has a fixed height (hovering a card no longer wraps/unwraps it and re-centres the panel); hover lifts replaced by in-place scale so the pointer never leaves the hit area at an edge (no flicker). Probe: tools/test/shift_test.py.
+
 ## v0.10.0 — 2026-11-18
 - Crate scene 2.0: rarity-coloured panel/glow (`--tc`), floating motes while opening, burst rings on reveal, lock mini-game rune ring + needle trail + in-zone highlight, shimmer on rare cards.
 - Focus/scroll memory: after any hub re-render (buy upgrade, etc.) the cursor stays on the same item and the scroll position is kept (`panelSig`, `padRestore`).
