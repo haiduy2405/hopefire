@@ -81,7 +81,7 @@ function crewTick(dt,rr){
     c.cd-=dt;c.atk=Math.max(0,c.atk-dt);
     if(tg&&c.cd<=0){const dt2=Math.hypot(tg.x-c.x,tg.y-c.y);
       if(dt2<=C.rng+tg.r+(C.rng>40?0:6)){
-        c.cd=1/C.rate;c.atk=0.18;if(Math.abs(tg.x-c.x)>1)c.face=tg.x>c.x?1:-1;const dmg=crewDmg(c),col=TYPES[c.ty].c;
+        c.cd=1/C.rate;c.atk=0.28;if(Math.abs(tg.x-c.x)>1)c.face=tg.x>c.x?1:-1;const dmg=crewDmg(c),col=TYPES[c.ty].c;
         if(C.rng>40){R.fx.push({type:'beam',x:c.x+c.face*6,y:c.y*K-10,x2:tg.x,y2:tg.y*K-tg.r*.6-(tg.fly?22:0),t:0.1,T:0.1,c:col,w:2});sfx('shot');hit(tg,dmg,c.ty,true)}
         else{sfx('slash');R.fx.push({type:'slash',x:c.x+c.face*10,y:c.y*K-8,f:c.face,t:0.16,T:0.16,c:col});
           let mult=1;if(c.pounce){mult=2;c.pounce=0;R.shake=Math.max(R.shake,3);R.txt.push({x:tg.x,y:tg.y*K-tg.r*2.4,v:'POUNCE',c:col,t:0.7,s:11})}
@@ -158,9 +158,10 @@ function drawCrewFig(c2,X,Y,role,ty,o){
 function crewSprName(role){const n='crew_'+role;return SPR.has(n)?n:null}
 function drawCrewAny(c2,role,ty,o){
   const n=crewSprName(role);if(!n){drawCrewFig(c2,0,0,role,ty,o);return}
-  const fi=o.moving?Math.floor((o.ph||0)*1.4)%4:0,fl=(o.face||1)<0;
-  drawSpr(c2,n,fi,0,0,fl);
-  if(o.hit>0){const a0=c2.globalAlpha;c2.globalAlpha=a0*0.65;drawSpr(c2,n+'_flash',fi,0,0,fl);c2.globalAlpha=a0}
+  const fl=(o.face||1)<0,an=SPR.has(n+'_atk')&&o.atk>0?n+'_atk':null; // attack pose (cleave / lunge / shot) while atk>0
+  const fi=an?0:o.moving?Math.floor((o.ph||0)*1.4)%4:0,nn=an||n;
+  drawSpr(c2,nn,fi,0,0,fl);
+  if(o.hit>0){const a0=c2.globalAlpha;c2.globalAlpha=a0*0.65;drawSpr(c2,nn+'_flash',fi,0,0,fl);c2.globalAlpha=a0}
   // element pip at the feet (the sprites share one palette per role, the element shows here)
   c2.fillStyle=TYPES[ty].c;c2.globalAlpha=(c2.globalAlpha||1)*0.95;c2.beginPath();c2.arc(fl?7:-7,2,2.2,0,7);c2.fill();c2.globalAlpha=1;
 }

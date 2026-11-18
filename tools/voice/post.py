@@ -17,6 +17,8 @@ src = open(os.path.join(ROOT, 'src', 'voice.js'), encoding='utf-8').read()
 LINES = {}
 for m in re.finditer(r"(\w+):\['([^']+)',(?:'((?:[^'\\]|\\.)*)'|\"([^\"]*)\")\]", src):
     LINES[m.group(1)] = (m.group(2), (m.group(3) or m.group(4) or '').replace("\\'", "'"))
+ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]   # only (re)process these ids; the manifest keeps the others
+if ONLY: LINES = {k: v for k, v in LINES.items() if k in ONLY}
 TRIM = 'silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.05,areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.12,areverse'
 NORM = 'loudnorm=I=-16:TP=-1.5:LRA=11'
 def dur(p):
@@ -47,5 +49,6 @@ for vid, (who, text) in LINES.items():
         g = f'[0:a]{TRIM},asplit[a][b];[b]asetrate=24000*0.5,aresample=24000,atempo=2.0,volume=0.8[low];[a][low]amix=inputs=2:duration=longest,lowpass=f=6000,aecho=0.6:0.5:60:0.3,{NORM}'
         cmd = ['ffmpeg', '-y', '-v', 'error', '-i', p, '-filter_complex', g, '-ar', '44100', '-ac', '1', '-b:a', '128k', dst]
     subprocess.run(cmd, check=True); done.append(vid); print('ok', vid, os.path.basename(p), round(dur(dst), 2), 's')
-open(os.path.join(OUT, 'manifest.js'), 'w').write('window.VO_FILES=' + json.dumps(sorted(done)) + ';\n')
+allv = sorted(set(done) | ({f[:-4] for f in os.listdir(OUT) if f.endswith('.mp3')} if ONLY else set()))
+open(os.path.join(OUT, 'manifest.js'), 'w').write('window.VO_FILES=' + json.dumps(allv) + ';\n')
 print(len(done), 'lines ->', OUT)

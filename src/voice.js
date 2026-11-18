@@ -12,7 +12,8 @@ const VO_LINES={
   boss_1:['HOPE','Massive signal. It swallowed our navigation core.'],boss_2:['HOPE',"Brood signature. She's birthing more as she comes."],boss_3:['HOPE','Armoured target. Strike when it stops charging.'],
   boss_4:['HOPE',"It's blinking through the dark. Watch the edges."],boss_5:['HOPE','The source of it all. It feeds on our light.'],boss_down:['COMMANDER','Got you. Part recovered.'],
   death:['HOPE','Hope... fading...'],repair:['COMMANDER','Patch her up. We go again.'],new_site:['HOPE','Engines at partial power. We can jump.'],nightmare:['HOPE','Readings off the scale. This is a bad idea.'],
-  ending_1:['HOPE','All systems restored. Hope at one hundred percent.'],ending_2:['COMMANDER','Take us home.'],ending_3:['???','You are not the first. You will not be the last.']
+  ending_1:['HOPE','All systems restored. Hope at one hundred percent.'],ending_2:['COMMANDER','Take us home.'],ending_3:['HOPE','Navigation core restored. Star charts aligned.'],ending_4:['HOPE','Position confirmed. Third planet from the Sun.'],
+  ending_5:['COMMANDER','...Earth.'],ending_6:['HOPE','We crossed a singularity. Temporal displacement: four thousand years.'],ending_7:['COMMANDER','We never left home. We came back too late.']
 };
 const VO_CD={star_up:60,low_hope:30,cell:25,synergy:20,legendary:30};
 const VO={have:new Set(window.VO_FILES||[]),cur:null,last:{}};

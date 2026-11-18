@@ -11,10 +11,12 @@ LINES = {}
 for m in re.finditer(r"(\w+):\['([^']+)',(?:'((?:[^'\\]|\\.)*)'|\"([^\"]*)\")\]", src):
     LINES[m.group(1)] = (m.group(2), (m.group(3) or m.group(4) or '').replace("\\'", "'"))
 # emotion per line for Chatterbox (exaggeration, cfg_weight)
-EMO = {'intro_2': (0.35, 0.3), 'legendary': (0.85, 0.4), 'boss_down': (0.8, 0.4), 'cell': (0.6, 0.3), 'ending_2': (0.4, 0.3)}
+EMO = {'ending_5': (0.35, 0.3), 'ending_7': (0.45, 0.3), 'intro_2': (0.35, 0.3), 'legendary': (0.85, 0.4), 'boss_down': (0.8, 0.4), 'cell': (0.6, 0.3), 'ending_2': (0.4, 0.3)}
 # speed per line for Kokoro
-SPD = {'intro_1': 1.05, 'low_hope': 0.85, 'death': 0.75, 'intro_3': 0.9, 'ending_3': 0.8, 'boss_5': 0.88}
+SPD = {'ending_4': 0.9, 'ending_6': 0.88, 'intro_1': 1.05, 'low_hope': 0.85, 'death': 0.75, 'intro_3': 0.9, 'ending_3': 0.8, 'boss_5': 0.88}
 REF_TEXT = "Name's Ryan. Commander of the survey ship Hope. If anyone's out there, we crashed hard, but we're still breathing."
+ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]   # e.g. ONLY=ending_3,ending_4 regenerates just those lines
+if ONLY: LINES = {k: v for k, v in LINES.items() if k in ONLY}
 mode = sys.argv[1] if len(sys.argv) > 1 else 'kokoro'
 print(len(LINES), 'lines')
 if mode == 'kokoro':

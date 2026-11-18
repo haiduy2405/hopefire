@@ -446,8 +446,10 @@ def build():
             name = fn[:-5]; m = json.load(open(os.path.join(aid, fn))); frs = []; fl = []
             for i in range(m['frames']):
                 im = Image.open(os.path.join(aid, '%s_%d.png' % (name, i))).convert('RGBA')
-                frs.append((im, {'eyes': m.get('eyes', []), 'px': m['px']}))
-                f = im.copy(); f.putalpha(im.split()[3]); wh = Image.new('RGBA', im.size, (255, 255, 255, 255)); wh.putalpha(im.split()[3]); fl.append((wh, {'px': m['px']}))
+                meta = {'eyes': m.get('eyes', []), 'px': m['px']}
+                if 'ax' in m: meta['ax'], meta['ay'] = m['ax'], m['ay']  # optional explicit anchor (art px from top-left)
+                frs.append((im, meta))
+                f = im.copy(); f.putalpha(im.split()[3]); wh = Image.new('RGBA', im.size, (255, 255, 255, 255)); wh.putalpha(im.split()[3]); fl.append((wh, dict({'px': m['px']}, **({'ax': m['ax'], 'ay': m['ay']} if 'ax' in m else {}))))
             sprites[name] = frs; sprites[name + '_flash'] = fl
             print('  ai sprite:', name, len(frs), 'frames')
     # shelf packing
