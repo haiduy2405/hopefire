@@ -26,4 +26,8 @@ function setMode(m){
 }
 ipcMain.on('hf-get-mode',e=>{e.returnValue=mode});
 ipcMain.on('hf-set-mode',(e,m)=>{e.returnValue=setMode(m)});
-app.whenReady().then(create);app.on('window-all-closed',()=>app.quit());
+const LOG=()=>path.join(app.getPath('userData'),'crash.log');
+function clog(s){try{fs.appendFileSync(LOG(),new Date().toISOString()+' '+s+'\n')}catch(_){}}
+app.on('child-process-gone',(e,d)=>clog('child-gone '+JSON.stringify(d)));
+app.whenReady().then(()=>{create();if(win)win.webContents.on('render-process-gone',(e,d)=>{clog('render-gone '+JSON.stringify(d));try{win.reload()}catch(_){}});
+  try{clog('gpu '+JSON.stringify(app.getGPUFeatureStatus()))}catch(_){}});app.on('window-all-closed',()=>app.quit());

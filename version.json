@@ -1,9 +1,9 @@
 {
-  "version": "0.16.1",
+  "version": "0.16.2",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Crate opening: no more golden frame around the crate, softer glow",
-    "Smoother crate animation: gentle trembling, bloom on open, card screen fades in"
+    "Crate opening: no golden frame, smoother animation",
+    "Less GPU load while crate/cards are open (fix for FPS drop/crash)"
   ]
 }

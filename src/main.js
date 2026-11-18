@@ -1,6 +1,6 @@
 "use strict";
 // ===== LOOP =====
-let last=performance.now();
+let last=performance.now(),IDLE_N=0;
 const FPS={n:0,t:0,fps:0,min:999,sum:0,cnt:0,rs:0};
 function fpsShow(){let b=document.getElementById('fpsBox');if(!b){b=document.createElement('div');b.id='fpsBox';document.body.appendChild(b)}b.style.display=SETTINGS.fps?'block':'none'}
 addEventListener('keydown',e=>{if(e.code==='F3'){SETTINGS.fps=SETTINGS.fps?0:1;save();fpsShow();e.preventDefault()}});
@@ -12,7 +12,8 @@ function loop(now){
   if(CUT){try{cutUpdate(raw);if(CUT)cutRender()}catch(err){console.error(err);endCutscene()}requestAnimationFrame(loop);return}
   let dt=raw;if(R&&!R.paused&&!R.userPause){if(R.hs>0){R.hs-=raw;dt=0}else if(R.slow>0){R.slow-=raw;dt=raw*0.35}}
   if(dt>0&&R&&!R.paused&&!R.over&&!R.tipPause&&!R.updPause&&!R.userPause)for(let i=0;i<speed;i++){update(dt);if(R.over)break}
-  const _t0=performance.now();try{render(raw)}catch(err){console.error(err)}
+  const _idle=R&&R.paused&&!R.over&&modal&&!modal.classList.contains('hidden');if(_idle){IDLE_N=(IDLE_N||0)+1}else IDLE_N=0;
+  const _t0=performance.now();if(!_idle||IDLE_N%3===1){try{render(raw)}catch(err){console.error(err)}}
   fpsTick(now,performance.now()-_t0);
   hud(raw);requestAnimationFrame(loop);
 }

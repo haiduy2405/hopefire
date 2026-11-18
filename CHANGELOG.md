@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.16.2 — 2026-11-18
+- Reported: FPS drop → graphics change → GPU spin → crash after opening a free crate. Mitigation (cause not reproduced headless): game canvas renders at ~20 fps while a modal is open and paused; decorative infinite CSS animations (Overdrive vignette, motes, big glow, blend mode) stopped/cheaper; Electron logs GPU/renderer crashes to userData/crash.log and reloads on renderer crash.
+
 ## v0.16.1 — 2026-11-18
 - **Crate stage**: removed the golden rectangular frame (and the clipped glow box) around the crate; large soft radial glow instead. Smoother motion: easing tremble, anticipation+bloom on open, flare, card panel fades in (css/style.css end block).
 

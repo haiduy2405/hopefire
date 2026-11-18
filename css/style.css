@@ -640,8 +640,8 @@ body.od::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:3;b
 
 /* v0.16.1 crate stage: no golden frame around the crate, softer glow, smoother motion */
 .panel.crpanel{border:0!important;border-image:none!important;background:none!important;box-shadow:none!important;padding:6px 28px 12px;overflow:visible!important;animation:crin2 .5s cubic-bezier(.2,.8,.25,1)}
-.panel.crpanel::before{display:block!important;content:'';position:absolute;inset:auto!important;left:50%;top:46%;width:900px;height:900px;max-width:150vw;margin:-450px 0 0 -450px;z-index:-1;clip-path:none!important;pointer-events:none;
-  background:radial-gradient(circle,color-mix(in srgb,var(--tc,#cfd6e4) 34%,transparent) 0,color-mix(in srgb,var(--tc,#cfd6e4) 13%,transparent) 30%,transparent 62%);animation:crglow2 2.2s ease-in-out infinite}
+.panel.crpanel::before{display:block!important;content:'';position:absolute;inset:auto!important;left:50%;top:46%;width:700px;height:700px;max-width:120vw;margin:-350px 0 0 -350px;z-index:-1;clip-path:none!important;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--tc,#cfd6e4) 34%,transparent) 0,color-mix(in srgb,var(--tc,#cfd6e4) 13%,transparent) 30%,transparent 62%);}
 .panel.crpanel.r2::before,.panel.crpanel.r3::before{animation-duration:1.3s}
 @keyframes crin2{from{transform:scale(.94) translateY(10px);opacity:0}}
 @keyframes crglow2{50%{transform:scale(1.1);opacity:.75}}
@@ -661,3 +661,10 @@ body.od::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:3;b
 .chpanel{animation:crin2 .45s cubic-bezier(.2,.8,.25,1)!important}
 .cburst{animation-duration:.95s!important;animation-timing-function:cubic-bezier(.15,.7,.3,1)!important}
 @media (prefers-reduced-motion:reduce){.crate:not(.open){animation:none}.panel.crpanel::before{animation:none}}
+
+/* GPU relief while a modal (crate/cards) is open: stop decorative infinite animations */
+#modal:not(.hidden)~*{}
+body:has(#modal:not(.hidden)).od::after{animation:none;opacity:.6}
+body:has(#modal:not(.hidden)) .odBtn.ready{animation:none}
+.crpanel .motes i{animation-duration:6s!important;box-shadow:none!important}
+.crate:not(.open){will-change:transform}
