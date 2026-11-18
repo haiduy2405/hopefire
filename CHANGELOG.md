@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.16.0 — 2026-11-18
+- **Manual Cannon** (`manual` repair, 35 cores, Ship Repairs): hold left mouse / drag a finger / push the right stick to fire a piercing lance (`manualFire` in game.js) where you aim; auto-fire still runs when you don't. Crosshair + aim line (`drawAim`, react.js). Pad: right stick aims+fires (marking moves to LB/RB).
+- **Spells 2.0** (`src/spells.js` rewritten): Solar Flare / Cryo Nova are charge-up full-screen shockwaves; Overcharge arcs lightning; new **Black Hole** (drags the densest clump, implodes), **Meteor Storm** (telegraphed rain), **Chain Storm**, **Orbital Laser** (360° sweep). Running effects live in `R.sx`/`R.mets`, drawn by `drawSpellFx`; `shock` fx type in render.js. Spell crate chance 20% -> 28%.
+- **Overdrive**: kills fill `R.od` (boss +30, elite/carrier +4); at 100 press **F** / R3 / the gold button: casts every equipped spell in a staggered cascade, slow-mo, 7 s of x2 fire rate and x3 spell recharge. Autocast uses it too.
+- **Dopamine**: MASSACRE / ANNIHILATION / APOCALYPSE banner + scrap bonus when one cast kills 8/20/40; kill milestones (100, 250, 500...); streak-pitched kill sound; hit-stop on big impacts.
+- **Swarm packs** (`swarmTick`, horde.js): clusters of 8-48 cheap creatures charge together every ~6-15 s (cap 230 creatures); half scrap/cores.
+- **Audio**: shared reverb; `nsweep`/`rise` helpers; new sounds for every spell, overdrive, manual cannon, bigger explosions.
+- **Balance** (sim 2 runs, bot uses autocast): `CH_HP` x1.6 (`[1.7,8.8,24,80,122]`), `NM.hp` `[10.5,5.2,4.8,3.2,3.8]`, cores x0.55 -> story ~88 min, everything ~197 min, worst stage 14 runs. Humans using manual cannon + Overdrive will be faster than the bot.
+- Boss bar no longer covered by tips/banners. New UI strings translated in 7 languages via `tools/i18n/add_keys.py` (new spells use glyph icons for now).
+
 ## v0.15.0 — 2026-11-18
 - **Languages**: English, Tiếng Việt, 简体中文, Español, Português (Brasil), Русский, Deutsch, 日本語 — Options → Gameplay → Language (auto-detected on first launch). Voice-over stays English; all UI, tips and subtitles are translated.
 - Runtime translation layer (`src/i18n.js`): English text is the key, dictionaries in `assets/lang/<code>.js` built from `tools/i18n/keys.json` + `tools/i18n/tr/*.txt` by `tools/i18n/build_lang.py`; template strings match by pattern, leading symbols/emoji are skipped, canvas text is translated too. English path has zero overhead.

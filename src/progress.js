@@ -59,6 +59,7 @@ function autoCastTick(dt){
   for(const e of R.en){if(e.dead||e.state!=='rush')continue;const d=Math.hypot(e.x,e.y);if(d<rr){rushIn++;if(e.k==='boss')bossIn=true}if(d<130)near++}
   R.spells.forEach((s,i)=>{
     if(s.cd>0)return;const id=s.d.id;
-    if((id==='flare'&&(rushIn>=4||bossIn))||(id==='nova'&&(rushIn>=5||bossIn&&near>0))||(id==='over'&&rushIn>=3)||(id==='cell'&&R.hope<R.maxHope*0.55)||(id==='pulse'&&near>=3))castSpell(i);
+    if((id==='flare'&&(rushIn>=4||bossIn))||(id==='nova'&&(rushIn>=5||bossIn&&near>0))||(id==='over'&&rushIn>=3)||(id==='cell'&&R.hope<R.maxHope*0.55)||(id==='pulse'&&near>=3)||(id==='hole'&&(rushIn>=8||bossIn))||(id==='meteor'&&(rushIn>=7||bossIn))||(id==='storm'&&(rushIn>=6||bossIn))||(id==='beam'&&(rushIn>=6||bossIn)))castSpell(i);
   });
+  if((R.od||0)>=ODMAX&&rushIn>=10)castOverdrive();
 }

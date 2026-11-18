@@ -43,6 +43,21 @@ function hordeTick(dt,rr){
       R.horde=H_.filter(m=>!m.gone);R.shake=Math.max(R.shake,7);sfx('roar');R.ringPulse=1}
     if(sg.t>4.5)R.surge=null}
 }
+// v0.16 SWARM PACKS: dense clusters of cheap creatures that charge together - the crowds the big spells are for
+function swarmTick(dt,rr){
+  if(R.wave<(R.ch>1?2:3)||R.dying)return;
+  if(R.swT===undefined)R.swT=rnd(7,11);
+  R.swT-=dt;if(R.swT>0)return;
+  if(R.en.length>230){R.swT=2;return}
+  const bossUp=R.boss&&!R.boss.dead;
+  R.swT=Math.max(6,15-0.45*R.wave-(R.endless?3:0))*(bossUp?1.5:1);
+  const n=Math.round(Math.min(48,8+R.wave*1.7+(R.ch-1)*3+(R.night?6:0))*(bossUp?0.5:1)),a=Math.random()*6.283;
+  const sig=R.ch>1&&typeof SIG!=='undefined'&&SIG[R.ch]&&EK[SIG[R.ch]]?SIG[R.ch]:'crawler';
+  for(let i=0;i<n;i++){
+    const e=spawn(Math.random()<0.6?'skitter':sig,'rush'),an=a+rnd(-0.3,0.3),d=rr*1.36+rnd(0,rr*0.5);
+    e.x=Math.cos(an)*d;e.y=Math.sin(an)*d;e.hp=e.mhp=e.mhp*0.55;e.dmg*=0.8;e.sw=1;e.alertT=0.2+i*0.012}
+  R.banner={s:'⚠ SWARM ⚠',sub:'From the '+dirName(a),t:1.4};sfx('rumble');R.shake=Math.max(R.shake,3);
+}
 function hordeWave(){ // called when the threat level rises
   if(R.wave<3||R.surge||(R.boss&&!R.boss.dead))return;
   if(Math.random()>(R.wave%3===0?1:0.35))return;

@@ -72,3 +72,25 @@ cv.addEventListener('pointerdown',ev=>{
   for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-wx,dy=(e.y-(e.fly?22/K:0)-e.r*0.5/K)-wy,dd=dx*dx+dy*dy;if(dd<bd+e.r*e.r){bd=dd;best=e}}
   if(best){R.mark=best;sfx('mark');addTxt(best.x,best.y*K-best.r*2.6,'MARKED','#ff4d5e',11);if(!meta.tut.mark){meta.tut.mark=1;save()}}
 });
+
+// ---------- Manual Cannon: aim with the mouse / finger, hold to fire ----------
+function aimFrom(ev){if(!R)return;const dx=(ev.clientX-OX)/S,dy=(ev.clientY-OY)/S;R.aimA=Math.atan2(dy+44,dx);R.aimX=dx;R.aimY=dy;R.aimT=2.5;R.aimSrc='ptr'}
+cv.addEventListener('pointermove',ev=>{if(R&&!R.over&&lv('manual'))aimFrom(ev)});
+cv.addEventListener('pointerdown',ev=>{
+  if(!R||R.over||R.paused||R.userPause||R.tipPause||CUT||!lv('manual')||(ev.button||0)!==0)return;
+  aimFrom(ev);R.aimHeld=true;if(!meta.tut.manual){meta.tut.manual=1;save()}});
+const aimStop=()=>{if(R&&R.aimSrc==='ptr')R.aimHeld=false};
+addEventListener('pointerup',aimStop);addEventListener('pointercancel',aimStop);addEventListener('blur',aimStop);
+// crosshair + faint aim line (only once Manual Cannon is bought)
+function drawAim(T){
+  if(!R||!lv('manual')||!(R.aimT>0||R.aimHeld))return;
+  const a=R.aimA,ca=Math.cos(a),sa=Math.sin(a),ox=ca*20,oy=-44+sa*20,fire=R.aimHeld;
+  let cx,cy;if(R.aimSrc==='pad'){cx=ox+ca*220;cy=oy+sa*220}else{cx=R.aimX;cy=R.aimY}
+  const al=Math.min(1,R.aimT*2)*(fire?1:0.65);
+  ctx.save();ctx.globalAlpha=al*0.35;ctx.strokeStyle=fire?'#ffd27a':'#ffb03a';ctx.lineWidth=1.5;ctx.setLineDash([6,8]);ctx.lineDashOffset=-T*40;
+  ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(cx,cy);ctx.stroke();ctx.setLineDash([]);
+  ctx.globalAlpha=al;ctx.lineWidth=2;const r=(fire?11:14)+Math.sin(T*8)*1.2;
+  ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.stroke();
+  for(let i=0;i<4;i++){const q=i*Math.PI/2;ctx.beginPath();ctx.moveTo(cx+Math.cos(q)*(r-4),cy+Math.sin(q)*(r-4));ctx.lineTo(cx+Math.cos(q)*(r+6),cy+Math.sin(q)*(r+6));ctx.stroke()}
+  ctx.restore();
+}

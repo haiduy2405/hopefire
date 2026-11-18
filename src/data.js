@@ -29,6 +29,7 @@ const UPG=[
   {k:'dmg',n:'Module Damage',d:l=>`+${15*l}% damage`,base:10,g:1.45,max:25},
   {k:'hp',n:'Hope Capacity',d:l=>`+${25*l}% max Hope`,base:8,g:1.4,max:25},
   {k:'bolt',n:'Heat Ray',d:l=>`+${50*l}% cannon dmg`,base:10,g:1.45,max:15},
+  {k:'manual',n:'Manual Cannon',d:()=>'Hold fire & aim the main cannon yourself (mouse / right stick). It pierces everything in line',base:35,g:1,max:1},
   {k:'gold',n:'Scrap Salvage',d:l=>`+${15*l}% scrap`,base:12,g:1.5,max:20},
   {k:'start',n:'Starting Scrap',d:l=>`+${8*l} scrap`,base:15,g:1.5,max:10},
   {k:'aspd',n:'Fire Rate',d:l=>`+${8*l}% fire rate`,base:20,g:1.55,max:12},
@@ -58,7 +59,7 @@ const BOSSES=[
 // [kind, weight, minThreat, minSite]
 const SPAWN_TABLE=[['crawler',50,1,1],['skitter',25,3,1],['brute',10,5,1],['spitter',14,2,2],['bloater',10,2,3],['wisp',16,4,3],['phantom',12,2,4],['splitter',12,2,5]];
 // per-site difficulty (creature HP and damage multipliers), tuned by simulation
-const CH_HP=[1.05,5.4,14.8,50,75],CH_DMG=[1,1.6,2.5,3.6,4.4];
+const CH_HP=[1.7,8.8,24,80,122],CH_DMG=[1,1.6,2.5,3.6,4.4];
 const WARP_WAVE=5; // after clearing a site you may start there at this threat
 const SIG=[null,'crawler','spitter','bloater','phantom','splitter']; // signature creature per site
 UPG.push({k:'auto',n:'Spell Autocast',d:l=>l?'Spells cast themselves':'Spells cast themselves',base:150,g:1,max:1});
@@ -71,7 +72,7 @@ const TYPE_MOD={
   Nano:{dmg:0.9,rate:1,d:'Every hit restores a little Hope'}
 };
 // Nightmare: harder replay of a cleared site with better rewards
-const NM={hp:[10.5,6,5.3,3.4,4],dmg:[2.6,2,1.7,1.35,1.4],core:2.5,scrap:1.3,bossHp:1.4,luck:0.6}; // per-site multipliers (story end makes early sites trivial)
+const NM={hp:[10.5,5.2,4.8,3.2,3.8],dmg:[2.6,2,1.7,1.35,1.4],core:2.5,scrap:1.3,bossHp:1.4,luck:0.6}; // per-site multipliers (story end makes early sites trivial)
 // Advanced repairs (tier 2) — unlocked by escaping and by clearing Nightmare sites
 const UPG2=[
   {k:'crit',n:'Critical Strikes',d:l=>`${5*l}% crit chance (×2.5 dmg)`,base:400,g:1.55,max:10,req:'story'},

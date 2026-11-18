@@ -3,7 +3,7 @@
 // Menus: D-pad / left stick move a focus ring between buttons & cards, A = click, B = back.
 // Battle: A crate/confirm, X/Y/B spells 1-3, LB/RB or right stick = mark target, LT reactor, RT speed, Back loadout, Start pause.
 const PAD={vis:false,pad:null,cur:{},prev:{},hold:{},lastRep:0,fi:null,hint:'',lastMark:0,lastRumble:0};
-const PADB={A:0,B:1,X:2,Y:3,LB:4,RB:5,LT:6,RT:7,Back:8,Start:9,Up:12,Down:13,Left:14,Right:15};
+const PADB={A:0,B:1,X:2,Y:3,LB:4,RB:5,LT:6,RT:7,Back:8,Start:9,RS:11,Up:12,Down:13,Left:14,Right:15};
 const PAD_SEL='button:not([disabled]),.card,.diff:not(.lock),[data-el],.lochip,#crateEl,input[type=range],input[type=checkbox],select';
 const PAD_LAYERS=['#upd','#einfo','#tdlg','#pausePanel','#loadout','#modal','#title'];
 
@@ -98,7 +98,10 @@ function padPoll(now){
         if(edge('A'))openPack();
         if(edge('X'))castSpell(0);if(edge('Y'))castSpell(1);if(edge('B'))castSpell(2);
         if(edge('LB'))padCycle(-1);if(edge('RB'))padCycle(1);
-        if(Math.hypot(rx,ry)>0.55&&now-PAD.lastMark>140){const e=padAim(rx,ry);if(e&&e!==R.mark){padMark(e);PAD.lastMark=now}}
+        if(lv('manual')){const m=Math.hypot(rx,ry);
+          if(m>0.3){R.aimA=Math.atan2(ry,rx);R.aimT=2.5;R.aimSrc='pad';R.aimHeld=true}else if(R.aimSrc==='pad')R.aimHeld=false}
+        else if(Math.hypot(rx,ry)>0.55&&now-PAD.lastMark>140){const e=padAim(rx,ry);if(e&&e!==R.mark){padMark(e);PAD.lastMark=now}}
+        if(edge('RS'))castOverdrive();
         if(edge('LT'))$('reactBtn').click();
         if(edge('RT'))$('spdBtn').click();
         if(edge('Back'))showLoadout();
@@ -116,7 +119,7 @@ function padCtx(layer,inCut,hasLK){
   if(layer&&$('crateEl')&&padVis($('crateEl')))return `[${g('A')}] Open crate`;
   if(layer&&layer.id==='pausePanel')return `[D-pad] Move   [${g('A')}] Select   [${g('Start')}/${g('B')}] Resume`;
   if(layer)return `[D-pad] Move   [${g('A')}] Select   [${g('B')}] Back`;
-  if(typeof R!=='undefined'&&R&&!R.over)return `[${g('A')}] Crate  [${g('X')}${g('Y')}${g('B')}] Spells  [${g('LB')}/${g('RB')}] Mark  [${g('LT')}] Reactor  [${g('RT')}] Speed  [${g('Back')}] Loadout  [${g('Start')}] Pause`;
+  if(typeof R!=='undefined'&&R&&!R.over)return `[${g('A')}] Crate  [${g('X')}${g('Y')}${g('B')}] Spells  [${g('LB')}/${g('RB')}] Mark  [${lv('manual')?'R-stick':''}${lv('manual')?'] Aim+fire  [':''}${g('LT')}] Reactor  [${g('RT')}] Speed  [${g('Back')}] Loadout  [${g('Start')}] Pause`;
   return '';
 }
 function padHint(t){

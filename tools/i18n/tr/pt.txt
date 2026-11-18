@@ -695,3 +695,25 @@
 694|nenhum
 695|ESPERANÇA {0}%
 696|REATOR · {0}
+697|Canhão manual
+698|Segure para disparar e mire o canhão principal você mesmo (mouse / analógico direito). Atravessa tudo em linha
+699|Carrega e então uma onda de choque varre a tela inteira, queimando tudo
+700|Uma onda gélida imobiliza todas as criaturas na tela. As congeladas sofrem +{0}% de dano
+701|Módulos disparam {0}× mais rápido por ~{1}s e a nave lança raios na horda
+702|Arrasta a horda para um ponto e depois implode
+703|Invoca uma chuva de meteoros sobre a horda
+704|Uma tempestade de raios cai repetidamente, encadeando entre as criaturas
+705|Um laser gigante varre um círculo completo ao redor da nave
+706|SOBRECARGA PRONTA
+707|Pressione F
+708|★ SOBRECARGA ★
+709|Tudo. De uma vez.
+710|MASSACRE ×{0}
+711|ANIQUILAÇÃO ×{0}
+712|APOCALIPSE ×{0}
+713|★ {0} ABATES ★
+714|⚠ ENXAME ⚠
+715|Sobrecarga: lança todos os seus feitiços de uma vez
+716|Sobrecarga (todos os feitiços)
+717|Segurar mouse
+718|Disparar canhão manual

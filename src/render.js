@@ -72,6 +72,8 @@ function render(dt){
   list.sort((a,b)=>a.y-b.y);for(const it of list)it.f();
   if(R){
     drawStatuses(T);
+    drawAim(T);
+    drawSpellFx(T);
     // normal particles
     for(const p of R.pt){if(p.add)continue;ctx.fillStyle=p.c;if(p.smoke){ctx.globalAlpha=Math.min(0.5,p.t*0.35);ctx.beginPath();ctx.arc(p.x,p.y,p.s*0.7,0,7);ctx.fill()}else{ctx.globalAlpha=Math.min(1,p.t*2);ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s)}}
     ctx.globalAlpha=1;
@@ -144,7 +146,7 @@ function render(dt){
     // screen space
     ctx.setTransform(DPR,0,0,DPR,0,0);ctx.textAlign='center';ctx.textBaseline='middle';
     if(R.boss&&!R.boss.dead&&(R.boss.state==='rush'||Math.hypot(R.boss.x,R.boss.y)<rr*1.6)){drawBossBar(dt)}else R.bossBarT=0;
-    if(R.banner&&R.banner.t>0){ctx.globalAlpha=Math.min(1,R.banner.t);const y=OY-rr*K*S-36;ctx.font='bold 26px monospace';ctx.lineWidth=5;ctx.strokeStyle='#000';ctx.strokeText(R.banner.s,W/2,y);ctx.fillStyle='#ffb03a';ctx.fillText(R.banner.s,W/2,y);
+    if(R.banner&&R.banner.t>0){ctx.globalAlpha=Math.min(1,R.banner.t);let y=OY-rr*K*S-36;if(R.boss&&!R.boss.dead)y=Math.max(y,345);ctx.font=(R.banner.big?'900 '+(30+R.banner.big*5)+'px':'bold 26px')+' monospace';ctx.lineWidth=5;ctx.strokeStyle='#000';ctx.strokeText(R.banner.s,W/2,y);ctx.fillStyle='#ffb03a';ctx.fillText(R.banner.s,W/2,y);
       if(R.banner.sub){ctx.font='12px monospace';ctx.fillStyle='#9aa3b3';ctx.fillText(R.banner.sub,W/2,y-24)}ctx.globalAlpha=1}
     // cinematic vignette (always)
     {const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.42,W/2,H/2,Math.max(W,H)*0.75);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,0.45)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
@@ -348,7 +350,8 @@ function drawEyes(e,T){
 let FXK=1; // crowd budget: fewer/softer additive effects when many creatures are on screen
 function drawFx(f){
   const a=Math.max(0,f.t/f.T);ctx.globalAlpha=FXK*a;
-  if(f.type==='beam'){ctx.strokeStyle=f.c;ctx.lineCap='round';ctx.lineWidth=f.w*2.4*a;ctx.globalAlpha=FXK*a*0.35;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();
+  if(f.type==='shock'){shockFx(f)}
+  else if(f.type==='beam'){ctx.strokeStyle=f.c;ctx.lineCap='round';ctx.lineWidth=f.w*2.4*a;ctx.globalAlpha=FXK*a*0.35;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();
     ctx.globalAlpha=FXK*a;ctx.lineWidth=f.w*0.6;ctx.strokeStyle='#fff6d8';ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();glowDot(f.x2,f.y2,f.w*4,f.c,a)}
   else if(f.type==='zap'){ctx.strokeStyle=f.c;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(f.x,f.y);const n=4;for(let i=1;i<n;i++){ctx.lineTo(f.x+(f.x2-f.x)*i/n+rnd(-9,9),f.y+(f.y2-f.y)*i/n+rnd(-9,9))}ctx.lineTo(f.x2,f.y2);ctx.stroke()}
   else if(f.type==='ring'){const k=1-a;ctx.strokeStyle=f.c;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r0+(f.r1-f.r0)*k,(f.r0+(f.r1-f.r0)*k)*K,0,0,7);ctx.stroke()}

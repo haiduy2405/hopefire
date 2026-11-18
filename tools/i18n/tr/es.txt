@@ -695,3 +695,25 @@
 694|ninguno
 695|ESPERANZA {0}%
 696|REACTOR · {0}
+697|Cañón manual
+698|Mantén para disparar y apunta tú mismo el cañón principal (ratón / stick derecho). Atraviesa todo lo que esté en línea
+699|Se carga y luego una onda expansiva barre toda la pantalla y lo quema todo
+700|Una ola helada inmoviliza a todas las criaturas de la pantalla. Las congeladas reciben +{0}% de daño
+701|Los módulos disparan {0}× más rápido durante ~{1}s y la nave lanza rayos a la horda
+702|Arrastra a la horda a un punto y luego implosiona
+703|Invoca una lluvia de meteoros sobre la horda
+704|Una tormenta eléctrica golpea una y otra vez, encadenándose entre criaturas
+705|Un láser gigante barre un círculo completo alrededor de la nave
+706|SOBRECARGA LISTA
+707|Pulsa F
+708|★ SOBRECARGA ★
+709|Todo. A la vez.
+710|MASACRE ×{0}
+711|ANIQUILACIÓN ×{0}
+712|APOCALIPSIS ×{0}
+713|★ {0} BAJAS ★
+714|⚠ ENJAMBRE ⚠
+715|Sobrecarga: lanza todos tus hechizos a la vez
+716|Sobrecarga (todos los hechizos)
+717|Mantener ratón
+718|Disparar cañón manual

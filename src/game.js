@@ -10,7 +10,7 @@ function newRun(ch,endless,warp,night){
   R={ch,endless:!!endless,night:!!night&&!endless,revived:false,t:0,wave:1,waveT:0,spawnT:1,hope:maxHope,maxHope,gold:15+8*lv('start'),cores:0,packs:0,mods:[],en:[],pr:[],fx:[],pt:[],txt:[],orbs:[],
     kills:0,boltCd:0.6,bossSpawned:false,boss:null,lastBossWave:0,bossKills:0,over:false,won:false,shake:0,slots:4+lv('slots'),paused:false,tipPause:false,syn:{},
     banner:{s:endless?'ENDLESS WASTES':SITES[ch-1],sub:endless?'How long can hope last?':'Site '+ch,t:2.6},react:1,spells:[],relics:[],overT:0,ringPulse:0,
-    crew:[],free:0,shipAim:-Math.PI/2,shipFl:0,smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
+    crew:[],free:0,shipAim:-Math.PI/2,shipFl:0,lanceCd:0,aimA:-Math.PI/2,aimHeld:false,aimT:0,aimSrc:'',smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
   if(typeof setupLoadoutMods==='function')setupLoadoutMods();
   if(warp&&!endless){R.wave=WARP_WAVE;R.gold+=Math.floor(40*Math.pow(2.2,ch-1));R.banner={s:'WARP → THREAT '+WARP_WAVE,sub:SITES[ch-1],t:2.2}}
   if(R.night)R.banner={s:'☠ NIGHTMARE · '+SITES[ch-1],sub:'Creatures ×'+NM.hp[ch-1]+' HP · Xeno-cores ×'+NM.core,t:2.8};
@@ -18,8 +18,8 @@ function newRun(ch,endless,warp,night){
   const sig=SIG[ch]||'crawler';
   for(let i=0;i<16;i++)spawn(ch>1&&i%5===0&&sig!=='bloater'?sig:(Math.random()<.2?'skitter':'crawler'),'ambient');
   $('spdBtn').textContent=speed+'x';
-  layoutMods();renderChips();refreshReactBtn();renderSpellBar();
-  if(!meta.tut.start)setTimeout(()=>vo('tut_ring',1),300);if(R.night)setTimeout(()=>vo('nightmare',1),600);if(!meta.tut.start)setTimeout(()=>tip('start',`Your ship is wrecked. The creatures out there are <b>blind</b> — they only sense you inside the <b>ring</b>.<br>Your heat ray still fires. Keep <b>🔥 HOPE</b> above zero.`,true),600);
+  layoutMods();renderChips();refreshReactBtn();renderSpellBar();document.body.classList.remove('od');
+  if(!meta.tut.start)setTimeout(()=>vo('tut_ring',1),300);if(R.night)setTimeout(()=>vo('nightmare',1),600);if(lv('manual')&&!meta.tut.manualTip)setTimeout(()=>tip('manualTip','<b>Manual Cannon online.</b> Hold <b>left mouse</b> (or push the <b>right stick</b>) to fire the main cannon where you aim. It pierces everything in line.',false,9),1800);if(!meta.tut.start)setTimeout(()=>tip('start',`Your ship is wrecked. The creatures out there are <b>blind</b> — they only sense you inside the <b>ring</b>.<br>Your heat ray still fires. Keep <b>🔥 HOPE</b> above zero.`,true),600);
   else if(meta.runs>=1&&!meta.tut.reactor)setTimeout(()=>tip('reactor',`<b>⚛ REACTOR unlocked</b> (button bottom-right, key <b>R</b>). It sets how much power the ship burns:<table class="rtab"><tr><td style="color:${REACT[0].c}">LOW</td><td>smaller ring = fewer creatures notice you, but less damage &amp; loot. <i>Use it when Hope is low.</i></td></tr><tr><td style="color:${REACT[1].c}">NORMAL</td><td>balanced.</td></tr><tr><td style="color:${REACT[2].c}">OVERDRIVE</td><td>+35% damage, <b>×1.6 scrap &amp; cores</b> = crates come faster, but a <b>bigger ring</b> and more creatures. <i>Use it when your defence is strong.</i></td></tr></table>`,true),800);
   else if(ch>1&&!meta.tut['site'+ch])setTimeout(()=>tip('site'+ch,SITE_TIPS[ch]||'',false,7),900);
 }
@@ -91,10 +91,10 @@ function blast(x,y,r,dmg,col,src){
   if(dmg)for(const o of R.en)if(!o.dead&&o!==src&&Math.hypot(o.x-x,o.y-y)<r+o.r)hit(o,dmg,null,false);
 }
 function kill(e){
-  if(e.dead)return;e.dead=true;if(R.mark===e||e.k==='carrier')bountyKill(e);R.kills++;meta.stats.kills++;sfx('kill');streakAdd();const k=EK[e.k],L=REACT[R.react].loot;
+  if(e.dead)return;e.dead=true;if(R.mark===e||e.k==='carrier')bountyKill(e);R.kills++;meta.stats.kills++;sfx('kill');streakAdd();killFx(e);const k=EK[e.k],L=REACT[R.react].loot;
   const nS=R.night?NM.scrap:1,nC=R.night?NM.core:1,cx=1+0.2*lv('cellx');
-  drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS*MX('scrap'));
-  drop('core',e.x,e.y,k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1)*(1+0.1*lv('core2'))*nC);
+  const swM=e.sw?0.5:1;drop('scrap',e.x,e.y,swM*e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS*MX('scrap'));
+  drop('core',e.x,e.y,0.55*swM*k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1)*(1+0.1*lv('core2'))*nC);
   if(Math.random()<k.cell*cx){drop('cell',e.x,e.y,R.maxHope*(e.k==='boss'?0.5:0.06)*cx);if(!meta.tut.cell)setTimeout(()=>tip('cell','Green <b>energy cells</b> restore HOPE. Kill brutes for a better chance.',false,6),400)}
   const n=e.k==='boss'?50:9;
   for(let i=0;i<n;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.5-(e.fly?22:0),vx:rnd(-110,110),vy:rnd(-140,40),t:rnd(0.3,0.8),c:i%3?e.c:'#9cff5a',s:rnd(2,5),g:260});
@@ -205,7 +205,7 @@ function update(dt){
     }
     e.x+=vx*dt;e.y+=vy*dt;if(Math.abs(vx)>1)e.face=vx>0?1:-1;e.ph+=dt*(Math.hypot(vx,vy)*0.12+0.5);if(e.lunge>0)e.lunge-=dt;
   }
-  hordeTick(dt,rr);carrierTick(dt,rr);crewTick(dt,rr);threatUpdate(dt,rr);
+  hordeTick(dt,rr);swarmTick(dt,rr);carrierTick(dt,rr);crewTick(dt,rr);threatUpdate(dt,rr);
   // modules
   const as=(1+0.08*lv('aspd'))*MX('rate')*(R.overT>0?2:1)*(R.chargeT>0?1.6:1);
   for(const h of R.mods){
@@ -228,8 +228,11 @@ function update(dt){
     }
   }
   // main heat ray
-  R.boltCd-=dt;R.shipFl=Math.max(0,R.shipFl-dt);
-  if(R.boltCd<=0){const tg=threatTarget(0,0,Math.max(300,rr*1.05));
+  R.boltCd-=dt;R.shipFl=Math.max(0,R.shipFl-dt);R.lanceCd-=dt;R.aimT=Math.max(0,R.aimT-dt);
+  const handFire=lv('manual')&&R.aimHeld;
+  if(lv('manual')&&(R.aimT>0||R.aimHeld)&&R.shipFl<=0)R.shipAim=R.aimA;
+  if(handFire)manualFire(rr);
+  else if(R.boltCd<=0){const tg=threatTarget(0,0,Math.max(300,rr*1.05));
     if(tg){R.boltCd=hasRel('trigger')?0.5:1;R.shipFl=0.15;const ex=tg.x,ey=tg.y*K-tg.r*.6-(tg.fly?22:0);R.shipAim=Math.atan2(ey+44,ex);
       const mx=Math.cos(R.shipAim)*20,my=-44+Math.sin(R.shipAim)*20;
       R.fx.push({type:'beam',x:mx,y:my,x2:ex,y2:ey,t:0.22,T:0.22,c:'#ffb03a',w:6});sfx('beam');
@@ -290,6 +293,23 @@ function update(dt){
     else if(!R.dying){R.hope=0;R.shake=16;vo('death',1);R.dying=0.6;R.slow=2.2;flash(0.5);sfx('boom');document.body.classList.add('dying')}}
   if(R.dying){R.hope=0;R.dying-=dt;R.dyT=(R.dyT||0)-dt;if(R.dyT<=0){R.dyT=0.08;const x=rnd(-50,50),y=rnd(-30,20);R.fx.push({type:'ring',x,y,r0:4,r1:rnd(30,60),t:0.35,T:0.35,c:'#ffb03a'});for(let i=0;i<14;i++)R.pt.push({x,y,vx:rnd(-160,160),vy:rnd(-200,20),t:rnd(.4,.9),c:i%2?'#ffb03a':'#ff5a3d',s:rnd(2,5),g:200,add:1});sfx('boom');R.shake=10}
     if(R.dying<=0){R.dying=0;document.body.classList.remove('dying');endRun(false)}}
+}
+// Manual Cannon: while the player holds fire, the main cannon shoots a piercing lance along the aim line
+function lanceDmg(){
+  const hp=R.mods.filter(h=>h.t.c!=='drone'),avg=hp.length?hp.reduce((a,h)=>a+modDmg(h),0)/hp.length:0;
+  return (6*(1+0.5*lv('bolt'))*tierM(R.ch)*REACT[R.react].dmg*2+avg*0.55)*(1+0.04*lv('oc'))}
+function manualFire(rr){
+  if(R.lanceCd>0)return;R.lanceCd=hasRel('trigger')?0.26:0.34;
+  const a=R.aimA,ca=Math.cos(a),sa=Math.sin(a),ox=ca*20,oy=-44+sa*20,L=Math.max(380,rr*1.4),dmg=lanceDmg();
+  R.shipAim=a;R.shipFl=0.14;let far=0,n=0;
+  for(const e of R.en){if(e.dead||isHidden(e))continue;
+    const px=e.x-ox,py=e.y*K-e.r*.6-(e.fly?22:0)-oy,t=px*ca+py*sa;if(t<0||t>L)continue;
+    if(Math.abs(-px*sa+py*ca)<e.r+14){hit(e,dmg,null,true);n++;if(t>far)far=t;
+      if(R.fx.length<70&&n<14)R.fx.push({type:'spark',x:e.x,y:e.y*K-e.r*.6,t:0.14,T:0.14,c:'#fff0b0'})}}
+  const len=Math.max(far+30,Math.min(L,260));
+  R.fx.push({type:'beam',x:ox,y:oy,x2:ox+ca*len,y2:oy+sa*len,t:0.16,T:0.16,c:'#ffb03a',w:n>3?10:8});
+  sfx('hand');R.shake=Math.max(R.shake,n>5?2.5:1);
+  for(let i=0;i<3;i++)R.pt.push({x:ox,y:oy,vx:ca*rnd(60,200)+rnd(-40,40),vy:sa*rnd(60,200)+rnd(-40,40),t:rnd(.12,.28),c:'#ffd27a',s:2,g:0,add:1});
 }
 // drones leave their dock, hunt the most dangerous creature in the ring, and return when idle
 function droneTick(h,dt,rr){

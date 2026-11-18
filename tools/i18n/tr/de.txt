@@ -695,3 +695,25 @@
 694|keine
 695|HOFFNUNG {0}%
 696|REAKTOR · {0}
+697|Manuelle Kanone
+698|Halten zum Feuern und Zielen mit der Hauptkanone (Maus / rechter Stick). Durchschlägt alles in der Linie
+699|Lädt sich auf, dann fegt eine Schockwelle über den ganzen Bildschirm und verbrennt alles
+700|Eine Frostwelle legt alle Kreaturen auf dem Bildschirm lahm. Gefrorene erleiden +{0}% Schaden
+701|Module feuern {0}× schneller für ~{1}s und das Schiff schleudert Blitze in die Horde
+702|Zieht die Horde in einen Punkt und implodiert dann
+703|Lässt einen Meteoritenregen auf die Horde niedergehen
+704|Ein Gewitter schlägt immer wieder ein und springt zwischen Kreaturen über
+705|Ein riesiger Laser überstreicht einen vollen Kreis um das Schiff
+706|OVERDRIVE BEREIT
+707|F drücken
+708|★ OVERDRIVE ★
+709|Alles. Auf einmal.
+710|MASSAKER ×{0}
+711|VERNICHTUNG ×{0}
+712|APOKALYPSE ×{0}
+713|★ {0} KILLS ★
+714|⚠ SCHWARM ⚠
+715|Overdrive: wirkt alle deine Zauber auf einmal
+716|Overdrive (alle Zauber)
+717|Maus halten
+718|Manuelle Kanone feuern

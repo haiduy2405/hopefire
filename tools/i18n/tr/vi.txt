@@ -695,3 +695,25 @@
 694|không có
 695|HY VỌNG {0}%
 696|LÒ PHẢN ỨNG · {0}
+697|Pháo tay lái
+698|Giữ để bắn và tự ngắm pháo chính (chuột / cần analog phải). Xuyên mọi thứ trên đường bắn
+699|Tích năng lượng rồi một làn sóng xung kích quét cả màn hình, thiêu mọi thứ
+700|Làn sóng băng giá đóng băng mọi sinh vật trên màn hình. Sinh vật bị đóng băng chịu thêm +{0}% sát thương
+701|Module bắn nhanh gấp {0} lần trong ~{1}s và tàu phóng sét vào bầy quái
+702|Hút cả bầy vào một điểm rồi nổ tung
+703|Triệu hồi mưa thiên thạch giáng xuống bầy quái
+704|Bão sét giáng liên tục, lan truyền giữa các sinh vật
+705|Tia laser khổng lồ quét một vòng tròn quanh tàu
+706|OVERDRIVE SẴN SÀNG
+707|Nhấn F
+708|★ OVERDRIVE ★
+709|Tất cả. Cùng một lúc.
+710|TÀN SÁT ×{0}
+711|HỦY DIỆT ×{0}
+712|TẬN THẾ ×{0}
+713|★ {0} MẠNG ★
+714|⚠ BẦY QUÁI ⚠
+715|Overdrive: tung tất cả phép cùng lúc
+716|Overdrive (tất cả phép)
+717|Giữ chuột
+718|Bắn pháo tay lái
