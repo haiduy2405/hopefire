@@ -372,7 +372,7 @@ function drawCannon(c){
   if(SPR.has('cannon')&&SPR.data.sprites.cannon[0].px){
     const a=R?R.shipAim:(CUT?CUT.aim:-Math.PI/2),left=Math.cos(a)<0,rec=(R&&R.shipFl>0)||(CUT&&CUT.fl>0)?2.5:0;
     const tilt=Math.max(-0.45,Math.min(0.45,left?Math.atan2(Math.sin(a),-Math.cos(a)):a));
-    c.save();c.translate(-Math.cos(a)*rec,-52-Math.sin(a)*rec*K);c.rotate(left?-tilt:tilt);drawSpr(c,'cannon',0,0,8,left);c.restore();return}
+    c.save();c.translate(-Math.cos(a)*rec,-46-Math.sin(a)*rec*K);c.rotate(left?-tilt:tilt);drawSpr(c,'cannon',0,0,8,left);c.restore();return}
   c.fillStyle='#000';c.fillRect(-11,-46,22,14);c.fillStyle='#2e3340';c.fillRect(-9,-44,18,11);
   const a=R?R.shipAim:(CUT?CUT.aim:-Math.PI/2),rec=(R&&R.shipFl>0)||(CUT&&CUT.fl>0)?4:0;
   c.save();c.translate(0,-44);c.rotate(a);c.fillStyle='#000';c.fillRect(-2-rec,-4,24,8);c.fillStyle='#9aa4b2';c.fillRect(-rec,-2.5,20,5);c.fillStyle='#ffb03a';c.fillRect(17-rec,-2.5,3,5);c.restore();

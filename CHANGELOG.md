@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.14.2 — 2026-11-18
+- **Ship cannon redesign**: new AI-art hull-mounted main cannon (bigger, grey-violet armour + cyan plasma core, orange hazard collar) so it no longer reads as one of the module turrets. Alternates kept in `tools/sprites/alt/`.
+- **Music**: title screen music starts immediately (audio is initialised at boot; Electron already allows autoplay, browsers unlock on first input).
+- **Perf**: horde silhouettes/eyes drawn in batched paths with off-screen culling (~4,000 canvas calls/frame -> ~30). `tools/test/spike_profile.py` finds frame-time spikes.
+- i18n groundwork (`src/i18n.js`, `assets/lang/`, `tools/i18n/`): dormant until dictionaries are filled.
+
 ## v0.14.1 — 2026-11-18
 - **Music**: menu / boss / ending now play real Suno Pro v6 tracks (First Contact, Relentless Energy, The Light Breaks Through) from `assets/music/`; in-run music stays adaptive/procedural. Disclose AI music on Steam.
 - **Balance**: `CH_HP` Sites 2-5 +12% (`[1.05,5.4,14.8,50,75]`) -> sim story ~90-112 min, everything ~3.5-4.5 h.

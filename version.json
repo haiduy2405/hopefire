@@ -1,9 +1,10 @@
 {
-  "version": "0.14.1",
+  "version": "0.14.2",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Real soundtrack: new menu, boss and ending music",
-    "Longer playthrough: tougher creatures on Sites 2-5"
+    "New heavy hull-mounted main cannon for the ship",
+    "Menu music now starts immediately on the title screen",
+    "Big hordes no longer cause frame-rate stutter"
   ]
 }

@@ -1,0 +1,1 @@
+window.LANGS=window.LANGS||{};window.LANGS.pt={};

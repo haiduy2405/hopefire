@@ -16,4 +16,9 @@ function loop(now){
   fpsTick(now,performance.now()-_t0);
   hud(raw);requestAnimationFrame(loop);
 }
+// Music on the title screen from the first frame: Electron allows autoplay (see tools/desktop/main.js); in a normal browser
+// the first click/key/touch unlocks audio and starts any file track that was blocked.
+i18nInit();audioInit();
+(function(){const kick=()=>{try{if(AC&&AC.state!=='running')AC.resume();const el=FM.cur&&FM.el[FM.cur];if(el&&el.paused)el.play().catch(()=>{})}catch(e){}};
+  ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,kick,{passive:true}))})();
 titleScreen();fpsShow();requestAnimationFrame(loop);

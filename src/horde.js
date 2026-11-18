@@ -55,12 +55,26 @@ function dirName(a){const n=['EAST','SOUTH-EAST','SOUTH','SOUTH-WEST','WEST','NO
 // silhouettes: drawn after the darkness pass so they read as shapes against the black
 function drawHorde(T,rr){
   if(!R||!R.horde)return;const c=ctx;
-  for(const m of R.horde){const X=m.x,Y=m.y*K,r=m.r,bob=Math.sin(m.ph*2)*r*0.06,d=Math.hypot(m.x,m.y),near=Math.max(0,1-(d-rr*1.15)/(rr*0.9));
-    const a=(0.55+0.35*near)*m.fade;c.globalAlpha=a;c.fillStyle='#07050a';
-    c.beginPath();c.ellipse(X,Y-r*0.55+bob,r*1.05,r*0.62,0,0,7);c.fill();
-    if(m.hump){c.beginPath();c.moveTo(X-r*0.6,Y-r*0.9+bob);c.lineTo(X-r*0.2,Y-r*1.55+bob);c.lineTo(X+r*0.1,Y-r*0.95+bob);c.lineTo(X+r*0.4,Y-r*1.4+bob);c.lineTo(X+r*0.7,Y-r*0.8+bob);c.fill()}
-    for(let l=0;l<3;l++){const lx=X+(l-1)*r*0.6,st=Math.sin(m.ph*3+l*2)*r*0.12;c.fillRect(lx+st-0.8,Y-r*0.3,1.6,r*0.3)}
-    c.globalAlpha=a*(0.35+0.6*near);c.strokeStyle='#6a4a7a';c.lineWidth=1;c.beginPath();c.ellipse(X,Y-r*0.55+bob,r*1.05,r*0.62,0,Math.PI*1.1,Math.PI*1.9);c.stroke()}
+  // v0.14.2: batched — members are grouped into alpha buckets and each bucket is ONE path (was ~12 canvas calls per creature,
+  // ~4,000 calls/frame in a big horde, which stuttered on real GPUs). Visual result is identical to within the alpha quantisation.
+  const NB=8,bk=[];for(let i=0;i<NB;i++)bk.push([]);
+  const vw=W+60,vh=H+60;
+  for(const m of R.horde){const sx=OX+m.x*S,sy=OY+m.y*K*S;if(sx<-40||sx>vw||sy<-60||sy>vh)continue;   // off-screen: skip
+    const d=Math.hypot(m.x,m.y),near=Math.max(0,1-(d-rr*1.15)/(rr*0.9));m._near=near;const a=(0.55+0.35*near)*m.fade;
+    bk[Math.max(0,Math.min(NB-1,Math.round(a*(NB-1))))].push(m)}
+  c.fillStyle='#07050a';
+  for(let i=0;i<NB;i++){const L=bk[i];if(!L.length)continue;c.globalAlpha=i/(NB-1);
+    c.beginPath();
+    for(const m of L){const X=m.x,Y=m.y*K,r=m.r,bob=Math.sin(m.ph*2)*r*0.06,cy=Y-r*0.55+bob,rx=r*1.05;
+      c.moveTo(X+rx,cy);c.ellipse(X,cy,rx,r*0.62,0,0,7);
+      if(m.hump){c.moveTo(X-r*0.6,Y-r*0.9+bob);c.lineTo(X-r*0.2,Y-r*1.55+bob);c.lineTo(X+r*0.1,Y-r*0.95+bob);c.lineTo(X+r*0.4,Y-r*1.4+bob);c.lineTo(X+r*0.7,Y-r*0.8+bob);c.closePath()}
+      for(let l=0;l<3;l++){const lx=X+(l-1)*r*0.6,st=Math.sin(m.ph*3+l*2)*r*0.12;c.rect(lx+st-0.8,Y-r*0.3,1.6,r*0.3)}}
+    c.fill();
+    // rim light on the near ones
+    c.strokeStyle='#6a4a7a';c.lineWidth=1;c.beginPath();let any=false;
+    for(const m of L){const near=m._near;if(near<0.08)continue;any=true;const X=m.x,Y=m.y*K,r=m.r,cy=Y-r*0.55+Math.sin(m.ph*2)*r*0.06,rx=r*1.05;
+      c.moveTo(X+rx*Math.cos(Math.PI*1.1),cy+r*0.62*Math.sin(Math.PI*1.1));c.ellipse(X,cy,rx,r*0.62,0,Math.PI*1.1,Math.PI*1.9)}
+    if(any){c.globalAlpha=Math.min(1,i/(NB-1)*(0.35+0.6*0.6));c.stroke()}}
   c.globalAlpha=1;
   const sg=R.surge;if(sg&&sg.ph===1){const p=Math.min(1,sg.t/0.4),rad=rr*0.98;for(let i=-1;i<=1;i++){const a=sg.a+i*0.18,x=Math.cos(a)*rad,y=Math.sin(a)*rad*K,s=10+4*Math.sin(T*12);
     c.save();c.translate(x,y);c.rotate(Math.atan2(-Math.sin(a)*K,-Math.cos(a)));c.globalAlpha=p*(0.6+0.4*Math.sin(T*12));c.fillStyle='#ff3a3a';c.beginPath();c.moveTo(s,0);c.lineTo(-s*0.6,s*0.7);c.lineTo(-s*0.2,0);c.lineTo(-s*0.6,-s*0.7);c.closePath();c.fill();c.restore()}c.globalAlpha=1}
@@ -68,9 +82,18 @@ function drawHorde(T,rr){
 // eyes: additive pass
 function drawHordeEyes(T,rr){
   if(!R||!R.horde)return;const c=ctx;
-  for(const m of R.horde){if(m.bl<0.15)continue;const X=m.x,Y=m.y*K-m.r*0.7+Math.sin(m.ph*2)*m.r*0.06,lk=m.look,col=lk>0.5?'#ff2a2a':m.eye,s=Math.max(0.8,m.r*0.13)*(1+lk*0.5),gap=m.r*0.32;
-    const a=(0.35+0.65*lk)*m.fade*(0.7+0.3*Math.sin(T*2+m.ph));c.fillStyle=col;
-    c.globalAlpha=a*0.22;c.beginPath();c.arc(X,Y,s*5,0,7);c.fill();
-    c.globalAlpha=a;c.fillRect(X-gap-s,Y-s*0.6,s*2,s*1.2);c.fillRect(X+gap-s,Y-s*0.6,s*2,s*1.2)}
+  const NB=6,glow=[],core=[];for(let i=0;i<NB;i++){glow.push([[],[]]);core.push([[],[]])}   // [alpha bucket][0=normal eye colour,1=red look]
+  const vw=W+60,vh=H+60;
+  for(const m of R.horde){if(m.bl<0.15)continue;const sx=OX+m.x*S,sy=OY+m.y*K*S;if(sx<-40||sx>vw||sy<-60||sy>vh)continue;
+    const lk=m.look,a=(0.35+0.65*lk)*m.fade*(0.7+0.3*Math.sin(T*2+m.ph));
+    const bi=Math.max(0,Math.min(NB-1,Math.round(a*(NB-1))));(lk>0.5?core[bi][1]:core[bi][0]).push(m)}
+  for(let i=0;i<NB;i++)for(let k=0;k<2;k++){const L=core[i][k];if(!L.length)continue;const al=i/(NB-1);
+    // glow
+    c.fillStyle=k?'#ff2a2a':L[0].eye;c.globalAlpha=al*0.22;c.beginPath();
+    for(const m of L){const X=m.x,Y=m.y*K-m.r*0.7+Math.sin(m.ph*2)*m.r*0.06,s=Math.max(0.8,m.r*0.13)*(1+m.look*0.5);c.moveTo(X+s*5,Y);c.arc(X,Y,s*5,0,7)}
+    c.fill();
+    c.globalAlpha=al;c.beginPath();
+    for(const m of L){const X=m.x,Y=m.y*K-m.r*0.7+Math.sin(m.ph*2)*m.r*0.06,s=Math.max(0.8,m.r*0.13)*(1+m.look*0.5),gap=m.r*0.32;c.rect(X-gap-s,Y-s*0.6,s*2,s*1.2);c.rect(X+gap-s,Y-s*0.6,s*2,s*1.2)}
+    c.fill()}
   c.globalAlpha=1;
 }
