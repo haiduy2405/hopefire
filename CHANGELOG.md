@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.17.0 — 2026-11-19
+- **Ring & Links** (src/ring.js): modules sit in fixed slots around the ship; neighbours form LINKS (Thermal+Cryo Thermal Shock, Thermal+Arc Plasma, Thermal+Nano Forge, Arc+Cryo Static Field, Cryo+Nano Cryo-Sleep, Arc+Nano Overcharge; same element Resonance; class pairs Spotter / Rangefinder / Demolition). Harmony x1.1 (all linked) and Perfect Ring x1.2 (2 links each). Swapping is free (tap, drag, or loadout ring); crate cards preview the links a pick would form; new modules auto-take the best slot.
+- **Signature towers** (src/sig.js): Prism Spire (amp), Gravity Well, Mine Layer, Longshot (sniper), Tesla Coil, Aegis Projector (shield).
+- **Tower art** (src/tart.js): each class has its own code-drawn silhouette + icon.
+- Balance retuned (CH_HP x1.25, NM.hp x1.25..1.3); 8-language strings added.
+
 ## v0.16.4 — 2026-11-18
 - Desktop: crash.log on Duy's PC showed every GPU feature `disabled_software` (canvas/raster/compositing on CPU) → added ignore-gpu-blocklist + enable-gpu-rasterization; GPU status now logged 8 s after start.
 

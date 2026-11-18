@@ -717,3 +717,39 @@
 716|Sobrecarga (todos los hechizos)
 717|Mantener ratón
 718|Disparar cañón manual
+719|ANILLO
+720|coloca tus módulos: los vecinos forman enlaces
+721|Aún no hay enlaces. Pon elementos o clases distintos uno al lado del otro.
+722|Toca un módulo y luego otra casilla para intercambiar. Gratis: solo se resincronizan un momento.
+723|Enlaza todos los módulos para el bono Armonía (+{0}%); dos enlaces cada uno = Anillo perfecto (+{1}%)
+724|sin enlace aún
+725|vacío
+726|ARMONÍA
+727|ANILLO PERFECTO
+728|todos los módulos enlazados: +{0}% de daño del equipo
+729|ARMONÍA · +{0}% de daño del equipo
+730|ANILLO PERFECTO · +{0}% de daño del equipo
+731|ANILLO: los módulos contiguos pueden ENLAZARSE para grandes bonos. Toca un módulo y luego otra casilla para intercambiarlos. Es gratis. Tab muestra todos los enlaces.
+732|+{0}% de daño contra criaturas ralentizadas o congeladas
+733|Los impactos incendian al objetivo ({0}% del golpe otra vez en {1} s)
+734|+{0}% de daño, y cada impacto restaura un poco de Esperanza
+735|+{0}% de cadencia, y los impactos ralentizan al objetivo
+736|Los impactos congelan criaturas con mucha más frecuencia
+737|+{0}% de alcance y +{1}% de cadencia
+738|+{0}% de daño (dos módulos del mismo elemento contiguos)
+739|Los impactos exponen al objetivo: todos le hacen +{0}% durante {1} s
+740|+{0}% de alcance; las explosiones del mortero son un {1}% más amplias
+741|Salpicadura de la lanza un {0}% más amplia; mortero +{1}% de daño
+742|La aguja potencia a sus vecinos: +{0}% de daño, +{1}% de cadencia
+743|Ambos vecinos: +{0}% de daño, +{1}% de cadencia
+744|Cada ~{0} s junta a una manada y la ralentiza
+745|Coloca minas en el camino de entrada; explosión de {0} de ancho
+746|Alcance {0} · x{1} contra MARCADOS, élites y jefes
+747|Salta a {0} criaturas · +{1} por enlace
+748|Levanta un escudo de Esperanza cada ~{0} s · los enlaces lo aceleran
+749|Apoyo: potencia a ambos vecinos
+750|Arrastra a las criaturas formando un grupo
+751|Coloca minas de proximidad
+752|Alcance extremo · x2 contra marcados / élites / jefes
+753|Lanza rayos · +1 objetivo por enlace
+754|Levanta un escudo de Esperanza

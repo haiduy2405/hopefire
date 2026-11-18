@@ -717,3 +717,39 @@
 716|Sobrecarga (todos os feitiços)
 717|Segurar mouse
 718|Disparar canhão manual
+719|ANEL
+720|organize seus módulos: vizinhos formam elos
+721|Nenhum elo ainda. Coloque elementos ou classes diferentes lado a lado.
+722|Toque num módulo e depois em outro espaço para trocar. Grátis: eles só ressincronizam por um instante.
+723|Ligue todos os módulos para o bônus Harmonia (+{0}%); dois elos cada = Anel perfeito (+{1}%)
+724|sem elo ainda
+725|vazio
+726|HARMONIA
+727|ANEL PERFEITO
+728|todos os módulos ligados: +{0}% de dano da equipe
+729|HARMONIA · +{0}% de dano da equipe
+730|ANEL PERFEITO · +{0}% de dano da equipe
+731|ANEL: módulos lado a lado podem se LIGAR para grandes bônus. Toque num módulo e depois em outro espaço para trocá-los. É grátis. Tab mostra todos os elos.
+732|+{0}% de dano contra criaturas lentas ou congeladas
+733|Os acertos incendeiam o alvo ({0}% do golpe de novo em {1} s)
+734|+{0}% de dano, e cada acerto restaura um pouco de Esperança
+735|+{0}% de cadência, e os acertos deixam o alvo lento
+736|Os acertos congelam criaturas com muito mais frequência
+737|+{0}% de alcance e +{1}% de cadência
+738|+{0}% de dano (dois módulos do mesmo elemento lado a lado)
+739|Os acertos expõem o alvo: todos causam +{0}% nele por {1} s
+740|+{0}% de alcance; explosões do morteiro {1}% maiores
+741|Respingo da lança {0}% maior; morteiro +{1}% de dano
+742|A torre potencializa os vizinhos: +{0}% de dano, +{1}% de cadência
+743|Ambos os vizinhos: +{0}% de dano, +{1}% de cadência
+744|A cada ~{0} s junta um bando e o deixa lento
+745|Coloca minas no caminho; explosão de {0} de largura
+746|Alcance {0} · x{1} em MARCADOS, elites e chefes
+747|Salta para {0} criaturas · +{1} por elo
+748|Ergue um escudo de Esperança a cada ~{0} s · elos o aceleram
+749|Suporte: potencializa os dois vizinhos
+750|Arrasta as criaturas para um só aglomerado
+751|Coloca minas de proximidade
+752|Alcance extremo · x2 contra marcados / elites / chefes
+753|Lança raios · +1 alvo por elo
+754|Ergue um escudo de Esperança

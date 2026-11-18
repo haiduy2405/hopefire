@@ -51,13 +51,14 @@ function pick(i){
   const mk=()=>({t:cd.t,r:cd.r,s:1,tier:R.ch,cd:0.3,fl:0,x:0,y:0});
   let target;
   if(ex){ex.s++;ex.r=Math.max(ex.r,cd.r);ex.tier=Math.max(ex.tier,R.ch);target=ex;ex.pop=0.6;addTxt(ex.x,ex.y*K-40,'★'+(ex.s-1)+' → ★'+ex.s,'#ffd24a',20);sfx('starup');vo('star_up');R.fx.push({type:'ring',x:ex.x,y:ex.y*K,r0:4,r1:60,t:0.5,T:0.5,c:'#ffd24a'});for(let k=0;k<24;k++)R.pt.push({x:ex.x,y:ex.y*K-14,vx:rnd(-140,140),vy:rnd(-220,-40),t:rnd(.5,.9),c:k%2?'#ffd24a':'#fff6c0',s:3,g:260,add:1})}
-  else if(R.mods.length<R.slots){target=mk();target.drop=0.45;R.mods.push(target);sfx('place')}
-  else{let wi=0;R.mods.forEach((h,j)=>{if(power(h)<power(R.mods[wi]))wi=j});target=mk();target.drop=0.45;R.mods[wi]=target;sfx('place')}
-  const prevSyn=Object.assign({},R.syn);layoutMods();renderChips();closePack();synCelebrate(prevSyn);
+  else if(R.mods.length<R.slots){target=mk();target.drop=0.45;target.sl=bestSlot(cd.t);R.mods.push(target);sfx('place')}
+  else{let wi=0;R.mods.forEach((h,j)=>{if(power(h)<power(R.mods[wi]))wi=j});target=mk();target.drop=0.45;target.sl=R.mods[wi].sl;R.mods[wi]=target;sfx('place')}
+  const prevSyn=Object.assign({},R.syn);layoutMods();renderChips();closePack();synCelebrate(prevSyn);ringCelebrate();
   R.fx.push({type:'ring',x:target.x,y:target.y*K,r0:4,r1:34,t:0.4,T:0.4,c:TYPES[cd.t.ty].c});
   for(let k=0;k<14;k++)R.pt.push({x:target.x,y:target.y*K-10,vx:rnd(-90,90),vy:rnd(-150,-30),t:rnd(.3,.6),c:TYPES[cd.t.ty].c,s:3,g:300,add:1});
   if(!meta.tut.mod){vo('first_mod',1);}if(!meta.tut.mod)setTimeout(()=>tip('mod','Modules fire on their own. Get the <b>same module</b> again to upgrade it <b>★</b>.',false,6),300);
   else if(!meta.tut.syn&&Object.values(R.syn).some(n=>n>=2))setTimeout(()=>tip('syn','<b>Synergy!</b> 2 modules of one type: <b>+25% damage</b>. Reach 4 for a special effect.',false,7),300);
+  else if(!meta.tut.ringtip&&R.mods.length>=2)setTimeout(()=>tip('ringtip','RING: modules side by side can LINK for big bonuses. Tap a module, then tap another slot to swap them. It is free. Tab shows all links.',false,8),300);
 }
 function closePack(){curCards=null;hide();if(R)R.paused=false}
 function endRun(won){

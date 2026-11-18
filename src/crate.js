@@ -15,8 +15,8 @@ const SYN_T=[2,4];
 const synTier=n=>n>=4?2:n>=2?1:0;
 function synOf(mods){const s={};for(const h of mods)s[h.t.ty]=(s[h.t.ty]||0)+1;return s}
 // DPS of one module with the build's synergies (global multipliers left out: same for every option)
-function modPow(h,syn){const m=TYPE_MOD[h.t.ty];return h.t.dmg*h.t.rate*m.dmg*m.rate*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*((syn[h.t.ty]||0)>=2?1.25:1)}
-function teamDps(mods){const s=synOf(mods);return mods.reduce((a,h)=>a+modPow(h,s),0)*(1+0.15*lv('dmg'))*MX('dmg')}
+function modPow(h,syn){const m=TYPE_MOD[h.t.ty];return h.t.dmg*h.t.rate*m.dmg*m.rate*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*((syn[h.t.ty]||0)>=2?1.25:1)*(h.lk?h.lk.dmg*h.lk.rate:1)}
+function teamDps(mods){const s=synOf(mods);return (()=>{const pw=mods.map(h=>modPow(h,s)),base=pw.reduce((a,b)=>a+b,0),n=mods.filter(h=>!h.t.sup&&h.t.c!=='amp'&&h.t.c!=='aegis').length||1,av=base/n;return base+mods.reduce((a,h)=>a+(h.t.c==='amp'?0.7*av:h.t.c==='aegis'?0.4*av:0),0)})()*(1+0.15*lv('dmg'))*MX('dmg')*(R.harm||1)}
 // what the build would look like after taking module card cd (mirrors pick())
 function previewPick(cd){
   const mods=R.mods.map(h=>({t:h.t,r:h.r,s:h.s,tier:h.tier}));const ex=mods.find(x=>x.t.id===cd.t.id);let kind,rep=null;
@@ -82,16 +82,16 @@ function moduleCardHTML(cd,i,best){
   const rxl=newRx.length?`<div class="rxu">${newRx.map(n=>{const r=Object.values(RX).find(x=>x.n===n);return `<span style="--rc2:${r.c}" title="${r.d}">⚡ ${n}</span>`}).join('')}</div>`:'';
   const brk=pv.down.map(([e,t])=>`<div class="sbrk">⚠ breaks ${e} ${SYN_T[t-1]}</div>`).join('');
   const p=pv.pct,dl=`<div class="dps ${p>=0?'up':'dn'}">${p>=0?'▲':'▼'} TEAM DPS ${p>=0?'+':''}${Math.round(p*100)}%</div>`;
-  const st=`${fmt(cd.t.dmg*TYPE_MOD[k].dmg*RAR[cd.r].m*tierM(R.ch))} dmg · ${(cd.t.rate*TYPE_MOD[k].rate).toFixed(1)}/s · ${cd.t.c==='drone'?'anywhere':cd.t.range+' range'}${cd.t.aoe?' · area':''}`;
+  const st=cd.t.sig?cd.t.sd:`${fmt(cd.t.dmg*TYPE_MOD[k].dmg*RAR[cd.r].m*tierM(R.ch))} dmg · ${(cd.t.rate*TYPE_MOD[k].rate).toFixed(1)}/s · ${cd.t.c==='drone'?'anywhere':cd.t.range+' range'}${cd.t.aoe?' · area':''}`;
   return `<div class="card r${cd.r}${best?' best':''}${pv.up.length?' synup':''}" style="--rc:${RAR[cd.r].c};border-color:${RAR[cd.r].c}" data-i="${i}">
     ${best?'<div class="bestrib">BEST DPS</div>':''}
     <div class="rn" style="color:${RAR[cd.r].c}">${RAR[cd.r].n}</div>
     <div class="erow">${elemBadge(k)}<span class="pp">${pips(k,n1,n0)}</span></div>
-    <div class="gl" style="background:${c}1c">${ico('mod_'+k,1.3,0,'')}<span class="clsb">${ico('c_'+cd.t.c+'_'+k,1,0,cd.t.g)}</span></div>
+    <div class="gl" style="background:${c}1c">${modArt(cd.t,56,1.3)}<span class="clsb">${ico('c_'+cd.t.c+'_'+k,1,0,cd.t.g)}</span></div>
     <div class="nm">${cd.t.n}</div>
     <div class="ds" style="color:${c}">${TYPE_MOD[k].d}</div>
     <div class="ds st">${st}</div>
-    ${syn}${rxl}${brk}${dl}${tag}</div>`;
+    ${syn}${rxl}${brk}${linkHintHTML(cd)}${dl}${tag}</div>`;
 }
 function spellCardHTML(cd,i){
   const ex=R.spells.find(s=>s.d.id===cd.sp.id);
@@ -114,11 +114,11 @@ function rollCrate(){
     const armed=R.mods.length>=2;
     if(armed&&meta.tut.mod&&canRollRelic()&&Math.random()<RELIC_CHANCE){const rl=rollRelic(taken);if(rl){taken.push(rl.id);return{rl,r:3}}}
     if(Math.random()<crewChance())return rollCrewCard();
-    return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:MODS[Math.random()*MODS.length|0],r:rollR()}};
+    return armed&&meta.tut.mod&&Math.random()<SPELL_CHANCE?{sp:SPELLS[Math.random()*SPELLS.length|0],r:rollR()}:{t:pickMod(),r:rollR()}};
   const key=c=>c.cr?'c'+c.cr:c.rl?'r'+c.rl.id:c.sp?'s'+c.sp.id:'m'+c.t.id;
   const out=[],seen=new Set();
   for(let tries=0;out.length<n&&tries<60;tries++){const c=roll();if(seen.has(key(c)))continue;seen.add(key(c));out.push(c)}
-  if(!meta.tut.mod)out.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
+  if(!meta.tut.mod)out.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=pickMod();delete c.sp}});
   if(!meta.tut.mod)out[1].r=Math.max(1,out[1].r);
   if(meta.runs===0&&R.mods.length===1&&out.every(c=>!c.t||c.t.ty!==R.mods[0].t.ty)){
     const mate=MODS.filter(m=>m.ty===R.mods[0].t.ty&&m.id!==R.mods[0].t.id&&m.c!=='drone');const i=out.findIndex(c=>c.t);
@@ -254,9 +254,9 @@ function showLoadout(){
   if(!R||R.over||curCards||CUT)return;const was=R.paused;R.paused=true;sfx('click');
   const syn=synOf(R.mods),tot=teamDps(R.mods)||1;
   const mods=R.mods.map(h=>{const k=h.t.ty,c=TYPES[k].c,p=modPow(h,syn)*(1+0.15*lv('dmg'))*MX('dmg'),m=TYPE_MOD[k];
-    return `<div class="lom" style="--rc:${RAR[h.r].c};--ec:${c}"><span class="icof">${ico('mod_'+k,0.9,0,'')}</span><div class="lomi"><div class="lomn">${h.t.n} <span class="lst">${'★'.repeat(Math.min(h.s,5))}${h.s>5?'+':''}</span></div>
+    return `<div class="lom" style="--rc:${RAR[h.r].c};--ec:${c}"><span class="icof">${modArt(h.t,44,0.9)}</span><div class="lomi"><div class="lomn">${h.t.n} <span class="lst">${'★'.repeat(Math.min(h.s,5))}${h.s>5?'+':''}</span></div>
       <div class="lomr" style="color:${RAR[h.r].c}">${RAR[h.r].n}</div>${elemBadge(k)}
-      <div class="loms">${fmt(h.t.dmg*m.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier))} dmg · ${(h.t.rate*m.rate).toFixed(1)}/s · ${h.t.c==='drone'?'anywhere':h.t.range+' range'}${h.t.aoe?' · area':''}</div>
+      <div class="loms">${h.t.sig?h.t.sd:`${fmt(h.t.dmg*m.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier))} dmg · ${(h.t.rate*m.rate).toFixed(1)}/s · ${h.t.c==='drone'?'anywhere':h.t.range+' range'}${h.t.aoe?' · area':''}`}</div>
       <div class="lomb"><i style="width:${Math.round(p/tot*100)}%;background:${c}"></i><span>${fmt(p)} DPS · ${Math.round(p/tot*100)}%</span></div></div></div>`}).join('')||'<div class="loe">No modules yet — open a crate.</div>';
   let syns='';for(const k in TYPES){const n=syn[k]||0,t=synTier(n);syns+=`<div class="los${t?' on':''}" data-el="${k}" style="--ec:${TYPES[k].c}"><div class="losh"><b>${k}</b><span class="lp">${pips(k,n)}</span></div><span>${t===2?ELEM_INFO[k].t4:t===1?ELEM_INFO[k].t2:n?`${2-n} more for +25% dmg`:'—'}</span></div>`}
   const sp=R.spells.map((s,i)=>`<div class="lox" style="--rc:${RAR[s.r].c}"><span class="icof">${ico('sp_'+s.d.id,2,0,s.d.g)}</span><div><b>${s.d.n}</b> <span class="lst">Lv${s.lv}</span> <span class="lok">${spKey(i)}</span><div class="loms">${s.d.d} · cooldown ${Math.round(spellCd(s))}s</div></div></div>`).join('')||'<div class="loe">No spells yet.</div>';
@@ -264,12 +264,13 @@ function showLoadout(){
   const crw=(R.crew||[]).map(c=>`<div class="lox" style="--rc:${RAR[c.r].c}"><img src="${crewPortrait(c.role,c.ty)}" alt=""><div><b>${c.ty} ${CREW[c.role].n}</b> <span class="lst">${'★'.repeat(Math.min(c.s,5))}</span> ${elemBadge(c.ty)}<div class="loms">${crewStat(c.role,c.r,c.s,c.ty)}${c.down>0?' · <b style="color:#ff5a5a">DOWN</b>':''}</div></div></div>`).join('')||`<div class="loe">No crew yet — crew cards appear in crates (max ${CREW_MAX}).</div>`;
   const d=document.createElement('div');d.id='loadout';
   d.innerHTML=`<div class="panel lopanel"><div class="lohead"><h2>LOADOUT</h2><div class="lodps">TEAM DPS <b>${fmt(tot)}</b> · Modules ${R.mods.length}/${R.slots} · Spells ${R.spells.length}/${MAX_SPELLS} · Relics ${R.relics.length}/${maxRelics()}</div></div>
+    <div class="losec">RING <small>arrange your modules — neighbours form links</small></div><div id="ringBox">${ringPanelHTML(-1)}</div>
     <div class="losec">MODULES</div><div class="lomods">${mods}</div>
     <div class="losec">CREW ${(R.crew||[]).length}/${CREW_MAX}</div><div class="locrew">${crw}</div>
     <div class="losec">SYNERGIES <small>tap for details</small></div><div class="losyn">${syns}</div>
     <div class="lo2"><div><div class="losec">SPELLS</div>${sp}</div><div><div class="losec">RELICS</div>${rl}</div></div>
     <div class="center"><button class="big" id="loClose">BACK TO BATTLE ▸</button><div class="chhelp">Tab / Esc to close</div></div></div>`;
-  document.body.appendChild(d);bindElemBadges(d);
+  document.body.appendChild(d);bindElemBadges(d);ringPanelBind(d);
   const close=()=>{d.remove();if(R&&!was)R.paused=false;sfx('click')};$('loClose').onclick=close;d.onclick=e=>{if(e.target===d)close()};d._close=close;
 }
 function closeLoadout(){const d=$('loadout');if(d&&d._close)d._close()}

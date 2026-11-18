@@ -67,6 +67,7 @@ function statusTick(e,dt){if(e.st)for(const k in e.st)if(e.st[k]>0)e.st[k]-=dt;i
 // ---------- focus mark ----------
 cv.addEventListener('pointerdown',ev=>{
   if(!R||R.over||R.paused||R.userPause||R.tipPause||CUT)return;
+  if(typeof ringPointer==='function'&&ringPointer(ev))return;
   if(typeof cellTap==='function'&&cellTap(ev))return;
   const wx=(ev.clientX-OX)/S,wy=(ev.clientY-OY)/S/K;let best=null,bd=(40/Math.max(S,0.6))**2+400;
   for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-wx,dy=(e.y-(e.fly?22/K:0)-e.r*0.5/K)-wy,dd=dx*dx+dy*dy;if(dd<bd+e.r*e.r){bd=dd;best=e}}
@@ -78,6 +79,7 @@ function aimFrom(ev){if(!R)return;const dx=(ev.clientX-OX)/S,dy=(ev.clientY-OY)/
 cv.addEventListener('pointermove',ev=>{if(R&&!R.over&&lv('manual'))aimFrom(ev)});
 cv.addEventListener('pointerdown',ev=>{
   if(!R||R.over||R.paused||R.userPause||R.tipPause||CUT||!lv('manual')||(ev.button||0)!==0)return;
+  if(typeof ringHit==='function'&&ringHit(ev)>=0&&modAt(ringHit(ev)))return;
   aimFrom(ev);R.aimHeld=true;if(!meta.tut.manual){meta.tut.manual=1;save()}});
 const aimStop=()=>{if(R&&R.aimSrc==='ptr')R.aimHeld=false};
 addEventListener('pointerup',aimStop);addEventListener('pointercancel',aimStop);addEventListener('blur',aimStop);

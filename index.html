@@ -9,7 +9,7 @@
 <script>
 // ===== VERSION =====
 // Bump this together with version.json on every release (tools/bump.ps1 does both).
-window.HF_VERSION='0.16.4';
+window.HF_VERSION='0.17.0';
 document.title='HOPEFIRE v'+window.HF_VERSION;
 // Every asset URL carries ?v=<version>, so a new version never loads stale cached files.
 document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION+'">');
@@ -49,7 +49,7 @@ document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION
 document.write('<script src="assets/sprites.js?v='+window.HF_VERSION+'"><\/script>');
 ['vi','zh','es','pt','ru','de','ja'].forEach(function(c){document.write('<script src="assets/lang/'+c+'.js?v='+window.HF_VERSION+'"><\/script>')});
 document.write('<script src="assets/vo/manifest.js?v='+window.HF_VERSION+'"><\/script><script src="assets/music/manifest.js?v='+window.HF_VERSION+'"><\/script>');
-['data','core','i18n','audio','music','voice','render','sprites','game','react','crew','horde','threat','ship','spells','relics','progress','cutscene','update','crate','ui','pad','title','main'].forEach(function(n){
+['data','core','i18n','audio','music','voice','render','sprites','game','react','crew','horde','threat','ship','ring','sig','tart','spells','relics','progress','cutscene','update','crate','ui','pad','title','main'].forEach(function(n){
   document.write('<script src="src/'+n+'.js?v='+window.HF_VERSION+'"><\/script>');
 });
 </script>

@@ -27,7 +27,7 @@ function shipMx(){
 const MX=k=>(R&&R.mx&&R.mx[k])||1;
 function setupLoadoutMods(){ // called by newRun right after R exists
   const s=shipMx();R.mx=s.mx;R.heat=s.heat;R.shipK=s.ship.k;R.mutK=s.muts;
-  if(s.ship.kit)R.mods.push({t:MODS[Math.random()*MODS.length|0],r:1,s:1,tier:R.ch,cd:0.5,fl:0,x:0,y:0});
+  if(s.ship.kit)R.mods.push({t:pickMod(true),r:1,s:1,tier:R.ch,cd:0.5,fl:0,x:0,y:0});
   if(s.ship.k!=='hope'||s.muts.length){const tag=(s.ship.k!=='hope'?s.ship.n:'')+(s.muts.length?(s.ship.k!=='hope'?' · ':'')+s.muts.map(k=>MUTS.find(m=>m.k===k).n).join(' + '):'');
     if(R.banner&&R.banner.sub)R.banner.sub+=' · '+tag}
 }

@@ -83,6 +83,9 @@ function sfx(n){
     case 'lmiss':tone('square',140,90,0.12,0.06);noise(0.1,0.07,900);break;
     case 'jackpot':[0,4,7,12,16,19,24].forEach((x,i)=>tone('square',523*Math.pow(2,x/12),526*Math.pow(2,x/12),0.22,0.035,i*0.05));noise(0.4,0.06,7000,0.3);tone('sine',98,49,0.6,0.12);break;
     case 'growl':tone('sawtooth',70+Math.random()*30,40,0.9,0.03);noise(0.8,0.025,300);break;
+    case 'shield':tone('sine',320,640,0.4,0.06);tone('triangle',480,960,0.35,0.03,0.05);break;
+    case 'swap':tone('triangle',500,760,0.09,0.04);tone('triangle',760,520,0.09,0.03,0.08);break;
+    case 'link':[0,1].forEach(i=>tone('sine',523*Math.pow(1.5,i),530*Math.pow(1.5,i),0.3,0.05,i*0.08));noise(0.12,0.03,5000);break;
     case 'synergy':[0,1,2].forEach(i=>tone('sawtooth',330*Math.pow(1.5,i),335*Math.pow(1.5,i),0.35,0.03,i*0.07));[0,1,2].forEach(i=>tone('triangle',660*Math.pow(1.5,i),664*Math.pow(1.5,i),0.5,0.045,0.05+i*0.07));break;
     case 'hand':nsweep(0.09,0.11,6500,800,1.5);tone('sawtooth',1300,170,0.12,0.05);tone('sine',150,55,0.1,0.09);break;
     case 'charge':rise('sawtooth',70,900,0.35,0.07);rise('sine',50,400,0.35,0.12);nsweep(0.35,0.08,300,6000,2);break;

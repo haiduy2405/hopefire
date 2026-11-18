@@ -717,3 +717,39 @@
 716|Overdrive (alle Zauber)
 717|Maus halten
 718|Manuelle Kanone feuern
+719|RING
+720|Module anordnen – Nachbarn bilden Verbindungen
+721|Noch keine Verbindungen. Platziere verschiedene Elemente oder Klassen nebeneinander.
+722|Modul antippen, dann einen anderen Platz, um zu tauschen. Kostenlos – sie synchronisieren sich nur kurz neu.
+723|Verbinde jedes Modul für den Harmonie-Bonus (+{0}%) – je zwei Verbindungen = Perfekter Ring (+{1}%)
+724|noch keine Verbindung
+725|leer
+726|HARMONIE
+727|PERFEKTER RING
+728|alle Module verbunden: +{0}% Teamschaden
+729|HARMONIE · +{0}% Teamschaden
+730|PERFEKTER RING · +{0}% Teamschaden
+731|RING: Nebeneinander liegende Module können sich VERBINDEN und große Boni geben. Modul antippen, dann einen anderen Platz antippen, um zu tauschen. Kostenlos. Tab zeigt alle Verbindungen.
+732|+{0}% Schaden gegen verlangsamte oder gefrorene Kreaturen
+733|Treffer setzen das Ziel in Brand ({0}% des Treffers erneut über {1} s)
+734|+{0}% Schaden, und jeder Treffer stellt etwas Hoffnung wieder her
+735|+{0}% Feuerrate, und Treffer verlangsamen das Ziel
+736|Treffer frieren Kreaturen deutlich häufiger ein
+737|+{0}% Reichweite und +{1}% Feuerrate
+738|+{0}% Schaden (zwei Module desselben Elements nebeneinander)
+739|Treffer legen das Ziel frei: alle verursachen {1} s lang +{0}% Schaden
+740|+{0}% Reichweite; Mörserexplosionen {1}% größer
+741|Lanzen-Splash {0}% größer; Mörser +{1}% Schaden
+742|Der Spire stärkt seine Nachbarn: +{0}% Schaden, +{1}% Feuerrate
+743|Beide Nachbarn: +{0}% Schaden, +{1}% Feuerrate
+744|Zieht alle ~{0} s ein Rudel zusammen und kühlt es
+745|Legt Minen auf dem Anmarschweg; Explosion {0} breit
+746|Reichweite {0} · x{1} auf MARKIERTE, Elite und Bosse
+747|Springt auf {0} Kreaturen · +{1} pro Verbindung
+748|Errichtet alle ~{0} s einen Hoffnungsschild · Verbindungen beschleunigen es
+749|Support: stärkt beide Nachbarn
+750|Zieht Kreaturen zu einem Haufen zusammen
+751|Legt Annäherungsminen
+752|Extreme Reichweite · x2 gegen Markierte / Elite / Bosse
+753|Blitzbögen · +1 Ziel pro Verbindung
+754|Errichtet einen Hoffnungsschild

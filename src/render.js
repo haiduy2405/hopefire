@@ -60,6 +60,7 @@ function render(dt){
   ctx.fillStyle='#00000066';
   if(R){for(const e of R.en){const f=e.fly?0.6:1;ctx.beginPath();ctx.ellipse(e.x,e.y*K,e.r*1.1*f,e.r*0.45*f,0,0,7);ctx.fill()}
     for(const h of R.mods){ctx.beginPath();ctx.ellipse(h.x,h.y*K+2,16,6,0,0,7);ctx.fill();if(h.dx!==undefined){ctx.beginPath();ctx.ellipse(h.dx,h.dy*K,9,3.5,0,0,7);ctx.fill()}}}
+  if(R&&typeof drawRing==='function'){drawRing(T);sigDraw(T)}
   // goo decals (fade out)
   if(R&&R.dec)for(const d of R.dec){const a=Math.min(1,d.t/3)*0.55;ctx.globalAlpha=a;ctx.fillStyle='#0b0710';ctx.beginPath();ctx.ellipse(d.x,d.y*K,d.r,d.r*0.42,0,0,7);ctx.fill();
     ctx.fillStyle=d.c;ctx.globalAlpha=a*0.7;for(let i=0;i<d.n;i++){const an=d.a+i*2.1,rr2=d.r*(0.7+0.25*Math.sin(i*3.7));ctx.beginPath();ctx.ellipse(d.x+Math.cos(an)*rr2,d.y*K+Math.sin(an)*rr2*0.42,d.r*0.22,d.r*0.1,0,0,7);ctx.fill()}
@@ -188,6 +189,15 @@ function drawShip(){
 function poly(pts,fill,grow){const c=ctx;c.beginPath();pts.forEach(([x,y],i)=>{const gx=grow?Math.sign(x)*grow*0.6:0,gy=grow?Math.sign(y)*grow*0.6:0;i?c.lineTo(x+gx,y+gy):c.moveTo(x+gx,y+gy)});c.closePath();c.fillStyle=fill;c.fill()}
 function drawMod(h){
   const c=ctx,X=h.x,Y=h.y*K,col=TYPES[h.t.ty].c,rc=RAR[h.r].c;
+  if(typeof TART!=='undefined'&&TART[h.t.c]){
+    c.strokeStyle=rc;c.lineWidth=2;c.globalAlpha=0.9;c.beginPath();c.ellipse(X,Y+3,20,8,0,0,7);c.stroke();c.globalAlpha=1;
+    const dt_=1/60;if(h.pop>0)h.pop=Math.max(0,h.pop-dt_);if(h.drop>0){h.drop=Math.max(0,h.drop-dt_);if(h.drop===0){R.shake=Math.max(R.shake,3);for(let k=0;k<12;k++)R.pt.push({x:X+rnd(-14,14),y:Y+4,vx:rnd(-60,60),vy:rnd(-50,-10),t:rnd(.3,.6),c:'#8a7a6a',s:rnd(2,4),g:120,smoke:1})}}
+    const sc=1+Math.sin(Math.min(1,(0.6-(h.pop||0))/0.6)*Math.PI)*((h.pop||0)>0?0.35:0),fy=h.drop>0?-Math.pow(h.drop/0.45,2)*160:0;
+    if(sc!==1){c.save();c.translate(X,Y+5);c.scale(sc,sc);c.translate(-X,-Y-5)}
+    towerArt(c,h.t.c,col,X,Y+4+fy,{a:h.aim,fl:h.fl>0,T:performance.now()/1000});
+    if(sc!==1)c.restore();
+    if(h.s>1){c.font='bold 9px monospace';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#ffd24a';c.strokeStyle='#000';c.lineWidth=2.5;const st='★'.repeat(Math.min(h.s,5))+(h.s>5?'+':'');c.strokeText(st,X,Y+14);c.fillText(st,X,Y+14)}
+    return}
   if(h.t.c!=='drone'&&SPR.has('mod_'+h.t.ty)&&SPR.data.sprites['mod_'+h.t.ty][0].px){
     c.strokeStyle=rc;c.lineWidth=2;c.globalAlpha=0.9;c.beginPath();c.ellipse(X,Y+3,14,5.6,0,0,7);c.stroke();c.globalAlpha=1;
     const a=h.aim!==undefined?h.aim:0,left=Math.cos(a)<0,rec=h.fl>0?1.8:0;

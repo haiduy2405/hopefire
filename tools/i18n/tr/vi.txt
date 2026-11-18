@@ -717,3 +717,39 @@
 716|Overdrive (tất cả phép)
 717|Giữ chuột
 718|Bắn pháo tay lái
+719|VÒNG
+720|sắp xếp module — các module cạnh nhau tạo liên kết
+721|Chưa có liên kết. Đặt các nguyên tố hoặc loại khác nhau cạnh nhau.
+722|Chạm một module rồi chạm ô khác để đổi chỗ. Miễn phí — chúng chỉ cần đồng bộ lại một lát.
+723|Liên kết mọi module để nhận thưởng Hòa hợp (+{0}%) — mỗi module có hai liên kết = Vòng hoàn hảo (+{1}%)
+724|chưa có liên kết
+725|trống
+726|HÒA HỢP
+727|VÒNG HOÀN HẢO
+728|mọi module đều được liên kết: +{0}% sát thương cả đội
+729|HÒA HỢP · +{0}% sát thương cả đội
+730|VÒNG HOÀN HẢO · +{0}% sát thương cả đội
+731|VÒNG: các module đặt cạnh nhau có thể LIÊN KẾT để nhận thưởng lớn. Chạm một module rồi chạm ô khác để đổi chỗ. Miễn phí. Phím Tab xem mọi liên kết.
+732|+{0}% sát thương lên sinh vật bị làm chậm hoặc đóng băng
+733|Đòn đánh đốt cháy mục tiêu ({0}% sát thương cháy thêm trong {1} giây)
+734|+{0}% sát thương, mỗi đòn đánh hồi một chút Hy vọng
+735|+{0}% tốc độ bắn, đòn đánh làm chậm mục tiêu
+736|Đòn đánh làm đông cứng sinh vật thường xuyên hơn nhiều
+737|+{0}% tầm bắn và +{1}% tốc độ bắn
+738|+{0}% sát thương (hai module cùng nguyên tố đứng cạnh nhau)
+739|Đòn đánh làm lộ mục tiêu: mọi người gây thêm {0}% sát thương lên nó trong {1} giây
+740|+{0}% tầm bắn; vụ nổ cối rộng thêm {1}%
+741|Lan sát thương của Lance rộng thêm {0}%; cối +{1}% sát thương
+742|Tháp trụ tiếp sức cho hai bên: +{0}% sát thương, +{1}% tốc độ bắn
+743|Hai module bên cạnh: +{0}% sát thương, +{1}% tốc độ bắn
+744|Cứ ~{0} giây hút một bầy quái lại gần nhau và làm chậm chúng
+745|Đặt mìn trên đường quái tiến vào; vụ nổ rộng {0}
+746|Tầm {0} · x{1} lên mục tiêu ĐÃ ĐÁNH DẤU, tinh anh và trùm
+747|Phóng sét tới {0} sinh vật · +{1} mỗi liên kết
+748|Dựng khiên Hy vọng mỗi ~{0} giây · liên kết giúp nhanh hơn
+749|Hỗ trợ: tiếp sức cho hai module bên cạnh
+750|Hút sinh vật dồn thành một cục
+751|Đặt mìn cảm ứng
+752|Tầm cực xa · x2 vs mục tiêu đánh dấu / tinh anh / trùm
+753|Phóng sét · +1 mục tiêu mỗi liên kết
+754|Dựng khiên Hy vọng
