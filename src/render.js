@@ -105,9 +105,10 @@ function render(dt){
   if(R)for(const h of R.mods)if(h.fl>0&&h.t.c!=='drone'){const a=h.aim||0;glowDot(h.x+Math.cos(a)*9,h.y*K-15+Math.sin(a)*4,10,TYPES[h.t.ty].c,Math.min(1,h.fl*8))}
   if(R){
     for(const e of R.en)drawEyes(e,T);
+    FXK=Math.max(0.4,Math.min(1,1-(R.en.length-40)/150));
     for(const f of R.fx)drawFx(f);
     for(const p of R.pr)if(p.k==='rail'){ctx.strokeStyle=p.c;ctx.lineWidth=3;ctx.globalAlpha=0.9;ctx.beginPath();ctx.moveTo(p.px,p.py);ctx.lineTo(p.x,p.y*K-p.z);ctx.stroke();ctx.globalAlpha=1;glowDot(p.x,p.y*K-p.z,6,p.c,0.6)}
-    for(const p of R.pt){if(!p.add)continue;ctx.globalAlpha=Math.min(1,p.t*2.5);ctx.fillStyle=p.c;ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s)}
+    let pi=0;const thin=R.en.length>70;for(const p of R.pt){if(!p.add)continue;if(thin&&(pi++&1))continue;ctx.globalAlpha=Math.min(1,p.t*2.5);ctx.fillStyle=p.c;ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s)}
     ctx.globalAlpha=1;
     for(const o of R.orbs){const c=o.type==='scrap'?'#ffd24a':o.type==='core'?'#c79bff':'#7dffb0',s=o.type==='cell'?5:3;glowDot(o.x,o.y,s*3,c,0.45);if(SPR.has('orb_'+o.type)){ctx.globalCompositeOperation='source-over';drawSpr(ctx,'orb_'+o.type,0,o.x,o.y);ctx.globalCompositeOperation='lighter'}else{ctx.fillStyle=c;ctx.fillRect(o.x-s/2,o.y-s/2,s,s)}}
     drawThreatLayer(T);
@@ -344,16 +345,17 @@ function drawEyes(e,T){
   for(const [dx,dy,s] of e.eyes){const lx=dx*cs-(dy+(e._bob||0))*sn,ly=dx*sn+(dy+(e._bob||0))*cs;const x=e.x+lx*e.face,y=e.y*K+ly-(e.zOff||0);
     ctx.globalAlpha=(rush?0.5:0.3)*ea;ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,s*(rush?4:3),0,7);ctx.fill();ctx.globalAlpha=ea;ctx.fillRect(x-s,y-s*0.7,s*2,s*1.4)}
 }
+let FXK=1; // crowd budget: fewer/softer additive effects when many creatures are on screen
 function drawFx(f){
-  const a=Math.max(0,f.t/f.T);ctx.globalAlpha=a;
-  if(f.type==='beam'){ctx.strokeStyle=f.c;ctx.lineCap='round';ctx.lineWidth=f.w*2.4*a;ctx.globalAlpha=a*0.35;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();
-    ctx.globalAlpha=a;ctx.lineWidth=f.w*0.6;ctx.strokeStyle='#fff6d8';ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();glowDot(f.x2,f.y2,f.w*4,f.c,a)}
+  const a=Math.max(0,f.t/f.T);ctx.globalAlpha=FXK*a;
+  if(f.type==='beam'){ctx.strokeStyle=f.c;ctx.lineCap='round';ctx.lineWidth=f.w*2.4*a;ctx.globalAlpha=FXK*a*0.35;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();
+    ctx.globalAlpha=FXK*a;ctx.lineWidth=f.w*0.6;ctx.strokeStyle='#fff6d8';ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();glowDot(f.x2,f.y2,f.w*4,f.c,a)}
   else if(f.type==='zap'){ctx.strokeStyle=f.c;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(f.x,f.y);const n=4;for(let i=1;i<n;i++){ctx.lineTo(f.x+(f.x2-f.x)*i/n+rnd(-9,9),f.y+(f.y2-f.y)*i/n+rnd(-9,9))}ctx.lineTo(f.x2,f.y2);ctx.stroke()}
   else if(f.type==='ring'){const k=1-a;ctx.strokeStyle=f.c;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r0+(f.r1-f.r0)*k,(f.r0+(f.r1-f.r0)*k)*K,0,0,7);ctx.stroke()}
-  else if(f.type==='boom'){const k=1-a;ctx.fillStyle=f.c;ctx.globalAlpha=a*0.35;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.4+k*0.8),f.r*(0.4+k*0.8)*K,0,0,7);ctx.fill();ctx.globalAlpha=a;ctx.strokeStyle='#fff3c0';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.3+k),f.r*(0.3+k)*K,0,0,7);ctx.stroke()}
-  else if(f.type==='slash'){const p=1-f.t/f.T;ctx.strokeStyle=f.c;ctx.globalAlpha=a;ctx.lineWidth=3*(1-p)+1;ctx.beginPath();ctx.arc(f.x,f.y,10+p*4,f.f>0?-1.2:Math.PI-0.6,f.f>0?0.6:Math.PI+1.2);ctx.stroke();ctx.globalAlpha=1}
+  else if(f.type==='boom'){const k=1-a;ctx.fillStyle=f.c;ctx.globalAlpha=FXK*a*0.35;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.4+k*0.8),f.r*(0.4+k*0.8)*K,0,0,7);ctx.fill();ctx.globalAlpha=FXK*a;ctx.strokeStyle='#fff3c0';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.3+k),f.r*(0.3+k)*K,0,0,7);ctx.stroke()}
+  else if(f.type==='slash'){const p=1-f.t/f.T;ctx.strokeStyle=f.c;ctx.globalAlpha=FXK*a;ctx.lineWidth=3*(1-p)+1;ctx.beginPath();ctx.arc(f.x,f.y,10+p*4,f.f>0?-1.2:Math.PI-0.6,f.f>0?0.6:Math.PI+1.2);ctx.stroke();ctx.globalAlpha=FXK*1}
   else if(f.type==='spark'){glowDot(f.x,f.y,10,f.c,a)}
-  ctx.globalAlpha=1;
+  ctx.globalAlpha=FXK*1;
 }
 
 function drawDrone(h,T){

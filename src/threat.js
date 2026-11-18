@@ -132,13 +132,15 @@ function threatWave(){
   }else if(R.hurtW)R.flStreak=0;
   R.hurtW=0;
   if(R.wave<3||R.surge||(R.boss&&!R.boss.dead)||(!R.endless&&R.wave>=BOSS_WAVE))return;
-  if(Math.random()<0.35)return; // a breather
+  const hunt=R.mx&&R.mx.elite!==undefined;
+  if(!hunt&&Math.random()<0.35)return; // a breather
   const w=R.wave,opts=[['rush',3]];
   if(w>=4)opts.push(['elite',3]);
   if(w>=5)opts.push(['ambush',2]);
   if(w>=5&&R.ch>=2)opts.push(['siege',2]);
   let tot=0;for(const o of opts)tot+=o[1];let x=Math.random()*tot,ev=opts[0][0];for(const o of opts){if((x-=o[1])<0){ev=o[0];break}}
   const rr=ringR(),a=Math.random()*6.283;
+  if(hunt&&w>=3)ev='elite';
   if(ev==='elite')spawnElite();
   else if(ev==='rush'){
     const n=Math.min(18,5+w+Math.round(R.ch*1.5));R.banner={s:'⚠ SWARM RUSH ⚠',sub:'From the '+dirName(a),t:2.2};sfx('rumble');

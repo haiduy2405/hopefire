@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.14.0 — 2026-11-18
+- **Ships & Mutators** (`src/ship.js`, hub button 🛰 Ship, unlocked after Site 1): 4 ships (HOPE, Bulwark, Prism, Ember) and 5 mutators (Swarm, Elite Hunt, Glass Hope, Famine, Frenzy; max 2). Implemented as multipliers in `R.mx` (`MX('dmg'|'rate'|'hope'|'drain'|'crate'|'luck'|'scrap'|'spawn'|'ehp'|'espd')`) + `R.heat` (Xeno-core bonus shown on results) so new game modes can reuse them. Saved in `meta.ship`, `meta.muts`.
+- **Crowd budget**: additive effects fade (`FXK`) and extra particles thin out when >40/70 creatures are on screen.
+- **Phone**: bottom bar fits (no wrapped OPEN CRATE), captions no longer cover hub buttons.
+- **FPS overlay** (F3 / Options > Gameplay): fps, avg, min, render ms, creature count.
+- **Save safety**: rolling backup (`hopefire_slot_N_bak`, auto-used if the slot is corrupt) + Export/Import code in Options > Gameplay.
+
 ## v0.13.4 — 2026-11-18
 - **Menu perf**: shine sweeps/breathe/upready now animate `transform` only (were `left`/box-shadow/filter = layout+repaint every frame); removed `filter:drop-shadow` from big panels (.panel, .chpanel/.crpanel) and tiles (.up/.ach/.slot) in favour of cheap box-shadow. Headless software render hub: 11 → 53 fps.
 - **Crate screen**: crate art 250 → 170 px in a fixed 184 px box (no layout shift between closed/open art), hint no longer overlaps.

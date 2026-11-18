@@ -604,3 +604,27 @@ button:disabled,.btn:disabled,#packBtn:disabled,.up button:disabled{border:var(-
 /* v0.13.4 crate art smaller, hint no longer overlaps; menu perf (transform-only animations, no filters on big panels) */
 .crpanel .crate{height:184px;width:170px;margin:14px auto 18px;display:flex;align-items:center;justify-content:center}
 .crpanel .lockwrap:not(.nolock) .crate{margin-top:10px}
+/* v0.14 phone bottom bar, captions clear of hub footer, FPS overlay */
+body.inmenu #subs{bottom:12px}
+@media (max-width:600px){
+  #row2{gap:4px}
+  #row2 .btn{min-width:40px;padding:0 2px}
+  #quitBtn,#loadBtn{width:42px}#pauseBtn{width:38px}#spdBtn{width:44px}
+  #reactBtn{width:70px}
+  #packBtn{min-width:0;font-size:11px;letter-spacing:0;white-space:nowrap;overflow:hidden}
+  #muteBtn{display:none}
+}
+#fpsBox{position:fixed;right:8px;bottom:8px;z-index:60;background:#000b;color:#7dffb0;font:11px monospace;padding:4px 7px;border:1px solid #2c3242;pointer-events:none;display:none;white-space:pre}
+#sbox{position:fixed;inset:0;z-index:80;background:#000c;display:flex;align-items:center;justify-content:center}#sbox .tdpanel{width:min(520px,92vw)}
+/* v0.14 ship & mutators panel */
+.shippanel{max-width:760px}
+.shiph{margin:10px 0 6px;letter-spacing:3px;font-size:12px;color:#ffb03a;text-align:left}.shiph small{letter-spacing:0;color:#7f8899;margin-left:8px}
+.shipg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.shipc{display:flex;flex-direction:column;gap:4px;text-align:left;padding:10px 12px;background:#0f131b;border:2px solid #2c3242;color:#e6e9f0;cursor:pointer;min-height:84px}
+.shipc b{font-size:13px;letter-spacing:1px}.shipc b i{font-style:normal;color:#7dffb0;font-size:11px;margin-left:4px}
+.shipc span{font-size:11px;line-height:1.4;color:#9aa3b3}
+.shipc.on{border-color:#ffb03a;background:#1d1608;box-shadow:0 0 14px #ffb03a55}.shipc.on b{color:#ffd78a}
+.shipc.lock{opacity:.5;cursor:default}
+.heatl{margin:12px 0 4px;font-size:13px;color:#9aa3b3}.heatl b{color:#7dffb0}
+@media (max-width:600px){.shipg{grid-template-columns:1fr 1fr}.shipc{padding:8px;min-height:74px}}
+@media (min-width:700px){.shipg.ships{grid-template-columns:repeat(4,1fr)}}

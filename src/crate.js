@@ -16,7 +16,7 @@ const synTier=n=>n>=4?2:n>=2?1:0;
 function synOf(mods){const s={};for(const h of mods)s[h.t.ty]=(s[h.t.ty]||0)+1;return s}
 // DPS of one module with the build's synergies (global multipliers left out: same for every option)
 function modPow(h,syn){const m=TYPE_MOD[h.t.ty];return h.t.dmg*h.t.rate*m.dmg*m.rate*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*((syn[h.t.ty]||0)>=2?1.25:1)}
-function teamDps(mods){const s=synOf(mods);return mods.reduce((a,h)=>a+modPow(h,s),0)*(1+0.15*lv('dmg'))}
+function teamDps(mods){const s=synOf(mods);return mods.reduce((a,h)=>a+modPow(h,s),0)*(1+0.15*lv('dmg'))*MX('dmg')}
 // what the build would look like after taking module card cd (mirrors pick())
 function previewPick(cd){
   const mods=R.mods.map(h=>({t:h.t,r:h.r,s:h.s,tier:h.tier}));const ex=mods.find(x=>x.t.id===cd.t.id);let kind,rep=null;
@@ -253,7 +253,7 @@ function synCelebrate(prev){
 function showLoadout(){
   if(!R||R.over||curCards||CUT)return;const was=R.paused;R.paused=true;sfx('click');
   const syn=synOf(R.mods),tot=teamDps(R.mods)||1;
-  const mods=R.mods.map(h=>{const k=h.t.ty,c=TYPES[k].c,p=modPow(h,syn)*(1+0.15*lv('dmg')),m=TYPE_MOD[k];
+  const mods=R.mods.map(h=>{const k=h.t.ty,c=TYPES[k].c,p=modPow(h,syn)*(1+0.15*lv('dmg'))*MX('dmg'),m=TYPE_MOD[k];
     return `<div class="lom" style="--rc:${RAR[h.r].c};--ec:${c}"><span class="icof">${ico('mod_'+k,0.9,0,'')}</span><div class="lomi"><div class="lomn">${h.t.n} <span class="lst">${'★'.repeat(Math.min(h.s,5))}${h.s>5?'+':''}</span></div>
       <div class="lomr" style="color:${RAR[h.r].c}">${RAR[h.r].n}</div>${elemBadge(k)}
       <div class="loms">${fmt(h.t.dmg*m.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier))} dmg · ${(h.t.rate*m.rate).toFixed(1)}/s · ${h.t.c==='drone'?'anywhere':h.t.range+' range'}${h.t.aoe?' · area':''}</div>

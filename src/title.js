@@ -90,6 +90,8 @@ function panelOptions(back){
     game:`<label class="orow"><span>Default game speed</span><select id="oSpd">${[1,2,3].map(v=>`<option ${S_.spd===v?'selected':''} value="${v}">${v}x</option>`).join('')}</select></label>`
       +chk('oLock',S_.lockGame!==0,'Crate lock mini-game','off = crates open instantly')
       +chk('oRumble',S_.rumble!==0,'Controller vibration')
+      +chk('oFps',!!S_.fps,'Show FPS overlay','also F3 · helps report performance')
+      +(SLOT?`<label class="orow"><span>Save data<small>copy a backup code, or restore one into this slot</small></span><span><button class="tbtn sm" id="oExp">EXPORT</button> <button class="tbtn sm" id="oImp">IMPORT</button></span></label>`:'')
       +(SLOT&&lv('auto')?chk('oAuto',meta.autoCast,'Spell autocast'):'')
       +(SLOT?`<label class="orow"><span>Tutorial tips<small>show the hints again</small></span><button class="tbtn sm" id="oTut">RESET</button></label>`:''),
     keys:`<div class="okeys">${[['Space','Open crate / confirm'],['1 – 5','Pick a card'],['Q W E','Cast spells'],['Tab','Loadout'],['R','Reactor mode'],['Esc / P','Pause'],['F11','Fullscreen'],['Gamepad','D-pad/stick + A/B in menus · A crate · X/Y/B spells · LB/RB mark · LT reactor · RT speed · Back loadout · Start pause']].map(([k,v])=>`<div><kbd>${k}</kbd><span>${v}</span></div>`).join('')}</div>`};
@@ -110,6 +112,8 @@ function panelOptions(back){
   on('oNums','onchange',e=>{S_.nums=e.target.checked?1:0;save()});
   on('oSpd','onchange',e=>{S_.spd=+e.target.value;speed=S_.spd;$('spdBtn').textContent=speed+'x';save()});
   on('oRumble','onchange',e=>{SETTINGS.rumble=e.target.checked?1:0;save();if(e.target.checked)padRumble(200,0.6,0.6)});
+  on('oFps','onchange',e=>{SETTINGS.fps=e.target.checked?1:0;save();fpsShow()});
+  on('oExp','onclick',()=>saveBox('export'));on('oImp','onclick',()=>saveBox('import'));
   on('oLock','onchange',e=>{SETTINGS.lockGame=e.target.checked?1:0;save()});
   on('oAuto','onchange',e=>{meta.autoCast=e.target.checked;save()});
   on('oTut','onclick',e=>{const keep={intro:meta.tut.intro,done1:meta.tut.done1};meta.tut=keep;save();e.target.textContent='DONE';sfx('up')});
@@ -131,4 +135,21 @@ function creditsScreen(){
     <h3>THANK YOU</h3><p>for playing. Keep the light burning.</p>
   </div><button class="tbtn back" id="tBack">◂ BACK</button></div>`;
   $('tBack').onclick=()=>{sfx('click');titleScreen()};
+}
+
+// export/import box (works in title and in-game options)
+function saveBox(mode){
+  const old=document.getElementById('sbox');if(old)old.remove();
+  const d=document.createElement('div');d.id='sbox';
+  d.innerHTML=`<div class="tdpanel"><h2>${mode==='export'?'EXPORT SAVE':'IMPORT SAVE'}</h2><p class="tdtxt">${mode==='export'?'Copy this code and keep it somewhere safe (a text file, a note).':'Paste a code you exported earlier. It replaces the CURRENT slot ('+SLOT+').'}</p>
+  <textarea id="sboxT" class="tinp" rows="5" style="width:100%;font-size:11px" ${mode==='export'?'readonly':''}></textarea><p class="tdtxt" id="sboxM"></p>
+  <div class="tdbtn"><button class="tbtn" data-x>CLOSE</button>${mode==='export'?'<button class="tbtn prim" data-ok>COPY</button>':'<button class="tbtn danger" data-ok>IMPORT</button>'}</div></div>`;
+  document.body.appendChild(d);const t=d.querySelector('textarea'),m=d.querySelector('#sboxM');
+  d.addEventListener('keydown',e=>e.stopPropagation());
+  if(mode==='export'){t.value=exportSave();t.select()}
+  d.querySelector('[data-x]').onclick=()=>{sfx('click');d.remove()};
+  d.querySelector('[data-ok]').onclick=()=>{
+    if(mode==='export'){t.select();try{navigator.clipboard.writeText(t.value);m.textContent='Copied.'}catch(e){document.execCommand('copy');m.textContent='Copied.'}sfx('up')}
+    else if(importSave(t.value,SLOT)){useSlot(SLOT);m.textContent='Imported. Reloading slot...';sfx('up');setTimeout(()=>{d.remove();if(typeof menu==='function'&&!$('title'))menu()},700)}
+    else{m.textContent='That code is not valid.';sfx('boom')}};
 }

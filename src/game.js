@@ -6,11 +6,12 @@ const tm=h=>TYPE_MOD[h.t.ty];
 const ringR=()=>BASE_RING*REACT[R.react].ring*(hasRel('dampener')?0.85:1);
 function newRun(ch,endless,warp,night){
   document.body.classList.remove('inmenu');
-  const maxHope=100*(1+0.25*lv('hp'));
+  const maxHope=100*(1+0.25*lv('hp'))*(typeof shipMx==='function'?(shipMx().mx.hope||1):1);
   R={ch,endless:!!endless,night:!!night&&!endless,revived:false,t:0,wave:1,waveT:0,spawnT:1,hope:maxHope,maxHope,gold:15+8*lv('start'),cores:0,packs:0,mods:[],en:[],pr:[],fx:[],pt:[],txt:[],orbs:[],
     kills:0,boltCd:0.6,bossSpawned:false,boss:null,lastBossWave:0,bossKills:0,over:false,won:false,shake:0,slots:4+lv('slots'),paused:false,tipPause:false,syn:{},
     banner:{s:endless?'ENDLESS WASTES':SITES[ch-1],sub:endless?'How long can hope last?':'Site '+ch,t:2.6},react:1,spells:[],relics:[],overT:0,ringPulse:0,
     crew:[],free:0,shipAim:-Math.PI/2,shipFl:0,smokeT:0,lureT:8,tutStep:0,minHopeP:1,autoT:0,achT:1};
+  if(typeof setupLoadoutMods==='function')setupLoadoutMods();
   if(warp&&!endless){R.wave=WARP_WAVE;R.gold+=Math.floor(40*Math.pow(2.2,ch-1));R.banner={s:'WARP → THREAT '+WARP_WAVE,sub:SITES[ch-1],t:2.2}}
   if(R.night)R.banner={s:'☠ NIGHTMARE · '+SITES[ch-1],sub:'Creatures ×'+NM.hp[ch-1]+' HP · Xeno-cores ×'+NM.core,t:2.8};
   for(let i=0;i<lv('kit');i++)R.mods.push({t:MODS[Math.random()*MODS.length|0],r:0,s:1,tier:ch,cd:0.5,fl:0,x:0,y:0});
@@ -28,20 +29,20 @@ const SITE_TIPS={2:'New creature: <b>Spitters</b> keep their distance and spit a
   5:'<b>Splitters</b> burst into skitters when killed. Something ancient waits here…'};
 const tierM=t=>Math.pow(1.8,t-1);
 const power=h=>h.t.dmg*h.t.rate*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier);
-function modDmg(h){return h.t.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*(1+0.15*lv('dmg'))*(R.syn[h.t.ty]>=2?1.25:1)*REACT[R.react].dmg*(hasRel('glass')?1.5:1)*tm(h).dmg*(1+0.04*lv('oc'))}
-function packCost(){return Math.max(1,Math.floor(10*Math.pow(2.2,R.ch-1)*Math.pow(1.32,R.packs)*(1-0.06*lv('disc'))))}
+function modDmg(h){return h.t.dmg*RAR[h.r].m*(1+0.7*(h.s-1))*tierM(h.tier)*(1+0.15*lv('dmg'))*MX('dmg')*(R.syn[h.t.ty]>=2?1.25:1)*REACT[R.react].dmg*(hasRel('glass')?1.5:1)*tm(h).dmg*(1+0.04*lv('oc'))}
+function packCost(){return Math.max(1,Math.floor(10*Math.pow(2.2,R.ch-1)*Math.pow(1.32,R.packs)*(1-0.06*lv('disc'))*MX('crate')))}
 function layoutMods(){
   const n=R.slots;R.syn={};
   R.mods.forEach((h,i)=>{const a=-Math.PI/2+Math.PI/n+i*2*Math.PI/n;h.x=Math.cos(a)*82;h.y=Math.sin(a)*82;R.syn[h.t.ty]=(R.syn[h.t.ty]||0)+1});
   if(Object.values(R.syn).some(v=>v>=4))ach('syn4');if(R.mods.length>=8)ach('arsenal');
 }
-function rollR(){const L=1+0.12*lv('luck')+0.25*(R.ch-1)+(R.night?NM.luck:0);const w=[80,15*L,4.5*L,0.7*L];let x=Math.random()*w.reduce((a,b)=>a+b);for(let i=0;i<4;i++){if((x-=w[i])<0)return i}return 0}
+function rollR(){const L=(1+0.12*lv('luck')+0.25*(R.ch-1)+(R.night?NM.luck:0))*MX('luck');const w=[80,15*L,4.5*L,0.7*L];let x=Math.random()*w.reduce((a,b)=>a+b);for(let i=0;i<4;i++){if((x-=w[i])<0)return i}return 0}
 function pickKind(){let tot=0;const L=[];for(const [k,w,mw,mc] of SPAWN_TABLE)if(R.wave>=mw&&R.ch>=mc){L.push([k,w]);tot+=w}let x=Math.random()*tot;for(const [k,w] of L){if((x-=w)<0)return k}return 'crawler'}
 function spawn(kind,state,bk){
   const k=EK[kind],a=Math.random()*Math.PI*2,rr=ringR(),B=bk?BOSSES[bk-1]:null;
   const d=state==='ambient'?rnd(rr*1.75,rr*2.7):state==='rush'?rr*1.4:rr+rnd(45,150);
   const hm=CH_HP[R.ch-1]*Math.pow(1.2,R.wave-1)*(B?B.hp*(R.night?NM.bossHp:1):1)*(R.night?NM.hp[R.ch-1]:1);
-  const e={k:kind,bk:bk||0,x:Math.cos(a)*d,y:Math.sin(a)*d,hp:k.hp*hm,mhp:k.hp*hm,spd:k.spd*rnd(0.9,1.1)*(B?B.spd:1),
+  const e={k:kind,bk:bk||0,x:Math.cos(a)*d,y:Math.sin(a)*d,hp:k.hp*hm*MX('ehp'),mhp:k.hp*hm*MX('ehp'),spd:k.spd*rnd(0.9,1.1)*(B?B.spd:1)*MX('espd'),
     dmg:k.dmg*CH_DMG[R.ch-1]*(R.night?NM.dmg[R.ch-1]:1)*Math.pow(1.1,Math.min(R.wave,30)-1),r:k.r,g:k.g*Math.pow(2.2,R.ch-1)*Math.pow(1.1,R.wave-1),c:B?B.c:k.c,
     state:state||'wander',hd:a+Math.PI+rnd(-1,1),wt:rnd(0.5,2),alertT:0,face:1,ph:Math.random()*6,
     atk:0,slow:0,frz:0,burn:0,bd:0,dead:false,hit:0,ai:rnd(0,1),fly:kind==='wisp',cloak:kind==='phantom'};
@@ -92,7 +93,7 @@ function blast(x,y,r,dmg,col,src){
 function kill(e){
   if(e.dead)return;e.dead=true;if(R.mark===e||e.k==='carrier')bountyKill(e);R.kills++;meta.stats.kills++;sfx('kill');streakAdd();const k=EK[e.k],L=REACT[R.react].loot;
   const nS=R.night?NM.scrap:1,nC=R.night?NM.core:1,cx=1+0.2*lv('cellx');
-  drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS);
+  drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS*MX('scrap'));
   drop('core',e.x,e.y,k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1)*(1+0.1*lv('core2'))*nC);
   if(Math.random()<k.cell*cx){drop('cell',e.x,e.y,R.maxHope*(e.k==='boss'?0.5:0.06)*cx);if(!meta.tut.cell)setTimeout(()=>tip('cell','Green <b>energy cells</b> restore HOPE. Kill brutes for a better chance.',false,6),400)}
   const n=e.k==='boss'?50:9;
@@ -167,7 +168,7 @@ function update(dt){
   // spawns: wanderers drift toward the ring
   R.spawnT-=dt;
   if(R.spawnT<=0){
-    const iv=Math.max(0.2,1.5*Math.pow(0.88,Math.min(R.wave,25)-1))/REACT[R.react].spawn;R.spawnT=R.boss&&!R.boss.dead?iv*1.5:iv;
+    const iv=Math.max(0.2,1.5*Math.pow(0.88,Math.min(R.wave,25)-1))/REACT[R.react].spawn/MX('spawn');R.spawnT=R.boss&&!R.boss.dead?iv*1.5:iv;
     spawn(pickKind(),'wander');
   }
   // occasionally an ambient creature loses its way
@@ -206,7 +207,7 @@ function update(dt){
   }
   hordeTick(dt,rr);carrierTick(dt,rr);crewTick(dt,rr);threatUpdate(dt,rr);
   // modules
-  const as=(1+0.08*lv('aspd'))*(R.overT>0?2:1)*(R.chargeT>0?1.6:1);
+  const as=(1+0.08*lv('aspd'))*MX('rate')*(R.overT>0?2:1)*(R.chargeT>0?1.6:1);
   for(const h of R.mods){
     h.cd=(h.cd||0)-dt*as*(1+(h.eng||0));h.fl=Math.max(0,(h.fl||0)-dt);
     if(h.t.c==='drone'){droneTick(h,dt,rr);continue}
@@ -265,7 +266,7 @@ function update(dt){
       else{o.x+=dx/d*sp*dt;o.y+=dy/d*sp*dt}}
   }
   // hope drain + regen
-  let drain=R.maxHope*0.003*(1-0.06*lv('regen'))*(hasRel('glass')?1.4:1);
+  let drain=R.maxHope*0.003*(1-0.06*lv('regen'))*MX('drain')*(hasRel('glass')?1.4:1);
   if(R.boss&&!R.boss.dead&&R.boss.bk===5&&R.boss.phase>=2)drain*=2.2;
   const regen=R.syn.Nano>=4?R.maxHope*0.015:0;
   R.hope=Math.min(R.maxHope,R.hope-drain*dt+regen*dt);

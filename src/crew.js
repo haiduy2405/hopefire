@@ -16,7 +16,7 @@ const CREW={
 };
 const CREW_IDS=Object.keys(CREW),CREW_MAX=3,CREW_RESPAWN=8;
 const crewM=c=>RAR[c.r].m*(1+0.6*(c.s-1));
-function crewDmg(c){return CREW[c.role].dmg*crewM(c)*tierM(R.ch)*(1+0.15*lv('dmg'))*REACT[R.react].dmg*(hasRel('glass')?1.5:1)}
+function crewDmg(c){return CREW[c.role].dmg*crewM(c)*tierM(R.ch)*(1+0.15*lv('dmg'))*MX('dmg')*REACT[R.react].dmg*(hasRel('glass')?1.5:1)}
 function crewMhp(c,wave){return CREW[c.role].hp*Math.sqrt(RAR[c.r].m)*(1+0.5*(c.s-1))*CH_DMG[R.ch-1]*(R.night?NM.dmg[R.ch-1]:1)*(1+0.25*lv('hp'))*Math.pow(1.08,Math.min(wave||R.wave,30)-1)}
 const medHeal=c=>0.0025*(1+0.5*c.r)*(1+0.5*(c.s-1)); // fraction of max Hope per second
 const engBoost=c=>0.3+0.1*c.r+0.12*(c.s-1);

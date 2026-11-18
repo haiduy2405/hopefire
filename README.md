@@ -24,6 +24,8 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 ### Đã làm / đang làm / sẽ làm (cập nhật: 2026-11-18)
 
+**Vừa xong v0.14.0 (2026-11-18):** Tàu & Mutator (`src/ship.js`: 4 tàu, 5 mutator, thưởng Heat), giảm hiệu ứng khi đông quái, sửa thanh dưới trên điện thoại, FPS overlay (F3), sao lưu/xuất-nhập save. Review khách quan: `docs/reviews/REVIEW_v0.13.4.md` (7.2/10).
+
 **Vừa xong v0.13.0:** 5 quái mới (Charger/Shellback/Hatcher/Screamer/Lurker), sự kiện mỗi wave (Swarm Rush/Ambush/Siege/Elite), Surge Cell bấm tay → Overcharge, thưởng wave hoàn hảo, hạng S/A/B/C khi thắng, nút có ánh sáng quét + icon bọc huy hiệu (`src/threat.js`). Duy dự định thêm các mode khác ngoài Story.
 
 **Vừa xong v0.12.0 (2026-11-18):** làm lại toàn bộ UI theo bộ AI-art (nút, tab, khung, panel, tile, dialog — `assets/ui/`, CSS section v0.12), thẻ crate luôn 1 hàng, chữ/damage/crit FX đẹp hơn. Trước đó: v0.10–0.11 (crate 2.0, thanh HOPE/boss AI-art, chế độ cửa sổ).
