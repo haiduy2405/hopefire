@@ -67,6 +67,7 @@ function statusTick(e,dt){if(e.st)for(const k in e.st)if(e.st[k]>0)e.st[k]-=dt;i
 // ---------- focus mark ----------
 cv.addEventListener('pointerdown',ev=>{
   if(!R||R.over||R.paused||R.userPause||R.tipPause||CUT)return;
+  if(typeof cellTap==='function'&&cellTap(ev))return;
   const wx=(ev.clientX-OX)/S,wy=(ev.clientY-OY)/S/K;let best=null,bd=(40/Math.max(S,0.6))**2+400;
   for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-wx,dy=(e.y-(e.fly?22/K:0)-e.r*0.5/K)-wy,dd=dx*dx+dy*dy;if(dd<bd+e.r*e.r){bd=dd;best=e}}
   if(best){R.mark=best;sfx('mark');addTxt(best.x,best.y*K-best.r*2.6,'MARKED','#ff4d5e',11);if(!meta.tut.mark){meta.tut.mark=1;save()}}

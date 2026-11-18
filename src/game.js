@@ -46,13 +46,13 @@ function spawn(kind,state,bk){
     state:state||'wander',hd:a+Math.PI+rnd(-1,1),wt:rnd(0.5,2),alertT:0,face:1,ph:Math.random()*6,
     atk:0,slow:0,frz:0,burn:0,bd:0,dead:false,hit:0,ai:rnd(0,1),fly:kind==='wisp',cloak:kind==='phantom'};
   if(state==='ambient')e.hd=a+Math.PI/2*(Math.random()<.5?1:-1);
-  R.en.push(e);return e;
+  R.en.push(e);if(typeof threatInit==='function')threatInit(e);return e;
 }
 function alertE(e){
   if(e.state==='rush')return;e.state='rush';e.alertT=0.45;R.ringPulse=1;sfx('alert');
   R.fx.push({type:'ring',x:e.x,y:e.y*K,r0:4,r1:30,t:0.4,T:0.4,c:'#ff3a3a'});
 }
-const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0;
+const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0||e.emerge>0;
 // pick target in range that is closest to the ship (biggest threat); cloaked ones are skipped
 function threatTarget(x,y,range){const m=R.mark;if(m&&!m.dead&&!isHidden(m)&&(m.x-x)**2+(m.y-y)**2<=range*range)return m;let b=null,bd=1e18;const r2=range*range;for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-x,dy=e.y-y;if(dx*dx+dy*dy>r2)continue;const ds=e.x*e.x+e.y*e.y-(e.state==='rush'?1e6:0);if(ds<bd){bd=ds;b=e}}return b}
 // word texts (STREAK, SHATTER, MARKED...) stack upwards instead of printing over each other
@@ -104,12 +104,13 @@ function kill(e){
     for(let i=0;i<80;i++)R.pt.push({x:e.x+rnd(-30,30),y:e.y*K-30+rnd(-20,20),vx:rnd(-260,260),vy:rnd(-320,40),t:rnd(.5,1.4),c:i%2?'#ffb03a':'#ffe14d',s:rnd(2,5),g:240,add:1})}
   else if(R.pt.length<420)for(let i=0;i<5;i++)R.pt.push({x:e.x,y:e.y*K-e.r*.6-(e.fly?22:0),vx:rnd(-70,70),vy:rnd(-120,-30),t:rnd(.2,.4),c:'#ffffff',s:2,g:200,add:1});
   if(e.k==='bloater')blast(e.x,e.y,80,e.mhp*0.6,'#d9c24a',e);
+  threatKill(e);
   if(e.k==='splitter')for(let i=0;i<2;i++){const m=spawn('skitter','rush');m.x=e.x+rnd(-14,14);m.y=e.y+rnd(-14,14);m.hp=m.mhp=e.mhp*0.25;m.alertT=0.15}
   if(e.k==='boss')bossDown(e);
 }
 function bossDown(e){
   vo('boss_down',1);
-  R.shake=16;flash(0.7);sfx('boom');R.bossKills++;meta.stats.bosses++;
+  R.shake=16;flash(0.7);sfx('boom');R.bossKills++;if(!R.endless){R.banner={s:'★ SITE CLEARED ★',sub:'Part recovered',t:2.2};for(let i=0;i<70;i++)R.pt.push({x:e.x+rnd(-40,40),y:e.y*K-20,vx:rnd(-300,300),vy:rnd(-420,-60),t:rnd(.8,1.8),c:i%2?'#ffd24a':'#fff6c8',s:rnd(2,5),g:300,add:1})}meta.stats.bosses++;
   ach('b'+e.bk);if(R.react===2)ach('over');
   for(const o of R.orbs)o.t=Math.max(o.t,0.35);
   if(R.endless){R.banner={s:BOSSES[e.bk-1].n+' FALLS',t:2};R.boss=null;return}
@@ -159,7 +160,7 @@ function update(dt){
   if(R.corpses){for(const c of R.corpses)c.t-=dt;R.corpses=R.corpses.filter(c=>c.t>0)}
   R.emb=(R.emb||0)-dt;if(R.emb<=0){R.emb=0.07;R.pt.push({x:-42+rnd(-3,3),y:-4+rnd(-3,3),vx:rnd(-10,10),vy:rnd(-45,-20),t:rnd(.6,1.3),c:Math.random()<.5?'#ff8a30':'#ffd24a',s:rnd(1,2.5),g:-15,add:1})}
   if((R.endless||R.wave<BOSS_WAVE)&&R.waveT>=WAVE_LEN){R.wave++;R.waveT=0;
-    R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};musStinger('wave');R.ringPulse=Math.max(R.ringPulse||0,0.6);hordeWave();
+    R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};musStinger('wave');R.ringPulse=Math.max(R.ringPulse||0,0.6);hordeWave();threatWave();
     if(R.endless){if(R.wave>(meta.bestEndless||0))meta.bestEndless=R.wave;if(R.wave>=20)ach('end20');if(R.wave>=40)ach('end40')}}
   if(!R.endless&&R.wave>=BOSS_WAVE&&!R.bossSpawned){R.bossSpawned=true;spawnBoss(R.ch)}
   if(R.endless&&R.wave%10===0&&R.lastBossWave!==R.wave){R.lastBossWave=R.wave;spawnBoss(((R.wave/10-1)%5)+1)}
@@ -192,9 +193,10 @@ function update(dt){
       if(e.k==='boss')bossTick(e,dt,d);
       if(e.alertT>0){e.alertT-=dt}
       else if(crewEngage(e,dt,slowM)){}
+      else if((e._tm=threatMove(e,dt,d,rr,slowM))){vx=e._tm[0];vy=e._tm[1]}
       else if(e.k==='spitter'&&d<175){ // hold distance and spit acid
         e.ai-=dt;if(e.ai<=0&&!(e.frz>0)){e.ai=2.2;R.pr.push({k:'acid',x:e.x,y:e.y,z:12,dmg:e.dmg});sfx('mortar')}
-      }else{const reach=40+e.r,sp=e.spd*slowM*(e.spdM===undefined?1:e.spdM);
+      }else{const reach=40+e.r,sp=e.spd*slowM*(e.spdM===undefined?1:e.spdM)*(e.rage>0?1.4:1);
         if(d>reach){vx=-e.x/d*sp;vy=-e.y/d*sp;if(e.fly){const w=Math.sin(R.t*4+e.ph)*sp*0.8;vx+=-e.y/d*w;vy+=e.x/d*w}}
         else if(!(e.frz>0)){
           if(e.k==='bloater'){e.dead=true;blast(e.x,e.y,80,0,'#d9c24a',e);damageHope(e.dmg);continue}
@@ -202,9 +204,9 @@ function update(dt){
     }
     e.x+=vx*dt;e.y+=vy*dt;if(Math.abs(vx)>1)e.face=vx>0?1:-1;e.ph+=dt*(Math.hypot(vx,vy)*0.12+0.5);if(e.lunge>0)e.lunge-=dt;
   }
-  hordeTick(dt,rr);carrierTick(dt,rr);crewTick(dt,rr);
+  hordeTick(dt,rr);carrierTick(dt,rr);crewTick(dt,rr);threatUpdate(dt,rr);
   // modules
-  const as=(1+0.08*lv('aspd'))*(R.overT>0?2:1);
+  const as=(1+0.08*lv('aspd'))*(R.overT>0?2:1)*(R.chargeT>0?1.6:1);
   for(const h of R.mods){
     h.cd=(h.cd||0)-dt*as*(1+(h.eng||0));h.fl=Math.max(0,(h.fl||0)-dt);
     if(h.t.c==='drone'){droneTick(h,dt,rr);continue}
@@ -301,7 +303,7 @@ function droneTick(h,dt,rr){
   hit(tg,modDmg(h),h.t.ty,true);
 }
 function damageHope(v,att){
-  if(R.dying)return;R.hope-=v;hopeHit(v/R.maxHope);R.shake=Math.min(9,R.shake+2.5);sfx('hurt');R.fx.push({type:'ring',x:0,y:0,r0:30,r1:70,t:0.25,T:0.25,c:'#ff3a3a'});addTxt(rnd(-20,20),-60,'-'+fmt(v),'#ff5a5a',13);
+  if(R.dying)return;R.hurtW=1;R.hope-=v;hopeHit(v/R.maxHope);R.shake=Math.min(9,R.shake+2.5);sfx('hurt');R.fx.push({type:'ring',x:0,y:0,r0:30,r1:70,t:0.25,T:0.25,c:'#ff3a3a'});addTxt(rnd(-20,20),-60,'-'+fmt(v),'#ff5a5a',13);
   if(att&&hasRel('thorns')&&!att.dead){R.fx.push({type:'zap',x:0,y:-20,x2:att.x,y2:att.y*K-att.r*.6,t:.15,T:.15,c:'#ffe14d'});hit(att,25*tierM(R.ch)*(1+0.15*lv('dmg')),'Arc',false)}
 }
 

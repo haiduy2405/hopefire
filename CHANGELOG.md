@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.13.0 — 2026-11-18
+- **New creatures** (`src/threat.js`): Charger (telegraphed ram), Shellback (35% damage taken, burn ignores armour), Hatcher (births skitters, priority target), Screamer (aura +40% speed, drops a Surge Cell), Lurker (erupts inside the ring). First sighting shows a tip.
+- **Wave events** each threat level (65%): Swarm Rush, Ambush, Siege, Elite; plus the existing horde surges. Elites: x3.5 HP, crown + gold aura, 4x loot, drop a Surge Cell.
+- **Surge Cells**: tap/click within 6.5 s (pad auto-collects) -> OVERCHARGE: +60% module fire rate for 6 s (stacks to 12 s).
+- **Flawless waves** (no Hope lost) pay a scrap bonus with a streak multiplier. Priority targets (Hatcher, Screamer) carry a red marker.
+- **Victory**: SITE CLEARED banner + gold burst; results screen shows an S/A/B/C rank stamp (min Hope, flawless waves, elites) with +0/10/25/50% Xeno-core bonus; extra stats (elites, flawless, lowest Hope).
+- **UI**: shine sweep on primary buttons, selected tabs and rare/epic/legendary cards; card icons wrapped in round framed medallions.
+- Balance (sim, 1 run/policy): story ~71 min, everything ~213 min (bot cannot tap Surge Cells, humans are stronger).
+- Disclose AI-generated art on Steam.
+
 ## v0.12.1 — 2026-11-18
 - Hub fits one screen at every size: compact header (logo + Xeno-cores + slot in one row), Crash Sites tabs inline, 4-column compact repair tiles, BEGIN RUN + menu buttons pinned in a footer. Only the tile list scrolls (late game with Advanced Repairs). Scroll position of the list is kept on re-render. Phone layout adjusted.
 

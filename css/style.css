@@ -573,3 +573,25 @@ button:disabled,.btn:disabled,#packBtn:disabled,.up button:disabled{border:var(-
 .hubp .hubfoot .big{padding:4px 22px;font-size:16px}
 @media (max-width:600px){.panel.hubp{border-width:24px;border-image-width:24px}.hubp .hubhead{flex-wrap:wrap;gap:6px}.hubp .hubmeta{text-align:left}.hubp .logo{font-size:26px;letter-spacing:3px}.hubp .ups{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.hubp .hubhead{display:grid;grid-template-columns:auto 1fr;gap:4px 8px}.hubp .hubbrand{grid-column:1/-1;order:2}.hubp .logo{white-space:nowrap;font-size:28px}.hubp .tag{font-size:10px}.hubp .hubmeta{order:1;text-align:right}.hubp .hubhead>#toTitleBtn{order:0}}
+/* v0.13 run rank */
+.rankwrap{display:flex;flex-direction:column;align-items:center;margin:2px 0 6px}
+.rankstamp{position:relative;width:104px;height:104px;background:url(../assets/ui/round_btn.png) center/contain no-repeat;display:flex;align-items:center;justify-content:center;animation:stamp .7s cubic-bezier(.2,1.4,.4,1) .35s both;overflow:hidden;border-radius:50%}
+.rankstamp span{font-size:58px;font-weight:900;line-height:1;text-shadow:0 0 18px currentColor,0 2px 0 #000}
+.rankstamp::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,#ffffffaa,transparent);transform:skewX(-18deg);animation:sweep 2.6s ease-in-out 1.1s infinite}
+.rk-S span{color:#ffd24a}.rk-A span{color:#ff9a3a}.rk-B span{color:#9fd0ff}.rk-C span{color:#9aa3b3}
+.ranklbl{font-size:10px;letter-spacing:4px;color:#9aa3b3;margin-top:2px}
+.rbonus{font-size:13px;color:#ffd24a}
+@keyframes stamp{0%{transform:scale(2.8) rotate(-18deg);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes sweep{0%,55%{left:-60%}100%{left:160%}}
+/* v0.13 shine sweep on premium buttons + framed icon medallions */
+.big,#packBtn:not(:disabled),.tbtn.prim,.up button:not(:disabled),#tip button,.chs button.sel,.otabs button.on,.diff.on{position:relative;overflow:hidden}
+.big::after,#packBtn:not(:disabled)::after,.tbtn.prim::after,.up button:not(:disabled)::after,#tip button::after,.chs button.sel::after,.otabs button.on::after,.diff.on::after{content:"";position:absolute;top:0;bottom:0;left:-70%;width:40%;background:linear-gradient(100deg,transparent,#fff4cdaa,transparent);transform:skewX(-20deg);animation:btnsweep 3.8s ease-in-out infinite;pointer-events:none}
+.up:nth-child(3n+2) button::after{animation-delay:.7s}.up:nth-child(3n) button::after{animation-delay:1.4s}.chs button.sel::after,.otabs button.on::after{animation-delay:1.1s;animation-duration:4.6s}
+@keyframes btnsweep{0%,55%{left:-70%}100%{left:170%}}
+.card.r3,.card.r2{overflow:hidden}
+.card.r3::after,.card.r2::after{display:block!important;content:"";position:absolute;top:0;bottom:0;left:-70%;width:35%;inset:auto;height:100%;background:linear-gradient(100deg,transparent,#ffffff55,transparent);transform:skewX(-20deg);animation:btnsweep 3.2s ease-in-out infinite;pointer-events:none;mix-blend-mode:screen;border:0;margin:0}
+.card.r2::after{animation-duration:4.8s}
+.card .gl{background:url(../assets/ui/round_btn.png) center/100% 100% no-repeat!important;border-radius:0!important;width:96px;height:96px;padding:14px;box-sizing:border-box;filter:drop-shadow(0 0 8px color-mix(in srgb,var(--rc,#ffb03a) 60%,transparent))}
+.card .gl img.crimg{width:100%!important;height:100%!important;object-fit:contain}
+@media (max-width:600px){.card .gl{width:62px;height:62px;padding:9px}}
+@media (prefers-reduced-motion:reduce){.big::after,.up button::after,.card::after{animation:none!important}}
