@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.9.0 — 2026-11-18
+- **Adaptive music** (`src/music.js`, procedural WebAudio, 100 BPM A-minor): pad → arp → hats → bass/kick → snare → double-time layers follow intensity (rushing creatures, threat, endless); boss mode (dark progression, brass stabs, toms); menu mode (pad + bells); low-Hope heartbeat; ducking while paused; key-matched stingers (wave, synergy, victory, defeat); Music volume slider; shared compressor bus
+- SFX: loot pickup pitch ladder (pentatonic combo), hit/kill variation, star-up fanfare, module drop thud, streak sting, crate crack/flip by rarity
+- Feel: ★ upgrade pop + "★2 → ★3" + burst, new modules drop in with dust, kill streak counter (6+), Hope bar shake/flash on damage, death sequence (slow-mo, ship explosions, desaturate) before the end panel
+- FTUE: in the very first run the 2nd crate always offers a same-element module (synergy taught by doing)
+- End panel: Xeno-core count-up, boss progress bar with best marker, "N repairs ready to install"
+- `docs/REVIEW_PROMPT.md` v2 (hook/feel/clarity/sellability, 12 scored areas) + `tools/test/` headless scripts saved in repo
+- Balance bot: story 106 min, everything 229 min, no errors
+
 ## v0.8.2 — 2026-11-18
 - **Crate 2.0** (`src/crate.js`): rarity-tell crate (glow colour + shake strength), light rays on open, staggered card flips with rarity sounds, legendary screen shake/flash
 - Cards: element badge + pips (new pips glow), **team-DPS delta**, synergy **ACTIVATES** / **breaks** badges, ★ upgrade and replace tags, BEST DPS ribbon, stat line (dmg · rate · range · area)

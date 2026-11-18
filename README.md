@@ -27,17 +27,17 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 **Đã xong** (chi tiết: `CHANGELOG.md`)
 - Gameplay đầy đủ: 5 bãi + 5 boss, 8 loại quái, 16 module (4 hệ × lance/rail/mortar/drone), 5 phép, 8 relic, Nightmare cho từng bãi, Endless, 20+ nâng cấp vĩnh viễn, 25 thành tựu, cutscene mở đầu/kết thúc. Thời lượng ~3,5 giờ (đo bằng bot).
 - Đồ họa: key art + sprite **AI-assisted** (ChatGPT → nền magenta → `tools/sprites/import_ai.py`) cho tàu, súng, 4 tháp pháo, 8 quái, 5 boss, đồ trang trí mặt đất. Hiệu ứng: tia lửa, vết dịch, xác tan, khựng hình khi chí mạng, slow-mo khi giết boss, ánh sáng ấm, bụi, tàn lửa.
-- **Crate 2.0 (đang hoàn thiện, v0.9):** crate báo trước độ hiếm (màu đèn + độ rung), thẻ lật lần lượt có âm thanh theo độ hiếm, thanh build (ô trống, DPS đội, tiến độ hệ) có xem trước khi rê chuột, mỗi thẻ hiện **% DPS đội thay đổi**, hệ **được kích hoạt / bị phá**, nhãn **BEST DPS**; bấm vào hệ (trên thẻ, thanh build, chip trong trận) để xem bảng thông tin hệ; ăn mừng khi kích hoạt hệ trong trận.
+- **Crate 2.0 (v0.8.2):** crate báo trước độ hiếm (màu đèn + độ rung), thẻ lật lần lượt có âm thanh theo độ hiếm, thanh build (ô trống, DPS đội, tiến độ hệ) có xem trước khi rê chuột, mỗi thẻ hiện **% DPS đội thay đổi**, hệ **được kích hoạt / bị phá**, nhãn **BEST DPS**; bấm vào hệ (trên thẻ, thanh build, chip trong trận) để xem bảng thông tin hệ; ăn mừng khi kích hoạt hệ trong trận.
 - Bản desktop Windows (Electron): `tools/desktop/package_win.ps1` → `build/HOPEFIRE/HOPEFIRE.exe`. Shortcut “HOPEFIRE (test)” trên Desktop của Duy.
 - Tài liệu store (đã làm **sớm**, sẽ làm lại sau khi Duy duyệt game): `store/` (key art, logo, capsule các cỡ, ảnh chụp, trailer nháp), `docs/STEAM_PAGE.md`.
 - Pháp lý/thuế: `docs/BUSINESS_LEGAL.md`.
 
-**Đang làm (thứ tự ưu tiên)** — kế hoạch “cuốn ngay từ ván đầu”
-1. Crate 2.0 → hoàn thiện + phát hành v0.9.
-2. Nhạc nền thích ứng (WebAudio, lớp nhạc tăng theo mức đe dọa/boss) + làm lại SFX, mix âm lượng.
-3. Game feel: animation nâng ★, hút loot có cao độ tăng dần, phản hồi Hope, chuyển wave, khoảnh khắc chết/thắng.
-4. Nhịp ván đầu (FTUE): trong 60 giây đầu người chơi phải có giết quái, mở crate, tăng sức mạnh, lựa chọn có ý nghĩa. Kết quả đo bot người mới (v0.8.1): ván 1 sống 106 s, 91 kill, 5 crate, 3 module.
-5. Cập nhật `docs/REVIEW_PROMPT.md` (tiêu chí “cuốn”, cảm giác, rõ ràng) → chạy review AI độc lập.
+**Vừa xong v0.9.0 (2026-11-18):** Crate 2.0, nhạc thích ứng tự tổng hợp (`src/music.js`), SFX mới, game feel (nâng ★, module rơi xuống, streak, rung thanh Hope, màn chết slow-mo), ván đầu dạy synergy, màn kết có mục tiêu boss + số nâng cấp mua được, REVIEW_PROMPT v2, script test trong `tools/test/`. Bot cân bằng: cốt truyện 106 phút, toàn bộ 229 phút.
+
+**Đang làm / chờ**
+1. **Chờ Duy chơi thử + góp ý** (bản Windows: shortcut “HOPEFIRE (test)”; nghe demo nhạc `store/music_demo_v1.mp3`).
+2. Nếu Duy mua **Suno Pro** ($10/tháng, phải có gói trước khi tạo bài mới có quyền thương mại): làm nhạc menu + nhạc boss + nhạc kết bằng Suno, nhạc trong trận giữ hệ thích ứng.
+3. Chạy review AI độc lập theo `docs/REVIEW_PROMPT.md` v2 → sửa theo top 10.
 
 **Sẽ làm**
 - Đồ họa còn vẽ bằng code: drone, đồ rơi, hiệu ứng phép, hành tinh trong cutscene, nền đất bãi 2–5.
@@ -67,7 +67,8 @@ index.html            khung HTML + HUD; nạp assets/sprites.js rồi src/*.js t
 css/style.css         giao diện (UI tự phóng to theo màn hình qua biến --uz)
 src/data.js           số liệu: module, quái, độ hiếm, nâng cấp, boss, cân bằng (CH_HP, CH_DMG, NM…)
 src/core.js           lưu game (localStorage 'hopefire_v1', merge với defMeta) + tiện ích
-src/audio.js          âm thanh tổng hợp WebAudio (không dùng file)
+src/audio.js          SFX tổng hợp WebAudio + bus tổng có compressor
+src/music.js          nhạc nền thích ứng (layer theo mức nguy hiểm, boss, menu, stinger)
 src/render.js         canvas, ánh sáng/bóng tối, vẽ tàu/module/quái/hiệu ứng, nền đất
 src/sprites.js        atlas sprite; sprite AI vẽ đúng kích thước thế giới (meta px), icon HTML ico()
 src/game.js           logic 1 lượt: spawn, AI quái, bắn, Hope, boss, hiệu ứng chết

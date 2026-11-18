@@ -1,85 +1,59 @@
-# HOPEFIRE — Prompt tự review game
+# HOPEFIRE — AI review prompt v2 (focus: hook, feel, clarity, sellability)
 
-> Cách dùng: dán nguyên khối dưới đây cho Claude (kèm quyền truy cập repo `haiduy2405/hopefire`).
-> Có thể chạy lại sau mỗi version lớn để so sánh điểm số giữa các lần.
+> How to use: paste the PROMPT block to a fresh Claude (or other AI) session that has the repo `haiduy2405/hopefire`.
+> Re-run after every big version and save the report as `docs/reviews/REVIEW_vX.Y.md` so scores can be compared.
+> v1 (overall review) report: `docs/reviews/REVIEW_v0.4.0.md`.
 
 ---
 
 ## PROMPT
 
-Bạn là một nhóm review gồm 4 vai, làm việc cùng lúc:
-1. **Game designer** chuyên thể loại incremental / idle / tower defense (đã chơi kỹ Booster Pack Heroes, Nodebuster, Zero Stress King, Vampire Survivors).
-2. **Art director** pixel-art 2D, góc nhìn 3/4 top-down.
-3. **Kỹ sư front-end / game engine** (Canvas 2D, vanilla JS, hiệu năng web và mobile).
-4. **Người làm marketing Steam** cho game indie giá $4.99.
+You are a review panel of 5 people. Each writes from their own expertise, then the panel agrees on scores:
+1. **Game designer** for incremental / tower-defense / roguelite games (knows Booster Pack Heroes, Vampire Survivors, Nodebuster, Balatro, TFT).
+2. **Game-feel / juice specialist** (hit feedback, animation timing, camera, particles, UI motion).
+3. **Audio director** (adaptive music, SFX mix, readability of sound).
+4. **UX / onboarding designer** (first-time user experience, information design, mobile + desktop).
+5. **Steam marketer** for $4.99 premium indies (wishlists, refund window, reviews).
 
-Nhiệm vụ: **review toàn diện game HOPEFIRE** ở version hiện tại, chỉ ra cái tốt, cái chưa tốt và lộ trình cải thiện. **Không sửa code trong lúc review.** Chỉ đánh giá và đề xuất.
+**Do not change code during the review.** Read code, play the game, measure, then report.
 
-### Bối cảnh game
-- Incremental tower defense: tàu S.V. HOPE rơi xuống hành tinh lạ. Quái mù, chỉ phát hiện tàu trong một vòng tròn. Thanh HOPE tự cạn. Mở thùng cứu hộ để chọn module / phép / relic. Hết Hope thì dùng Xeno-core nâng cấp tàu vĩnh viễn. Hạ boss để qua bãi tiếp theo (5 bãi). Phá đảo thì mở Endless.
-- Mục tiêu thương mại: Steam, $4.99, bán một lần, không có giao dịch trong game, khoảng 5–6 giờ nội dung, game tiếng Anh, khóa vùng Việt Nam.
-- Đối thủ tham chiếu: Booster Pack Heroes (91–92% positive). Người chơi khen nhiều nội dung, vòng lặp gây nghiện. Người chơi chê Act 3 mất cân bằng, đầu game chậm và cày nhiều, lựa chọn ít ý nghĩa, lag cuối game.
-- Code: `index.html`, `css/style.css`, `src/*.js` (vanilla JS, không build). Thiết kế ở `docs/DESIGN.md`, lộ trình ở `docs/ROADMAP.md`, lịch sử ở `CHANGELOG.md`.
-- Đồ họa hiện tại **toàn bộ vẽ bằng code** (placeholder). Bước tiếp theo của dự án là **làm đồ họa thật**, nên phần đồ họa cần đánh giá kỹ nhất.
+### Context (read first)
+- `README.md` (handoff: done / doing / next, Duy's rules) and `CLAUDE.md` (architecture, release routine).
+- Goal: sell on Steam at $4.99; players must be **hooked in the first runs**; Steam refunds are allowed under 2 h of play, so the first 2 hours decide the money.
+- Competitor: Booster Pack Heroes (released Nov 2026, very positive reviews). HOPEFIRE must feel clearly different and at least as satisfying.
 
-### Quy trình bắt buộc (làm đủ, theo thứ tự)
-1. **Đọc toàn bộ code và tài liệu.** Ghi lại kiến trúc, luồng dữ liệu, các con số cân bằng chính (`src/data.js`).
-2. **Chạy game thật** bằng trình duyệt headless qua một server cục bộ (`python3 -m http.server`), không mở bằng `file://`. Ít nhất các bước sau:
-   - Chơi từ đầu như người mới: cutscene → lượt 1 có hướng dẫn → menu nâng cấp. Chụp màn hình mỗi bước.
-   - Chạy bot tự chơi trọn chiến dịch (mua nâng cấp rẻ nhất, chọn thẻ hợp lý) ít nhất **3 lần**. Ghi số lượt cần để qua mỗi bãi, thời lượng mỗi lượt, % máu boss còn lại khi thua.
-   - Thử Endless tới Threat 30+, khi có 8 module, 3 relic và 3 phép, để đo trường hợp nặng nhất.
-   - Thử trên viewport điện thoại (390×820) và desktop (1280×800).
-   - Đo: FPS trung bình và thấp nhất ở cảnh đông nhất, số object trên màn, thời gian tải, lỗi console.
-3. **Đánh giá theo bảng điểm** bên dưới, mỗi mục chấm 1–10 kèm **bằng chứng cụ thể**: file:dòng, ảnh chụp, hoặc số liệu đo được. Không có bằng chứng thì không được chấm.
-4. **So sánh với Booster Pack Heroes:** game đã sửa được điểm yếu nào của đối thủ, còn thua ở đâu.
-5. **Viết báo cáo** đúng định dạng đầu ra.
+### How to play/measure (mandatory, cite numbers)
+1. `python3 -m http.server 8765` in the repo, then run:
+   - `tools/test/ftue_bot.py` → first-run timeline (time to first crate, first synergy, run length, kills).
+   - `tools/test/crate_shots.py` → crate screens desktop + mobile (inspect every PNG).
+   - `tools/test/feel_check.py` → star-up, drop-in, streak, Hope hit, death sequence.
+   - `tools/test/music_render.py` → listen to / inspect the 5 music modes (peak must stay < 0.9; RMS should rise from calm → boss).
+   - `python3 tools/sim/run.py --runs 2` → campaign length per site (target: story 75–110 min, everything ~3.5 h, no stage > ~15 runs).
+2. Play at least 3 runs yourself in headless Chrome with screenshots every 10 s; also one run at 390×844 (phone) and one at 1920×1080.
 
-### Bảng điểm (1–10)
-| # | Hạng mục | Câu hỏi cần trả lời |
+### Score each 1–10 with evidence (screenshot/file:line/number) and the single biggest fix
+| # | Area | What "10" means |
 |---|---|---|
-| 1 | 5 phút đầu / onboarding | Người mới có hiểu phải làm gì không? Có chỗ nào chán, rối, hoặc chờ đợi không? |
-| 2 | Vòng lặp lõi và độ "đã" (juice) | Mở thùng, bắn, nổ, nhặt loot có sướng không? Phản hồi hình ảnh, âm thanh, rung màn hình có đủ không? |
-| 3 | Chiều sâu lựa chọn | Module, phép, relic, cộng hưởng, lò phản ứng có tạo ra lựa chọn thật không? Có build nào áp đảo mọi build khác không? |
-| 4 | Nhịp tiến độ | Đường cong lượt chơi / nâng cấp / chapter có mượt không? Có đoạn nào bị "tường" hoặc cày vô nghĩa không? |
-| 5 | Cân bằng | Quái, boss, nâng cấp nào quá mạnh / quá yếu? Kinh tế scrap và Xeno-core có hợp lý không? |
-| 6 | Nội dung và đa dạng | Có đủ cho 5–6 giờ không? Bãi sau có thực sự khác bãi trước không? |
-| 7 | Đồ họa và độ dễ đọc | Phân biệt được quái / module / đạn / loot ở cảnh đông không? Phong cách có nhất quán không? |
-| 8 | Âm thanh | Có thiếu, chói, lặp hay gây mệt không? |
-| 9 | UI/UX | Menu, HUD, thẻ bài, tooltip, nút trên điện thoại có dễ dùng không? Thông tin có thiếu hoặc thừa không? |
-| 10 | Cốt truyện và không khí | Cutscene, tagline, twist có gắn với gameplay không? |
-| 11 | Hiệu năng | FPS, rò rỉ bộ nhớ, giật khi đông quái hoặc khi hết lượt |
-| 12 | Chất lượng code | Dễ bảo trì không? Có bug tiềm ẩn, trùng lặp, magic number rải rác không? Save có bị hỏng khi cập nhật không? |
-| 13 | Độ sẵn sàng thương mại | So với game cùng giá trên Steam thì đứng ở đâu? Thiếu gì để người xem trailer bấm Wishlist? |
+| 1 | **First 60 seconds** | Player understands the goal, kills things, opens a crate and feels a power spike within 60 s, with no wall of text |
+| 2 | **First 3 runs (the hook)** | Each run ends wanting "one more": visible goal (boss bar), affordable repairs, a new thing unlocked or teased |
+| 3 | **Crate moment** | Anticipation (rarity tell), payoff (flip, sound, shake), clear decision support (DPS delta, synergy activate/break), fast to read |
+| 4 | **Decision depth** | Element synergies, star upgrades, spells, relics, reactor risk create real trade-offs; no dominant strategy |
+| 5 | **Combat feel / juice** | Every hit, kill, pickup, upgrade and death has proportionate visual + audio feedback; nothing floaty or silent |
+| 6 | **Readability** | Under heavy swarms the player can still read Hope, threats, boss, ring and loot; colour/shape language consistent |
+| 7 | **Music & SFX** | Music reacts to danger (calm → intense → boss), SFX are distinct and not fatiguing, mix is balanced, nothing clips |
+| 8 | **Art cohesion** | In-game art matches the key art; no leftover programmer art breaking the style (list every offender) |
+| 9 | **Progression & pacing** | Upgrade curve, site difficulty, Nightmare/Endless; no grind walls, no trivial stretches |
+| 10 | **UX & platforms** | Desktop (1080p/1440p/4K scaling), mobile layout, keyboard shortcuts, settings, pause, save safety |
+| 11 | **Performance & stability** | ≥ 58 FPS with 120+ creatures, no console errors, no soft-locks (crate/tip/pause/update overlaps) |
+| 12 | **Sellability** | Would a $4.99 Steam buyer keep it past the 2-hour refund window and leave a positive review? Why/why not |
 
-### Phần riêng: kiểm kê đồ họa (bắt buộc, vì đây là bước tiếp theo)
-Lập **danh sách đầy đủ mọi thứ đang vẽ bằng code** cần thay bằng sprite, theo dạng bảng:
+### Report format (Vietnamese, for Duy — TL;DR first, blunt)
+1. **TL;DR**: overall score /10, the 3 changes that would most increase sales.
+2. Score table (12 areas) with one-line evidence each.
+3. **Top 10 problems**, ordered by impact on sales: problem → evidence → concrete fix (files/functions) → effort (S/M/L).
+4. **Leftover programmer art / placeholder list** (anything not matching the key art).
+5. **Quick wins** (< 1 hour each).
+6. Compare with the previous report in `docs/reviews/` (what improved, what regressed).
+7. Save as `docs/reviews/REVIEW_v<version>.md`.
 
-| Thành phần | File / hàm hiện tại | Kích thước đề xuất (px) | Số frame / animation cần | Biến thể (màu theo phái, độ hiếm, chapter) | Mức ưu tiên |
-|---|---|---|---|---|---|
-
-Gồm ít nhất: tàu (nguyên vẹn, hỏng, cất cánh), pháo nhiệt, 4 lớp module × 4 phái, Drone, 8 loại quái + 5 boss (đi, lao tới, đánh, chết), đạn / tia / nổ, orb loot (scrap, core, cell), nền 5 bãi (đất, đá, xác tàu, cây phát sáng), vòng tròn phát hiện, UI (thẻ bài, thùng cứu hộ, icon phép, icon relic, nút), logo HOPEFIRE.
-
-Sau đó đề xuất:
-- **Art direction:** bảng màu cho từng bãi, độ phân giải pixel (16/24/32px?), kích thước "pixel ảo" so với màn hình, cách giữ ánh sáng / bóng tối hiện tại khi chuyển sang sprite.
-- **Con đường làm đồ họa rẻ nhất mà vẫn đẹp:** asset pack có license thương mại (gợi ý cụ thể nếu biết), tự vẽ bằng Aseprite, hoặc kết hợp. Ước lượng giờ công và chi phí.
-- **Kiến trúc kỹ thuật:** cách nạp sprite sheet / atlas vào code hiện tại mà không phá game; giữ chế độ "vẽ bằng code" làm fallback.
-- **Thứ tự làm:** cái gì thay trước để ảnh chụp màn hình và trailer đẹp lên nhanh nhất.
-
-### Định dạng đầu ra (tiếng Việt, ngắn gọn, dễ quét)
-1. **TL;DR**: 5 dòng. Điểm tổng /10, 3 điểm mạnh nhất, 3 vấn đề nghiêm trọng nhất.
-2. **Bảng điểm**: 13 hạng mục, mỗi mục gồm điểm, 1 câu nhận xét và bằng chứng.
-3. **Điểm tốt**: giữ nguyên, đừng phá.
-4. **Điểm chưa tốt**: chia mức 🔴 Nghiêm trọng / 🟠 Quan trọng / 🟡 Nhỏ.
-5. **Danh sách bug**: cách tái hiện, kết quả mong đợi, kết quả thực tế, file:dòng nghi ngờ.
-6. **Đề xuất cải thiện**: bảng gồm *Việc · Tác động (1–5) · Công sức (S/M/L) · Lý do*, sắp theo tác động / công sức.
-7. **Quick wins**: việc làm dưới 1 giờ mà cải thiện rõ.
-8. **Kiểm kê đồ họa và kế hoạch đồ họa**: phần riêng ở trên.
-9. **Số liệu đo được**: lượt / bãi, thời lượng lượt, FPS, lỗi console.
-10. **Đề xuất version tiếp theo**: gom các việc ưu tiên nhất thành v0.5.0, kèm danh sách việc cụ thể.
-
-### Quy tắc
-- **Thẳng thắn.** Chỗ nào dở thì nói dở, kèm lý do. Không khen xã giao.
-- Mọi nhận định phải có **bằng chứng**. Đừng đoán khi có thể đo được.
-- Phân biệt rõ **đã kiểm chứng** và **ý kiến / giả định**.
-- Ưu tiên những gì **ảnh hưởng tới doanh thu**: tỉ lệ wishlist, review tích cực, refund dưới 2 giờ chơi.
-- Không đề xuất thêm hệ thống mới khi hệ thống hiện có còn chưa ổn.
+Be specific and honest. "Good" without evidence is not allowed; every criticism needs a fix.

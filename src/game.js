@@ -86,7 +86,7 @@ function blast(x,y,r,dmg,col,src){
   if(dmg)for(const o of R.en)if(!o.dead&&o!==src&&Math.hypot(o.x-x,o.y-y)<r+o.r)hit(o,dmg,null,false);
 }
 function kill(e){
-  if(e.dead)return;e.dead=true;R.kills++;meta.stats.kills++;sfx('kill');const k=EK[e.k],L=REACT[R.react].loot;
+  if(e.dead)return;e.dead=true;R.kills++;meta.stats.kills++;sfx('kill');streakAdd();const k=EK[e.k],L=REACT[R.react].loot;
   const nS=R.night?NM.scrap:1,nC=R.night?NM.core:1,cx=1+0.2*lv('cellx');
   drop('scrap',e.x,e.y,e.g*(1+0.15*lv('gold'))*L*(hasRel('lens')?1.4:1)*nS);
   drop('core',e.x,e.y,k.core*Math.pow(1.6,R.ch-1)*L*(hasRel('magnet')?1.35:1)*(1+0.1*lv('core2'))*nC);
@@ -153,7 +153,7 @@ function update(dt){
   if(R.corpses){for(const c of R.corpses)c.t-=dt;R.corpses=R.corpses.filter(c=>c.t>0)}
   R.emb=(R.emb||0)-dt;if(R.emb<=0){R.emb=0.07;R.pt.push({x:-42+rnd(-3,3),y:-4+rnd(-3,3),vx:rnd(-10,10),vy:rnd(-45,-20),t:rnd(.6,1.3),c:Math.random()<.5?'#ff8a30':'#ffd24a',s:rnd(1,2.5),g:-15,add:1})}
   if((R.endless||R.wave<BOSS_WAVE)&&R.waveT>=WAVE_LEN){R.wave++;R.waveT=0;
-    R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};
+    R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};musStinger('wave');R.ringPulse=Math.max(R.ringPulse||0,0.6);
     if(R.endless){if(R.wave>(meta.bestEndless||0))meta.bestEndless=R.wave;if(R.wave>=20)ach('end20');if(R.wave>=40)ach('end40')}}
   if(!R.endless&&R.wave>=BOSS_WAVE&&!R.bossSpawned){R.bossSpawned=true;spawnBoss(R.ch)}
   if(R.endless&&R.wave%10===0&&R.lastBossWave!==R.wave){R.lastBossWave=R.wave;spawnBoss(((R.wave/10-1)%5)+1)}
@@ -274,7 +274,9 @@ function update(dt){
   if(R.hope<=0&&!R.over){
     if(lv('second')&&!R.revived){R.revived=true;R.hope=R.maxHope*0.3;flash(0.6);sfx('cell');R.banner={s:'SECOND WIND',t:1.6};
       for(const e of R.en){const d=Math.hypot(e.x,e.y)||1;if(d<160){e.x+=e.x/d*120;e.y+=e.y/d*120;if(e.state==='rush')e.alertT=1}}}
-    else{R.hope=0;R.shake=16;endRun(false)}}
+    else if(!R.dying){R.hope=0;R.shake=16;R.dying=0.6;R.slow=2.2;flash(0.5);sfx('boom');document.body.classList.add('dying')}}
+  if(R.dying){R.hope=0;R.dying-=dt;R.dyT=(R.dyT||0)-dt;if(R.dyT<=0){R.dyT=0.08;const x=rnd(-50,50),y=rnd(-30,20);R.fx.push({type:'ring',x,y,r0:4,r1:rnd(30,60),t:0.35,T:0.35,c:'#ffb03a'});for(let i=0;i<14;i++)R.pt.push({x,y,vx:rnd(-160,160),vy:rnd(-200,20),t:rnd(.4,.9),c:i%2?'#ffb03a':'#ff5a3d',s:rnd(2,5),g:200,add:1});sfx('boom');R.shake=10}
+    if(R.dying<=0){R.dying=0;document.body.classList.remove('dying');endRun(false)}}
 }
 // drones leave their dock, hunt the most dangerous creature in the ring, and return when idle
 function droneTick(h,dt,rr){
@@ -289,6 +291,11 @@ function droneTick(h,dt,rr){
   hit(tg,modDmg(h),h.t.ty,true);
 }
 function damageHope(v,att){
-  R.hope-=v;R.shake=Math.min(9,R.shake+2.5);sfx('hurt');R.fx.push({type:'ring',x:0,y:0,r0:30,r1:70,t:0.25,T:0.25,c:'#ff3a3a'});addTxt(rnd(-20,20),-60,'-'+fmt(v),'#ff5a5a',13);
+  if(R.dying)return;R.hope-=v;hopeHit(v/R.maxHope);R.shake=Math.min(9,R.shake+2.5);sfx('hurt');R.fx.push({type:'ring',x:0,y:0,r0:30,r1:70,t:0.25,T:0.25,c:'#ff3a3a'});addTxt(rnd(-20,20),-60,'-'+fmt(v),'#ff5a5a',13);
   if(att&&hasRel('thorns')&&!att.dead){R.fx.push({type:'zap',x:0,y:-20,x2:att.x,y2:att.y*K-att.r*.6,t:.15,T:.15,c:'#ffe14d'});hit(att,25*tierM(R.ch)*(1+0.15*lv('dmg')),'Arc',false)}
 }
+
+// ---- feel helpers ----
+function streakAdd(){const now=R.t;R.stk=(now-(R.stkT||-9)<1.1)?(R.stk||0)+1:1;R.stkT=now;
+  if(R.stk>=6){const big=R.stk%10===0;R.stkShow={n:R.stk,t:big?1.1:0.8,big};if(big){sfx('streak');R.shake=Math.max(R.shake,4)}}}
+function hopeHit(frac){const w=$('hopewrap');if(!w)return;w.classList.remove('hit');void w.offsetWidth;w.classList.add('hit');if(frac>0.04)flash(Math.min(0.25,frac*2))}

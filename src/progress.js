@@ -50,17 +50,19 @@ function panelStats(){
   show(`<div class="panel"><h2>📊 STATS</h2><table class="stats">${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>
     <div class="center"><button class="big" id="backBtn">◂ BACK</button></div></div>`);$('backBtn').onclick=()=>{sfx('click');menu()};
 }
-function applyVolume(){if(master)master.gain.value=meta.muted?0:meta.set.vol/100}
+function applyVolume(){if(master)master.gain.value=meta.muted?0:meta.set.vol/100;if(typeof applyMusicVolume==='function')applyMusicVolume()}
 function panelSettings(){
   const S_=meta.set;
   show(`<div class="panel"><h2>⚙ SETTINGS</h2><div class="sets">
-    <label>Volume <input type="range" id="sVol" min="0" max="100" value="${S_.vol}"><span id="sVolT">${S_.vol}%</span></label>
+    <label>Sound <input type="range" id="sVol" min="0" max="100" value="${S_.vol}"><span id="sVolT">${S_.vol}%</span></label>
+    <label>Music <input type="range" id="sMus" min="0" max="100" value="${S_.mus}"><span id="sMusT">${S_.mus}%</span></label>
     <label><input type="checkbox" id="sShake" ${S_.shake?'checked':''}> Screen shake</label>
     <label><input type="checkbox" id="sNums" ${S_.nums?'checked':''}> Damage numbers</label>
     <label>Default speed <select id="sSpd">${[1,2,3].map(v=>`<option ${S_.spd===v?'selected':''} value="${v}">${v}x</option>`).join('')}</select></label>
     ${lv('auto')?`<label><input type="checkbox" id="sAuto" ${meta.autoCast?'checked':''}> Spell autocast</label>`:''}
   </div><div class="center"><button class="big" id="backBtn">◂ BACK</button><br><button class="small" id="resetBtn" style="margin-top:14px">reset save</button></div></div>`);
   $('sVol').oninput=e=>{S_.vol=+e.target.value;$('sVolT').textContent=S_.vol+'%';audioInit();applyVolume();save()};
+  $('sMus').oninput=e=>{S_.mus=+e.target.value;$('sMusT').textContent=S_.mus+'%';audioInit();applyVolume();save()};
   $('sVol').onchange=()=>sfx('click');
   $('sShake').onchange=e=>{S_.shake=e.target.checked?1:0;save()};
   $('sNums').onchange=e=>{S_.nums=e.target.checked?1:0;save()};

@@ -1,10 +1,11 @@
 {
-  "version": "0.8.2",
+  "version": "0.9.0",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Salvage crates reborn: the crate's glow hints at its best card, cards flip one by one with rarity sounds",
-    "Every card now shows how much it changes your team DPS and which synergy it activates (or breaks)",
-    "New build bar while choosing + tap any element for its full bonuses and module list"
+    "Adaptive soundtrack: the music builds up as creatures rush you and turns dark when a boss arrives (Music volume in Settings)",
+    "Much more feedback: star-up fanfare, turrets drop in, kill streaks, Hope bar shakes on hits, dramatic slow-motion when the ship falls",
+    "Clearer goals after each run: boss progress bar, counting Xeno-cores, repairs ready to install",
+    "Your first run now teaches synergies naturally"
   ]
 }

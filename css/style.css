@@ -207,3 +207,15 @@ body.inmenu #hud,body.inmenu #bottom{visibility:hidden}
 .syn{cursor:pointer}.syn .pip{width:6px;height:6px;margin:0 1px}.syn .pip.th{width:7px;height:7px}.syn.max{box-shadow:0 0 10px var(--ec)}
 @media (max-width:600px){.card{width:31%;min-width:104px;min-height:250px}.card .gl{width:58px;height:58px}.card .st,.sprog,.chhelp{display:none}.bestrib{font-size:7px}.eb{font-size:8px;letter-spacing:.5px}.dps{font-size:10px}.buildbar{gap:6px;padding:6px}.bslot{width:22px;height:22px}}
 @media (max-width:600px){.cards{flex-wrap:nowrap;gap:6px}.cwrap{flex:1 1 0;min-width:0}.cwrap .card{width:100%;min-width:0;padding:6px 4px}.card .ds{display:none}.card .nm{font-size:11px}.card .rn{font-size:9px;letter-spacing:1px}.sact{font-size:9px}.chpanel{padding:10px}.buildbar .bdps{width:100%;text-align:center}}
+
+#hopewrap.hit{animation:hbhit .3s}
+@keyframes hbhit{0%{transform:translateX(0);filter:brightness(2.2)}25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}100%{transform:none;filter:none}}
+body.dying #hud,body.dying #bottom{opacity:.35;transition:opacity .4s}
+body.dying canvas{filter:saturate(.45) brightness(.9);transition:filter 1.2s}
+
+.goal{margin:10px auto 4px;max-width:320px;font-size:11px;color:#9aa3b3}.goal b{color:#ff6b6b}
+.goalbar{position:relative;height:8px;background:#1a1f2b;border:1px solid #2c3242;margin-top:4px}
+.goalbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#ffb03a,#ff5a3d)}
+.goalbar span{position:absolute;top:-4px;width:2px;height:14px;background:#fff;margin-left:-1px}
+.affd{margin:8px 0 12px;color:#7dffb0;font-weight:bold;font-size:13px;animation:blink .7s infinite alternate}
+.mast.done{animation:pop .3s}

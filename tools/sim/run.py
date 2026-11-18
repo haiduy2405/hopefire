@@ -11,7 +11,7 @@ from playwright.async_api import async_playwright
 JS = open(os.path.join(os.path.dirname(__file__), 'campaign.js')).read()
 async def main(n):
     async with async_playwright() as p:
-        b = await p.chromium.launch()
+        b = await p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
         for _ in range(n):
             pg = await b.new_page(); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
             await pg.goto('http://localhost:8765/'); await pg.wait_for_timeout(600)

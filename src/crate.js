@@ -116,6 +116,9 @@ function rollCrate(){
   for(let tries=0;out.length<n&&tries<60;tries++){const c=roll();if(seen.has(key(c)))continue;seen.add(key(c));out.push(c)}
   if(!meta.tut.mod)out.forEach(c=>{if(c.sp||c.rl){delete c.rl;c.t=MODS[Math.random()*MODS.length|0];delete c.sp}});
   if(!meta.tut.mod)out[1].r=Math.max(1,out[1].r);
+  if(meta.runs===0&&R.mods.length===1&&out.every(c=>!c.t||c.t.ty!==R.mods[0].t.ty)){
+    const mate=MODS.filter(m=>m.ty===R.mods[0].t.ty&&m.id!==R.mods[0].t.id&&m.c!=='drone');const i=out.findIndex(c=>c.t);
+    if(mate.length&&i>=0)out[i]={t:mate[Math.random()*mate.length|0],r:Math.max(1,out[i].r)};}
   return out;
 }
 function openPack(){
@@ -164,7 +167,7 @@ function relicCardHTML(cd,i){
 // called by pick() after a module is placed: celebrate synergy tiers that just switched on
 function synCelebrate(prev){
   for(const k in TYPES){const a=synTier(prev[k]||0),b=synTier(R.syn[k]||0);if(b>a){
-    R.banner={s:`${k.toUpperCase()} SYNERGY ${SYN_T[b-1]}`,sub:b===1?ELEM_INFO[k].t2:ELEM_INFO[k].t4,t:2.2};sfx('synergy');
+    R.banner={s:`${k.toUpperCase()} SYNERGY ${SYN_T[b-1]}`,sub:b===1?ELEM_INFO[k].t2:ELEM_INFO[k].t4,t:2.2};sfx('synergy');musStinger('synergy');
     for(const h of R.mods)if(h.t.ty===k){R.fx.push({type:'ring',x:h.x,y:h.y*K,r0:6,r1:46,t:0.6,T:0.6,c:TYPES[k].c});for(let j=0;j<10;j++)R.pt.push({x:h.x,y:h.y*K-14,vx:rnd(-60,60),vy:rnd(-160,-60),t:rnd(.4,.8),c:TYPES[k].c,s:3,g:120,add:1})}
     R.fx.push({type:'ring',x:0,y:0,r0:20,r1:ringR()*0.9,t:0.7,T:0.7,c:TYPES[k].c});}}
 }

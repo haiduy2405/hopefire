@@ -133,6 +133,8 @@ function render(dt){
       if(R.banner.sub){ctx.font='12px monospace';ctx.fillStyle='#9aa3b3';ctx.fillText(R.banner.sub,W/2,y-24)}ctx.globalAlpha=1}
     // cinematic vignette (always)
     {const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.42,W/2,H/2,Math.max(W,H)*0.75);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,0.45)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+    if(R.stkShow&&R.stkShow.t>0){R.stkShow.t-=dt;const s=R.stkShow,a=Math.min(1,s.t*3),sc=1+(s.big?0.5:0.2)*Math.max(0,s.t-0.5)*2;ctx.globalAlpha=a;ctx.font=`900 ${Math.round(22*sc)}px monospace`;ctx.lineWidth=5;ctx.strokeStyle='#000';const y=OY-ringR()*K*S*0.55;
+      ctx.strokeText(s.n+'× STREAK',W/2,y);ctx.fillStyle=s.big?'#ffd24a':'#ffb03a';ctx.fillText(s.n+'× STREAK',W/2,y);ctx.globalAlpha=1}
     // low hope vignette
     if(R.hope<R.maxHope*0.25&&!R.over){const a=0.25+0.15*Math.sin(T*6);const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*0.3,W/2,H/2,Math.max(W,H)*0.7);g.addColorStop(0,'rgba(120,0,0,0)');g.addColorStop(1,`rgba(160,0,0,${a})`);ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
   }
@@ -172,7 +174,11 @@ function drawMod(h){
   if(h.t.c!=='drone'&&SPR.has('mod_'+h.t.ty)&&SPR.data.sprites['mod_'+h.t.ty][0].px){
     c.strokeStyle=rc;c.lineWidth=2;c.globalAlpha=0.9;c.beginPath();c.ellipse(X,Y+3,14,5.6,0,0,7);c.stroke();c.globalAlpha=1;
     const a=h.aim!==undefined?h.aim:0,left=Math.cos(a)<0,rec=h.fl>0?1.8:0;
-    drawSpr(c,'mod_'+h.t.ty,0,X-Math.cos(a)*rec,Y+5-Math.sin(a)*rec*K,left);
+    const dt_=1/60;if(h.pop>0)h.pop=Math.max(0,h.pop-dt_);if(h.drop>0){h.drop=Math.max(0,h.drop-dt_);if(h.drop===0){R.shake=Math.max(R.shake,3);for(let k=0;k<12;k++)R.pt.push({x:X+rnd(-14,14),y:Y+4,vx:rnd(-60,60),vy:rnd(-50,-10),t:rnd(.3,.6),c:'#8a7a6a',s:rnd(2,4),g:120,smoke:1})}}
+    const sc=1+Math.sin(Math.min(1,(0.6-(h.pop||0))/0.6)*Math.PI)*((h.pop||0)>0?0.35:0),fy=h.drop>0?-Math.pow(h.drop/0.45,2)*160:0;
+    if(sc!==1){c.save();c.translate(X,Y+5);c.scale(sc,sc);c.translate(-X,-Y-5)}
+    drawSpr(c,'mod_'+h.t.ty,0,X-Math.cos(a)*rec,Y+5-Math.sin(a)*rec*K+fy,left);
+    if(sc!==1)c.restore();
     if(h.s>1){c.font='bold 9px monospace';c.textAlign='center';c.textBaseline='middle';c.fillStyle='#ffd24a';c.strokeStyle='#000';c.lineWidth=2.5;const st='★'.repeat(Math.min(h.s,5))+(h.s>5?'+':'');c.strokeText(st,X,Y+13);c.fillText(st,X,Y+13)}
     return}
   if(SPR.has('mod_'+h.t.ty)){c.strokeStyle=rc;c.lineWidth=2;c.beginPath();c.ellipse(X,Y,15,6.2,0,0,7);c.stroke();drawSpr(c,'mod_'+h.t.ty,0,X,Y,false)}
