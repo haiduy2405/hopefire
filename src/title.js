@@ -89,9 +89,10 @@ function panelOptions(back){
       +chk('oFull',!!document.fullscreenElement,'Fullscreen','F11')+chk('oShake',S_.shake,'Screen shake')+chk('oFlash',S_.flashes,'Screen flashes','turn off if flashes bother you')+chk('oNums',S_.nums,'Damage numbers'),
     game:`<label class="orow"><span>Default game speed</span><select id="oSpd">${[1,2,3].map(v=>`<option ${S_.spd===v?'selected':''} value="${v}">${v}x</option>`).join('')}</select></label>`
       +chk('oLock',S_.lockGame!==0,'Crate lock mini-game','off = crates open instantly')
+      +chk('oRumble',S_.rumble!==0,'Controller vibration')
       +(SLOT&&lv('auto')?chk('oAuto',meta.autoCast,'Spell autocast'):'')
       +(SLOT?`<label class="orow"><span>Tutorial tips<small>show the hints again</small></span><button class="tbtn sm" id="oTut">RESET</button></label>`:''),
-    keys:`<div class="okeys">${[['Space','Open crate / confirm'],['1 – 5','Pick a card'],['Q W E','Cast spells'],['Tab','Loadout'],['R','Reactor mode'],['Esc / P','Pause'],['F11','Fullscreen']].map(([k,v])=>`<div><kbd>${k}</kbd><span>${v}</span></div>`).join('')}</div>`};
+    keys:`<div class="okeys">${[['Space','Open crate / confirm'],['1 – 5','Pick a card'],['Q W E','Cast spells'],['Tab','Loadout'],['R','Reactor mode'],['Esc / P','Pause'],['F11','Fullscreen'],['Gamepad','D-pad/stick + A/B in menus · A crate · X/Y/B spells · LB/RB mark · LT reactor · RT speed · Back loadout · Start pause']].map(([k,v])=>`<div><kbd>${k}</kbd><span>${v}</span></div>`).join('')}</div>`};
   const html=`<div class="opanel"><h1>OPTIONS</h1><div class="otabs">${Object.entries(tabs).map(([k,v])=>`<button class="${k===optTab?'on':''}" data-t="${k}">${v}</button>`).join('')}</div>
     <div class="obody">${body[optTab]}</div><button class="tbtn back" id="oBack">◂ BACK</button></div>`;
   if(host){host.innerHTML=`<div class="tbg dim"></div><div class="tshade"></div><div class="tpage">${html}</div>`}else show(`<div class="panel">${html}</div>`);
@@ -107,6 +108,7 @@ function panelOptions(back){
   on('oShake','onchange',e=>{S_.shake=e.target.checked?1:0;save()});on('oFlash','onchange',e=>{S_.flashes=e.target.checked?1:0;save()});
   on('oNums','onchange',e=>{S_.nums=e.target.checked?1:0;save()});
   on('oSpd','onchange',e=>{S_.spd=+e.target.value;speed=S_.spd;$('spdBtn').textContent=speed+'x';save()});
+  on('oRumble','onchange',e=>{SETTINGS.rumble=e.target.checked?1:0;save();if(e.target.checked)padRumble(200,0.6,0.6)});
   on('oLock','onchange',e=>{SETTINGS.lockGame=e.target.checked?1:0;save()});
   on('oAuto','onchange',e=>{meta.autoCast=e.target.checked;save()});
   on('oTut','onclick',e=>{const keep={intro:meta.tut.intro,done1:meta.tut.done1};meta.tut=keep;save();e.target.textContent='DONE';sfx('up')});

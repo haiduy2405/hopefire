@@ -1,9 +1,8 @@
 {
-  "version": "0.9.7",
+  "version": "0.9.8",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "New ending twist: after liftoff, the alien planet is revealed to be Earth, four thousand years in the future",
-    "Crew now have their own attack poses (Guardian, Hunter, Medic, Engineer)"
+    "Gamepad support: play the whole game with an Xbox-style or PlayStation controller, with on-screen button hints and vibration"
   ]
 }

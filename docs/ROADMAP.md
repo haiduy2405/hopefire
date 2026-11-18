@@ -23,6 +23,7 @@
 - [x] v0.9.2 Phản ứng nguyên tố (SHATTER/OVERLOAD/SUPERCONDUCT/CONTAGION) + chạm đánh dấu quái + bỏ BEST DPS
 - [x] v0.9.3 Crew + Carrier (crate miễn phí) + Bounty + giải thích Reactor
 - [x] v0.9.4 Mini-game bẻ khóa crate + Horde + Surge
+- [x] v0.9.8 Hỗ trợ tay cầm (src/pad.js)
 - [x] v0.9.7 Twist kết (Trái Đất tương lai) + pose đánh của crew
 - [x] v0.9.6 Art AI cho crew/carrier
 - [ ] (cũ) Crew: thành viên tổ lái di chuyển trong vòng tròn (Guardian/Hunter/Medic/Engineer)

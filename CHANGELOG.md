@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.8 — 2026-11-18
+- **Gamepad support** (`src/pad.js`, standard/XInput mapping, tested design in `docs/superpowers/`): menus use D-pad/left stick with a gold focus ring (A select, B back); battle: A crate / lock-needle, X·Y·B spells, LB/RB or right stick marks targets, LT reactor, RT speed, Back loadout, Start pause; pausing automatically when the pad disconnects. Button hints bar (Xbox or PlayStation glyphs), vibration on hits/crates/bosses (Options → Gameplay → Controller vibration). Mouse/keyboard hide the pad UI instantly. Flydigi Vader 4 Pro must be in XInput mode.
+
 ## v0.9.7 — 2026-11-18
 - **New ending twist**: after liftoff the nav core aligns and the scan sweeps the dust off the "alien" planet — it is **Earth**, 4,000 years in the future (the crew crossed a singularity). Procedural pixel globe in `src/cutscene.js` (buildEarth/earthFrame: ash-brown continents, dead ocean, dust storms, debris ring, scan line), labels "SOL III · EARTH" / "TEMPORAL DISPLACEMENT +4,000 YEARS". Replaces the old "You are not the first" line. 5 new VO lines ending_3..7 (`docs/VOICE_SCRIPT.md`).
 - **Crew attack poses**: `assets/ai/crew_<role>_atk` (anchored at the feet, `tools/sprites/import_crew_atk.py`); shown while a crew member attacks (0.28 s). Carrier hitbox slightly larger (r 15).

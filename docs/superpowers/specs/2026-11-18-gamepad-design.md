@@ -7,7 +7,7 @@
 **Design (my calls marked):**
 - New `src/pad.js`, loaded after `ui.js` (before `title`), standard-mapping Gamepad API polled per frame.
 - Menus: D-pad/left stick moves focus to the nearest visible `button`/`.card`/`.diff`/`[data-el]` in that direction (spatial); A = click; B = back/close (clicks the visible back/close button); focused element gets a `.padfocus` outline. Navigation only active once a pad input was seen; any mouse move/key hides it. (call)
-- Battle: A = open crate / lock tap / confirm tip; stick or LB/RB cycles mark target (nearest to stick direction); Start = pause; Y = loadout; X = reactor mode; RT/LT or Back = speed toggle. (call)
+- Battle (revised after finding 3 spells on Q/W/E): A = open crate / lock tap / confirm tip; X/Y/B = spells 1/2/3; LB/RB or right stick = mark target; LT = reactor mode; RT = speed; Back = loadout; Start = pause. (call)
 - Prompts switch glyphs (A/B/X/Y vs ✕/○/□/△) by `gamepad.id`; small hint bar shown when a pad is connected. (call)
 - Rumble via `vibrationActuator` on hit/crate/boss, setting in Options (default on). (call)
 - Pad inputs only synthesize existing handlers (`click()`, existing functions) — no gameplay logic duplicated.

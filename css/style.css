@@ -348,3 +348,8 @@ body.intitle #hud,body.intitle #bottom{display:none}
 #lhint{min-height:22px;font-size:15px}
 #lhint.pop{animation:lsp .3s}
 .lquick{margin-top:6px;opacity:.7}
+
+/* ===== Gamepad ===== */
+.padfocus{outline:3px solid #ffd24a!important;outline-offset:3px;box-shadow:0 0 0 5px #ffd24a,0 0 24px #ffd24acc!important;position:relative;z-index:1}
+.card.padfocus{transform:translateY(-6px) scale(1.04)}
+#padHint{position:fixed;left:50%;bottom:4px;transform:translateX(-50%);z-index:30;pointer-events:none;display:none;max-width:96vw;padding:3px 12px;border-radius:10px;background:#05060acc;border:1px solid #ffffff22;color:#cfd4de;font-size:12px;white-space:nowrap;letter-spacing:.3px}
