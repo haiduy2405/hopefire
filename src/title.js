@@ -88,6 +88,7 @@ function panelOptions(back){
     video:`<label class="orow"><span>Interface size</span><select id="oUi">${[[0,'Auto'],[1,'100%'],[1.25,'125%'],[1.5,'150%'],[1.75,'175%']].map(([v,l])=>`<option value="${v}" ${S_.uiScale==v?'selected':''}>${l}</option>`).join('')}</select></label>`
       +chk('oFull',!!document.fullscreenElement,'Fullscreen','F11')+chk('oShake',S_.shake,'Screen shake')+chk('oFlash',S_.flashes,'Screen flashes','turn off if flashes bother you')+chk('oNums',S_.nums,'Damage numbers'),
     game:`<label class="orow"><span>Default game speed</span><select id="oSpd">${[1,2,3].map(v=>`<option ${S_.spd===v?'selected':''} value="${v}">${v}x</option>`).join('')}</select></label>`
+      +chk('oLock',S_.lockGame!==0,'Crate lock mini-game','off = crates open instantly')
       +(SLOT&&lv('auto')?chk('oAuto',meta.autoCast,'Spell autocast'):'')
       +(SLOT?`<label class="orow"><span>Tutorial tips<small>show the hints again</small></span><button class="tbtn sm" id="oTut">RESET</button></label>`:''),
     keys:`<div class="okeys">${[['Space','Open crate / confirm'],['1 – 5','Pick a card'],['Q W E','Cast spells'],['Tab','Loadout'],['R','Reactor mode'],['Esc / P','Pause'],['F11','Fullscreen']].map(([k,v])=>`<div><kbd>${k}</kbd><span>${v}</span></div>`).join('')}</div>`};
@@ -106,6 +107,7 @@ function panelOptions(back){
   on('oShake','onchange',e=>{S_.shake=e.target.checked?1:0;save()});on('oFlash','onchange',e=>{S_.flashes=e.target.checked?1:0;save()});
   on('oNums','onchange',e=>{S_.nums=e.target.checked?1:0;save()});
   on('oSpd','onchange',e=>{S_.spd=+e.target.value;speed=S_.spd;$('spdBtn').textContent=speed+'x';save()});
+  on('oLock','onchange',e=>{SETTINGS.lockGame=e.target.checked?1:0;save()});
   on('oAuto','onchange',e=>{meta.autoCast=e.target.checked;save()});
   on('oTut','onclick',e=>{const keep={intro:meta.tut.intro,done1:meta.tut.done1};meta.tut=keep;save();e.target.textContent='DONE';sfx('up')});
   $('oBack').onclick=()=>{sfx('click');back()};

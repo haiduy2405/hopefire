@@ -332,3 +332,19 @@ body.intitle #hud,body.intitle #bottom{display:none}
 .locrew{display:flex;gap:8px;flex-wrap:wrap}
 .locrew .lox{flex:1 1 200px}
 .locrew img{width:40px;height:40px;image-rendering:pixelated}
+/* crate lock mini-game */
+.lockwrap{position:relative;width:calc(300px*var(--uz,1));height:calc(300px*var(--uz,1));margin:4px auto 0;max-width:80vw;max-height:80vw}
+.lockwrap.nolock{width:auto;height:auto}
+.lockwrap canvas{position:absolute;inset:0;width:100%;height:100%}
+.lockwrap{display:grid;place-items:center}
+.lockwrap .crate{margin:0;zoom:.82}
+.lockwrap.nolock .crate{zoom:1}
+.lslots{display:flex;gap:10px;justify-content:center;margin:6px 0 2px}
+.lslot{width:54px;height:54px;border-radius:8px;border:2px solid #2e3344;background:#0e1018;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:18px;transition:all .2s}
+.lslot.hit{border-color:var(--lc);background:color-mix(in srgb,var(--lc) 22%,#0e1018);box-shadow:0 0 18px var(--lc);animation:lsp .35s}
+.lslot.miss{opacity:.55}
+.lslot b{font-size:20px;line-height:1}.lslot small{font-size:9px;letter-spacing:.5px}
+@keyframes lsp{0%{transform:scale(1.35)}100%{transform:scale(1)}}
+#lhint{min-height:22px;font-size:15px}
+#lhint.pop{animation:lsp .3s}
+.lquick{margin-top:6px;opacity:.7}

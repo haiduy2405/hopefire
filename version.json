@@ -1,12 +1,11 @@
 {
-  "version": "0.9.3",
+  "version": "0.9.4",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "CREW: crates can now give you a Guardian, Hunter, Medic or Engineer who walk inside the ring and fight (max 3, upgrade with duplicates)",
-    "CARRIERS haul salvage around the ring - mark one (tap) and kill it before it escapes for a FREE crate",
-    "Killing any marked creature pays a BOUNTY in scrap; the Hunter chases your marked target",
-    "Reactor now explains itself: effects on the button, on every switch and in a first-time guide",
-    "Bosses are a little tougher"
+    "CRATE LOCKS: crack 3 locks by tapping when the needle hits a colour - blue = Rare, purple = Epic, gold = Legendary, dead centre = PERFECT. Hit all 3 (with a purple or gold) for a JACKPOT extra card",
+    "THE HORDE: hundreds of creatures now lurk in the dark around you, and it grows every threat level",
+    "SURGES: the horde masses on one side and charges - watch for the red arrows",
+    "Rarity is now earned more through the locks than luck (can be turned off in Options)"
   ]
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9.4 — 2026-11-18
+- **Crate lock mini-game** (`src/crate.js` lockStart/lockTap/lockDraw): 3 locks per crate (one per card). A needle sweeps a dial (speed breathes with a sine, faster each lock, random direction); zones: RARE 56° always, EPIC 26° (55%), LEGENDARY 13° (15% + luck). Hit = rarity floor for that card; centre 16% = PERFECT +1 (max Epic). All 3 hit incl. an Epic/Legendary zone = JACKPOT extra card. AFK auto-miss after 3.6 s, Quick open button, Options toggle `SETTINGS.lockGame`. Not shown on the very first crate. Ticks/hit/perfect/miss/jackpot SFX
+- **The Horde** (`src/horde.js`): 80→420 non-simulated silhouettes with glowing eyes in packs outside the ring, grows with threat/site/Nightmare, flinches from the light, eyes turn red on ring pulses/OVERDRIVE, ambient growls
+- **Surges**: from threat 3 (always on every 3rd threat, 35% otherwise; not during bosses) the horde in one sector crowds the ring for 2.6 s (rumble, banner with direction, red arrows), then 3–16 real creatures charge from there
+- Balance: base rarity weights 70/22/7/1.2 → 80/15/4.5/0.7 (locks give the rest); CH_HP sites 2–5 +9%, Nightmare HP +6–11%. Bot (skilled lock play): story 68–78 min, everything 193–222 min, no errors
+
 ## v0.9.3 — 2026-11-18
 - **Crew** (`src/crew.js`): new crate card type (20% when crew < 3, 10% when full; guaranteed once in run 2+). Guardian (taunts creatures within 66 near the hull, cleave), Hunter (chases MARK → carriers → fast creatures, pounce 2×), Medic (Hope regen 0.25–1%/s, heals crew), Engineer (+30–60% fire rate to the module he tends, rotates every 7 s). Element per crew member → statuses/reactions. HP, DOWN for 8 s then respawn at the hatch, ★ via duplicates. Procedural pixel figures + card portraits (AI art later). Loadout lists crew
 - **Carriers**: from ~30 s then every 55–75 s (not during bosses) a carrier circles the ring edge for 15 s then escapes; never attacks; panics when hit. Kill = FREE crate (`R.free`, crate button turns gold). First one pauses with a tip that teaches MARK

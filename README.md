@@ -38,7 +38,9 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 **Vừa xong v0.9.3:** **Crew** (`src/crew.js`: Guardian/Hunter/Medic/Engineer, tối đa 3, có hệ nguyên tố, gục/hồi sinh, ★ khi trùng), **Carrier** (quái chở hàng chạy vòng quanh ring, đánh dấu + giết = crate MIỄN PHÍ → lý do để đánh dấu), **Bounty** (giết quái đã đánh dấu = 2× scrap), **Reactor** giải thích rõ (nút, banner, bảng hướng dẫn lần đầu). Bot: cốt truyện 75–97 phút, toàn bộ 3–4 giờ.
 
-**Đang làm / chờ** (cập nhật v0.9.3)
+**Vừa xong v0.9.4:** **Mở crate = mini-game bẻ 3 khóa** (canh kim quay: xanh ≥Rare, tím ≥Epic, vàng ≥Legendary, giữa vùng = PERFECT; trúng cả 3 có tím/vàng = JACKPOT thêm 1 thẻ; tắt được trong Options). **Bầy quái (horde)** hàng trăm cặp mắt trong bóng tối, đông dần theo threat; **Surge**: bầy dồn về một phía rồi lao vào (mũi tên đỏ báo trước). Cân bằng lại độ hiếm gốc + máu quái. Bot (bẻ khóa giỏi): cốt truyện ~70–80 phút.
+
+**Đang làm / chờ** (cập nhật v0.9.4)
 0. **Crew đã làm (v0.9.3)** — art crew đang vẽ bằng code, cần làm sprite AI cùng style. Chờ Duy chơi thử crew + carrier.
 1. **Duy đang chơi thử** → chờ góp ý.
 2. **Độ khó:** Duy chốt 4 mức Dễ / Vừa / Khó / Hell. Làm **Normal thật chuẩn trước**; save slot đã lưu `meta.diff`, màn tạo game hiện 4 mức (chỉ Normal mở). Làm 3 mức còn lại SAU khi Normal được duyệt.

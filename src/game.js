@@ -35,7 +35,7 @@ function layoutMods(){
   R.mods.forEach((h,i)=>{const a=-Math.PI/2+Math.PI/n+i*2*Math.PI/n;h.x=Math.cos(a)*82;h.y=Math.sin(a)*82;R.syn[h.t.ty]=(R.syn[h.t.ty]||0)+1});
   if(Object.values(R.syn).some(v=>v>=4))ach('syn4');if(R.mods.length>=8)ach('arsenal');
 }
-function rollR(){const L=1+0.12*lv('luck')+0.25*(R.ch-1)+(R.night?NM.luck:0);const w=[70,22*L,7*L,1.2*L];let x=Math.random()*w.reduce((a,b)=>a+b);for(let i=0;i<4;i++){if((x-=w[i])<0)return i}return 0}
+function rollR(){const L=1+0.12*lv('luck')+0.25*(R.ch-1)+(R.night?NM.luck:0);const w=[80,15*L,4.5*L,0.7*L];let x=Math.random()*w.reduce((a,b)=>a+b);for(let i=0;i<4;i++){if((x-=w[i])<0)return i}return 0}
 function pickKind(){let tot=0;const L=[];for(const [k,w,mw,mc] of SPAWN_TABLE)if(R.wave>=mw&&R.ch>=mc){L.push([k,w]);tot+=w}let x=Math.random()*tot;for(const [k,w] of L){if((x-=w)<0)return k}return 'crawler'}
 function spawn(kind,state,bk){
   const k=EK[kind],a=Math.random()*Math.PI*2,rr=ringR(),B=bk?BOSSES[bk-1]:null;
@@ -157,7 +157,7 @@ function update(dt){
   if(R.corpses){for(const c of R.corpses)c.t-=dt;R.corpses=R.corpses.filter(c=>c.t>0)}
   R.emb=(R.emb||0)-dt;if(R.emb<=0){R.emb=0.07;R.pt.push({x:-42+rnd(-3,3),y:-4+rnd(-3,3),vx:rnd(-10,10),vy:rnd(-45,-20),t:rnd(.6,1.3),c:Math.random()<.5?'#ff8a30':'#ffd24a',s:rnd(1,2.5),g:-15,add:1})}
   if((R.endless||R.wave<BOSS_WAVE)&&R.waveT>=WAVE_LEN){R.wave++;R.waveT=0;
-    R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};musStinger('wave');R.ringPulse=Math.max(R.ringPulse||0,0.6);
+    R.banner={s:!R.endless&&R.wave===BOSS_WAVE?'⚠ SOMETHING HUGE APPROACHES ⚠':'THREAT '+R.wave,t:1.8};musStinger('wave');R.ringPulse=Math.max(R.ringPulse||0,0.6);hordeWave();
     if(R.endless){if(R.wave>(meta.bestEndless||0))meta.bestEndless=R.wave;if(R.wave>=20)ach('end20');if(R.wave>=40)ach('end40')}}
   if(!R.endless&&R.wave>=BOSS_WAVE&&!R.bossSpawned){R.bossSpawned=true;spawnBoss(R.ch)}
   if(R.endless&&R.wave%10===0&&R.lastBossWave!==R.wave){R.lastBossWave=R.wave;spawnBoss(((R.wave/10-1)%5)+1)}
@@ -200,7 +200,7 @@ function update(dt){
     }
     e.x+=vx*dt;e.y+=vy*dt;if(Math.abs(vx)>1)e.face=vx>0?1:-1;e.ph+=dt*(Math.hypot(vx,vy)*0.12+0.5);if(e.lunge>0)e.lunge-=dt;
   }
-  carrierTick(dt,rr);crewTick(dt,rr);
+  hordeTick(dt,rr);carrierTick(dt,rr);crewTick(dt,rr);
   // modules
   const as=(1+0.08*lv('aspd'))*(R.overT>0?2:1);
   for(const h of R.mods){

@@ -5,7 +5,7 @@ const SLOT_KEY=n=>'hopefire_slot_'+n,SET_KEY='hopefire_settings',SLOTS=3;
 const defMeta=()=>({mastery:0,up:{},chapter:1,best:{},runs:0,sel:1,tut:{},muted:false,
   stats:{kills:0,crates:0,spells:0,bosses:0,legend:0,time:0,reactions:0},ach:{},set:{},story:0,bestEndless:0,autoCast:true,night:{},nightSel:false,warp:false,
   name:'Commander',diff:'normal',created:0,lastPlayed:0});
-const defSettings=()=>({vol:55,mus:60,voice:80,shake:1,nums:1,spd:1,uiScale:0,flashes:1,muted:false,lastSlot:0});
+const defSettings=()=>({vol:55,mus:60,voice:80,shake:1,nums:1,spd:1,uiScale:0,flashes:1,lockGame:1,muted:false,lastSlot:0});
 function mergeMeta(s){const d=defMeta(),m=Object.assign(d,s);m.stats=Object.assign(defMeta().stats,s.stats||{});return m}
 function readSlot(n){try{const s=JSON.parse(localStorage.getItem(SLOT_KEY(n)));return s?mergeMeta(s):null}catch(e){return null}}
 function loadSettings(){let st=defSettings();try{const s=JSON.parse(localStorage.getItem(SET_KEY));if(s)st=Object.assign(st,s)}catch(e){}

@@ -86,10 +86,12 @@ function render(dt){
   // darkness
   drawDarkness(rr,sx,sy,T);
   ctx.setTransform(DPR*S,0,0,DPR*S,DPR*(OX+sx),DPR*(OY+sy));
+  drawHorde(T,rr);
   // additive glow pass
   ctx.globalCompositeOperation='lighter';
   for(const p of plants){const a=0.35+0.25*Math.sin(T*1.5+p.ph);if(p.ai){ctx.globalAlpha=a*0.10;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.gy,p.gr*1.15,0,7);ctx.fill();ctx.globalAlpha=a*0.12;ctx.beginPath();ctx.arc(p.x,p.gy,p.gr*0.6,0,7);ctx.fill();continue}ctx.globalAlpha=a*0.16;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y-9,p.s*2,0,7);ctx.fill();ctx.globalAlpha=a*0.9;ctx.fillRect(p.x-p.s*0.4,p.y-9-p.s*0.4,p.s*0.8,p.s*0.8);ctx.globalAlpha=a*0.5;ctx.fillRect(p.x-0.5,p.y-9,1,9)}
   ctx.globalAlpha=1;
+  drawHordeEyes(T,rr);
   // warm light pool around the ship (matches key art)
   {ctx.save();ctx.scale(1,K);const fl=1+0.03*Math.sin(T*7)+0.02*Math.sin(T*13.3),g=ctx.createRadialGradient(0,0,8,0,0,rr*1.05*fl);g.addColorStop(0,'rgba(255,150,70,0.30)');g.addColorStop(0.45,'rgba(255,110,40,0.13)');g.addColorStop(1,'rgba(255,80,20,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,rr*1.05*fl,0,7);ctx.fill();ctx.restore()}
   // dust motes drifting in the light

@@ -132,15 +132,80 @@ function openPack(){
   meta.stats.crates++;curCards=rollCrate();
   const best=Math.max(...curCards.map(x=>x.rl?3:x.r)),tell=['#cfd6e4',RAR[1].c,RAR[2].c,RAR[3].c][best];
   sfx('crate');
+  const lockOn=SETTINGS.lockGame!==0&&meta.tut.mod&&R.mods.length>=1;
   show(`<div class="panel center crpanel"><h2>SALVAGE CRATE</h2>
-    <div class="crate r${best}" id="crateEl" style="--tc:${tell}"><div class="crays"></div>${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div>
-    <div class="crhint">tap to open</div></div>`);
+    <div class="lockwrap${lockOn?'':' nolock'}">${lockOn?'<canvas id="lockCv"></canvas>':''}<div class="crate r${best}" id="crateEl" style="--tc:${tell}"><div class="crays"></div>${ico('crate',4,0,'<div class="body"></div><div class="stripe"></div><div class="lid"></div><div class="lightc"></div>')}</div></div>
+    ${lockOn?`<div class="lslots">${curCards.map((x,i)=>`<div class="lslot" id="ls${i}">${i<3?'🔒':''}</div>`).join('')}</div>
+    <div class="crhint" id="lhint">TAP when the needle is in a colour · <kbd>Space</kbd></div><button class="small lquick" id="lquick">Quick open ▸</button>`:'<div class="crhint">tap to open</div>'}</div>`);
   let opened=false;const el=$('crateEl');
-  const go=()=>{if(opened)return;opened=true;sfx('crack'+best);
+  const go=()=>{if(opened)return;opened=true;LK=null;const b2=Math.max(...curCards.map(x=>x.rl?3:x.r));sfx('crack'+b2);
     if(SPR.data&&SPR.data.sprites.crate){el.querySelector('.ico')&&(el.querySelector('.ico').outerHTML=ico('crate',4,1))}
-    el.classList.add('open');if(best===3){flash(0.5);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),400)}
-    setTimeout(()=>revealCards(c),best>=2?520:300)};
-  el.onclick=go;setTimeout(go,best>=2?1050:700);
+    el.classList.add('open');if(b2===3){flash(0.5);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),400)}
+    setTimeout(()=>revealCards(c),b2>=2?520:300)};
+  if(!lockOn){el.onclick=go;setTimeout(go,best>=2?1050:700);return}
+  lockStart(go);el.onclick=e=>{e.stopPropagation();lockTap()};
+  modal.querySelector('.crpanel').onclick=e=>{if(e.target.id!=='lquick')lockTap()};
+  $('lquick').onclick=e=>{e.stopPropagation();sfx('click');LK=null;go()};
+}
+// ---------- crate lock mini-game ----------
+// 3 locks (one per card). A needle sweeps a dial with coloured zones; tap inside a zone to raise that
+// card's rarity floor (blue ≥RARE, purple ≥EPIC, gold ≥LEGENDARY; dead centre = PERFECT +1 tier).
+// All 3 hit = JACKPOT: an extra card. Speed breathes (sine) so every lock has its own rhythm.
+let LK=null;
+const LZ=[{t:1,w:56,c:'#4da3ff',n:'RARE'},{t:2,w:26,c:'#b366ff',n:'EPIC'},{t:3,w:13,c:'#ffb020',n:'LEGENDARY'}];
+function lockZones(){const z=[LZ[0]];if(Math.random()<0.55)z.push(LZ[1]);if(Math.random()<0.15+0.02*lv('luck'))z.push(LZ[2]);
+  const out=[];for(const d of z){for(let k=0;k<40;k++){const a=Math.random()*360;if(out.every(o=>Math.abs(((a-o.a+540)%360)-180)>(o.w+d.w)/2+14)){out.push(Object.assign({a},d));break}}}return out}
+function lockStart(done){
+  const n=Math.min(3,curCards.length);
+  LK={i:0,n,done,ang:Math.random()*360,dir:Math.random()<.5?1:-1,base:190,ph:Math.random()*6,zones:lockZones(),t:0,hits:0,res:[],fx:[],flash:0,wait:0,tick:0,last:performance.now()};
+  const cv2=$('lockCv'),dpr=Math.min(2,devicePixelRatio||1),sz=cv2.clientWidth||300;cv2.width=sz*dpr;cv2.height=sz*dpr;LK.cv=cv2;LK.g=cv2.getContext('2d');LK.g.scale(dpr*sz/300,dpr*sz/300);
+  const loop=now=>{if(!LK||!$('lockCv'))return;const dt=Math.min(0.05,(now-LK.last)/1000);LK.last=now;lockStep(dt);lockDraw();requestAnimationFrame(loop)};requestAnimationFrame(loop);
+}
+function lockSpeed(){return LK.base*(1+0.22*LK.i)*(1+0.38*Math.sin(LK.t*2.3+LK.ph))}
+function lockStep(dt){const L=LK;L.t+=dt;L.flash=Math.max(0,L.flash-dt*2.5);
+  for(const f of L.fx){f.t-=dt;f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=260*dt}L.fx=L.fx.filter(f=>f.t>0);
+  if(L.wait>0){L.wait-=dt;if(L.wait<=0)lockNext();return}
+  const prev=L.ang;L.ang=(L.ang+L.dir*lockSpeed()*dt+360)%360;
+  if(Math.floor(prev/30)!==Math.floor(L.ang/30))sfx('ltick');
+  L.tw=(L.tw||0)+dt;if(L.tw>3.6){L.tw=0;lockResolve(null,false)} // AFK: auto-miss
+}
+function lockTap(){const L=LK;if(!L||L.wait>0||L.i>=L.n)return;
+  let hitZ=null,perfect=false;for(const z of L.zones){const d=Math.abs(((L.ang-z.a+540)%360)-180);if(d<=z.w/2&&(!hitZ||z.t>hitZ.t)){hitZ=z;perfect=d<=z.w*0.16}}
+  lockResolve(hitZ,perfect)}
+function lockResolve(z,perfect){const L=LK,i=L.i,cd=curCards[i],sl=$('ls'+i);L.tw=0;
+  let tier=0;if(z){tier=z.t===3?3:Math.min(2,z.t+(perfect?1:0));L.hits++;if(z.t>=2)L.big=1}
+  const before=cd.rl?3:cd.r;if(!cd.rl&&tier>cd.r)cd.r=tier;
+  L.res.push({z,perfect,tier});L.flash=z?1:0.5;L.fc=z?z.c:'#ff5a5a';
+  const ac=z?(perfect?'#fff6c0':z.c):'#9aa4b2';
+  for(let k=0;k<(z?(perfect?46:26):8);k++){const a=(L.ang-90)*Math.PI/180,r=120;L.fx.push({x:150+Math.cos(a)*r,y:150+Math.sin(a)*r,vx:rnd(-160,160),vy:rnd(-220,-20),t:rnd(.3,.8),c:k%3?ac:'#ffffff'})}
+  if(z){sfx('lock'+z.t);if(perfect)sfx('perfect')}else sfx('lmiss');
+  const name=z?(perfect?'PERFECT! ':'')+RAR[Math.max(tier,before)].n:'MISS';
+  if(sl){sl.classList.add(z?'hit':'miss');sl.style.setProperty('--lc',z?RAR[Math.max(tier,before)].c:'#555');sl.innerHTML=z?`<b>${perfect?'★':'✓'}</b><small>≥${RAR[tier].n}</small>`:'<b>✕</b>'}
+  const h=$('lhint');if(h){h.innerHTML=`<b style="color:${z?(perfect?'#fff6c0':z.c):'#ff8a8a'}">${name}</b>`;h.classList.remove('pop');void h.offsetWidth;h.classList.add('pop')}
+  if(z&&tier>=2){modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),260)}
+  L.wait=0.55;
+}
+function lockNext(){const L=LK;L.i++;
+  if(L.i>=L.n){if(L.hits===L.n&&L.n>=3&&L.big){const ex=rollCrate().find(x=>!curCards.some(c=>(c.t&&x.t&&c.t.id===x.t.id)||(c.cr&&c.cr===x.cr)||(c.sp&&x.sp&&c.sp.id===x.sp.id)||(c.rl&&x.rl&&c.rl.id===x.rl.id)));
+      if(ex){curCards.push(ex);sfx('jackpot');flash(0.35);const h=$('lhint');if(h)h.innerHTML='<b style="color:#ffd24a">JACKPOT! +1 CARD</b>';meta.stats.jackpots=(meta.stats.jackpots||0)+1}}
+    const d=L.done;setTimeout(()=>{if(curCards)d()},L.hits===L.n?650:250);L.wait=99;return}
+  L.zones=lockZones();L.dir=Math.random()<.5?1:-1;L.ph=Math.random()*6;L.t=0;
+  const h=$('lhint');if(h)h.innerHTML=`Lock ${L.i+1} / ${L.n} — faster!`;
+}
+function lockDraw(){const L=LK,g=L.g,cx=150,cy=150,R0=120;g.clearRect(0,0,300,300);
+  g.lineCap='butt';g.lineWidth=20;g.strokeStyle='#14161f';g.beginPath();g.arc(cx,cy,R0,0,7);g.stroke();
+  g.lineWidth=2;g.strokeStyle='#2e3344';g.beginPath();g.arc(cx,cy,R0+11,0,7);g.stroke();g.beginPath();g.arc(cx,cy,R0-11,0,7);g.stroke();
+  for(let k=0;k<12;k++){const a=(k*30-90)*Math.PI/180;g.strokeStyle='#3a4157';g.lineWidth=2;g.beginPath();g.moveTo(cx+Math.cos(a)*(R0-9),cy+Math.sin(a)*(R0-9));g.lineTo(cx+Math.cos(a)*(R0+9),cy+Math.sin(a)*(R0+9));g.stroke()}
+  const T=performance.now()/1000;
+  for(const z of L.zones){const a0=(z.a-z.w/2-90)*Math.PI/180,a1=(z.a+z.w/2-90)*Math.PI/180,pul=z.t===3?0.6+0.4*Math.sin(T*10):1;
+    g.save();g.shadowColor=z.c;g.shadowBlur=14*pul;g.strokeStyle=z.c;g.globalAlpha=0.85*pul;g.lineWidth=18;g.beginPath();g.arc(cx,cy,R0,a0,a1);g.stroke();g.restore();
+    const pc=(z.a-90)*Math.PI/180,pw=z.w*0.16*Math.PI/180;g.strokeStyle='#ffffff';g.globalAlpha=0.55;g.lineWidth=18;g.beginPath();g.arc(cx,cy,R0,pc-pw,pc+pw);g.stroke();g.globalAlpha=1}
+  if(L.flash>0){g.strokeStyle=L.fc;g.globalAlpha=L.flash;g.lineWidth=6;g.beginPath();g.arc(cx,cy,R0+18+(1-L.flash)*20,0,7);g.stroke();g.globalAlpha=1}
+  const a=(L.ang-90)*Math.PI/180;g.save();g.shadowColor='#fff';g.shadowBlur=12;g.strokeStyle='#ffffff';g.lineWidth=4;g.lineCap='round';
+  g.beginPath();g.moveTo(cx+Math.cos(a)*(R0-26),cy+Math.sin(a)*(R0-26));g.lineTo(cx+Math.cos(a)*(R0+16),cy+Math.sin(a)*(R0+16));g.stroke();g.restore();
+  g.fillStyle='#fff';g.beginPath();g.arc(cx+Math.cos(a)*(R0+16),cy+Math.sin(a)*(R0+16),4,0,7);g.fill();
+  for(let k=0;k<L.n;k++){const x=cx+(k-(L.n-1)/2)*26,y=16,r=L.res[k];g.fillStyle=r?(r.z?r.z.c:'#5a2a2a'):k===L.i?'#ffffff':'#2e3344';g.beginPath();g.arc(x,y,k===L.i&&!r?7+Math.sin(T*8):6,0,7);g.fill()}
+  for(const f of L.fx){g.globalAlpha=Math.min(1,f.t*2);g.fillStyle=f.c;g.fillRect(f.x-2,f.y-2,4,4)}g.globalAlpha=1;
 }
 function revealCards(c){
   if(!curCards)return;

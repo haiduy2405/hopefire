@@ -15,7 +15,7 @@ function audioInit(){
 }
 function tone(type,f0,f1,dur,vol,delay){const t=AC.currentTime+(delay||0);const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.03)}
 function noise(dur,vol,fc,delay){const t=AC.currentTime+(delay||0);const s=AC.createBufferSource();s.buffer=noiseBuf;const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=fc;const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(f);f.connect(g);g.connect(master);s.start(t,Math.random()*0.5,dur+0.05)}
-const GAP={slash:60,crew:150,bounty:80,rx_SHATTER:70,rx_OVERLOAD:90,rx_SUPERCONDUCT:110,rx_CONTAGION:90,pick:28,flip0:40,flip1:40,flip2:40,flip3:40,hit:40,shot:50,lance:50,alert:220,kill:45,beam:70,mortar:80,boom:70,hurt:120,cell:80};
+const GAP={ltick:25,growl:900,slash:60,crew:150,bounty:80,rx_SHATTER:70,rx_OVERLOAD:90,rx_SUPERCONDUCT:110,rx_CONTAGION:90,pick:28,flip0:40,flip1:40,flip2:40,flip3:40,hit:40,shot:50,lance:50,alert:220,kill:45,beam:70,mortar:80,boom:70,hurt:120,cell:80};
 function sfx(n){
   if(!AC||meta.muted)return;const now=performance.now();if(now-(lastS[n]||0)<(GAP[n]||0))return;lastS[n]=now;
   try{switch(n){
@@ -66,6 +66,14 @@ function sfx(n){
     case 'freecrate':[0,4,7,12,16,19].forEach((x,i)=>tone('triangle',523*Math.pow(2,x/12),528*Math.pow(2,x/12),0.35,0.05,i*0.045));noise(0.3,0.06,6000,0.15);tone('sine',130,65,0.4,0.1);break;
     case 'escape':tone('triangle',660,330,0.35,0.05);tone('triangle',494,247,0.4,0.04,0.12);break;
     case 'bounty':tone('square',1046,1046,0.06,0.03);tone('square',1568,1568,0.1,0.03,0.06);break;
+    case 'ltick':tone('square',2400,2200,0.012,0.008);break;
+    case 'lock1':tone('triangle',880,1320,0.12,0.05);noise(0.05,0.04,5000);break;
+    case 'lock2':[0,7].forEach((x,i)=>tone('triangle',988*Math.pow(2,x/12),992*Math.pow(2,x/12),0.2,0.05,i*0.05));noise(0.08,0.05,6000);break;
+    case 'lock3':[0,4,7,12].forEach((x,i)=>tone('triangle',1046*Math.pow(2,x/12),1050*Math.pow(2,x/12),0.35,0.055,i*0.045));tone('sine',130,65,0.35,0.1);noise(0.2,0.06,7000);break;
+    case 'perfect':[0,12,19].forEach((x,i)=>tone('sine',1568*Math.pow(2,x/12),1575*Math.pow(2,x/12),0.25,0.035,0.06+i*0.04));break;
+    case 'lmiss':tone('square',140,90,0.12,0.06);noise(0.1,0.07,900);break;
+    case 'jackpot':[0,4,7,12,16,19,24].forEach((x,i)=>tone('square',523*Math.pow(2,x/12),526*Math.pow(2,x/12),0.22,0.035,i*0.05));noise(0.4,0.06,7000,0.3);tone('sine',98,49,0.6,0.12);break;
+    case 'growl':tone('sawtooth',70+Math.random()*30,40,0.9,0.03);noise(0.8,0.025,300);break;
     case 'synergy':[0,1,2].forEach(i=>tone('sawtooth',330*Math.pow(1.5,i),335*Math.pow(1.5,i),0.35,0.03,i*0.07));[0,1,2].forEach(i=>tone('triangle',660*Math.pow(1.5,i),664*Math.pow(1.5,i),0.5,0.045,0.05+i*0.07));break;
   }}catch(e){}
 }
