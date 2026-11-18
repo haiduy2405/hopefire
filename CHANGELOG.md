@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.17.1 — 2026-11-19
+- Link beams: colored core under the additive glow (was washed out white). Build-bar and loadout chips use the new tower icons.
+
 ## v0.17.0 — 2026-11-19
 - **Ring & Links** (src/ring.js): modules sit in fixed slots around the ship; neighbours form LINKS (Thermal+Cryo Thermal Shock, Thermal+Arc Plasma, Thermal+Nano Forge, Arc+Cryo Static Field, Cryo+Nano Cryo-Sleep, Arc+Nano Overcharge; same element Resonance; class pairs Spotter / Rangefinder / Demolition). Harmony x1.1 (all linked) and Perfect Ring x1.2 (2 links each). Swapping is free (tap, drag, or loadout ring); crate cards preview the links a pick would form; new modules auto-take the best slot.
 - **Signature towers** (src/sig.js): Prism Spire (amp), Gravity Well, Mine Layer, Longshot (sniper), Tesla Coil, Aegis Projector (shield).

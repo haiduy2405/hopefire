@@ -103,9 +103,10 @@ function drawRing(T){
   const edit=R.rsel!==undefined&&R.rsel>=0||R.rdrag;
   for(let s=0;s<n;s++)if(!modAt(s)){const [x,y]=slotXY(s);c.globalAlpha=edit?0.75:0.28;c.strokeStyle=edit?'#ffd24a':'#8a94a6';c.lineWidth=1.5;c.setLineDash([4,4]);c.beginPath();c.ellipse(x,y*K+2,16,6.4,0,0,7);c.stroke();c.setLineDash([])}
   // link beams
+  for(const l of R.links){const a=l.a,b=l.b;c.globalAlpha=0.85;c.strokeStyle=l.d.c;c.lineWidth=3;c.beginPath();c.moveTo(a.x,a.y*K-8);c.lineTo(b.x,b.y*K-8);c.stroke()}
   c.globalCompositeOperation='lighter';
   for(const l of R.links){const a=l.a,b=l.b,x1=a.x,y1=a.y*K-8,x2=b.x,y2=b.y*K-8,pul=0.55+0.25*Math.sin(T*3+a.sl);
-    c.globalAlpha=pul;c.strokeStyle=l.d.c;c.lineWidth=2.2;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();
+    c.globalAlpha=pul*0.6;c.strokeStyle=l.d.c;c.lineWidth=2.2;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();
     c.globalAlpha=pul*0.35;c.lineWidth=6;c.stroke();
     const t=(T*0.6+a.sl*0.17)%1;c.globalAlpha=0.9;c.fillStyle='#fff';c.beginPath();c.arc(x1+(x2-x1)*t,y1+(y2-y1)*t,1.8,0,7);c.fill()}
   c.restore();

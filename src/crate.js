@@ -63,7 +63,7 @@ function buildBarHTML(pv){
   let el='';for(const k in TYPES){const a=s0[k]||0,b=s1[k]||0;if(!a&&!b)continue;const t=synTier(b);
     el+=`<span class="bel${t?' t'+t:''}${b!==a?' chg':''}" data-el="${k}" style="--ec:${TYPES[k].c}"><b>${k}</b>${pips(k,b,pv?a:undefined)}</span>`}
   if(!el)el='<span class="bempty">No modules yet — 2 of one element = synergy</span>';
-  const slots=Array.from({length:R.slots},(_,i)=>{const h=mods[i];return `<span class="bslot${h?'':' empty'}">${h?ico('c_'+h.t.c+'_'+h.t.ty,1,0,h.t.g)+(h.s>1?`<sup>★${h.s}</sup>`:''):''}</span>`}).join('');
+  const slots=Array.from({length:R.slots},(_,i)=>{const h=mods[i];return `<span class="bslot${h?'':' empty'}">${h?(TART[h.t.c]?modIcon(h.t,22):ico('c_'+h.t.c+'_'+h.t.ty,1,0,h.t.g))+(h.s>1?`<sup>★${h.s}</sup>`:''):''}</span>`}).join('');
   const dd=pv?`<span class="bd ${d1>=d0?'up':'dn'}">→ ${fmt(d1)}</span>`:'';
   return `<div class="bslots">${slots}</div><div class="bels">${el}</div><div class="bdps">TEAM DPS <b>${fmt(d0)}</b>${dd}</div>`;
 }

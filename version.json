@@ -1,11 +1,9 @@
 {
-  "version": "0.17.0",
+  "version": "0.17.1",
   "date": "2026-11-19",
   "minVersion": "0.0.0",
   "notes": [
-    "RING: modules next to each other now LINK for big bonuses. Tap/drag modules to swap them for free",
-    "6 new signature towers (Prism Spire, Gravity Well, Mine Layer, Longshot, Tesla Coil, Aegis Projector)",
-    "Every tower class has its own silhouette; Harmony and Perfect Ring bonuses",
-    "Rebalanced for the new system"
+    "Link beams now have a colored core",
+    "New tower icons on the build bar and loadout chips"
   ]
 }
