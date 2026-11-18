@@ -4,7 +4,7 @@ INIT="""let __t=1000;performance.now=()=>__t;window.__cbs=[];window.requestAnima
 window.__step=ms=>{__t+=ms;const c=__cbs;__cbs=[];c.forEach(f=>{try{f(__t)}catch(e){console.error(e)}})};
 window.setTimeout=((st)=>(f,ms,...a)=>{const due=__t+(ms||0);const chk=()=>{if(__t>=due)f(...a);else __cbs.push(()=>chk())};__cbs.push(()=>chk());return 1})(window.setTimeout);
 addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent='#tip,#toasts,#skipCut,#hud .ver{display:none!important}';document.head.appendChild(s)});"""
-SETUP="()=>{meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1,s2:1,s3:1,s4:1,s5:1};meta.runs=40;meta.chapter=5;meta.story=1;meta.set.nums=1;meta.siteTip={1:1,2:1,3:1,4:1,5:1};save();window.ach=()=>{};window.tip=()=>{}}"
+SETUP="()=>{useSlot(3,{name:'Test'});closeTitle();document.body.classList.remove('intitle');meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1,s2:1,s3:1,s4:1,s5:1};meta.runs=40;meta.chapter=5;meta.story=1;meta.set.nums=1;meta.siteTip={1:1,2:1,3:1,4:1,5:1};save();window.ach=()=>{};window.tip=()=>{}}"
 def run(ch,wave,mods,hope=1,zoom=1.0,react=1):
     return f"()=>{{hide();newRun({ch},false,false,false);hideTip();R.slots=6;R.react={react};for(const [i,r,s] of {mods})R.mods.push({{t:MODS[i],r,s,tier:{ch},cd:0,fl:0}});layoutMods();R.wave={wave};R.maxHope*={hope};R.hope=R.maxHope*0.85;R.gold=9000;R.banner=null;renderChips();resize();S*={zoom};groundFor=-1}}"
 def swarm(n,kinds,r0,r1,rush):

@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.9.1 — 2026-11-18
+- **Title screen** (`src/title.js`): animated key-art background, embers, logo, Continue / Save slots / Options / Credits / Quit (desktop)
+- **3 save slots** (`hopefire_slot_1..3`) + global settings (`hopefire_settings`); legacy save auto-migrated to Slot 1 (old key kept as backup); rename, delete (2-step confirm), new game with name + difficulty (Normal only; Easy/Hard/Hell shown as coming soon)
+- **Options** with tabs (Audio, Video: interface size/fullscreen/screen flashes/shake/damage numbers, Gameplay, Controls); used from title, hub and pause
+- **Loadout panel** (Tab, ☰ button, tap module chips): modules with DPS share, synergy tiers, spells, relics
+- Pause menu: Options, Loadout, Abandon run, Quit to title (banks collected cores); hub shows slot name/difficulty + back to title
+- Voice-over + Suno file-music system ready (`src/voice.js`, `docs/VOICE_SCRIPT.md`); free TTS setup script (`tools/voice/setup_tts.ps1`: Kokoro + Chatterbox)
+
 ## v0.9.0 — 2026-11-18
 - **Adaptive music** (`src/music.js`, procedural WebAudio, 100 BPM A-minor): pad → arp → hats → bass/kick → snare → double-time layers follow intensity (rushing creatures, threat, endless); boss mode (dark progression, brass stabs, toms); menu mode (pad + bells); low-Hope heartbeat; ducking while paused; key-matched stingers (wave, synergy, victory, defeat); Music volume slider; shared compressor bus
 - SFX: loot pickup pitch ladder (pentatonic combo), hit/kill variation, star-up fanfare, module drop thud, streak sting, crate crack/flip by rarity

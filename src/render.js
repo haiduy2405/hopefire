@@ -8,7 +8,7 @@ function resize(){
   DPR=Math.min(2,window.devicePixelRatio||1);W=innerWidth;H=innerHeight;
   for(const c of [cv,dk,gc]){c.width=W*DPR;c.height=H*DPR}
   cv.style.width=W+'px';cv.style.height=H+'px';
-  UZ=Math.max(1,Math.min(1.8,Math.min(W/1280,H/760)));document.documentElement.style.setProperty('--uz',UZ);
+  UZ=SETTINGS.uiScale>0?SETTINGS.uiScale:Math.max(1,Math.min(1.8,Math.min(W/1280,H/760)));document.documentElement.style.setProperty('--uz',UZ);
   const top=54*UZ,bot=118*UZ;S=Math.min(W/560,(H-top-bot)/(K*620));OX=W/2;OY=top+(H-top-bot)/2+12;groundFor=-1;
 }
 addEventListener('resize',resize);resize();

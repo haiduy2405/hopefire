@@ -9,4 +9,4 @@ function loop(now){
   try{render(raw)}catch(err){console.error(err)}
   hud(raw);requestAnimationFrame(loop);
 }
-menu();requestAnimationFrame(loop);
+titleScreen();requestAnimationFrame(loop);

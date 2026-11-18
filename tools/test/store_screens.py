@@ -1,6 +1,6 @@
 import asyncio
 from playwright.async_api import async_playwright
-SETUP="()=>{meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1};meta.runs=40;meta.chapter=5;meta.story=1;meta.night={1:1,2:1,3:1};meta.cores=4200;meta.set.nums=1;save();menu()}"
+SETUP="()=>{useSlot(3,{name:'Test'});closeTitle();document.body.classList.remove('intitle');meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1};meta.runs=40;meta.chapter=5;meta.story=1;meta.night={1:1,2:1,3:1};meta.cores=4200;meta.set.nums=1;save();menu()}"
 def run(ch,wave,mods,night='false'):
     return f"()=>{{hide();newRun({ch},false,false,{night});hideTip();R.slots=6;for(const [i,r,s] of {mods})R.mods.push({{t:MODS[i],r,s,tier:{ch},cd:0,fl:0}});layoutMods();R.wave={wave};R.hope=R.maxHope*0.8;R.gold=5000;R.banner=null;renderChips()}}"
 async def main():

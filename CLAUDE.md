@@ -12,10 +12,10 @@ Inspired by *Booster Pack Heroes* (Steam). See `docs/DESIGN.md`.
 
 ## Code
 Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.js` then `src/*.js` in this order:
-`data, core, audio, music, voice, render, sprites, game, spells, relics, progress, cutscene, update, crate, ui, main` (classic scripts sharing globals; keep the order).
+`data, core, audio, music, voice, render, sprites, game, spells, relics, progress, cutscene, update, crate, ui, title, main` (classic scripts sharing globals; keep the order).
 - Balance numbers live in `src/data.js` (CH_HP, CH_DMG, NM, UPG, UPG2, BOSSES, SPAWN_TABLE…).
 - Sprites: `python tools/sprites/build.py` → `assets/sprites.png/.json/.js` (procedural pixel art; code fallback when a sprite is missing). See `docs/ASSETS.md`.
-- Save: `localStorage['hopefire_v1']`, merged with `defMeta()` in `src/core.js` — add new fields there with defaults, never rename keys.
+- Save: 3 slots `localStorage['hopefire_slot_1..3']` (per-slot `meta`, merged with `defMeta()` in `src/core.js` — add new fields there with defaults, never rename keys) + global `hopefire_settings` (`SETTINGS`, aliased as `meta.set`). Legacy `hopefire_v1` is migrated to slot 1 once and kept as backup. Boot → `titleScreen()` (src/title.js); `SLOT=0` on the title screen.
 
 ## Release routine (every version)
 1. Bump `window.HF_VERSION` in `index.html` **and** `version.json` (same number; notes = player-facing English). `tools/bump.ps1` does both.
@@ -32,6 +32,8 @@ Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.j
 Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding on US-customer revenue); VN tax-exempt under the yearly revenue threshold but must keep records/declare; Decree 147/2024 avoided by offline play + VN region lock; **disclose AI-generated content on Steam**; Steam build must disable the online update check.
 
 ## Duy's standing rules
+- Difficulty: 4 levels planned (Easy/Normal/Hard/Hell). Perfect **Normal** first; build the others only after Normal is approved.
+- Use free, commercially-licensed tools where possible (TTS: Kokoro Apache-2.0 + Chatterbox MIT).
 - Game must hook players from the very first runs (gameplay + feedback + FX + animation + music + sound).
 - **No trailer / store screenshots until Duy plays and approves the finished game.**
 - Keep Electron for desktop (Tauri/Rust considered and rejected).
@@ -39,4 +41,4 @@ Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding o
 - Update README.md ("Đã/đang/sẽ") + this file after every big step — they are the handoff for any new Claude account.
 
 ## Status & next steps
-See README.md → "Đã làm / đang làm / sẽ làm" (kept current). Current: **v0.9.0** (Crate 2.0, adaptive music, feel pass, FTUE). Waiting for Duy's playtest feedback. Voice/file-music system ready (src/voice.js, docs/VOICE_SCRIPT.md) — needs Suno Pro working on account haiduy2405 and ElevenLabs Starter+ for commercial rights. Next: independent AI review (docs/REVIEW_PROMPT.md v2) → fixes; Suno tracks for menu/boss if Duy buys Suno Pro. Test scripts: tools/test/.
+See README.md → "Đã làm / đang làm / sẽ làm" (kept current). Current: **v0.9.1** (title screen, 3 save slots, options, loadout; difficulty: Normal only until approved) (Crate 2.0, adaptive music, feel pass, FTUE). Waiting for Duy's playtest feedback. Voice/file-music system ready (src/voice.js, docs/VOICE_SCRIPT.md) — needs Suno Pro working on account haiduy2405 and ElevenLabs Starter+ for commercial rights. Next: independent AI review (docs/REVIEW_PROMPT.md v2) → fixes; Suno tracks for menu/boss if Duy buys Suno Pro. Test scripts: tools/test/.

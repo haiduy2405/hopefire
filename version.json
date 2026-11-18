@@ -1,11 +1,11 @@
 {
-  "version": "0.9.0",
+  "version": "0.9.1",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Adaptive soundtrack: the music builds up as creatures rush you and turns dark when a boss arrives (Music volume in Settings)",
-    "Much more feedback: star-up fanfare, turrets drop in, kill streaks, Hope bar shakes on hits, dramatic slow-motion when the ship falls",
-    "Clearer goals after each run: boss progress bar, counting Xeno-cores, repairs ready to install",
-    "Your first run now teaches synergies naturally"
+    "New title screen with 3 save slots (rename, delete, continue) \u2014 your progress moved to Slot 1",
+    "Options menu: audio, video (interface size, fullscreen, flashes), gameplay and controls",
+    "Loadout panel (Tab): review every module, synergy, spell and relic you picked this run",
+    "Pause menu: options, loadout, abandon run, quit to title"
   ]
 }

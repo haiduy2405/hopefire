@@ -34,11 +34,12 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 **Vừa xong v0.9.0 (2026-11-18):** Crate 2.0, nhạc thích ứng tự tổng hợp (`src/music.js`), SFX mới, game feel (nâng ★, module rơi xuống, streak, rung thanh Hope, màn chết slow-mo), ván đầu dạy synergy, màn kết có mục tiêu boss + số nâng cấp mua được, REVIEW_PROMPT v2, script test trong `tools/test/`. Bot cân bằng: cốt truyện 106 phút, toàn bộ 229 phút.
 
-**Đang làm / chờ**
-1. **Chờ Duy chơi thử + góp ý** (bản Windows: shortcut “HOPEFIRE (test)”; demo nhạc `store/music_demo_v1.mp3`).
-2. **Suno:** tài khoản Chrome `haiduy2405` hiện CHƯA mở được model Pro (bấm v6 Pro → bị đòi nâng cấp) → chưa tạo bài nào (bài làm khi chưa có Pro không có quyền thương mại). Khi Pro hoạt động: tạo nhạc menu / boss / ending (instrumental) → `assets/music/` + `manifest.js`. Code phát nhạc file đã sẵn (`src/voice.js`, test bằng file giả OK).
-3. **Lồng tiếng AI:** kịch bản 25 câu ở `docs/VOICE_SCRIPT.md` (HOPE = AI tàu, COMMANDER = phi hành gia). Cần ElevenLabs **Starter ($6/tháng) trở lên** mới có quyền thương mại. Code đã sẵn: thả file `<id>.mp3` vào `assets/vo/` + liệt kê trong `manifest.js` là chạy (có phụ đề, giảm nhạc khi nói, thanh chỉnh Voice).
-4. Chạy review AI độc lập theo `docs/REVIEW_PROMPT.md` v2 → sửa theo top 10.
+**Đang làm / chờ** (cập nhật v0.9.1)
+1. **Duy đang chơi thử** → chờ góp ý.
+2. **Độ khó:** Duy chốt 4 mức Dễ / Vừa / Khó / Hell. Làm **Normal thật chuẩn trước**; save slot đã lưu `meta.diff`, màn tạo game hiện 4 mức (chỉ Normal mở). Làm 3 mức còn lại SAU khi Normal được duyệt.
+3. **Lồng tiếng:** dùng TTS miễn phí, thương mại được: **Kokoro-82M** (Apache-2.0, giọng HOPE) + **Chatterbox** (MIT, có điều chỉnh cảm xúc, giọng COMMANDER). Cài trên máy Duy (RTX 3060 Ti): `tools/voice/setup_tts.ps1` → `D:\AI\hopefire_tts` (log `setup.log`). Kịch bản: `docs/VOICE_SCRIPT.md`. Code phát thoại sẵn sàng (`src/voice.js`).
+4. **Suno Pro:** Duy nói đã mua Pro, nhưng trên Chrome (tài khoản haiduy2405) chọn model v6 Pro vẫn hiện bảng đòi nâng cấp → kiểm tra lại trước khi tạo nhạc menu/boss/ending (bài tạo khi chưa Pro = không có quyền thương mại).
+5. Review AI độc lập theo `docs/REVIEW_PROMPT.md` v2.
 
 **Sẽ làm**
 - Đồ họa còn vẽ bằng code: drone, đồ rơi, hiệu ứng phép, hành tinh trong cutscene, nền đất bãi 2–5.
@@ -79,7 +80,8 @@ src/relics.js         8 relic
 src/progress.js       thành tựu, thống kê, settings, autocast
 src/cutscene.js       cutscene mở đầu + màn kết
 src/update.js         kiểm tra bản mới (tắt trong bản desktop: window.HF_DESKTOP)
-src/crate.js          Crate 2.0: nghi thức mở, thẻ, thanh build, % DPS, hệ, bảng thông tin hệ
+src/title.js          màn hình tiêu đề, 3 save slot (đổi tên/xóa), Options theo tab, Credits
+src/crate.js          Crate 2.0 + bảng Loadout (Tab): nghi thức mở, thẻ, thanh build, % DPS, hệ, bảng thông tin hệ
 src/ui.js             menu, chọn thẻ (pick), HUD, hướng dẫn, kết thúc lượt
 src/main.js           vòng lặp game (hit-stop, slow-mo)
 assets/ai/            sprite AI đã xử lý (PNG + JSON) — build.py ưu tiên dùng

@@ -21,6 +21,9 @@ async def main():
         # start like a player: click the main start button
         btn=await pg.evaluate("()=>{const b=[...document.querySelectorAll('#modal button')].map(x=>x.textContent.trim());return b}")
         print('menu buttons',btn)
+        await pg.evaluate("()=>{document.getElementById('tPlay').click()}");await pg.evaluate("__step(100)")
+        await pg.evaluate("()=>{document.querySelector('.slot[data-n=\"1\"] [data-a=new]').click()}");await pg.evaluate("__step(100)")
+        await pg.evaluate("()=>{document.querySelector('[data-ok]').click()}");await pg.evaluate("__step(300)")
         await pg.evaluate("()=>{const b=document.getElementById('startBtn');if(b)b.click()}")
         await pg.evaluate("__step(300)");print('cut?',await pg.evaluate("!!CUT"))
         await pg.evaluate("()=>{if(CUT)endCutscene()}");

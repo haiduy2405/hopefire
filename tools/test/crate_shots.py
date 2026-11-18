@@ -1,6 +1,6 @@
 import asyncio
 from playwright.async_api import async_playwright
-SETUP="()=>{meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1};meta.runs=5;save();menu();hide();newRun(2,false,false,false);hideTip();R.maxHope*=50;R.hope=R.maxHope;R.slots=5;for(const [i,r,s] of [[0,1,2],[1,0,1],[3,2,1],[6,0,1]])R.mods.push({t:MODS[i],r,s,tier:2,cd:0,fl:0});layoutMods();renderChips();R.gold=1e6}"
+SETUP="()=>{useSlot(3,{name:'Test'});closeTitle();document.body.classList.remove('intitle');meta.tut={start:1,crate:1,mod:1,syn:1,cell:1,reactor:1,boss:1,done1:1,intro:1,spell:1};meta.runs=5;save();menu();hide();newRun(2,false,false,false);hideTip();R.maxHope*=50;R.hope=R.maxHope;R.slots=5;for(const [i,r,s] of [[0,1,2],[1,0,1],[3,2,1],[6,0,1]])R.mods.push({t:MODS[i],r,s,tier:2,cd:0,fl:0});layoutMods();renderChips();R.gold=1e6}"
 async def main(w,h,tag):
     async with async_playwright() as p:
         b=await p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])

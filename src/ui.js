@@ -20,7 +20,7 @@ function refreshReactBtn(){const b=$('reactBtn');if(!R||meta.runs<1){b.classList
 const modal=$('modal');
 function show(html){modal.innerHTML=html;modal.classList.remove('hidden')}
 function hide(){modal.classList.add('hidden');modal.innerHTML=''}
-function flash(a){const f=$('flash');f.style.transition='none';f.style.opacity=a;requestAnimationFrame(()=>{f.style.transition='opacity .45s';f.style.opacity=0})}
+function flash(a){if(!SETTINGS.flashes)a*=0.25;const f=$('flash');f.style.transition='none';f.style.opacity=a;requestAnimationFrame(()=>{f.style.transition='opacity .45s';f.style.opacity=0})}
 // tips
 let tipTimer=null;
 function tip(id,html,pause,secs){
@@ -75,7 +75,7 @@ function menu(){
   R=null;document.body.classList.add('inmenu');hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
   const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;if(firstRepair)setTimeout(()=>vo('repair'),400);
   const cheapest=UPG.filter(u=>lv(u.k)<u.max).sort((a,b)=>upCost(a)-upCost(b))[0];
-  let h=`<div class="panel"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div>
+  let h=`<div class="panel"><div class="hubtop"><button class="small" id="toTitleBtn">◂ TITLE</button><span class="hubslot">${esc(meta.name)} · <b class="d-${meta.diff}">${diffName(meta.diff)}</b> · Slot ${SLOT}</span></div><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div>
   <div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div>`;
   if(meta.runs>0){
     h+=`<h2>CRASH SITES</h2><div class="chs">`;
@@ -99,7 +99,7 @@ function menu(){
   const wb=$('warpChk');if(wb)wb.onchange=e=>{meta.warp=e.target.checked;save()};
   const ib=$('introBtn');if(ib)ib.onclick=()=>startCutscene('menu');
   const bind=(id,f)=>{const b=$(id);if(b)b.onclick=()=>{audioInit();sfx('click');f()}};
-  bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('endBtn',()=>startEnding('menu'));
+  bind('toTitleBtn',titleScreen);bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('endBtn',()=>startEnding('menu'));
   bind('endlessBtn',()=>{hide();newRun(MAXCH,true)});
 }
 $('packBtn').onclick=openPack;$('loadBtn').onclick=()=>showLoadout();
@@ -108,7 +108,9 @@ function togglePause(force){
   $('pauseBtn').textContent=on?'▶':'II';sfx('click');
   if(on)$('upd').classList.contains('hidden')&&showPausePanel();else{const p=$('pausePanel');if(p)p.remove()}
 }
-function showPausePanel(){const d=document.createElement('div');d.id='pausePanel';d.innerHTML='<div class="panel center" style="max-width:360px"><div class="logo" style="font-size:34px">PAUSED</div><p style="color:#9aa3b3;font-size:12px;margin:10px 0 16px">Esc / P to resume</p><button class="big" id="resumeBtn">▶ RESUME</button></div>';document.body.appendChild(d);$('resumeBtn').onclick=()=>togglePause(false)}
+function showPausePanel(){const d=document.createElement('div');d.id='pausePanel';d.innerHTML='<div class="panel center" style="max-width:360px"><div class="logo" style="font-size:34px">PAUSED</div><p style="color:#9aa3b3;font-size:12px;margin:10px 0 16px">Esc / P to resume</p><button class="big" id="resumeBtn">▶ RESUME</button><div class="pmenu"><button class="small" id="pOpt">⚙ Options</button><button class="small" id="pLoad">☰ Loadout</button><button class="small" id="pHub">✕ Abandon run</button><button class="small" id="pTitle">⏏ Quit to title</button></div></div>';document.body.appendChild(d);$('resumeBtn').onclick=()=>togglePause(false);
+  $('pOpt').onclick=()=>{d.remove();panelOptions(()=>{hide();showPausePanel()})};$('pLoad').onclick=()=>{togglePause(false);showLoadout()};
+  $('pHub').onclick=()=>{d.remove();R.userPause=false;$('pauseBtn').textContent='II';endRun(false)};$('pTitle').onclick=()=>{d.remove();R.userPause=false;$('pauseBtn').textContent='II';toTitle()}}
 $('pauseBtn').onclick=()=>togglePause();
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&R&&!R.over&&!R.paused)togglePause(true)});
 $('skipCut').onclick=endCutscene;
