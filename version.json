@@ -1,8 +1,8 @@
 {
-  "version": "0.9.5",
+  "version": "0.9.6",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Voice acting: HOPE (the ship AI) and the Commander now speak (subtitles included; Voice volume in Options)"
+    "New artwork for your crew (Guardian, Hunter, Medic, Engineer) and the salvage Carrier"
   ]
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.6 — 2026-11-18
+- **AI art for crew and carrier**: 4 crew sprites (`assets/ai/crew_<role>`, 4 walk frames, hit flash) replace the code-drawn astronauts in battle, in the crate cards and in the Loadout; the element is shown by a coloured pip at the feet. New `carrier` sprite (six-legged pack-beast hauling a golden crate) replaces the re-used brute; carrier radius 13 → 15 to match the bigger sprite. Code-drawn figure stays as fallback when the atlas is missing. Source sheets: `store/crew_v1.png`, `store/carrier_v1.png` (ChatGPT; declare AI art on Steam)
+
 ## v0.9.5 — 2026-11-18
 - **Voice-over**: 25 lines in `assets/vo/*.mp3` + manifest. HOPE = Kokoro-82M `af_heart` (Apache-2.0), COMMANDER = Chatterbox (MIT) cloned from a Kokoro `am_fenrir` reference with emotion (exaggeration) per line, ??? = HOPE + octave-down layer. Generated on Duy's PC (`tools/voice/gen_lines.py`, venvs in `D:\AI\hopefire_tts`; kokoro venv needs torch ≥2.6 cu124), post-processed here (`tools/voice/post.py`: trim, FX chain, −16 LUFS, mono mp3). Steam: declare AI-generated voices
 

@@ -40,10 +40,12 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 **Vừa xong v0.9.4:** **Mở crate = mini-game bẻ 3 khóa** (canh kim quay: xanh ≥Rare, tím ≥Epic, vàng ≥Legendary, giữa vùng = PERFECT; trúng cả 3 có tím/vàng = JACKPOT thêm 1 thẻ; tắt được trong Options). **Bầy quái (horde)** hàng trăm cặp mắt trong bóng tối, đông dần theo threat; **Surge**: bầy dồn về một phía rồi lao vào (mũi tên đỏ báo trước). Cân bằng lại độ hiếm gốc + máu quái. Bot (bẻ khóa giỏi): cốt truyện ~70–80 phút.
 
+**Vừa xong v0.9.6:** **Art AI cho Crew (4 nhân vật) và Carrier** — thay hình vẽ bằng code; nguyên tố hiện bằng chấm màu dưới chân. Sheet gốc: `store/crew_v1.png`, `store/carrier_v1.png`.
+
 **Vừa xong v0.9.5:** **Lồng tiếng** 25 câu (HOPE = Kokoro, COMMANDER = Chatterbox; miễn phí, dùng thương mại được). Tạo lại: trên máy Duy chạy `D:\AI\hopefire_tts\kokoro\Scripts\python.exe tools\voice\gen_lines.py kokoro` rồi `...\chatter\Scripts\python.exe tools\voice\gen_lines.py chatter` (ra `build\vo_raw`), sau đó `python tools/voice/post.py <thư mục vo_raw>` (cần ffmpeg) → `assets/vo/`.
 
 **Đang làm / chờ** (cập nhật v0.9.5)
-0. **Crew đã làm (v0.9.3)** — art crew đang vẽ bằng code, cần làm sprite AI cùng style. Chờ Duy chơi thử crew + carrier.
+0. **Crew + Carrier** (v0.9.3, art AI từ v0.9.6) — chờ Duy chơi thử.
 1. **Duy đang chơi thử** → chờ góp ý.
 2. **Độ khó:** Duy chốt 4 mức Dễ / Vừa / Khó / Hell. Làm **Normal thật chuẩn trước**; save slot đã lưu `meta.diff`, màn tạo game hiện 4 mức (chỉ Normal mở). Làm 3 mức còn lại SAU khi Normal được duyệt.
 3. **Lồng tiếng:** dùng TTS miễn phí, thương mại được: **Kokoro-82M** (Apache-2.0, giọng HOPE) + **Chatterbox** (MIT, có điều chỉnh cảm xúc, giọng COMMANDER). Cài trên máy Duy (RTX 3060 Ti): `tools/voice/setup_tts.ps1` → `D:\AI\hopefire_tts` (log `setup.log`). Kịch bản: `docs/VOICE_SCRIPT.md`. Code phát thoại sẵn sàng (`src/voice.js`).
@@ -51,7 +53,7 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 5. Review AI độc lập theo `docs/REVIEW_PROMPT.md` v2.
 
 **Sẽ làm**
-- Đồ họa còn vẽ bằng code: drone, đồ rơi, hiệu ứng phép, hành tinh trong cutscene, nền đất bãi 2–5.
+- Đồ họa còn vẽ bằng code: drone, đồ rơi, hiệu ứng phép, hành tinh trong cutscene, nền đất bãi 2–5. (Crew/carrier đã có art AI từ v0.9.6.)
 - Steam SDK (steamworks.js): thành tựu + cloud save; bản demo (bãi 1–2) cho Next Fest.
 - Sau khi Duy duyệt game: trailer + ảnh store làm lại, nhạc trailer có bản quyền, mở trang **Coming Soon** ngay để gom wishlist.
 - Thị trường: đối thủ trực tiếp *Booster Pack Heroes* ra mắt 10/11/2026 trên Steam/App Store/Google Play, 91% đánh giá tích cực → thể loại có người mua; HOPEFIRE cần khác biệt (ánh sáng/bóng tối, hệ nguyên tố, cốt truyện).

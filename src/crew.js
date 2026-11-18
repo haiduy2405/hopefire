@@ -108,7 +108,7 @@ function carrierTick(dt,rr){
   if(!meta.tut.crate||R.endless&&false)return;
   R.carT=(R.carT===undefined?rnd(28,38):R.carT)-dt;
   if(R.carT<=0&&!(R.boss&&!R.boss.dead)&&!R.en.some(e=>e.k==='carrier')){R.carT=rnd(55,75);
-    const e=spawn('carrier','carry');e.sk='brute';e.r=13;e.hp=e.mhp=e.mhp*1.2;e.ca=Math.random()*6.28;e.dir=Math.random()<.5?1:-1;e.life=0;e.L=15;
+    const e=spawn('carrier','carry');e.r=15;e.hp=e.mhp=e.mhp*1.2;e.ca=Math.random()*6.28;e.dir=Math.random()<.5?1:-1;e.life=0;e.L=15;
     e.x=Math.cos(e.ca)*rr*1.25;e.y=Math.sin(e.ca)*rr*1.25;sfx('carrier');
     R.banner={s:'◆ CARRIER SPOTTED',sub:'Mark it (tap) and kill it before it escapes: FREE crate',t:2};
     if(!meta.tut.carrier)setTimeout(()=>tip('carrier',`A <b>Carrier</b> is hauling salvage around the ring! It won't attack — it runs.<br><b>Tap it to MARK it</b>: your modules focus it and it takes +25% damage. Kill it for a <b>FREE crate</b>.`,true),250)}
@@ -154,14 +154,24 @@ function drawCrewFig(c2,X,Y,role,ty,o){
   if(role==='engineer'){c2.fillStyle='#9aa4b2';c2.fillRect(-2,-6,1,1)}
   c2.restore();
 }
+// AI sprite version of the crew figure (assets/ai/crew_<role>); falls back to the code-drawn figure
+function crewSprName(role){const n='crew_'+role;return SPR.has(n)?n:null}
+function drawCrewAny(c2,role,ty,o){
+  const n=crewSprName(role);if(!n){drawCrewFig(c2,0,0,role,ty,o);return}
+  const fi=o.moving?Math.floor((o.ph||0)*1.4)%4:0,fl=(o.face||1)<0;
+  drawSpr(c2,n,fi,0,0,fl);
+  if(o.hit>0){const a0=c2.globalAlpha;c2.globalAlpha=a0*0.65;drawSpr(c2,n+'_flash',fi,0,0,fl);c2.globalAlpha=a0}
+  // element pip at the feet (the sprites share one palette per role, the element shows here)
+  c2.fillStyle=TYPES[ty].c;c2.globalAlpha=(c2.globalAlpha||1)*0.95;c2.beginPath();c2.arc(fl?7:-7,2,2.2,0,7);c2.fill();c2.globalAlpha=1;
+}
 function drawCrew(c,T){
   const X=c.x,Y=c.y*K,ctx2=ctx;
-  if(c.down>0){ctx2.save();ctx2.globalAlpha=0.55;ctx2.translate(X,Y);ctx2.rotate(-Math.PI/2*c.face);drawCrewFig(ctx2,0,0,c.role,c.ty,{face:c.face});ctx2.restore();
+  if(c.down>0){ctx2.save();ctx2.globalAlpha=0.55;ctx2.translate(X,Y);ctx2.rotate(-Math.PI/2*c.face);drawCrewAny(ctx2,c.role,c.ty,{face:c.face});ctx2.restore();
     ctx2.strokeStyle='#ffffff88';ctx2.lineWidth=2;ctx2.beginPath();ctx2.arc(X,Y-26,6,-Math.PI/2,-Math.PI/2+Math.PI*2*(1-c.down/CREW_RESPAWN));ctx2.stroke();return}
   const dz=c.drop>0?c.drop*60:0,sc=c.pop>0?1+Math.sin(c.pop/0.6*Math.PI)*0.3:1;
   ctx2.save();ctx2.translate(X,Y-dz);ctx2.scale(sc,sc);
   ctx2.strokeStyle=RAR[c.r].c;ctx2.globalAlpha=0.8;ctx2.lineWidth=1.4;ctx2.beginPath();ctx2.ellipse(0,0,9,3.4,0,0,7);ctx2.stroke();ctx2.globalAlpha=1;
-  drawCrewFig(ctx2,0,0,c.role,c.ty,{ph:c.ph,face:c.face,moving:c.moving,hit:c.hit,atk:c.atk});
+  drawCrewAny(ctx2,c.role,c.ty,{ph:c.ph,face:c.face,moving:c.moving,hit:c.hit,atk:c.atk});
   if(c.work){ctx2.fillStyle='#ffd24a';const a=T*8;ctx2.fillRect(Math.cos(a)*8-1,-30+Math.sin(a)*2,2,2)}
   if(c.s>1){ctx2.fillStyle='#ffd24a';ctx2.font='900 7px monospace';ctx2.textAlign='center';ctx2.fillText('★'.repeat(Math.min(c.s,5)),0,-31)}
   ctx2.restore();
@@ -176,8 +186,15 @@ function drawCarrierExtras(e,T){
 }
 const _portraits={};
 function crewPortrait(role,ty){const k=role+ty;if(_portraits[k])return _portraits[k];
-  const cv2=document.createElement('canvas');cv2.width=cv2.height=96;const c2=cv2.getContext('2d');c2.scale(3,3);drawCrewFig(c2,16,30,role,ty,{face:1});
-  return _portraits[k]=cv2.toDataURL()}
+  const cv2=document.createElement('canvas');cv2.width=cv2.height=96;const c2=cv2.getContext('2d');
+  const sn=crewSprName(role);
+  if(sn){ // AI sprite, fitted into the 96px box, bottom aligned; not cached until the atlas is ready (handled by crewSprName)
+    const f=SPR.data.sprites[sn][0],s=Math.min(88/f.w,88/f.h);c2.imageSmoothingEnabled=true;c2.imageSmoothingQuality='high';
+    c2.drawImage(SPR.img,f.x,f.y,f.w,f.h,48-f.w*s/2,92-f.h*s,f.w*s,f.h*s);
+    c2.fillStyle=TYPES[ty].c;c2.beginPath();c2.arc(10,86,5,0,7);c2.fill();c2.strokeStyle='#0b0a10';c2.lineWidth=2;c2.stroke();
+    return _portraits[k]=cv2.toDataURL()}
+  c2.scale(3,3);drawCrewFig(c2,16,30,role,ty,{face:1});
+  return cv2.toDataURL()}
 function crewCardHTML(cd,i){
   const C=CREW[cd.cr],ex=R.crew.find(c=>c.role===cd.cr),col=TYPES[cd.ty].c;
   let tag;if(ex)tag=`<span class="tg" style="background:#ffd24a">★${ex.s} → ★${ex.s+1} UPGRADE</span>`;

@@ -23,7 +23,7 @@
 - [x] v0.9.2 Phản ứng nguyên tố (SHATTER/OVERLOAD/SUPERCONDUCT/CONTAGION) + chạm đánh dấu quái + bỏ BEST DPS
 - [x] v0.9.3 Crew + Carrier (crate miễn phí) + Bounty + giải thích Reactor
 - [x] v0.9.4 Mini-game bẻ khóa crate + Horde + Surge
-- [ ] Art AI cho crew/carrier
+- [x] v0.9.6 Art AI cho crew/carrier
 - [ ] (cũ) Crew: thành viên tổ lái di chuyển trong vòng tròn (Guardian/Hunter/Medic/Engineer)
 - [x] Mỗi chapter có quái/cơ chế riêng (quái nổ, quái bay, quái tàng hình…)
 - [x] Boss riêng cho từng chapter (5 boss, mỗi con một cơ chế)

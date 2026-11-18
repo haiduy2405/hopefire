@@ -18,7 +18,7 @@ const EK={
   crawler:{hp:22,spd:46,dmg:4,r:10,g:1,core:1,cell:.05,c:'#4b3a5c'},
   skitter:{hp:13,spd:92,dmg:3,r:8,g:1,core:1,cell:.04,c:'#5d4b2c'},
   brute:{hp:110,spd:28,dmg:12,r:16,g:5,core:3,cell:.3,c:'#5c2f3c'},
-  carrier:{hp:110,spd:36,dmg:0,r:13,g:6,core:3,cell:.5,c:'#8a6a2a'},
+  carrier:{hp:110,spd:36,dmg:0,r:15,g:6,core:3,cell:.5,c:'#8a6a2a'},
   boss:{hp:1500,spd:9,dmg:15,r:36,g:80,core:40,cell:1,c:'#341a30'}
 };
 const SITES=['Crash Site','Research Wreck','Mining Hulk','War Graveyard','The Origin'];
