@@ -32,7 +32,9 @@ Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.j
 Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding on US-customer revenue); VN tax-exempt under the yearly revenue threshold but must keep records/declare; Decree 147/2024 avoided by offline play + VN region lock; **disclose AI-generated content on Steam**; Steam build must disable the online update check.
 
 ## Status & next steps
-Current: **v0.7.0** (art wave 2 done). Next (docs/ROADMAP.md "Đường tới tiền"):
-1. Steam capsule/key art — Duy generates with ChatGPT using docs/STORE_ART.md (disclose AI).
-2. Store screenshots + 30–60 s trailer (Duy edits video), Steamworks signup ($100), **Coming Soon page ASAP** for wishlists.
-3. Desktop packaging (Electron/Tauri), Steam achievements, demo (sites 1–2) for Next Fest, launch with 10–20% discount.
+Current: **v0.8.1** — AI-assisted art (ChatGPT image gen in Duy's browser → magenta sheet → `tools/sprites/import_ai.py` → `assets/ai/` → build.py) for ship, cannon, turrets, 8 creatures, 5 bosses, ground props. Store assets done: `store/` (key art, logo, all capsules, 7 screenshots, trailer_v1_silent.mp4), `docs/STEAM_PAGE.md`. Desktop build: `tools/desktop/package_win.ps1` → `build/HOPEFIRE/HOPEFIRE.exe`.
+Next:
+1. **Duy only:** Steamworks account (identity, $100, bank, W-8BEN tax interview). Then Claude fills the store page from docs/STEAM_PAGE.md → Coming Soon ASAP.
+2. Trailer music (licensed/royalty-free) — trailer is silent.
+3. Steam SDK (steamworks.js) achievements + cloud save; demo build (sites 1–2) for Next Fest.
+4. Art still procedural: drones, loot orbs, crate, spell FX, cutscene planet; ground tiles for sites 2–5.
