@@ -31,7 +31,7 @@ function cutUpdate(dt){
   if(t<6.2){
     C.phase='space';
     once('s1',()=>{sfx('rumble');sub('S.V. HOPE — deep survey vessel',2.8,'#9aa3b3')});
-    if(t>2.8)once('s2',()=>{sfx('rumble');sub('Hull breach. Engines failing.',3,'#ff7b7b')});
+    if(t>2.8)once('s2',()=>{sfx('rumble');sub('Hull breach. Engines failing.',3,'#ff7b7b');vo('intro_1',1)});
     once('al'+Math.floor(t),()=>sfx('alarm'));
     C.shake=Math.max(C.shake,1+t*0.8);
     const k=Math.min(1,t/6.2),px=W*(0.92-0.45*k),py=H*(0.08+0.62*k*k);
@@ -45,7 +45,7 @@ function cutUpdate(dt){
     if(t>9.9)once('b2',()=>sub('MAIN POWER 41%   ·   HEAT RAY: ???',2.1,'#ffb03a'));
   }else{
     C.phase='ground';
-    if(t>12.7)once('g1',()=>sub('Where… am I?',2.6));
+    if(t>12.7)once('g1',()=>{sub('Where… am I?',2.6);vo('intro_2',1)});
     if(t>16.3)once('g2',()=>sub("…I'm not alone.",2.8,'#d8ff7a'));
     for(const e of C.eyes){e.wt-=dt;if(e.wt<=0){e.wt=rnd(1,3);e.hd+=rnd(-0.8,0.8)}e.x+=Math.cos(e.hd)*8*dt;e.y+=Math.sin(e.hd)*8*dt;e.ph+=dt*1.2;e.face=Math.cos(e.hd)>0?1:-1}
     const m=C.mon,d=Math.hypot(m.x,m.y)||1;m.hit=Math.max(0,m.hit-dt);
@@ -169,16 +169,16 @@ function endUpdate(dt){
   const C=CUT;C.t+=dt;const t=C.t;C.shake=Math.max(0,C.shake-dt*20);
   for(const s of C.subs)s.t+=dt;C.subs=C.subs.filter(s=>s.t<s.dur);
   if(t<12){C.phase='ground';
-    once('e1',()=>sub('The last part clicks into place.',3));
+    once('e1',()=>{sub('The last part clicks into place.',3);vo('ending_1',1)});
     if(t<4&&Math.random()<dt*14)C.pt.push({x:rnd(-40,40),y:rnd(-30,10),vx:rnd(-60,60),vy:rnd(-120,-40),t:rnd(.2,.5),c:'#ffe27a',s:2,g:300,add:1});
-    if(t>4)once('e2',()=>{sub('Main engine… online.',3,'#ffb03a');sfx('rumble');C.shake=6});
+    if(t>4)once('e2',()=>{sub('Main engine… online.',3,'#ffb03a');sfx('rumble');C.shake=6;setTimeout(()=>vo('ending_2',1),1500)});
     if(t>4){C.shake=Math.max(C.shake,2+(t-4));for(let i=0;i<3;i++)C.pt.push({x:rnd(-30,30),y:18-C.lift,vx:rnd(-40,40),vy:rnd(60,160),t:rnd(.3,.7),c:Math.random()<.5?'#ffb03a':'#ff4318',s:rnd(4,9),g:0,add:1})}
     if(t>7){once('e3',()=>{sub('They feel it. All of them.',3,'#ff7b7b');sfx('alert')});for(const e of C.eyes)e.state='rush';C.lift+=dt*(20+(t-7)*60)}
     for(const e of C.eyes){e.ph+=dt*3;if(e.state==='rush'){const d=Math.hypot(e.x,e.y)||1;if(d>90){e.x-=e.x/d*110*dt;e.y-=e.y/d*110*dt;e.face=e.x<0?1:-1}}}
   }else if(t<16){C.phase='space';once('e4',()=>{sfx('rumble');sub('S.V. HOPE breaks orbit.',3,'#9aa3b3')})}
   else{C.phase='black';
     if(t>16.6)once('e5',()=>{sfx('alarm');sub('…incoming signal',3,'#5cd0ff')});
-    if(t>19.4)once('e6',()=>{sfx('heart');sub('“You are not the first. You will not be the last.”',4.6,'#ff7b7b')});
+    if(t>19.4)once('e6',()=>{sfx('heart');vo('ending_3',1);sub('“You are not the first. You will not be the last.”',4.6,'#ff7b7b')});
     if(t>24.5){once('e7',()=>sfx('title'));C.title=Math.min(1,C.title+dt*0.6)}
   }
   for(const p of C.pt){p.t-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=(p.g||0)*dt}C.pt=C.pt.filter(p=>p.t>0);

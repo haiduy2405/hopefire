@@ -152,7 +152,7 @@ function revealCards(c){
   cards.forEach((el,i)=>{
     const cd=curCards[i];el.onclick=()=>pick(i);
     el.onmouseenter=()=>{if(cd.t)renderBuildBar(previewPick(cd))};el.onmouseleave=()=>renderBuildBar();
-    setTimeout(()=>{if(!curCards)return;const r=cd.rl?3:cd.r;sfx('flip'+r);if(r===3){flash(cd.rl?0.35:0.6);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),380)}},(0.08+i*0.17)*1000+180);
+    setTimeout(()=>{if(!curCards)return;const r=cd.rl?3:cd.r;sfx('flip'+r);if(r===3&&cd.t)vo('legendary');if(r===3){flash(cd.rl?0.35:0.6);modal.classList.add('mshake');setTimeout(()=>modal.classList.remove('mshake'),380)}},(0.08+i*0.17)*1000+180);
   });
   bindElemBadges(modal);
   $('skipBtn').onclick=()=>{R.gold+=Math.floor(c*0.4);sfx('click');closePack()};
@@ -167,7 +167,7 @@ function relicCardHTML(cd,i){
 // called by pick() after a module is placed: celebrate synergy tiers that just switched on
 function synCelebrate(prev){
   for(const k in TYPES){const a=synTier(prev[k]||0),b=synTier(R.syn[k]||0);if(b>a){
-    R.banner={s:`${k.toUpperCase()} SYNERGY ${SYN_T[b-1]}`,sub:b===1?ELEM_INFO[k].t2:ELEM_INFO[k].t4,t:2.2};sfx('synergy');musStinger('synergy');
+    R.banner={s:`${k.toUpperCase()} SYNERGY ${SYN_T[b-1]}`,sub:b===1?ELEM_INFO[k].t2:ELEM_INFO[k].t4,t:2.2};sfx('synergy');musStinger('synergy');vo('synergy');
     for(const h of R.mods)if(h.t.ty===k){R.fx.push({type:'ring',x:h.x,y:h.y*K,r0:6,r1:46,t:0.6,T:0.6,c:TYPES[k].c});for(let j=0;j<10;j++)R.pt.push({x:h.x,y:h.y*K-14,vx:rnd(-60,60),vy:rnd(-160,-60),t:rnd(.4,.8),c:TYPES[k].c,s:3,g:120,add:1})}
     R.fx.push({type:'ring',x:0,y:0,r0:20,r1:ringR()*0.9,t:0.7,T:0.7,c:TYPES[k].c});}}
 }

@@ -33,7 +33,7 @@ function tip(id,html,pause,secs){
 function hideTip(){$('tip').style.display='none';if(R)R.tipPause=false}
 function tutorialTick(){
   if(meta.tut.done1)return;
-  if(R.tutStep===0&&meta.tut.start&&R.t>5){R.tutStep=1;R.gold=Math.max(R.gold,packCost());tip('crate','A <b>salvage crate</b> from an older wreck! Tap <b>OPEN CRATE</b> (or Space).',false,30);$('packBtn').classList.add('pulse')}
+  if(R.tutStep===0&&meta.tut.start&&R.t>5){R.tutStep=1;R.gold=Math.max(R.gold,packCost());vo('tut_crate',1);tip('crate','A <b>salvage crate</b> from an older wreck! Tap <b>OPEN CRATE</b> (or Space).',false,30);$('packBtn').classList.add('pulse')}
 }
 function pick(i){
   if(!curCards)return;const cd=curCards[i];sfx('up');
@@ -42,13 +42,13 @@ function pick(i){
   const ex=R.mods.find(x=>x.t.id===cd.t.id);
   const mk=()=>({t:cd.t,r:cd.r,s:1,tier:R.ch,cd:0.3,fl:0,x:0,y:0});
   let target;
-  if(ex){ex.s++;ex.r=Math.max(ex.r,cd.r);ex.tier=Math.max(ex.tier,R.ch);target=ex;ex.pop=0.6;addTxt(ex.x,ex.y*K-40,'★'+(ex.s-1)+' → ★'+ex.s,'#ffd24a',20);sfx('starup');R.fx.push({type:'ring',x:ex.x,y:ex.y*K,r0:4,r1:60,t:0.5,T:0.5,c:'#ffd24a'});for(let k=0;k<24;k++)R.pt.push({x:ex.x,y:ex.y*K-14,vx:rnd(-140,140),vy:rnd(-220,-40),t:rnd(.5,.9),c:k%2?'#ffd24a':'#fff6c0',s:3,g:260,add:1})}
+  if(ex){ex.s++;ex.r=Math.max(ex.r,cd.r);ex.tier=Math.max(ex.tier,R.ch);target=ex;ex.pop=0.6;addTxt(ex.x,ex.y*K-40,'★'+(ex.s-1)+' → ★'+ex.s,'#ffd24a',20);sfx('starup');vo('star_up');R.fx.push({type:'ring',x:ex.x,y:ex.y*K,r0:4,r1:60,t:0.5,T:0.5,c:'#ffd24a'});for(let k=0;k<24;k++)R.pt.push({x:ex.x,y:ex.y*K-14,vx:rnd(-140,140),vy:rnd(-220,-40),t:rnd(.5,.9),c:k%2?'#ffd24a':'#fff6c0',s:3,g:260,add:1})}
   else if(R.mods.length<R.slots){target=mk();target.drop=0.45;R.mods.push(target);sfx('place')}
   else{let wi=0;R.mods.forEach((h,j)=>{if(power(h)<power(R.mods[wi]))wi=j});target=mk();target.drop=0.45;R.mods[wi]=target;sfx('place')}
   const prevSyn=Object.assign({},R.syn);layoutMods();renderChips();closePack();synCelebrate(prevSyn);
   R.fx.push({type:'ring',x:target.x,y:target.y*K,r0:4,r1:34,t:0.4,T:0.4,c:TYPES[cd.t.ty].c});
   for(let k=0;k<14;k++)R.pt.push({x:target.x,y:target.y*K-10,vx:rnd(-90,90),vy:rnd(-150,-30),t:rnd(.3,.6),c:TYPES[cd.t.ty].c,s:3,g:300,add:1});
-  if(!meta.tut.mod)setTimeout(()=>tip('mod','Modules fire on their own. Get the <b>same module</b> again to upgrade it <b>★</b>.',false,6),300);
+  if(!meta.tut.mod){vo('first_mod',1);}if(!meta.tut.mod)setTimeout(()=>tip('mod','Modules fire on their own. Get the <b>same module</b> again to upgrade it <b>★</b>.',false,6),300);
   else if(!meta.tut.syn&&Object.values(R.syn).some(n=>n>=2))setTimeout(()=>tip('syn','<b>Synergy!</b> 2 modules of one type: <b>+25% damage</b>. Reach 4 for a special effect.',false,7),300);
 }
 function closePack(){curCards=null;hide();if(R)R.paused=false}
@@ -65,7 +65,7 @@ function endRun(won){
   const r=R;
   setTimeout(()=>{show(`<div class="panel center"><div class="logo" style="font-size:34px;${won?'':'filter:grayscale(.6) drop-shadow(0 0 10px #f004)'}">${won?(ending?'THE LAST PART':'PART RECOVERED'):'HOPE FADES…'}</div>
     <div class="endstats">${r.endless?'∞ Endless':(r.night?'☠ ':'')+SITES[r.ch-1]} · Threat <b>${r.wave}</b>${r.endless?` · Best <b>${meta.bestEndless}</b>`:''} · ${Math.floor(r.t)}s<br>Kills <b>${r.kills}</b> · Crates <b>${r.packs}</b><br>
-    <span class="mast">+${fmt(m)} ✦ Xeno-cores</span>${unlocked?`<br><b style="color:#ffb03a">The ship can hop to a new site: ${SITES[meta.chapter-1]}!</b>`:''}${nightUnlock?`<br><b style="color:#c79bff">☠ Nightmare cleared! Unlocked: ${nightUnlock}</b>`:''}
+    <span class="mast">+${fmt(m)} ✦ Xeno-cores</span>${unlocked?(setTimeout(()=>vo('new_site',1),1300),'')+`<br><b style="color:#ffb03a">The ship can hop to a new site: ${SITES[meta.chapter-1]}!</b>`:''}${nightUnlock?`<br><b style="color:#c79bff">☠ Nightmare cleared! Unlocked: ${nightUnlock}</b>`:''}
     ${won?'':'<br><span style="color:#7f8899;font-size:12px">…but the cores you gathered can repair the ship.</span>'}</div>
     ${!won&&!r.endless?`<div class="goal"><div class="goalt">Boss appears at <b>Threat ${BOSS_WAVE}</b></div><div class="goalbar"><i style="width:${Math.min(100,r.wave/BOSS_WAVE*100)}%"></i><span style="left:${Math.min(100,(meta.best[r.ch]||r.wave)/BOSS_WAVE*100)}%" title="best"></span></div></div>`:''}
     ${(()=>{const n=UPG.filter(u=>lv(u.k)<u.max&&upCost(u)<=meta.mastery).length;return n?`<div class="affd">⚡ ${n} repair${n>1?'s':''} ready to install</div>`:''})()}
@@ -73,7 +73,7 @@ function endRun(won){
 }
 function menu(){
   R=null;document.body.classList.add('inmenu');hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
-  const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;
+  const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;if(firstRepair)setTimeout(()=>vo('repair'),400);
   const cheapest=UPG.filter(u=>lv(u.k)<u.max).sort((a,b)=>upCost(a)-upCost(b))[0];
   let h=`<div class="panel"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div>
   <div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div>`;

@@ -18,7 +18,7 @@ function newRun(ch,endless,warp,night){
   for(let i=0;i<16;i++)spawn(ch>1&&i%5===0&&sig!=='bloater'?sig:(Math.random()<.2?'skitter':'crawler'),'ambient');
   $('spdBtn').textContent=speed+'x';
   layoutMods();renderChips();refreshReactBtn();renderSpellBar();
-  if(!meta.tut.start)setTimeout(()=>tip('start',`Your ship is wrecked. The creatures out there are <b>blind</b> — they only sense you inside the <b>ring</b>.<br>Your heat ray still fires. Keep <b>🔥 HOPE</b> above zero.`,true),600);
+  if(!meta.tut.start)setTimeout(()=>vo('tut_ring',1),300);if(R.night)setTimeout(()=>vo('nightmare',1),600);if(!meta.tut.start)setTimeout(()=>tip('start',`Your ship is wrecked. The creatures out there are <b>blind</b> — they only sense you inside the <b>ring</b>.<br>Your heat ray still fires. Keep <b>🔥 HOPE</b> above zero.`,true),600);
   else if(meta.runs>=1&&!meta.tut.reactor)setTimeout(()=>tip('reactor',`<b>Reactor unlocked.</b> OVERDRIVE = more damage &amp; loot, but a <b>wider ring</b> — more of them will notice you.`,false,7),800);
   else if(ch>1&&!meta.tut['site'+ch])setTimeout(()=>tip('site'+ch,SITE_TIPS[ch]||'',false,7),900);
 }
@@ -104,6 +104,7 @@ function kill(e){
   if(e.k==='boss')bossDown(e);
 }
 function bossDown(e){
+  vo('boss_down',1);
   R.shake=16;flash(0.7);sfx('boom');R.bossKills++;meta.stats.bosses++;
   ach('b'+e.bk);if(R.react===2)ach('over');
   for(const o of R.orbs)o.t=Math.max(o.t,0.35);
@@ -112,6 +113,7 @@ function bossDown(e){
   setTimeout(()=>{if(R&&!R.over)endRun(true)},1600);
 }
 function spawnBoss(bk){
+  vo('boss_'+bk,1);
   const rr=ringR(),b=spawn('boss','wander',bk),a=Math.random()*6.28;b.x=Math.cos(a)*rr*1.5;b.y=Math.sin(a)*rr*1.5;
   R.boss=b;R.shake=12;sfx('boss');R.banner={s:'⚠ '+BOSSES[bk-1].n+' ⚠',sub:BOSSES[bk-1].d,t:2.6};
   if(!R.endless&&!meta.tut.boss)setTimeout(()=>tip('boss','That thing <b>swallowed a part we need</b> to repair the ship. Bring it down!',false,6),300);
@@ -248,7 +250,7 @@ function update(dt){
     if(o.t<0.35){o.x+=o.vx*dt;o.y+=o.vy*dt;o.vy+=320*dt;o.vx*=0.95}
     else{const dx=-o.x,dy=-20-o.y,d=Math.hypot(dx,dy)||1,sp=150+o.t*900;
       if(d<sp*dt+12){o.dead=true;
-        if(o.type==='scrap'){R.gold+=o.v;sfx('pick')}
+        if(o.type==='scrap'){R.gold+=o.v;sfx('pick')}else if(o.type==='cell'&&R.hope<R.maxHope*0.3)vo('cell')
         else if(o.type==='core'){R.cores+=o.v;sfx('pick')}
         else{R.hope=Math.min(R.maxHope,R.hope+o.v);sfx('cell');addTxt(0,-70,'+HOPE','#7dffb0',13)}}
       else{o.x+=dx/d*sp*dt;o.y+=dy/d*sp*dt}}
@@ -269,12 +271,12 @@ function update(dt){
   R.en=R.en.filter(e=>!e.dead);R.pr=R.pr.filter(p=>!p.dead);R.fx=R.fx.filter(f=>f.t>0);R.pt=R.pt.filter(p=>p.t>0);R.txt=R.txt.filter(t=>t.t>0);R.orbs=R.orbs.filter(o=>!o.dead);
   if(R.pt.length>500)R.pt.splice(0,R.pt.length-500);
   if(R.banner)R.banner.t-=dt;R.ringPulse=Math.max(0,R.ringPulse-dt*1.5);
-  spellTick(dt);autoCastTick(dt);tutorialTick();
+  spellTick(dt);autoCastTick(dt);tutorialTick();if(R.hope<R.maxHope*0.25&&!R.dying&&R.t>3)vo('low_hope');
   R.achT-=dt;if(R.achT<=0){R.achT=1;achScan()}
   if(R.hope<=0&&!R.over){
-    if(lv('second')&&!R.revived){R.revived=true;R.hope=R.maxHope*0.3;flash(0.6);sfx('cell');R.banner={s:'SECOND WIND',t:1.6};
+    if(lv('second')&&!R.revived){R.revived=true;R.hope=R.maxHope*0.3;flash(0.6);sfx('cell');R.banner={s:'SECOND WIND',t:1.6};vo('second_wind',1);
       for(const e of R.en){const d=Math.hypot(e.x,e.y)||1;if(d<160){e.x+=e.x/d*120;e.y+=e.y/d*120;if(e.state==='rush')e.alertT=1}}}
-    else if(!R.dying){R.hope=0;R.shake=16;R.dying=0.6;R.slow=2.2;flash(0.5);sfx('boom');document.body.classList.add('dying')}}
+    else if(!R.dying){R.hope=0;R.shake=16;vo('death',1);R.dying=0.6;R.slow=2.2;flash(0.5);sfx('boom');document.body.classList.add('dying')}}
   if(R.dying){R.hope=0;R.dying-=dt;R.dyT=(R.dyT||0)-dt;if(R.dyT<=0){R.dyT=0.08;const x=rnd(-50,50),y=rnd(-30,20);R.fx.push({type:'ring',x,y,r0:4,r1:rnd(30,60),t:0.35,T:0.35,c:'#ffb03a'});for(let i=0;i<14;i++)R.pt.push({x,y,vx:rnd(-160,160),vy:rnd(-200,20),t:rnd(.4,.9),c:i%2?'#ffb03a':'#ff5a3d',s:rnd(2,5),g:200,add:1});sfx('boom');R.shake=10}
     if(R.dying<=0){R.dying=0;document.body.classList.remove('dying');endRun(false)}}
 }

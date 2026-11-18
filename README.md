@@ -35,9 +35,10 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 **Vừa xong v0.9.0 (2026-11-18):** Crate 2.0, nhạc thích ứng tự tổng hợp (`src/music.js`), SFX mới, game feel (nâng ★, module rơi xuống, streak, rung thanh Hope, màn chết slow-mo), ván đầu dạy synergy, màn kết có mục tiêu boss + số nâng cấp mua được, REVIEW_PROMPT v2, script test trong `tools/test/`. Bot cân bằng: cốt truyện 106 phút, toàn bộ 229 phút.
 
 **Đang làm / chờ**
-1. **Chờ Duy chơi thử + góp ý** (bản Windows: shortcut “HOPEFIRE (test)”; nghe demo nhạc `store/music_demo_v1.mp3`).
-2. Nếu Duy mua **Suno Pro** ($10/tháng, phải có gói trước khi tạo bài mới có quyền thương mại): làm nhạc menu + nhạc boss + nhạc kết bằng Suno, nhạc trong trận giữ hệ thích ứng.
-3. Chạy review AI độc lập theo `docs/REVIEW_PROMPT.md` v2 → sửa theo top 10.
+1. **Chờ Duy chơi thử + góp ý** (bản Windows: shortcut “HOPEFIRE (test)”; demo nhạc `store/music_demo_v1.mp3`).
+2. **Suno:** tài khoản Chrome `haiduy2405` hiện CHƯA mở được model Pro (bấm v6 Pro → bị đòi nâng cấp) → chưa tạo bài nào (bài làm khi chưa có Pro không có quyền thương mại). Khi Pro hoạt động: tạo nhạc menu / boss / ending (instrumental) → `assets/music/` + `manifest.js`. Code phát nhạc file đã sẵn (`src/voice.js`, test bằng file giả OK).
+3. **Lồng tiếng AI:** kịch bản 25 câu ở `docs/VOICE_SCRIPT.md` (HOPE = AI tàu, COMMANDER = phi hành gia). Cần ElevenLabs **Starter ($6/tháng) trở lên** mới có quyền thương mại. Code đã sẵn: thả file `<id>.mp3` vào `assets/vo/` + liệt kê trong `manifest.js` là chạy (có phụ đề, giảm nhạc khi nói, thanh chỉnh Voice).
+4. Chạy review AI độc lập theo `docs/REVIEW_PROMPT.md` v2 → sửa theo top 10.
 
 **Sẽ làm**
 - Đồ họa còn vẽ bằng code: drone, đồ rơi, hiệu ứng phép, hành tinh trong cutscene, nền đất bãi 2–5.
@@ -69,6 +70,7 @@ src/data.js           số liệu: module, quái, độ hiếm, nâng cấp, bos
 src/core.js           lưu game (localStorage 'hopefire_v1', merge với defMeta) + tiện ích
 src/audio.js          SFX tổng hợp WebAudio + bus tổng có compressor
 src/music.js          nhạc nền thích ứng (layer theo mức nguy hiểm, boss, menu, stinger)
+src/voice.js          lồng tiếng (assets/vo/, phụ đề, giảm nhạc khi nói) + nhạc file Suno (assets/music/: menu/boss/ending)
 src/render.js         canvas, ánh sáng/bóng tối, vẽ tàu/module/quái/hiệu ứng, nền đất
 src/sprites.js        atlas sprite; sprite AI vẽ đúng kích thước thế giới (meta px), icon HTML ico()
 src/game.js           logic 1 lượt: spawn, AI quái, bắn, Hope, boss, hiệu ứng chết

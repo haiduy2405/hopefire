@@ -46,7 +46,8 @@ document.write('<link rel="stylesheet" href="css/style.css?v='+window.HF_VERSION
 <button id="skipCut">SKIP ▸▸</button>
 <script>
 document.write('<script src="assets/sprites.js?v='+window.HF_VERSION+'"><\/script>');
-['data','core','audio','music','render','sprites','game','spells','relics','progress','cutscene','update','crate','ui','main'].forEach(function(n){
+document.write('<script src="assets/vo/manifest.js?v='+window.HF_VERSION+'"><\/script><script src="assets/music/manifest.js?v='+window.HF_VERSION+'"><\/script>');
+['data','core','audio','music','voice','render','sprites','game','spells','relics','progress','cutscene','update','crate','ui','main'].forEach(function(n){
   document.write('<script src="src/'+n+'.js?v='+window.HF_VERSION+'"><\/script>');
 });
 </script>

@@ -26,11 +26,11 @@ function musicInit(){
   for(const k of ['arp','bass','drum','boss','bell'])MUS.nodes[k].gain.value=0;
   MUS.next=AC.currentTime+0.1;MUS.timer=setInterval(musicTick,25);MUS.on=true;applyMusicVolume();
 }
-function applyMusicVolume(){if(!MUS.bus)return;const v=meta.muted?0:(meta.set.mus??60)/100*0.85;MUS.bus.gain.setTargetAtTime(v*MUS.duck,AC.currentTime,0.3)}
+function applyMusicVolume(){if(!MUS.bus)return;const v=meta.muted?0:(meta.set.mus??60)/100*0.85;MUS.bus.gain.setTargetAtTime(v*MUS.duck*(MUS.voDuck?0.45:1),AC.currentTime,0.3);if(typeof FM!=='undefined'&&FM.cur&&FM.el[FM.cur])fadeEl(FM.el[FM.cur],fileMusicVol(),0.4,false)}
 function setLayer(k,v,t){const g=MUS.nodes[k];if(g)g.gain.setTargetAtTime(v,t??AC.currentTime,0.6)}
 // ---------- intensity from game state ----------
 function musicTarget(){
-  if(typeof CUT!=='undefined'&&CUT)return['off',0];
+  if(typeof CUT!=='undefined'&&CUT)return[CUT.kind==='end'?'ending':'off',0];
   if(!R)return['menu',0];
   if(R.over)return['menu',0];
   const rr=ringR();let rush=0;for(const e of R.en)if(!e.dead&&e.state==='rush')rush++;
@@ -57,15 +57,15 @@ function vBell(t,n,vol){for(const [m,a] of [[1,1],[2.76,0.35],[5.4,0.12]]){const
 function musicTick(){
   if(!AC||AC.state!=='running')return;
   const [mode,tgt]=musicTarget();
-  if(mode!==MUS.mode){MUS.mode=mode}
+  if(mode!==MUS.mode){MUS.mode=mode;MUS.fileOn=typeof fileMusic==='function'?fileMusic(mode==='menu'||mode==='boss'||mode==='ending'?mode:null):false}
   MUS.tgt=tgt;
   // duck while a modal/pause is up
   const duck=(R&&(R.paused||R.userPause))?0.55:1;if(Math.abs(duck-MUS.duck)>0.01){MUS.duck=duck;applyMusicVolume()}
   while(MUS.next<AC.currentTime+0.12){playStep(MUS.next,MUS.step);MUS.next+=STEP;MUS.step=(MUS.step+1)%128}
 }
 function playStep(t,s){
-  const k=MUS.mode;
-  if(k==='off'){setLayer('pad',0,t);for(const n of ['arp','bass','drum','boss','bell'])setLayer(n,0,t);return}
+  const k=MUS.mode==='ending'?'off':MUS.mode;
+  if(k==='off'||MUS.fileOn){setLayer('pad',0,t);for(const n of ['arp','bass','drum','boss','bell'])setLayer(n,0,t);return}
   // smooth intensity once per beat
   if(s%4===0){const a=MUS.tgt>MUS.int?0.18:0.06;MUS.int+=(MUS.tgt-MUS.int)*a}
   const I=MUS.int,boss=k==='boss',menu=k==='menu';

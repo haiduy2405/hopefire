@@ -219,3 +219,7 @@ body.dying canvas{filter:saturate(.45) brightness(.9);transition:filter 1.2s}
 .goalbar span{position:absolute;top:-4px;width:2px;height:14px;background:#fff;margin-left:-1px}
 .affd{margin:8px 0 12px;color:#7dffb0;font-weight:bold;font-size:13px;animation:blink .7s infinite alternate}
 .mast.done{animation:pop .3s}
+
+#subs{position:fixed;left:50%;bottom:130px;transform:translateX(-50%) translateY(10px);z-index:6;max-width:min(640px,92vw);background:#05060ad9;border:1px solid #2c3242;padding:7px 14px;font-size:13px;color:#e6e9f0;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;text-align:center;zoom:var(--uz,1)}
+#subs.on{opacity:1;transform:translateX(-50%)}
+#subs b{margin-right:6px;letter-spacing:1px;font-size:11px}
