@@ -1,9 +1,9 @@
 {
-  "version": "0.14.0",
+  "version": "0.14.1",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "Ships and Mutators: pick a ship (Bulwark, Prism, Ember) and up to 2 mutators for bonus Xeno-cores",
-    "Softer effects in big swarms, phone bottom bar fixed, FPS overlay (F3), save export/import + automatic backup"
+    "Real soundtrack: new menu, boss and ending music",
+    "Longer playthrough: tougher creatures on Sites 2-5"
   ]
 }

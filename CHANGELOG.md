@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.14.1 — 2026-11-18
+- **Music**: menu / boss / ending now play real Suno Pro v6 tracks (First Contact, Relentless Energy, The Light Breaks Through) from `assets/music/`; in-run music stays adaptive/procedural. Disclose AI music on Steam.
+- **Balance**: `CH_HP` Sites 2-5 +12% (`[1.05,5.4,14.8,50,75]`) -> sim story ~90-112 min, everything ~3.5-4.5 h.
+
 ## v0.14.0 — 2026-11-18
 - **Ships & Mutators** (`src/ship.js`, hub button 🛰 Ship, unlocked after Site 1): 4 ships (HOPE, Bulwark, Prism, Ember) and 5 mutators (Swarm, Elite Hunt, Glass Hope, Famine, Frenzy; max 2). Implemented as multipliers in `R.mx` (`MX('dmg'|'rate'|'hope'|'drain'|'crate'|'luck'|'scrap'|'spawn'|'ehp'|'espd')`) + `R.heat` (Xeno-core bonus shown on results) so new game modes can reuse them. Saved in `meta.ship`, `meta.muts`.
 - **Crowd budget**: additive effects fade (`FXK`) and extra particles thin out when >40/70 creatures are on screen.
