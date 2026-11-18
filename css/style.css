@@ -637,3 +637,27 @@ body.inmenu #subs{bottom:12px}
 @keyframes odready{from{box-shadow:0 0 6px #ffb03a;transform:scale(1)}to{box-shadow:0 0 30px #ffd24a,0 0 60px #ff8a1a;transform:scale(1.1)}}
 body.od::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:3;box-shadow:inset 0 0 170px 34px rgba(255,176,58,.4);animation:odp .7s ease-in-out infinite alternate}
 @keyframes odp{from{opacity:.55}to{opacity:1}}
+
+/* v0.16.1 crate stage: no golden frame around the crate, softer glow, smoother motion */
+.panel.crpanel{border:0!important;border-image:none!important;background:none!important;box-shadow:none!important;padding:6px 28px 12px;overflow:visible!important;animation:crin2 .5s cubic-bezier(.2,.8,.25,1)}
+.panel.crpanel::before{display:block!important;content:'';position:absolute;inset:auto!important;left:50%;top:46%;width:900px;height:900px;max-width:150vw;margin:-450px 0 0 -450px;z-index:-1;clip-path:none!important;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--tc,#cfd6e4) 34%,transparent) 0,color-mix(in srgb,var(--tc,#cfd6e4) 13%,transparent) 30%,transparent 62%);animation:crglow2 2.2s ease-in-out infinite}
+.panel.crpanel.r2::before,.panel.crpanel.r3::before{animation-duration:1.3s}
+@keyframes crin2{from{transform:scale(.94) translateY(10px);opacity:0}}
+@keyframes crglow2{50%{transform:scale(1.1);opacity:.75}}
+.crpanel .lockwrap::before{display:none}   /* the small clipped glow disc made a visible box */
+/* tension: smooth trembling instead of a hard 2-frame shake; faster for rarer crates */
+.crate:not(.open){animation:crtremble .22s ease-in-out infinite alternate}
+.crate.r1:not(.open){animation-duration:.17s}.crate.r2:not(.open){animation-duration:.13s}.crate.r3:not(.open){animation-duration:.1s}
+@keyframes crtremble{from{transform:translate(-1.5px,.5px) rotate(-.6deg) scale(1)}to{transform:translate(1.5px,-.5px) rotate(.6deg) scale(1.015)}}
+/* open: tiny anticipation, then a smooth bloom */
+.crate.open .crimg{animation:crbloom .62s cubic-bezier(.2,.9,.25,1) both!important}
+@keyframes crbloom{0%{transform:scale(1)}22%{transform:scale(.93) translateY(3px)}58%{transform:scale(1.13) translateY(-8px)}100%{transform:scale(1.04) translateY(-2px)}}
+.crate.open{animation:none!important;filter:none!important}
+.crate.open::after{content:'';position:absolute;left:50%;top:48%;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,#fff6d8 0,color-mix(in srgb,var(--tc,#ffd27a) 55%,transparent) 24%,transparent 62%);animation:crflare .7s ease-out forwards;mix-blend-mode:screen}
+@keyframes crflare{0%{opacity:0;transform:scale(.4)}30%{opacity:.9}100%{opacity:0;transform:scale(1.5)}}
+/* card stage fades in instead of popping */
+.chpanel{animation:crin2 .45s cubic-bezier(.2,.8,.25,1)!important}
+.cburst{animation-duration:.95s!important;animation-timing-function:cubic-bezier(.15,.7,.3,1)!important}
+@media (prefers-reduced-motion:reduce){.crate:not(.open){animation:none}.panel.crpanel::before{animation:none}}

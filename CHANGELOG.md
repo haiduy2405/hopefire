@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.16.1 — 2026-11-18
+- **Crate stage**: removed the golden rectangular frame (and the clipped glow box) around the crate; large soft radial glow instead. Smoother motion: easing tremble, anticipation+bloom on open, flare, card panel fades in (css/style.css end block).
+
 ## v0.16.0 — 2026-11-18
 - **Manual Cannon** (`manual` repair, 35 cores, Ship Repairs): hold left mouse / drag a finger / push the right stick to fire a piercing lance (`manualFire` in game.js) where you aim; auto-fire still runs when you don't. Crosshair + aim line (`drawAim`, react.js). Pad: right stick aims+fires (marking moves to LB/RB).
 - **Spells 2.0** (`src/spells.js` rewritten): Solar Flare / Cryo Nova are charge-up full-screen shockwaves; Overcharge arcs lightning; new **Black Hole** (drags the densest clump, implodes), **Meteor Storm** (telegraphed rain), **Chain Storm**, **Orbital Laser** (360° sweep). Running effects live in `R.sx`/`R.mets`, drawn by `drawSpellFx`; `shock` fx type in render.js. Spell crate chance 20% -> 28%.
