@@ -47,6 +47,7 @@ function elemInfo(k){
     <div class="eirow ${n>=2?'act':''}"><span class="eik">2 ${pips(k,2)}</span>${I.t2}</div>
     <div class="eirow ${n>=4?'act':''}"><span class="eik">4 ${pips(k,4)}</span>${I.t4}</div>
     <div class="eitip">${I.tip}</div>
+    <div class="eirx"><span class="eik">REACTIONS</span>${Object.entries(RX).filter(([key])=>key.includes(ELEM_ST[k])||key==='nano').map(([,r])=>`<div><b style="color:${r.c}">${r.n}</b> ${r.d}</div>`).join('')}</div>
     <div class="eilist">${list}</div>
     <div class="eiclose">tap anywhere to close</div></div>`;
   const wasPaused=R&&!R.paused&&!R.over;if(wasPaused)R.paused=true;
@@ -77,6 +78,8 @@ function moduleCardHTML(cd,i,best){
   else tag=`<span class="tg" style="background:#7dffb0">New module</span>`;
   const syn=pv.up.length?pv.up.map(([e,t])=>`<div class="sact" style="--ec:${TYPES[e].c}">✦ ${e.toUpperCase()} ${SYN_T[t-1]} ACTIVATES</div>`).join('')
     :(n1>n0&&n1<4?`<div class="sprog">${n1}/${n1<2?2:4} to next ${k} bonus</div>`:'');
+  const have=[...new Set(R.mods.map(h=>h.t.ty))],newRx=[...buildReactions([...have,k])].filter(n=>!buildReactions(have).has(n));
+  const rxl=newRx.length?`<div class="rxu">${newRx.map(n=>{const r=Object.values(RX).find(x=>x.n===n);return `<span style="--rc2:${r.c}" title="${r.d}">⚡ ${n}</span>`}).join('')}</div>`:'';
   const brk=pv.down.map(([e,t])=>`<div class="sbrk">⚠ breaks ${e} ${SYN_T[t-1]}</div>`).join('');
   const p=pv.pct,dl=`<div class="dps ${p>=0?'up':'dn'}">${p>=0?'▲':'▼'} TEAM DPS ${p>=0?'+':''}${Math.round(p*100)}%</div>`;
   const st=`${fmt(cd.t.dmg*TYPE_MOD[k].dmg*RAR[cd.r].m*tierM(R.ch))} dmg · ${(cd.t.rate*TYPE_MOD[k].rate).toFixed(1)}/s · ${cd.t.c==='drone'?'anywhere':cd.t.range+' range'}${cd.t.aoe?' · area':''}`;
@@ -88,7 +91,7 @@ function moduleCardHTML(cd,i,best){
     <div class="nm">${cd.t.n}</div>
     <div class="ds" style="color:${c}">${TYPE_MOD[k].d}</div>
     <div class="ds st">${st}</div>
-    ${syn}${brk}${dl}${tag}</div>`;
+    ${syn}${rxl}${brk}${dl}${tag}</div>`;
 }
 function spellCardHTML(cd,i){
   const ex=R.spells.find(s=>s.d.id===cd.sp.id);
@@ -142,7 +145,7 @@ function revealCards(c){
   const bestR=Math.max(...curCards.filter(x=>!x.rl).map(x=>x.r),0);if(bestR===3)meta.stats.legend++;
   // best DPS module card (only highlight when there is a real choice)
   let bi=-1,bp=-1e9;curCards.forEach((cd,i)=>{if(cd.t){const p=previewPick(cd).pct;if(p>bp){bp=p;bi=i}}});
-  if(curCards.filter(x=>x.t).length<2)bi=-1;
+  bi=-1; // no 'best' hint: the player decides (DPS is only one axis now)
   let h=`<div class="panel center chpanel"><div id="buildBar" class="buildbar"></div><h2>CHOOSE ONE</h2><div class="cards">`;
   curCards.forEach((cd,i)=>{const inner=cd.sp?spellCardHTML(cd,i):cd.rl?relicCardHTML(cd,i):moduleCardHTML(cd,i,i===bi);
     h+=`<div class="cwrap" style="--d:${0.08+i*0.17}s">${inner}<div class="cback r${cd.rl?3:cd.r}"></div></div>`});

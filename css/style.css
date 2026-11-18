@@ -315,3 +315,6 @@ kbd{font:inherit;font-size:11px;background:#1a1f2b;border:1px solid #3a3f4d;bord
 .pmenu{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
 body.intitle #hud,body.intitle #bottom{display:none}
 @media (max-width:600px){.tmain{left:5vw;right:5vw}.tbtn{min-width:0;width:100%}.slot{width:100%;min-height:0}.orow input[type=range]{width:120px}.okeys{grid-template-columns:1fr}}
+
+.rxu{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}.rxu span{font-size:10px;font-weight:bold;letter-spacing:.5px;color:var(--rc2);border:1px solid var(--rc2);padding:1px 5px;border-radius:2px;text-shadow:0 0 6px var(--rc2)}
+.eirx{border-top:1px solid #1d2230;padding:6px 0;color:#a8b0bf;font-size:11px;display:flex;flex-direction:column;gap:4px}

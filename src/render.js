@@ -71,6 +71,7 @@ function render(dt){
     if(R.corpses)for(const cp of R.corpses)if(SPR.has(cp.k))list.push({y:cp.y,f:()=>{const p=1-cp.t/cp.T;ctx.globalAlpha=Math.max(0,1-p*p);drawSpr(ctx,p<0.15?cp.k+'_flash':cp.k,cp.fi,cp.x,cp.y*K-cp.z*(1-p)+p*6,cp.face<0);ctx.globalAlpha=1}})}
   list.sort((a,b)=>a.y-b.y);for(const it of list)it.f();
   if(R){
+    drawStatuses(T);
     // normal particles
     for(const p of R.pt){if(p.add)continue;ctx.fillStyle=p.c;if(p.smoke){ctx.globalAlpha=Math.min(0.5,p.t*0.35);ctx.beginPath();ctx.arc(p.x,p.y,p.s*0.7,0,7);ctx.fill()}else{ctx.globalAlpha=Math.min(1,p.t*2);ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s)}}
     ctx.globalAlpha=1;
@@ -124,7 +125,7 @@ function render(dt){
     for(const e of R.en)if(e.hp<e.mhp&&e.k!=='boss'){const w=e.r*2,y=e.y*K-e.r*2.1;ctx.fillStyle='#000';ctx.fillRect(e.x-w/2-1,y-1,w+2,4);ctx.fillStyle='#ff4d5e';ctx.fillRect(e.x-w/2,y,w*Math.max(0,e.hp/e.mhp),2)}
     // floating text
     ctx.lineWidth=3;ctx.strokeStyle='#000';
-    for(const t of R.txt){ctx.globalAlpha=Math.min(1,t.t*2.5);const pop=1+0.55*Math.max(0,1-(0.75-t.t)*9);ctx.font=`bold ${Math.round(t.s*pop)}px monospace`;ctx.strokeText(t.v,t.x,t.y);ctx.fillStyle=t.c;ctx.fillText(t.v,t.x,t.y)}
+    for(const t of R.txt){ctx.globalAlpha=Math.min(1,t.t*2.5);const pop=t.rx?1+0.7*Math.max(0,(t.t-(t.T-0.14))/0.14):1+0.55*Math.max(0,1-(0.75-t.t)*9);ctx.font=`${t.rx?900:'bold'} ${Math.round(t.s*pop)}px monospace`;ctx.lineWidth=t.rx?4:3;ctx.strokeText(t.v,t.x,t.y);ctx.fillStyle=t.c;ctx.fillText(t.v,t.x,t.y)}
     ctx.globalAlpha=1;
     // screen space
     ctx.setTransform(DPR,0,0,DPR,0,0);ctx.textAlign='center';ctx.textBaseline='middle';

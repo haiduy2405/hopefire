@@ -1,11 +1,11 @@
 {
-  "version": "0.9.1",
+  "version": "0.9.2",
   "date": "2026-11-18",
   "minVersion": "0.0.0",
   "notes": [
-    "New title screen with 3 save slots (rename, delete, continue) \u2014 your progress moved to Slot 1",
-    "Options menu: audio, video (interface size, fullscreen, flashes), gameplay and controls",
-    "Loadout panel (Tab): review every module, synergy, spell and relic you picked this run",
-    "Pause menu: options, loadout, abandon run, quit to title"
+    "Elemental reactions: mix elements for SHATTER, OVERLOAD, SUPERCONDUCT and CONTAGION",
+    "Tap a creature to mark it: your modules focus it and it takes +25% damage",
+    "Crate cards show which reactions a pick unlocks (no more 'best' hint - build your own combo)",
+    "Creatures are a little tougher from Site 2 on to match the new damage"
   ]
 }

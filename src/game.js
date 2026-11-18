@@ -54,15 +54,17 @@ function alertE(e){
 }
 const isHidden=e=>(e.cloak&&Math.hypot(e.x,e.y)>ringR()*0.7)||e.blink>0;
 // pick target in range that is closest to the ship (biggest threat); cloaked ones are skipped
-function threatTarget(x,y,range){let b=null,bd=1e18;const r2=range*range;for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-x,dy=e.y-y;if(dx*dx+dy*dy>r2)continue;const ds=e.x*e.x+e.y*e.y-(e.state==='rush'?1e6:0);if(ds<bd){bd=ds;b=e}}return b}
+function threatTarget(x,y,range){const m=R.mark;if(m&&!m.dead&&!isHidden(m)&&(m.x-x)**2+(m.y-y)**2<=range*range)return m;let b=null,bd=1e18;const r2=range*range;for(const e of R.en){if(e.dead||isHidden(e))continue;const dx=e.x-x,dy=e.y-y;if(dx*dx+dy*dy>r2)continue;const ds=e.x*e.x+e.y*e.y-(e.state==='rush'?1e6:0);if(ds<bd){bd=ds;b=e}}return b}
 function addTxt(x,y,v,c,s){if(typeof v!=='string'&&!meta.set.nums)return;if(R.txt.length<80)R.txt.push({x:x+rnd(-6,6),y,v:typeof v==='string'?v:fmt(v),c,t:0.75,s:s||11})}
 function dmgTxt(e,d,c){if(!meta.set.nums)return;const t=R.txt.find(o=>o.e===e&&o.age<0.35);if(t){t.n+=d;t.v=fmt(t.n);t.t=0.75;t.c=c;t.s=Math.min(16,11+Math.log10(1+t.n/(e.mhp||1)*10)*3);return}
   if(R.txt.length<45)R.txt.push({e,n:d,age:0,x:e.x+rnd(-6,6),y:e.y*K-e.r*1.6-(e.fly?22:0),v:fmt(d),c,t:0.75,s:11})}
 function hit(e,d,ty,primary){
   if(e.dead)return;if(e.armor!==undefined)d*=e.armor;if(e.k==='boss')d*=1+0.25*lv('bounty');
   let crit=false;if(primary&&ty&&lv('crit')&&Math.random()<0.05*lv('crit')){d*=2.5;crit=true}
+  if(e.vuln>0)d*=1.25;if(R.mark===e)d*=1.25;
   e.hp-=d;e.hit=0.08;sfx('hit');if(R.pt.length<420){const sc=ty?TYPES[ty].c:'#ffe9b0',yy=e.y*K-e.r*0.6-(e.fly?22:0);for(let i=0;i<(crit?6:2);i++)R.pt.push({x:e.x+rnd(-e.r*.4,e.r*.4),y:yy,vx:rnd(-90,90),vy:rnd(-110,-10),t:rnd(.12,.25),c:sc,s:crit?3:2,g:200,add:1})}if(crit){R.hs=Math.max(R.hs||0,0.035);addTxt(e.x,e.y*K-e.r*2.6,'CRIT','#fff27a',10)}dmgTxt(e,d,crit?'#fff27a':e.armor<1?'#9aa4b2':ty?TYPES[ty].c:'#ffe9b0');
   if(primary&&ty){ // type passives (modules & drones only)
+    elemHit(e,ty,d);if(e.dead||e.hp<=0){if(!e.dead)kill(e);return}
     if(ty==='Cryo'){if(Math.random()<0.12)e.slow=Math.max(e.slow,1.2)}
     else if(ty==='Nano')R.hope=Math.min(R.maxHope,R.hope+R.maxHope*0.0006);
     else if(ty==='Arc'){let o=null,bd=110*110;for(const x of R.en){if(x.dead||x===e)continue;const dd=(x.x-e.x)**2+(x.y-e.y)**2;if(dd<bd){bd=dd;o=x}}
@@ -150,7 +152,7 @@ function bossTick(e,dt,d){
   }
 }
 function update(dt){
-  R.t+=dt;R.waveT+=dt;meta.stats.time+=dt;const rr=ringR();
+  R.t+=dt;R.waveT+=dt;meta.stats.time+=dt;const rr=ringR();if(R.mark&&R.mark.dead)R.mark=null;
   if(R.dec)for(const d of R.dec)d.t-=dt;if(R.dec&&R.dec.length&&R.dec[0].t<=0)R.dec=R.dec.filter(d=>d.t>0);
   if(R.corpses){for(const c of R.corpses)c.t-=dt;R.corpses=R.corpses.filter(c=>c.t>0)}
   R.emb=(R.emb||0)-dt;if(R.emb<=0){R.emb=0.07;R.pt.push({x:-42+rnd(-3,3),y:-4+rnd(-3,3),vx:rnd(-10,10),vy:rnd(-45,-20),t:rnd(.6,1.3),c:Math.random()<.5?'#ff8a30':'#ffd24a',s:rnd(1,2.5),g:-15,add:1})}
@@ -171,7 +173,7 @@ function update(dt){
   // enemies
   for(const e of R.en){
     if(e.dead)continue;
-    e.hit=Math.max(0,e.hit-dt);if(e.slow>0)e.slow-=dt;if(e.frz>0)e.frz-=dt;
+    e.hit=Math.max(0,e.hit-dt);statusTick(e,dt);if(e.slow>0)e.slow-=dt;if(e.frz>0)e.frz-=dt;
     if(e.burn>0){e.burn-=dt;e.hp-=e.bd*dt;if(Math.random()<dt*8)R.pt.push({x:e.x+rnd(-e.r,e.r),y:e.y*K-e.r,vx:0,vy:-40,t:0.4,c:'#ff7a3d',s:2,g:0,add:1});if(e.burn<=0)e.bd=0;if(e.hp<=0){kill(e);continue}}
     const d=Math.hypot(e.x,e.y)||1,slowM=e.frz>0?0.08:e.slow>0?0.6:1;let vx=0,vy=0;
     if(e.state==='ambient'){

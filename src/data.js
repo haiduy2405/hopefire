@@ -57,7 +57,7 @@ const BOSSES=[
 // [kind, weight, minThreat, minSite]
 const SPAWN_TABLE=[['crawler',50,1,1],['skitter',25,3,1],['brute',10,5,1],['spitter',14,2,2],['bloater',10,2,3],['wisp',16,4,3],['phantom',12,2,4],['splitter',12,2,5]];
 // per-site difficulty (creature HP and damage multipliers), tuned by simulation
-const CH_HP=[1,3.7,10,34,50],CH_DMG=[1,1.6,2.5,3.6,4.4];
+const CH_HP=[1.05,4.15,11.2,38,56],CH_DMG=[1,1.6,2.5,3.6,4.4];
 const WARP_WAVE=5; // after clearing a site you may start there at this threat
 const SIG=[null,'crawler','spitter','bloater','phantom','splitter']; // signature creature per site
 UPG.push({k:'auto',n:'Spell Autocast',d:l=>l?'Spells cast themselves':'Spells cast themselves',base:150,g:1,max:1});
@@ -70,7 +70,7 @@ const TYPE_MOD={
   Nano:{dmg:0.9,rate:1,d:'Every hit restores a little Hope'}
 };
 // Nightmare: harder replay of a cleared site with better rewards
-const NM={hp:[9,5,4.4,2.8,3.3],dmg:[2.6,2,1.7,1.35,1.4],core:2.5,scrap:1.3,bossHp:1.4,luck:0.6}; // per-site multipliers (story end makes early sites trivial)
+const NM={hp:[9.9,5.5,4.8,3.1,3.6],dmg:[2.6,2,1.7,1.35,1.4],core:2.5,scrap:1.3,bossHp:1.4,luck:0.6}; // per-site multipliers (story end makes early sites trivial)
 // Advanced repairs (tier 2) — unlocked by escaping and by clearing Nightmare sites
 const UPG2=[
   {k:'crit',n:'Critical Strikes',d:l=>`${5*l}% crit chance (×2.5 dmg)`,base:400,g:1.55,max:10,req:'story'},

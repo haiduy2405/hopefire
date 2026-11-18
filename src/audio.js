@@ -15,7 +15,7 @@ function audioInit(){
 }
 function tone(type,f0,f1,dur,vol,delay){const t=AC.currentTime+(delay||0);const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+0.03)}
 function noise(dur,vol,fc,delay){const t=AC.currentTime+(delay||0);const s=AC.createBufferSource();s.buffer=noiseBuf;const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=fc;const g=AC.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);s.connect(f);f.connect(g);g.connect(master);s.start(t,Math.random()*0.5,dur+0.05)}
-const GAP={pick:28,flip0:40,flip1:40,flip2:40,flip3:40,hit:40,shot:50,lance:50,alert:220,kill:45,beam:70,mortar:80,boom:70,hurt:120,cell:80};
+const GAP={rx_SHATTER:70,rx_OVERLOAD:90,rx_SUPERCONDUCT:110,rx_CONTAGION:90,pick:28,flip0:40,flip1:40,flip2:40,flip3:40,hit:40,shot:50,lance:50,alert:220,kill:45,beam:70,mortar:80,boom:70,hurt:120,cell:80};
 function sfx(n){
   if(!AC||meta.muted)return;const now=performance.now();if(now-(lastS[n]||0)<(GAP[n]||0))return;lastS[n]=now;
   try{switch(n){
@@ -44,6 +44,11 @@ function sfx(n){
     case 'roar':tone('sawtooth',180,520,0.5,0.06);tone('sawtooth',120,300,0.6,0.05,0.05);noise(0.5,0.05,1200);break;
     case 'title':[0,1,2,3].forEach(i=>tone('triangle',196*Math.pow(1.5,i%3)*(i>2?2:1),198*Math.pow(1.5,i%3)*(i>2?2:1),1.6,0.05,i*0.35));break;
     case 'up':tone('square',500,1000,0.1,0.04);break;
+    case 'rx_SHATTER':noise(0.25,0.09,6000);[0,7,12].forEach((s,i)=>tone('triangle',1320*Math.pow(2,s/12),1100*Math.pow(2,s/12),0.18,0.035,i*0.025));break;
+    case 'rx_OVERLOAD':noise(0.35,0.12,900);tone('sawtooth',160,50,0.3,0.07);tone('square',640,220,0.15,0.03);break;
+    case 'rx_SUPERCONDUCT':tone('sine',220,880,0.3,0.05);tone('sawtooth',440,1760,0.25,0.02,0.03);noise(0.15,0.04,3000);break;
+    case 'rx_CONTAGION':[0,3,7,10].forEach((s,i)=>tone('square',600*Math.pow(2,s/12),620*Math.pow(2,s/12),0.08,0.022,i*0.035));break;
+    case 'mark':tone('square',1200,900,0.06,0.03);tone('square',1600,1600,0.05,0.02,0.05);break;
     case 'starup':[0,4,7,12,16].forEach((s,i)=>tone('triangle',523*Math.pow(2,s/12),528*Math.pow(2,s/12),0.3,0.055,i*0.05));noise(0.25,0.05,5000,0.2);break;
     case 'place':tone('sine',160,60,0.18,0.12,0.4);noise(0.12,0.06,800,0.4);break;
     case 'streak':[0,7,12].forEach((s,i)=>tone('sawtooth',440*Math.pow(2,s/12),446*Math.pow(2,s/12),0.18,0.03,i*0.04));break;

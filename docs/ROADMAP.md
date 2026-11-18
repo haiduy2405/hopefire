@@ -20,6 +20,8 @@
 - [ ] Phát hành $4.99, giảm giá ra mắt 10–20%, khóa vùng VN
 
 ## 🔜 Gameplay (ưu tiên trước — "hay, mượt, cuốn")
+- [x] v0.9.2 Phản ứng nguyên tố (SHATTER/OVERLOAD/SUPERCONDUCT/CONTAGION) + chạm đánh dấu quái + bỏ BEST DPS
+- [ ] Crew: thành viên tổ lái di chuyển trong vòng tròn (Guardian/Hunter/Medic/Engineer)
 - [x] Mỗi chapter có quái/cơ chế riêng (quái nổ, quái bay, quái tàng hình…)
 - [x] Boss riêng cho từng chapter (5 boss, mỗi con một cơ chế)
 - [x] Module lớp thứ 4 (Drone/Shield) + relic bị động

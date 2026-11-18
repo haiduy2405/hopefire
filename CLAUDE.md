@@ -12,7 +12,7 @@ Inspired by *Booster Pack Heroes* (Steam). See `docs/DESIGN.md`.
 
 ## Code
 Vanilla JS, no build step, no dependencies. `index.html` loads `assets/sprites.js` then `src/*.js` in this order:
-`data, core, audio, music, voice, render, sprites, game, spells, relics, progress, cutscene, update, crate, ui, title, main` (classic scripts sharing globals; keep the order).
+`data, core, audio, music, voice, render, sprites, game, react, spells, relics, progress, cutscene, update, crate, ui, title, main` (classic scripts sharing globals; keep the order).
 - Balance numbers live in `src/data.js` (CH_HP, CH_DMG, NM, UPG, UPG2, BOSSES, SPAWN_TABLE…).
 - Sprites: `python tools/sprites/build.py` → `assets/sprites.png/.json/.js` (procedural pixel art; code fallback when a sprite is missing). See `docs/ASSETS.md`.
 - Save: 3 slots `localStorage['hopefire_slot_1..3']` (per-slot `meta`, merged with `defMeta()` in `src/core.js` — add new fields there with defaults, never rename keys) + global `hopefire_settings` (`SETTINGS`, aliased as `meta.set`). Legacy `hopefire_v1` is migrated to slot 1 once and kept as backup. Boot → `titleScreen()` (src/title.js); `SLOT=0` on the title screen.
@@ -41,4 +41,4 @@ Sell as an individual; W-8BEN (VN–US treaty not in force → 30% withholding o
 - Update README.md ("Đã/đang/sẽ") + this file after every big step — they are the handoff for any new Claude account.
 
 ## Status & next steps
-See README.md → "Đã làm / đang làm / sẽ làm" (kept current). Current: **v0.9.1** (title screen, 3 save slots, options, loadout; difficulty: Normal only until approved) (Crate 2.0, adaptive music, feel pass, FTUE). Waiting for Duy's playtest feedback. Voice/file-music system ready (src/voice.js, docs/VOICE_SCRIPT.md) — needs Suno Pro working on account haiduy2405 and ElevenLabs Starter+ for commercial rights. Next: independent AI review (docs/REVIEW_PROMPT.md v2) → fixes; Suno tracks for menu/boss if Duy buys Suno Pro. Test scripts: tools/test/.
+See README.md → "Đã làm / đang làm / sẽ làm" (kept current). Current: **v0.9.2** (elemental reactions src/react.js + tap-to-mark; BEST DPS ribbon removed; next: Crew units — see README) (title screen, 3 save slots, options, loadout; difficulty: Normal only until approved) (Crate 2.0, adaptive music, feel pass, FTUE). Waiting for Duy's playtest feedback. Voice/file-music system ready (src/voice.js, docs/VOICE_SCRIPT.md) — needs Suno Pro working on account haiduy2405 and ElevenLabs Starter+ for commercial rights. Next: independent AI review (docs/REVIEW_PROMPT.md v2) → fixes; Suno tracks for menu/boss if Duy buys Suno Pro. Test scripts: tools/test/.

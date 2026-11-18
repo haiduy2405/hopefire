@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9.2 — 2026-11-18
+- **Elemental reactions** (`src/react.js`): module hits leave a status (Thermal=burn, Cryo=chill, Arc=shock, Nano=nanites, 2.6 s); a second element triggers a reaction (0.9 s cooldown per creature): SHATTER (burn+chill, 1.8× burst + shards), OVERLOAD (burn+shock, explosion + knockback), SUPERCONDUCT (chill+shock, +25% damage taken 3 s + slow), CONTAGION (nano+any, spreads status to 3, repairs a bit of Hope). Status pips, big reaction text, unique SFX, first-time tips
+- **Focus mark**: tap/click a creature → modules prioritise it, +25% damage, rotating red reticle
+- Crate cards: removed the BEST DPS ribbon (choices were trivial); cards show reaction-unlock badges; element popover lists reactions
+- Balance: CH_HP sites 2–5 +12%, Nightmare HP +10%. Bot: story 90 min, everything 198 min, no errors
+
 ## v0.9.1 — 2026-11-18
 - **Title screen** (`src/title.js`): animated key-art background, embers, logo, Continue / Save slots / Options / Credits / Quit (desktop)
 - **3 save slots** (`hopefire_slot_1..3`) + global settings (`hopefire_settings`); legacy save auto-migrated to Slot 1 (old key kept as backup); rename, delete (2-step confirm), new game with name + difficulty (Normal only; Easy/Hard/Hell shown as coming soon)
