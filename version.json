@@ -1,9 +1,8 @@
 {
-  "version": "0.18.0",
+  "version": "0.18.1",
   "date": "2026-11-19",
   "minVersion": "0.0.0",
   "notes": [
-    "New cinematic intro: painted pixel-art key frames, ship log, re-entry, crash site in the dark, animated title",
-    "Intro keeps the first-shot tutorial moment"
+    "Intro now has its own music, timed to the crash"
   ]
 }

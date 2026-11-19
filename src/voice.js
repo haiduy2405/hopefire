@@ -36,10 +36,13 @@ function hideSub(){const s=$('subs');if(s)s.classList.remove('on')}
 const FM={files:window.MUSIC_FILES||{},el:{},cur:null};
 function fileMusic(kind){ // kind: 'menu'|'boss'|'ending'|null ; returns true when a file track is playing for it
   const f=kind&&FM.files[kind];
-  if(FM.cur&&FM.cur!==kind){const old=FM.el[FM.cur];if(old)fadeEl(old,0,1.2,true)}
+  if(FM.cur&&FM.cur!==kind){const old=FM.el[FM.cur];if(old){clearTimeout(old._st);fadeEl(old,0,1.2,true)}}
   if(!f){FM.cur=null;return false}
-  let el=FM.el[kind];if(!el){el=FM.el[kind]=new Audio('assets/music/'+f+'?v='+(window.HF_VERSION||''));el.loop=true;el.volume=0}
-  if(FM.cur!==kind){FM.cur=kind;if(el.paused){el.currentTime=0;el.play().catch(()=>{})}}
+  let el=FM.el[kind];if(!el){el=FM.el[kind]=new Audio('assets/music/'+f+'?v='+(window.HF_VERSION||''));el.loop=kind!=='intro';el.volume=0}
+  if(FM.cur!==kind){FM.cur=kind;if(el.paused){
+    // intro: line the track's big hit (MUSIC_SYNC.intro.hit, seconds in the file) up with the impact at 11.0 s of the cutscene
+    const hit=kind==='intro'&&window.MUSIC_SYNC&&MUSIC_SYNC.intro?MUSIC_SYNC.intro.hit:null,off=hit==null?0:hit-11;
+    el.currentTime=off>0?off:0;if(off<0){const me=el;clearTimeout(el._st);el._st=setTimeout(()=>{if(FM.cur==='intro')me.play().catch(()=>{})},-off*1000)}else el.play().catch(()=>{})}}
   fadeEl(el,fileMusicVol(),1.5,false);return true;
 }
 function fileMusicVol(){return meta.muted?0:Math.min(1,(meta.set.mus??60)/100*0.9*(MUS.duck||1)*(MUS.voDuck?0.45:1))}

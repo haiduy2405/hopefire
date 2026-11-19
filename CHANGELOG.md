@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.18.1 — 2026-11-19
+- Intro music: Suno Pro track assets/music/intro.mp3 (first 53 s of "HOPEFIRE Intro", loudnorm -18). New mode 'intro' in musicTarget/fileMusic; MUSIC_SYNC.intro.hit (10 s in file) is aligned with the crash impact at 11 s (starts 1 s late). Fades out when the run starts. Disclose AI music on Steam.
+
 ## v0.18.0 — 2026-11-19
 - **Intro 2.0** (src/cutscene.js): 3 AI pixel-art key frames in assets/intro/intro_1..3.jpg (ship over the planet, plasma re-entry, wreck in the dark with eyes) played with Ken-Burns zoom/pan, letterbox bars, vignette/scanlines/grain, red alarm pulse, typewriter ship-log captions, impact flash, crossfade into the playable first-shot scene, title card now uses the logo. Falls back to the old code-drawn intro if the images are missing. Timeline ~16.5 s cinematic + same ground scene (C.g0 / C.b arrays). package_win.ps1 copies assets/intro. AI-generated art: mention in the Steam disclosure.
 

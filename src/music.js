@@ -30,7 +30,7 @@ function applyMusicVolume(){if(!MUS.bus)return;const v=meta.muted?0:(meta.set.mu
 function setLayer(k,v,t){const g=MUS.nodes[k];if(g)g.gain.setTargetAtTime(v,t??AC.currentTime,0.6)}
 // ---------- intensity from game state ----------
 function musicTarget(){
-  if(typeof CUT!=='undefined'&&CUT)return[CUT.kind==='end'?'ending':'off',0];
+  if(typeof CUT!=='undefined'&&CUT)return[CUT.kind==='end'?'ending':(FM.files.intro?'intro':'off'),0];
   if(!R)return['menu',0];
   if(R.over)return['menu',0];
   const rr=ringR();let rush=0;for(const e of R.en)if(!e.dead&&e.state==='rush')rush++;
@@ -57,7 +57,7 @@ function vBell(t,n,vol){for(const [m,a] of [[1,1],[2.76,0.35],[5.4,0.12]]){const
 function musicTick(){
   if(!AC||AC.state!=='running')return;
   const [mode,tgt]=musicTarget();
-  if(mode!==MUS.mode){MUS.mode=mode;MUS.fileOn=typeof fileMusic==='function'?fileMusic(mode==='menu'||mode==='boss'||mode==='ending'?mode:null):false}
+  if(mode!==MUS.mode){MUS.mode=mode;MUS.fileOn=typeof fileMusic==='function'?fileMusic(mode==='menu'||mode==='boss'||mode==='ending'||mode==='intro'?mode:null):false}
   MUS.tgt=tgt;
   // duck while a modal/pause is up
   const duck=(R&&(R.paused||R.userPause))?0.55:1;if(Math.abs(duck-MUS.duck)>0.01){MUS.duck=duck;applyMusicVolume()}
