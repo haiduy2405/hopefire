@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.19.2 — 2026-11-19
+- Battlefield ship = equipped ship (assets/ships/<k>.png mirrored, cannon mount per ship in render.js SHIP_MOUNT; shipLoad() at boot). Cutscenes still use the old ship sprite.
+
 ## v0.19.1 — 2026-11-19
 - Ship hangar (src/ship.js panelShip): AI art for 4 ships (assets/ships), animated stage (drifting stars, bobbing ship, scan sweep), stat chips, EQUIP flow, locked ships as silhouettes, mutators with icons.
 - Towers: AI pixel-art sprites (assets/towers/<class>.png, 9 classes) replace the code-drawn TART on the battlefield and in all icons; element colour pooled under the base; TART stays as fallback. Tools: tools/sprites/import_sheet.py (magenta sheet -> single PNGs).

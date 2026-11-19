@@ -170,8 +170,16 @@ function drawDarkness(rr,sx,sy,T){
   for(const [x,y,r] of lightsFrame){g=d.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'rgba(0,0,0,0.85)');g.addColorStop(1,'rgba(0,0,0,0)');d.fillStyle=g;d.beginPath();d.arc(x,y,r,0,7);d.fill()}
   ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(dk,0,0);
 }
+// v0.19.2: battlefield ship follows the equipped ship (assets/ships/<k>.png, nose faces left in the art -> mirrored)
+const SHIPIMG={};
+function shipLoad(){for(const k of ['hope','bulwark','prism','ember']){const im=new Image();im.onload=()=>{im._ok=1};im.src='assets/ships/'+k+'.png';SHIPIMG[k]=im}}
+const SHIP_MOUNT={hope:[-12,24],bulwark:[-10,24],prism:[-10,24],ember:[-10,24]};
 function drawShip(){
-  const c=ctx,T=performance.now()/1000;
+  const c=ctx,T=performance.now()/1000,sk=(typeof meta!=='undefined'&&meta.ship)||'hope',im=SHIPIMG[sk]&&SHIPIMG[sk]._ok?SHIPIMG[sk]:(SHIPIMG.hope&&SHIPIMG.hope._ok?SHIPIMG.hope:null);
+  if(im&&!(typeof CUT!=='undefined'&&CUT&&!CUT.shipNew)){
+    const w=124,h=im.naturalHeight*w/im.naturalWidth,bob=Math.sin(T*1.6)*0.8;
+    c.save();c.translate(0,34+bob);c.scale(-1,1);c.drawImage(im,-w/2,-h,w,h);c.restore();
+    const m=SHIP_MOUNT[sk]||[0,-44];c.save();c.translate(m[0],m[1]+bob);drawCannon(c);c.restore();return}
   if(SPR.has('ship')&&SPR.data.sprites.ship[0].px){drawSpr(c,'ship',0,0,30,false);c.save();c.translate(4,15);drawCannon(c);c.restore();return}
   if(SPR.has('ship')){drawSpr(c,'ship',0,0,0,false);c.fillStyle=`rgba(255,${150+Math.random()*60|0},40,${0.35+Math.random()*0.35})`;c.fillRect(-55,-6,6,8);drawCannon(c);return}
   c.save();c.rotate(-0.1);

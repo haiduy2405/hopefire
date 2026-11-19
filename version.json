@@ -1,10 +1,8 @@
 {
-  "version": "0.19.1",
+  "version": "0.19.2",
   "date": "2026-11-19",
   "minVersion": "0.0.0",
   "notes": [
-    "New ship hangar: AI ship art, animated stage, stats, equip button",
-    "All tower art redrawn as AI pixel art matching the ships",
-    "Ship button in the hub is now a hangar entrance"
+    "Your equipped ship now appears in battle (4 ships, new art)"
   ]
 }
