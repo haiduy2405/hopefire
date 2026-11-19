@@ -24,7 +24,9 @@ File này + `CLAUDE.md` là **toàn bộ trí nhớ** của dự án. Đọc xon
 
 ### Đã làm / đang làm / sẽ làm (cập nhật: 2026-11-18)
 
-**Vừa xong v0.17.0 (2026-11-19) — “Vòng tháp & Liên kết”:** module đứng cạnh nhau tạo LIÊN KẾT (Thermal Shock, Plasma, Forge, Static Field, Cryo-Sleep, Overcharge, Resonance, Spotter, Rangefinder, Demolition); đổi chỗ miễn phí (chạm/kéo hoặc Tab → vòng); Harmony ×1.1 / Perfect Ring ×1.2; thẻ crate hiện trước liên kết; 6 tháp đặc biệt (Prism Spire, Gravity Well, Mine Layer, Longshot, Tesla Coil, Aegis); mỗi loại tháp có hình dáng riêng; cân bằng lại (sim: story ~85′, toàn bộ ~210–257′, NIGHT2 đôi lúc kẹt lâu). Cần Duy chơi thử & góp ý; chưa test cảm giác trên PC thật.
+**Vừa xong v0.18.0 (2026-11-19) — Intro 2.0:** 3 tranh pixel-art AI (assets/intro) + dựng phim: zoom chậm, viền điện ảnh, log tàu gõ chữ, lao qua khí quyển, xác tàu trong bóng tối, logo động; vẫn có cảnh bắn phát đầu. Cần Duy chơi savegame mới để cảm nhận.
+
+**Trước đó v0.17.0 (2026-11-19) — “Vòng tháp & Liên kết”:** module đứng cạnh nhau tạo LIÊN KẾT (Thermal Shock, Plasma, Forge, Static Field, Cryo-Sleep, Overcharge, Resonance, Spotter, Rangefinder, Demolition); đổi chỗ miễn phí (chạm/kéo hoặc Tab → vòng); Harmony ×1.1 / Perfect Ring ×1.2; thẻ crate hiện trước liên kết; 6 tháp đặc biệt (Prism Spire, Gravity Well, Mine Layer, Longshot, Tesla Coil, Aegis); mỗi loại tháp có hình dáng riêng; cân bằng lại (sim: story ~85′, toàn bộ ~210–257′, NIGHT2 đôi lúc kẹt lâu). Cần Duy chơi thử & góp ý; chưa test cảm giác trên PC thật.
 
 **Vừa xong v0.16.0 (2026-11-18) — “1 đòn dọn sạch màn hình”:** pháo tay lái (mở khóa bằng nâng cấp Manual Cannon, 35 core: giữ chuột/cần analog phải để bắn tia xuyên), 9 skill hoành tráng (thêm Black Hole, Meteor Storm, Chain Storm, Orbital Laser), thanh OVERDRIVE (F / R3: tung tất cả skill liên hoàn), swarm pack (bầy 8–48 con), banner MASSACRE/ANNIHILATION + thưởng scrap, âm thanh mới + reverb. Cân bằng lại (sim: story ~88′, toàn bộ ~197′). Còn thiếu: icon pixel-art cho 4 skill mới (đang dùng ký tự), tối ưu hiệu năng thật trên PC Duy, Duy chơi thử & góp ý.
 

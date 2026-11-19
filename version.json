@@ -1,10 +1,9 @@
 {
-  "version": "0.17.2",
+  "version": "0.18.0",
   "date": "2026-11-19",
   "minVersion": "0.0.0",
   "notes": [
-    "Link beams, rings and sparks now use warm colors instead of white",
-    "Bigger tower icons on the build bar and loadout chips",
-    "Crate lock mini-game can no longer get stuck"
+    "New cinematic intro: painted pixel-art key frames, ship log, re-entry, crash site in the dark, animated title",
+    "Intro keeps the first-shot tutorial moment"
   ]
 }

@@ -22,4 +22,4 @@ function loop(now){
 i18nInit();audioInit();
 (function(){const kick=()=>{try{if(AC&&AC.state!=='running')AC.resume();const el=FM.cur&&FM.el[FM.cur];if(el&&el.paused)el.play().catch(()=>{})}catch(e){}};
   ['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,kick,{passive:true}))})();
-titleScreen();fpsShow();requestAnimationFrame(loop);
+introLoad();titleScreen();fpsShow();requestAnimationFrame(loop);

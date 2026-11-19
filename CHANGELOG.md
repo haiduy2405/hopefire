@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.18.0 — 2026-11-19
+- **Intro 2.0** (src/cutscene.js): 3 AI pixel-art key frames in assets/intro/intro_1..3.jpg (ship over the planet, plasma re-entry, wreck in the dark with eyes) played with Ken-Burns zoom/pan, letterbox bars, vignette/scanlines/grain, red alarm pulse, typewriter ship-log captions, impact flash, crossfade into the playable first-shot scene, title card now uses the logo. Falls back to the old code-drawn intro if the images are missing. Timeline ~16.5 s cinematic + same ground scene (C.g0 / C.b arrays). package_win.ps1 copies assets/intro. AI-generated art: mention in the Steam disclosure.
+
 ## v0.17.2 — 2026-11-19
 - Resonance links were white (washed-out beams/rings): now gold; swap rings get a dark under-stroke, sparks no longer additive, link words keep their colour.
 - Bigger tower icons on chips / build bar. Lock mini-game watchdog (25 s) so a crate can never stay stuck. ftue_bot now logs console errors + state.
