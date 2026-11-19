@@ -84,8 +84,9 @@ function padPoll(now){
     else{
       if(dir){const f=PAD.fi;
         if(f&&f.type==='range'&&(dir==='Left'||dir==='Right')){const st=+f.step||1,d=(dir==='Right'?1:-1)*Math.max(st,5);f.value=Math.max(+f.min,Math.min(+f.max,+f.value+d));f.dispatchEvent(new Event('input',{bubbles:true}));f.dispatchEvent(new Event('change',{bubbles:true}))}
+        else if(f&&f.tagName==='SELECT'&&(dir==='Left'||dir==='Right')){padSelStep(f,dir==='Right'?1:-1,false)}
         else{const n=padNextFocus(f,dir.toLowerCase(),layer);if(n){padSetFocus(n);sfx('flip0')}}}
-      if(edge('A')&&PAD.fi)PAD.fi.click();
+      if(edge('A')&&PAD.fi){if(PAD.fi.tagName==='SELECT')padSelStep(PAD.fi,1,true);else PAD.fi.click()}
       if(edge('B')||(edge('Start')&&layer.id==='pausePanel'))padBack(layer);
       if(edge('Y')&&layer.id==='loadout')padBack(layer);
     }
@@ -112,6 +113,8 @@ function padPoll(now){
   padHint(padCtx(layer,inCut,hasLK));
   PAD.prev=c;
 }
+// <select> can't be opened with a pad: A = next option (wraps), D-pad Left/Right = prev/next
+function padSelStep(el,d,wrap){const n=el.options.length;if(!n)return;let i=el.selectedIndex+d;if(wrap)i=(i+n)%n;else i=Math.max(0,Math.min(n-1,i));if(i===el.selectedIndex)return;el.selectedIndex=i;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));sfx('click')}
 function padCtx(layer,inCut,hasLK){
   const g=padGlyph;
   if(inCut)return `[${g('A')}] Skip`;

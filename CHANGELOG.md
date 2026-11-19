@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.18.2 — 2026-11-19
+- Pad: <select> dropdowns (UI size, Window mode) could not be changed with a gamepad. A now cycles to the next option (wraps), D-pad Left/Right step prev/next (padSelStep in src/pad.js).
+
 ## v0.18.1 — 2026-11-19
 - Intro music: Suno Pro track assets/music/intro.mp3 (first 53 s of "HOPEFIRE Intro", loudnorm -18). New mode 'intro' in musicTarget/fileMusic; MUSIC_SYNC.intro.hit (10 s in file) is aligned with the crash impact at 11 s (starts 1 s late). Fades out when the run starts. Disclose AI music on Steam.
 

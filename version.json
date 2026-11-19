@@ -1,8 +1,8 @@
 {
-  "version": "0.18.1",
+  "version": "0.18.2",
   "date": "2026-11-19",
   "minVersion": "0.0.0",
   "notes": [
-    "Intro now has its own music, timed to the crash"
+    "Gamepad: A / D-pad left-right now change dropdown options in Options"
   ]
 }
