@@ -754,3 +754,8 @@
 753|Lanza rayos · +1 objetivo por enlace
 754|Levanta un escudo de Esperanza
 755|🏠 Menú principal
+756|EQUIPADA
+757|EQUIPAR ▸
+758|Toca para ver
+759|Módulo Raro gratis
+760|Equilibrada · sin bonos

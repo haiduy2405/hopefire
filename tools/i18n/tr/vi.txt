@@ -754,3 +754,8 @@
 753|Phóng sét · +1 mục tiêu mỗi liên kết
 754|Dựng khiên Hy vọng
 755|🏠 Menu chính
+756|ĐANG DÙNG
+757|TRANG BỊ ▸
+758|Chạm để xem
+759|Module Hiếm miễn phí
+760|Cân bằng · không có thưởng

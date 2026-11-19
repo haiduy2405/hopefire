@@ -31,18 +31,34 @@ function setupLoadoutMods(){ // called by newRun right after R exists
   if(s.ship.k!=='hope'||s.muts.length){const tag=(s.ship.k!=='hope'?s.ship.n:'')+(s.muts.length?(s.ship.k!=='hope'?' · ':'')+s.muts.map(k=>MUTS.find(m=>m.k===k).n).join(' + '):'');
     if(R.banner&&R.banner.sub)R.banner.sub+=' · '+tag}
 }
-function panelShip(){
-  const cur=shipMx(),ms=cur.muts;
-  const sc=SHIPS.map(s=>{const open=s.req(),on=open&&cur.ship.k===s.k;
-    return `<button class="shipc ${on?'on':''} ${open?'':'lock'}" data-s="${s.k}" ${open?'':'disabled'}><b>${s.n}</b><span>${open?s.d:'🔒 '+s.reqT}</span></button>`}).join('');
+const SHIP_COL={hope:'#ffb03a',bulwark:'#4aa8ff',prism:'#b58cff',ember:'#ff5a2a'};
+const MUT_ICO={swarm:'🐜',hunt:'🎯',glass:'🔮',famine:'🥀',frenzy:'⚡'};
+const SHIP_ST=[['hope','Hope',1],['drain','Hope drain',-1],['dmg','Damage',1],['rate','Fire rate',1],['luck','Rare odds',1],['crate','Crate cost',-1]];
+function shipChips(s){
+  const c=SHIP_ST.filter(x=>s.mx[x[0]]).map(x=>{const v=s.mx[x[0]],p=Math.round((v-1)*100),good=(p>0)===(x[2]>0);return `<i class="${good?'g':'b'}">${p>0?'+':'−'}${Math.abs(p)}% ${x[1]}</i>`});
+  if(s.kit)c.push('<i class="g">Free Rare module</i>');
+  return c.join('')||'<i class="n">Balanced · no bonuses</i>';
+}
+let SHIP_PV=null;
+function panelShip(pv){
+  meta.tut.shipSeen=1;save();
+  const cur=shipMx(),ms=cur.muts,sel=SHIPS.find(s=>s.k===(pv||SHIP_PV||cur.ship.k))||cur.ship;SHIP_PV=sel.k;
+  const open=sel.req(),equipped=cur.ship.k===sel.k,col=SHIP_COL[sel.k];
+  const sc=SHIPS.map(s=>{const o=s.req(),on=cur.ship.k===s.k;
+    return `<button class="shipc ship ${on?'on':''} ${o?'':'lock'} ${sel.k===s.k?'pv':''}" style="--sc:${SHIP_COL[s.k]}" data-s="${s.k}"><img src="assets/ships/${s.k}.png" alt=""><b>${s.n}</b><span>${o?(on?'EQUIPPED':'Tap to inspect'):'🔒 '+s.reqT}</span></button>`}).join('');
   const mc=MUTS.map(m=>{const on=ms.includes(m.k);
-    return `<button class="shipc mut ${on?'on':''}" data-m="${m.k}"><b>${m.n} <i>+${Math.round(m.heat*100)}%</i></b><span>${m.d}</span></button>`}).join('');
+    return `<button class="shipc mut ${on?'on':''}" data-m="${m.k}"><em>${MUT_ICO[m.k]||'✦'}</em><b>${m.n} <i>+${Math.round(m.heat*100)}%</i></b><span>${m.d}</span></button>`}).join('');
   show(`<div class="panel center shippanel"><h2>🛰 SHIP &amp; MUTATORS</h2>
-    <div class="shiph">SHIP</div><div class="shipg ships">${sc}</div>
-    <div class="shiph">MUTATORS <small>pick up to ${MAX_MUT} (a 3rd replaces the oldest) · harder runs pay more ✦</small></div><div class="shipg">${mc}</div>
+    <div class="shipstage ${open?'':'lockd'}" style="--sc:${col}"><div class="stars s1"></div><div class="stars s2"></div><div class="sglow"></div>
+      <img class="shipimg" id="shipImg" src="assets/ships/${sel.k}.png" alt="${sel.n}"><div class="sflame"></div><div class="sscan"></div>
+      <div class="shipinfo"><div class="sn">${sel.n}${equipped?' <u>EQUIPPED</u>':''}</div><div class="sd">${sel.d}</div><div class="schips">${shipChips(sel)}</div>
+      ${open?(equipped?'':'<button class="big shipEq" id="eqBtn">EQUIP ▸</button>'):`<div class="sreq">🔒 ${sel.reqT}</div>`}</div></div>
+    <div class="shipg ships">${sc}</div>
+    <div class="shiph">MUTATORS <small>pick up to ${MAX_MUT} (a 3rd replaces the oldest) · harder runs pay more ✦</small></div><div class="shipg muts">${mc}</div>
     <p class="heatl">Heat bonus: <b>${cur.heat?'+'+Math.round(cur.heat*100)+'% Xeno-cores':'none'}</b></p>
     <button class="big" id="backBtn">◂ BACK</button></div>`);
-  modal.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{meta.ship=b.dataset.s;save();sfx('click');panelShip()});
-  modal.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const k=b.dataset.m,a=(meta.muts||[]).slice();const i=a.indexOf(k);if(i>=0)a.splice(i,1);else{if(a.length>=MAX_MUT)a.shift();a.push(k)}meta.muts=a;save();sfx('click');panelShip()});
-  $('backBtn').onclick=()=>{sfx('click');menu()};
+  modal.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{sfx('click');const s=SHIPS.find(x=>x.k===b.dataset.s);if(s.req()&&s.k===cur.ship.k)return panelShip(s.k);if(s.k!==SHIP_PV){panelShip(s.k)}});
+  const eq=$('eqBtn');if(eq)eq.onclick=()=>{meta.ship=sel.k;save();sfx('up');panelShip(sel.k);const im=$('shipImg');if(im){im.classList.remove('equip');void im.offsetWidth;im.classList.add('equip')}};
+  modal.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const k=b.dataset.m,a=(meta.muts||[]).slice();const i=a.indexOf(k);if(i>=0)a.splice(i,1);else{if(a.length>=MAX_MUT)a.shift();a.push(k)}meta.muts=a;save();sfx('click');panelShip(SHIP_PV)});
+  $('backBtn').onclick=()=>{sfx('click');SHIP_PV=null;menu()};
 }

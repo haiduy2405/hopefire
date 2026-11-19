@@ -1,10 +1,10 @@
 {
-  "version": "0.19.0",
+  "version": "0.19.1",
   "date": "2026-11-19",
   "minVersion": "0.0.0",
   "notes": [
-    "Guided onboarding: ship-repair coach in the hub, step-by-step in-run lessons",
-    "Main menu button in the hub and after a run",
-    "Loadout: DPS bar labels no longer clipped"
+    "New ship hangar: AI ship art, animated stage, stats, equip button",
+    "All tower art redrawn as AI pixel art matching the ships",
+    "Ship button in the hub is now a hangar entrance"
   ]
 }

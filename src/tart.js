@@ -103,14 +103,30 @@ const TART={
   }
 };
 // opts: {a:aim angle, fl:just fired, T:time}
-function towerArt(c,cls,col,X,Y,o){const f=TART[cls];if(f){f(c,X,Y,col,o||{T:0});return true}return false}
+// AI art (assets/towers/<class>.png, v0.19.1): static sprites in the same style as the ships; code-drawn TART stays as fallback.
+const TIMG={},TOWL={pending:0},TFLIP={rail:1,mortar:1,snipe:1};
+function towerLoad(){for(const k in TART){if(TIMG[k])continue;const im=new Image();TOWL.pending++;im.onload=()=>{TOWL.pending--;im._ok=1};im.onerror=()=>{TOWL.pending--};im.src='assets/towers/'+k+'.png';TIMG[k]=im}}
+function towerAI(cls){const im=TIMG[cls];return im&&im._ok?im:null}
+function towerArt(c,cls,col,X,Y,o){
+  o=o||{T:0};const im=towerAI(cls);
+  if(im){
+    const S=0.3,w=im.naturalWidth*S,h=im.naturalHeight*S,flip=TFLIP[cls]&&o.a!==undefined&&Math.cos(o.a)<0;
+    c.fillStyle='#10131a';c.globalAlpha=0.55;c.beginPath();c.ellipse(X,Y+6,w*0.5,w*0.17,0,0,7);c.fill();c.globalAlpha=1;
+    taGlow(c,X,Y+4,w*0.62,col,o.fl?0.55:0.22);                       // element colour pooled under the base
+    const rec=o.fl?1.5:0;c.save();c.translate(X,Y+9-rec);if(flip)c.scale(-1,1);c.drawImage(im,-w/2,-h,w,h);c.restore();
+    c.save();c.globalCompositeOperation='lighter';c.globalAlpha=o.fl?0.35:0.08+0.05*Math.sin(o.T*3+X);c.fillStyle=col;c.beginPath();c.ellipse(X,Y+4,w*0.46,w*0.15,0,0,7);c.fill();c.restore();
+    return true}
+  const f=TART[cls];if(f){f(c,X,Y,col,o);return true}return false}
 
 // small cached icon (data URL) for HTML UIs
 const MICO={};
 function modIcon(t,size,rc){
   const key=t.c+'_'+t.ty;let url=MICO[key];
   if(!url){const cv2=document.createElement('canvas');cv2.width=cv2.height=96;const g=cv2.getContext('2d');g.imageSmoothingEnabled=false;
-    g.setTransform(1.55,0,0,1.55,48,78);towerArt(g,t.c,TYPES[t.ty].c,0,0,{T:0.6,a:-0.5});url=MICO[key]=cv2.toDataURL()}
+    const im=towerAI(t.c);
+    if(im){const k=Math.min(88/im.naturalWidth,88/im.naturalHeight);const w=im.naturalWidth*k,h=im.naturalHeight*k;g.drawImage(im,48-w/2,92-h,w,h);g.globalCompositeOperation='destination-over';const gr=g.createRadialGradient(48,84,2,48,84,46);gr.addColorStop(0,TYPES[t.ty].c+'aa');gr.addColorStop(1,TYPES[t.ty].c+'00');g.fillStyle=gr;g.fillRect(0,0,96,96)}
+    else{g.setTransform(1.55,0,0,1.55,48,78);towerArt(g,t.c,TYPES[t.ty].c,0,0,{T:0.6,a:-0.5})}
+    url=cv2.toDataURL();if(im||!TOWL.pending)MICO[key]=url}
   return `<img class="mico" src="${url}" width="${size||44}" height="${size||44}" alt="">`;
 }
 

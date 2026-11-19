@@ -754,3 +754,8 @@
 753|Blitzbögen · +1 Ziel pro Verbindung
 754|Errichtet einen Hoffnungsschild
 755|🏠 Hauptmenü
+756|AUSGERÜSTET
+757|AUSRÜSTEN ▸
+758|Tippen zum Ansehen
+759|Gratis seltenes Modul
+760|Ausgewogen · keine Boni

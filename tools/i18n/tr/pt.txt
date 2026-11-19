@@ -754,3 +754,8 @@
 753|Lança raios · +1 alvo por elo
 754|Ergue um escudo de Esperança
 755|🏠 Menu principal
+756|EQUIPADA
+757|EQUIPAR ▸
+758|Toque para ver
+759|Módulo Raro grátis
+760|Equilibrada · sem bônus

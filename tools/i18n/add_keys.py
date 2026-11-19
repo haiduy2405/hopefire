@@ -65,6 +65,11 @@ NEW={
 "Arcs lightning · +1 target per link":dict(vi="Phóng sét · +1 mục tiêu mỗi liên kết",zh="释放闪电 · 每个连携 +1 目标",es="Lanza rayos · +1 objetivo por enlace",pt="Lança raios · +1 alvo por elo",ru="Бьёт молниями · +1 цель за связь",de="Blitzbögen · +1 Ziel pro Verbindung",ja="雷撃・リンクごとに標的+1"),
 "Raises a Hope shield":dict(vi="Dựng khiên Hy vọng",zh="升起希望护盾",es="Levanta un escudo de Esperanza",pt="Ergue um escudo de Esperança",ru="Ставит щит Надежды",de="Errichtet einen Hoffnungsschild",ja="ホープシールドを展開"),
 "🏠 Main menu":dict(vi="🏠 Menu chính",zh="🏠 主菜单",es="🏠 Menú principal",pt="🏠 Menu principal",ru="🏠 Главное меню",de="🏠 Hauptmenü",ja="🏠 メインメニュー"),
+"EQUIPPED":dict(vi="ĐANG DÙNG",zh="已装备",es="EQUIPADA",pt="EQUIPADA",ru="ВЫБРАН",de="AUSGERÜSTET",ja="装備中"),
+"EQUIP ▸":dict(vi="TRANG BỊ ▸",zh="装备 ▸",es="EQUIPAR ▸",pt="EQUIPAR ▸",ru="ВЫБРАТЬ ▸",de="AUSRÜSTEN ▸",ja="装備 ▸"),
+"Tap to inspect":dict(vi="Chạm để xem",zh="点按查看",es="Toca para ver",pt="Toque para ver",ru="Нажмите, чтобы осмотреть",de="Tippen zum Ansehen",ja="タップで確認"),
+"Free Rare module":dict(vi="Module Hiếm miễn phí",zh="免费稀有模块",es="Módulo Raro gratis",pt="Módulo Raro grátis",ru="Бесплатный редкий модуль",de="Gratis seltenes Modul",ja="レアモジュール無料"),
+"Balanced · no bonuses":dict(vi="Cân bằng · không có thưởng",zh="均衡 · 无加成",es="Equilibrada · sin bonos",pt="Equilibrada · sem bônus",ru="Баланс · без бонусов",de="Ausgewogen · keine Boni",ja="バランス型・ボーナスなし"),
 }
 keys=json.load(open('tools/i18n/keys.json',encoding='utf-8'));have=set(keys)
 import re

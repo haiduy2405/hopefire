@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.19.1 — 2026-11-19
+- Ship hangar (src/ship.js panelShip): AI art for 4 ships (assets/ships), animated stage (drifting stars, bobbing ship, scan sweep), stat chips, EQUIP flow, locked ships as silhouettes, mutators with icons.
+- Towers: AI pixel-art sprites (assets/towers/<class>.png, 9 classes) replace the code-drawn TART on the battlefield and in all icons; element colour pooled under the base; TART stays as fallback. Tools: tools/sprites/import_sheet.py (magenta sheet -> single PNGs).
+- Hub Ship button: ship thumbnail + glow + "new" dot.
+
 ## v0.19.0 — 2026-11-19
 - Onboarding: hub coach banner (src/ui.js hubCoach/bindCoach, meta.tut.h_*) teaches one thing at a time (repairs → sites → ship → warp/nightmare); extra in-run lessons in tutorialTick (scrap, speed, Hope=timer, mark target, pick-1-of-3 hint in openPack).
 - Main menu button in hub footer and on the run-end panel (removed the unreadable header button).
