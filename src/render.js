@@ -140,7 +140,7 @@ function render(dt){
       ctx.globalAlpha=a;ctx.font=`900 ${fs}px "Arial Black","Segoe UI Black",Impact,monospace`;ctx.lineJoin='round';
       ctx.lineWidth=Math.max(3,fs*0.22);ctx.strokeStyle='#07080c';ctx.strokeText(t.v,px,t.y);
       ctx.save();ctx.shadowColor=t.c;ctx.shadowBlur=t.crit||t.rx?14:6;
-      const g=ctx.createLinearGradient(0,t.y-fs*0.5,0,t.y+fs*0.5);g.addColorStop(0,'#fff');g.addColorStop(0.45,t.c);g.addColorStop(1,t.c);
+      const g=ctx.createLinearGradient(0,t.y-fs*0.5,0,t.y+fs*0.5);g.addColorStop(0,t.nw?t.c:'#fff');g.addColorStop(0.45,t.c);g.addColorStop(1,t.c);
       ctx.fillStyle=t.crit||t.rx?g:t.c;ctx.fillText(t.v,px,t.y);ctx.restore();
     }
     ctx.globalAlpha=1;
@@ -364,7 +364,7 @@ function drawFx(f){
   else if(f.type==='beam'){ctx.strokeStyle=f.c;ctx.lineCap='round';ctx.lineWidth=f.w*2.4*a;ctx.globalAlpha=FXK*a*0.35;ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();
     ctx.globalAlpha=FXK*a;ctx.lineWidth=f.w*0.6;ctx.strokeStyle='#fff6d8';ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.lineTo(f.x2,f.y2);ctx.stroke();glowDot(f.x2,f.y2,f.w*4,f.c,a)}
   else if(f.type==='zap'){ctx.strokeStyle=f.c;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(f.x,f.y);const n=4;for(let i=1;i<n;i++){ctx.lineTo(f.x+(f.x2-f.x)*i/n+rnd(-9,9),f.y+(f.y2-f.y)*i/n+rnd(-9,9))}ctx.lineTo(f.x2,f.y2);ctx.stroke()}
-  else if(f.type==='ring'){const k=1-a;ctx.strokeStyle=f.c;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r0+(f.r1-f.r0)*k,(f.r0+(f.r1-f.r0)*k)*K,0,0,7);ctx.stroke()}
+  else if(f.type==='ring'){const k=1-a,rr=f.r0+(f.r1-f.r0)*k;ctx.beginPath();ctx.ellipse(f.x,f.y,rr,rr*K,0,0,7);if(f.dark){ctx.strokeStyle='rgba(5,6,10,.7)';ctx.lineWidth=6;ctx.stroke()}ctx.strokeStyle=f.c;ctx.lineWidth=f.dark?3.5:3;ctx.stroke()}
   else if(f.type==='boom'){const k=1-a;ctx.fillStyle=f.c;ctx.globalAlpha=FXK*a*0.35;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.4+k*0.8),f.r*(0.4+k*0.8)*K,0,0,7);ctx.fill();ctx.globalAlpha=FXK*a;ctx.strokeStyle='#fff3c0';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(f.x,f.y,f.r*(0.3+k),f.r*(0.3+k)*K,0,0,7);ctx.stroke()}
   else if(f.type==='slash'){const p=1-f.t/f.T;ctx.strokeStyle=f.c;ctx.globalAlpha=FXK*a;ctx.lineWidth=3*(1-p)+1;ctx.beginPath();ctx.arc(f.x,f.y,10+p*4,f.f>0?-1.2:Math.PI-0.6,f.f>0?0.6:Math.PI+1.2);ctx.stroke();ctx.globalAlpha=FXK*1}
   else if(f.type==='spark'){glowDot(f.x,f.y,10,f.c,a)}

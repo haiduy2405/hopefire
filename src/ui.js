@@ -2,7 +2,7 @@
 // ===== UI =====
 function renderChips(){
   if(!R)return;let h='';
-  for(const x of R.mods)h+=`<span class="chip lochip" style="border-color:${RAR[x.r].c}">${TART[x.t.c]?modIcon(x.t,22):ico('c_'+x.t.c+'_'+x.t.ty,1,0,`<span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>`)}<span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
+  for(const x of R.mods)h+=`<span class="chip lochip" style="border-color:${RAR[x.r].c}">${TART[x.t.c]?modIcon(x.t,32):ico('c_'+x.t.c+'_'+x.t.ty,1,0,`<span style="color:${TYPES[x.t.ty].c}">${x.t.g}</span>`)}<span class="cn">${x.t.n.split(' ')[0]}</span>${x.s>1?`<span class="st">★${x.s}</span>`:''}</span>`;
   for(let i=R.mods.length;i<R.slots;i++)h+=`<span class="chip" style="opacity:.3">—</span>`;
   for(const id of R.relics){const rl=RELICS.find(x=>x.id===id);h+=`<span class="chip relchip lochip" title="${rl.n}: ${rl.d}">${ico('rl_'+rl.id,1,0,rl.g)}</span>`}
   for(const k in TYPES){const n=R.syn[k]||0;if(n)h+=`<span class="syn ${n>=2?'on':''}${n>=4?' max':''}" data-el="${k}" style="color:${TYPES[k].c};border-color:${TYPES[k].c};--ec:${TYPES[k].c}" title="Tap for ${k} bonuses">${k[0]}<span class="cn">${k.slice(1)}</span> ${pips(k,n)}</span>`}

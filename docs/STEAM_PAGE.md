@@ -20,7 +20,8 @@ The S.V. HOPE is down. Its last heat-ray still burns, and its reactor casts a sm
 **HOPEFIRE** is a bite-sized incremental tower defense about holding a tiny circle of light against the dark.
 
 - **Open salvage crates** — pick 1 of 3: turrets, spells or run-changing relics.
-- **16 modules, 4 elements** — Thermal burns, Cryo chills, Arc chains, Nano heals. Merge duplicates into stronger stars and build element synergies.
+- **20+ modules, 4 elements** — Thermal burns, Cryo chills, Arc chains, Nano heals. Merge duplicates into stronger stars, and unique signature towers (gravity wells, mine layers, snipers, shields…) change how you play.
+- **Arrange your ring** — modules sitting side by side LINK for big bonuses (Thermal Shock, Plasma, Cryo-Sleep…). Swap them freely, chase a Perfect Ring.
 - **Hope is your health and your clock** — it drains every second. Kill fast, grab energy cells, survive.
 - **Risk the reactor** — Overdrive grows your light: more damage, more loot… and more of them notice you.
 - **Repair the ship between runs** — spend Xeno-cores on 20+ permanent upgrades, then go deeper.

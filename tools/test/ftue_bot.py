@@ -14,7 +14,7 @@ async def main():
     async with async_playwright() as p:
         b=await p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
         pg=await b.new_page(viewport={'width':1280,'height':800});await pg.add_init_script(INIT)
-        errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
+        errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.on('console',lambda m:m.type=='error' and errs.append(m.text))
         await pg.goto('http://localhost:8765/');await pg.evaluate("__step(300)")
         await pg.evaluate("()=>{localStorage.clear()}");await pg.reload();await pg.evaluate("__step(300)")
         await pg.screenshot(path='/tmp/ftue/00_menu.png')
@@ -32,6 +32,8 @@ async def main():
             await pg.evaluate("__step(33.33)")
             if f%3==0: await pg.evaluate(BOT)
             if f%30==0 and await pg.evaluate("!!CUT"): await pg.evaluate("()=>{CUT.t=999;try{endCutscene()}catch(e){}}")
+            if f%900==0 and f>0:
+                print('state',await pg.evaluate("()=>({t:R.t,p:R.paused,tp:R.tipPause,m:document.getElementById('modal').className,h:document.getElementById('modal').innerText.slice(0,200),lk:typeof LK!=='undefined'&&!!LK,lki:typeof LK!=='undefined'&&LK?[LK.i,LK.wait,LK.tw]:0})"))
             if f%900==0: print('t',f//30,await pg.evaluate("()=>R?[Math.round(R.t),R.kills,R.wave,Math.round(R.hope),R.mods.length,R.packs,R.over]:'noR'"))
             st=await pg.evaluate("()=>R?[R.t,R.over,R.kills,R.wave,Math.round(R.hope/R.maxHope*100),R.mods.length,R.packs]:null") if f%30==0 else None
             if st:

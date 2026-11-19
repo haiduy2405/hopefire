@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.17.2 — 2026-11-19
+- Resonance links were white (washed-out beams/rings): now gold; swap rings get a dark under-stroke, sparks no longer additive, link words keep their colour.
+- Bigger tower icons on chips / build bar. Lock mini-game watchdog (25 s) so a crate can never stay stuck. ftue_bot now logs console errors + state.
+- Steam page text updated (rings/links, signature towers).
+
 ## v0.17.1 — 2026-11-19
 - Link beams: colored core under the additive glow (was washed out white). Build-bar and loadout chips use the new tower icons.
 

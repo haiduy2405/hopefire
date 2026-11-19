@@ -15,7 +15,7 @@ const LK_EL={
   'Cryo+Nano':{n:'CRYO-SLEEP',c:'#8fe8d8',d:'Hits freeze up creatures far more often',f:L=>{L.sleep=1}},
   'Arc+Nano':{n:'OVERCHARGE',c:'#c8ff8a',d:'+25% range and +15% fire rate',f:L=>{L.range*=1.25;L.rate*=1.15}}
 };
-const LK_SAME={n:'RESONANCE',c:'#ffffff',d:'+15% damage (two modules of one element side by side)',f:L=>{L.dmg*=1.15}};
+const LK_SAME={n:'RESONANCE',c:'#ffd24a',d:'+15% damage (two modules of one element side by side)',f:L=>{L.dmg*=1.15}};
 const LK_CL={
   'lance+rail':{n:'SPOTTER',c:'#ff7ad9',d:'Hits expose the target: everyone deals +25% to it for 1.5 s',f:L=>{L.spot=1}},
   'mortar+rail':{n:'RANGEFINDER',c:'#7ad0ff',d:'+10% range; mortar blasts +30% wider',f:L=>{L.range*=1.1;L.aoe*=1.3}},
@@ -88,9 +88,9 @@ function ringSwap(a,b){
 function ringCelebrate(){
   const fresh=R.links.filter(l=>l.fresh);
   fresh.forEach((l,i)=>{const mx=(l.a.x+l.b.x)/2,my=((l.a.y+l.b.y)/2)*K;
-    R.fx.push({type:'ring',x:mx,y:my-12,r0:4,r1:54,t:0.55,T:0.55,c:l.d.c});
-    for(let j=0;j<10;j++)R.pt.push({x:mx,y:my-12,vx:rnd(-110,110),vy:rnd(-130,-20),t:rnd(.3,.7),c:l.d.c,s:3,g:200,add:1});
-    setTimeout(()=>{if(R&&!R.over&&R.txt.length<80)R.txt.push({x:mx,y:wordY(mx,my-30,13),v:'⛓ '+l.d.n,c:l.d.c,t:1.5,T:1.5,s:13,w:1,rx:1})},i*220)});
+    R.fx.push({type:'ring',x:mx,y:my-12,r0:4,r1:54,t:0.55,T:0.55,c:l.d.c,dark:1});
+    for(let j=0;j<10;j++)R.pt.push({x:mx,y:my-12,vx:rnd(-110,110),vy:rnd(-130,-20),t:rnd(.3,.7),c:l.d.c,s:4,g:200});
+    setTimeout(()=>{if(R&&!R.over&&R.txt.length<80)R.txt.push({x:mx,y:wordY(mx,my-30,13),v:'⛓ '+l.d.n,c:l.d.c,t:1.5,T:1.5,s:13,w:1,rx:1,nw:1})},i*220)});
   if(fresh.length){sfx('link');if(!meta.tut.ring2){meta.tut.ring2=1;save()}}
   if(R.harmN&&R.harmN!==R.harmShown){R.harmShown=R.harmN;R.banner={s:R.harmN,sub:'every module is linked: +'+Math.round((R.harm-1)*100)+'% team damage',t:2.2};sfx('synergy')}
   else if(!R.harmN)R.harmShown='';
