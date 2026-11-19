@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.19.0 — 2026-11-19
+- Onboarding: hub coach banner (src/ui.js hubCoach/bindCoach, meta.tut.h_*) teaches one thing at a time (repairs → sites → ship → warp/nightmare); extra in-run lessons in tutorialTick (scrap, speed, Hope=timer, mark target, pick-1-of-3 hint in openPack).
+- Main menu button in hub footer and on the run-end panel (removed the unreadable header button).
+- Loadout DPS bar height/label fix.
+
 ## v0.18.2 — 2026-11-19
 - Pad: <select> dropdowns (UI size, Window mode) could not be changed with a gamepad. A now cycles to the next option (wraps), D-pad Left/Right step prev/next (padSelStep in src/pad.js).
 

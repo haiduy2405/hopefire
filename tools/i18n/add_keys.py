@@ -64,6 +64,7 @@ NEW={
 "Extreme range · x2 vs marked / elites / bosses":dict(vi="Tầm cực xa · x2 vs mục tiêu đánh dấu / tinh anh / trùm",zh="超远射程 · 对标记目标/精英/首领 ×2",es="Alcance extremo · x2 contra marcados / élites / jefes",pt="Alcance extremo · x2 contra marcados / elites / chefes",ru="Огромная дальность · x2 по отмеченным / элитам / боссам",de="Extreme Reichweite · x2 gegen Markierte / Elite / Bosse",ja="超長射程・マーク/エリート/ボスに×2"),
 "Arcs lightning · +1 target per link":dict(vi="Phóng sét · +1 mục tiêu mỗi liên kết",zh="释放闪电 · 每个连携 +1 目标",es="Lanza rayos · +1 objetivo por enlace",pt="Lança raios · +1 alvo por elo",ru="Бьёт молниями · +1 цель за связь",de="Blitzbögen · +1 Ziel pro Verbindung",ja="雷撃・リンクごとに標的+1"),
 "Raises a Hope shield":dict(vi="Dựng khiên Hy vọng",zh="升起希望护盾",es="Levanta un escudo de Esperanza",pt="Ergue um escudo de Esperança",ru="Ставит щит Надежды",de="Errichtet einen Hoffnungsschild",ja="ホープシールドを展開"),
+"🏠 Main menu":dict(vi="🏠 Menu chính",zh="🏠 主菜单",es="🏠 Menú principal",pt="🏠 Menu principal",ru="🏠 Главное меню",de="🏠 Hauptmenü",ja="🏠 メインメニュー"),
 }
 keys=json.load(open('tools/i18n/keys.json',encoding='utf-8'));have=set(keys)
 import re

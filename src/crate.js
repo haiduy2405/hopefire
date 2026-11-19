@@ -129,7 +129,7 @@ function rollCrate(){
 function openPack(){
   if(!R||R.over||R.paused||R.tipPause)return;const free=(R.free||0)>0,c=free?0:packCost();if(R.gold<c)return;
   audioInit();if(free)R.free--;else R.gold-=c;R.packs++;R.paused=true;$('packBtn').classList.remove('pulse');if(meta.tut.crate)hideTip();
-  meta.stats.crates++;curCards=rollCrate();
+  meta.stats.crates++;curCards=rollCrate();if(!meta.tut.pick)setTimeout(()=>{if(curCards)tip('pick','<b>Pick ONE of three.</b> Card colour = rarity (grey → gold). A <b>module</b> is a tower that fires by itself, a <b>spell</b> you cast, a <b>relic</b> works silently.',false,14)},1500);
   const best=Math.max(...curCards.map(x=>x.rl?3:x.r)),tell=['#cfd6e4',RAR[1].c,RAR[2].c,RAR[3].c][best];
   sfx('crate');
   const lockOn=SETTINGS.lockGame!==0&&meta.tut.mod&&R.mods.length>=1;

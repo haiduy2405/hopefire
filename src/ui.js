@@ -39,6 +39,14 @@ function tip(id,html,pause,secs){
 }
 function hideTip(){$('tip').style.display='none';if(R)R.tipPause=false}
 function tutorialTick(){
+  // progressive lessons: each fires once, in the first minutes of play, never stacking
+  if(!R.tipPause&&!curCards&&!CUT&&$('tip').style.display!=='block'){
+    const T=meta.tut;
+    if(T.crate&&!T.pick2&&R.packs>=1&&R.t>25){tip('pick2','Crates cost <b>scrap</b> (the number next to the crate). Kill creatures and <b>tap the scrap</b> they drop to collect it. Opening crates is how you grow.',false,8);T.pick2=1;save()}
+    else if(T.mod&&!T.speed&&R.t>50&&R.en.length<6){tip('speed','Quiet moment? The <b>1x</b> button (top bar) speeds the game up. Slow down again when it gets busy.',false,8)}
+    else if(T.mod&&!T.hopebar&&R.hope<R.maxHope*0.6){tip('hopebar','<b>HOPE</b> is your health <i>and</i> your clock. When it hits zero the run ends — but the ✦ cores you gathered are yours to keep.',false,9)}
+    else if(T.mod&&!T.markT&&R.en.length>=8&&R.t>70){tip('markT','Tap a creature to <b>mark</b> it: every module focuses it. Mark the one that threatens you most.',false,8)}
+  }
   if(meta.tut.done1)return;
   if(R.tutStep===0&&meta.tut.start&&R.t>5){R.tutStep=1;R.gold=Math.max(R.gold,packCost());vo('tut_crate',1);tip('crate','A <b>salvage crate</b> from an older wreck! Tap <b>OPEN CRATE</b> (or ${confirmKey()}).',false,30);$('packBtn').classList.add('pulse')}
 }
@@ -81,17 +89,40 @@ function endRun(won){
     ${won?'':'<br><span style="color:#7f8899;font-size:12px">…but the cores you gathered can repair the ship.</span>'}</div>
     ${!won&&!r.endless?`<div class="goal"><div class="goalt">Boss appears at <b>Threat ${BOSS_WAVE}</b></div><div class="goalbar"><i style="width:${Math.min(100,r.wave/BOSS_WAVE*100)}%"></i><span style="left:${Math.min(100,(meta.best[r.ch]||r.wave)/BOSS_WAVE*100)}%" title="best"></span></div></div>`:''}
     ${(()=>{const n=UPG.filter(u=>lv(u.k)<u.max&&upCost(u)<=meta.mastery).length;return n?`<div class="affd">⚡ ${n} repair${n>1?'s':''} ready to install</div>`:''})()}
-    <button class="big" id="toMenu">${ending?'🚀 LIFTOFF ▸':'REPAIR SHIP ▸'}</button></div>`);$('toMenu').onclick=()=>{sfx('click');if(ending)startEnding();else menu()};countUp(modal.querySelector('.mast'),m,'+',' ✦ Xeno-cores')},1100);
+    <button class="big" id="toMenu">${ending?'🚀 LIFTOFF ▸':'REPAIR SHIP ▸'}</button>${ending?'':'<br><button class="small" id="toTitle2" style="margin-top:10px">🏠 Main menu</button>'}</div>`);if($('toTitle2'))$('toTitle2').onclick=()=>{sfx('click');titleScreen()};$('toMenu').onclick=()=>{sfx('click');if(ending)startEnding();else menu()};countUp(modal.querySelector('.mast'),m,'+',' ✦ Xeno-cores')},1100);
+}
+
+// ---------- hub coach: one short lesson at a time, matched to how far the player is ----------
+function hubCoach(){
+  const T=meta.tut,L=[
+   ['h_rep',meta.runs>=1,'<b>Repair the ship</b>','Every run pays <b>✦ Xeno-cores</b>, win or lose. Spend them below on <b>permanent repairs</b> — each one makes every later run stronger. Then hit <b>BEGIN RUN</b>.'],
+   ['h_rep2',meta.runs>=3,'<b>Cheap first, then the big ones</b>','<b>Module damage</b> and <b>Hope capacity</b> help every run. Save up for <b>Module slots</b> (more towers) and <b>Auto-cast</b>.'],
+   ['h_site',meta.chapter>=2,'<b>New crash site</b>','Each site has new creatures and a boss. Pick the site with the buttons at the top. Beat it again for a better rank and more cores.'],
+   ['h_ship',meta.chapter>=2,'<b>🛰 Ship</b>','Choose your ship and mutators here — they change how a run plays.'],
+   ['h_night',Object.keys(meta.best||{}).some(k=>meta.best[k]>BOSS_WAVE),'<b>Warp &amp; Nightmare</b>','Cleared a boss? You can <b>warp</b> past the early waves, or replay the site on <b>Nightmare</b> for rare rewards and <b>Advanced repairs</b>.']
+  ];
+  const c=L.find(x=>x[1]&&!T[x[0]]);if(!c)return '';
+  return `<div class="coach" id="coach"><div class="cb"><i class="ct">${c[2].replace(/<[^>]+>/g,'')}</i> <span>${c[3]}</span></div><button class="small" id="coachOk">OK</button></div>`;
+}
+function bindCoach(){
+  const b=$('coachOk');if(!b)return;
+  const id=(['h_rep','h_rep2','h_site','h_ship','h_night']).find(k=>!meta.tut[k]&&$('coach'));
+  const T=meta.tut,order=['h_rep','h_rep2','h_site','h_ship','h_night'];
+  b.onclick=()=>{sfx('click');const el=$('coach');const first=order.find(k=>!T[k]);
+    // mark every lesson whose condition is already satisfied up to the one shown
+    T[first]=1;save();el.remove()};
+  // pulse affordable repairs on the first lesson
+  if(!T.h_rep)modal.querySelectorAll('.up:not(.locked) button:not([disabled])').forEach((x,i)=>{if(i<3)x.classList.add('pulse')});
 }
 function menu(){
   R=null;document.body.classList.add('inmenu');hideTip();$('row1').innerHTML='';refreshReactBtn();renderSpellBar();
   const firstRepair=meta.runs>=1&&Object.keys(meta.up).length===0;if(firstRepair)setTimeout(()=>vo('repair'),400);
   const cheapest=UPG.filter(u=>lv(u.k)<u.max).sort((a,b)=>upCost(a)-upCost(b))[0];
-  let h=`<div class="panel hubp"><div class="hubhead"><button class="small" id="toTitleBtn">◂ TITLE</button><div class="hubbrand"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div></div><div class="hubmeta"><div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div><span class="hubslot">${esc(meta.name)} · <b class="d-${meta.diff}">${diffName(meta.diff)}</b> · Slot ${SLOT}</span></div></div>`;
+  let h=`<div class="panel hubp"><div class="hubhead"><div class="hubbrand"><div class="logo">HOPEFIRE</div><div class="tag">When all hope is lost, the ship still fires. <span class="vertag">v${VERSION}</span></div></div><div class="hubmeta"><div class="mast">✦ Xeno-cores: <b>${fmt(meta.mastery)}</b></div><span class="hubslot">${esc(meta.name)} · <b class="d-${meta.diff}">${diffName(meta.diff)}</b> · Slot ${SLOT}</span></div></div>`;
   if(meta.runs>0){
     h+=`<div class="hubsites"><h2>CRASH SITES</h2><div class="chs">`;
     for(let i=1;i<=MAXCH;i++)h+=`<button data-ch="${i}" class="${meta.sel===i?'sel':''}" ${i>meta.chapter?'disabled':''}>${i}. ${i>meta.chapter?'🔒 ???':SITES[i-1]}${meta.best[i]>BOSS_WAVE?' ✓':''}${meta.night[i]?' ☠':''}</button>`;
-    h+=`</div></div><div class="hubbody">${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE}</label><label class="warp nightOpt"><input type="checkbox" id="nightChk" ${meta.nightSel?'checked':''}> ☠ Nightmare — creatures ×${NM.hp[meta.sel-1]} HP, Xeno-cores ×${NM.core}${meta.night[meta.sel]?' (cleared)':''}</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
+    h+=`</div></div>${hubCoach()}<div class="hubbody">${meta.best[meta.sel]>BOSS_WAVE?`<label class="warp"><input type="checkbox" id="warpChk" ${meta.warp?'checked':''}> ⏩ Warp start — begin at Threat ${WARP_WAVE}</label><label class="warp nightOpt"><input type="checkbox" id="nightChk" ${meta.nightSel?'checked':''}> ☠ Nightmare — creatures ×${NM.hp[meta.sel-1]} HP, Xeno-cores ×${NM.core}${meta.night[meta.sel]?' (cleared)':''}</label>`:''}${meta.story?`<button class="endlessBtn" id="endlessBtn">∞ ENDLESS WASTES <small>best threat ${meta.bestEndless||0}</small></button>`:''}<h2>SHIP REPAIRS</h2>${firstRepair?'<div style="color:#ffb03a;font-size:12px;margin-bottom:8px">▸ Spend Xeno-cores to repair the ship. Every repair makes the next run last longer.</div>':''}<div class="ups">`;
     for(const u of UPG){const l=lv(u.k),mx=l>=u.max,c=upCost(u);
       h+=`<div class="up ${firstRepair&&u===cheapest?'hl':''}"><b>${u.n}</b><span class="lv">Lv ${l}/${u.max}</span><span>${l?u.d(l):'Next: '+u.d(1)}</span><button data-k="${u.k}" ${mx||meta.mastery<c?'disabled':''}>${mx?'MAX':'✦ '+fmt(c)}</button></div>`}
     h+=`</div>`;
@@ -101,8 +132,8 @@ function menu(){
           :`<div class="up locked"><b>🔒 ${u.n}</b><span class="lv">${REQ_TXT[u.req]}</span><span>${u.d(1)}</span></div>`}
       h+=`</div>`}
   }else h+=`<div class="hubbody"><p style="color:#9aa3b3;font-size:13px;line-height:1.7;margin:14px 0 20px">Your ship has crashed on an unknown planet.<br>Something is moving in the dark.</p>`;
-  h+=`</div><div class="hubfoot"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button><div class="menuRow">${meta.runs?`<button id="achBtn">🏆 ${ACH.filter(a=>meta.ach[a.id]).length}/${ACH.length}</button><button id="statBtn">📊 Stats</button>`:''}${meta.chapter>=2?'<button id="shipBtn">🛰 Ship</button>':''}<button id="setBtn">⚙ Settings</button>${meta.tut.intro?'<button id="introBtn">🎬 Intro</button>':''}${meta.story?'<button id="endBtn">🚀 Ending</button>':''}</div></div></div>`;
-  show(h);
+  h+=`</div><div class="hubfoot"><button class="big" id="startBtn">▶ ${meta.runs?'BEGIN RUN':'WAKE UP'}</button><div class="menuRow">${meta.runs?`<button id="achBtn">🏆 ${ACH.filter(a=>meta.ach[a.id]).length}/${ACH.length}</button><button id="statBtn">📊 Stats</button>`:''}${meta.chapter>=2?'<button id="shipBtn">🛰 Ship</button>':''}<button id="menuBtn">🏠 Main menu</button><button id="setBtn">⚙ Settings</button>${meta.tut.intro?'<button id="introBtn">🎬 Intro</button>':''}${meta.story?'<button id="endBtn">🚀 Ending</button>':''}</div></div></div>`;
+  show(h);bindCoach();
   modal.querySelectorAll('.chs button').forEach(b=>b.onclick=()=>{sfx('click');meta.sel=+b.dataset.ch;save();menu()});
   modal.querySelectorAll('.up button').forEach(b=>b.onclick=()=>{audioInit();const u=UPG.concat(UPG2).find(x=>x.k===b.dataset.k),c=upCost(u);if(meta.mastery>=c&&lv(u.k)<u.max){meta.mastery-=c;meta.up[u.k]=lv(u.k)+1;save();sfx('up');menu()}});
   $('startBtn').onclick=()=>{audioInit();sfx('click');hide();if(!meta.tut.intro)startCutscene('run');else{const c=Math.min(meta.sel,meta.chapter),ok=meta.best[c]>BOSS_WAVE;newRun(c,false,meta.warp&&ok,meta.nightSel&&ok)}};
@@ -110,7 +141,7 @@ function menu(){
   const wb=$('warpChk');if(wb)wb.onchange=e=>{meta.warp=e.target.checked;save()};
   const ib=$('introBtn');if(ib)ib.onclick=()=>startCutscene('menu');
   const bind=(id,f)=>{const b=$(id);if(b)b.onclick=()=>{audioInit();sfx('click');f()}};
-  bind('toTitleBtn',titleScreen);bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('shipBtn',panelShip);bind('endBtn',()=>startEnding('menu'));
+  bind('toTitleBtn',titleScreen);bind('menuBtn',titleScreen);bind('achBtn',panelAch);bind('statBtn',panelStats);bind('setBtn',panelSettings);bind('shipBtn',panelShip);bind('endBtn',()=>startEnding('menu'));
   bind('endlessBtn',()=>{hide();newRun(MAXCH,true)});
 }
 $('packBtn').onclick=openPack;$('loadBtn').onclick=()=>showLoadout();

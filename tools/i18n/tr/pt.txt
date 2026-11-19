@@ -753,3 +753,4 @@
 752|Alcance extremo · x2 contra marcados / elites / chefes
 753|Lança raios · +1 alvo por elo
 754|Ergue um escudo de Esperança
+755|🏠 Menu principal

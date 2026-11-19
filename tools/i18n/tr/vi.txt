@@ -753,3 +753,4 @@
 752|Tầm cực xa · x2 vs mục tiêu đánh dấu / tinh anh / trùm
 753|Phóng sét · +1 mục tiêu mỗi liên kết
 754|Dựng khiên Hy vọng
+755|🏠 Menu chính

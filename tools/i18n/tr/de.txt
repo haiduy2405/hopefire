@@ -753,3 +753,4 @@
 752|Extreme Reichweite · x2 gegen Markierte / Elite / Bosse
 753|Blitzbögen · +1 Ziel pro Verbindung
 754|Errichtet einen Hoffnungsschild
+755|🏠 Hauptmenü
